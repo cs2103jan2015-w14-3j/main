@@ -7,7 +7,7 @@ package com.tasma;
  * @author Yong Shan Xian <ysx@u.nus.edu>
  *
  */
-public class TasmaConroller {
+public class TasmaController {
 	
 	public void initialize() {
 		
