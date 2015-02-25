@@ -8,5 +8,13 @@ package com.tasma;
  *
  */
 public class TasmaConroller {
-
+	
+	public void initialize() {
+		
+	}
+	
+	public void execute(String input) {
+		
+	}
+	
 }
