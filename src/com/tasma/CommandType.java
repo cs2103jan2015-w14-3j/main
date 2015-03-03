@@ -11,5 +11,6 @@ public enum CommandType {
 	SEARCH,
 	LIST,
 	MARK,
-	ARCHIVE
+	ARCHIVE,
+	INVALID
 }
