@@ -17,4 +17,18 @@ public class TasmaController {
 		
 	}
 	
+	private static String[] splitInput(String input) {
+		int intSpacePos = input.indexOf(" ");
+		if (intSpacePos == -1) {
+			return new String[] {
+				input.substring(0, intSpacePos),
+				input.substring(intSpacePos + 1)
+			};
+		} else {
+			return new String[] {
+				input.trim(),
+				""
+			};
+		}
+	}
 }
