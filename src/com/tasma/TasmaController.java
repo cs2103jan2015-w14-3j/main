@@ -34,6 +34,20 @@ public class TasmaController {
 			case "q":
 			case "query":
 				return CommandType.SEARCH;
+			case "u":
+			case "upcoming":
+			case "up":
+			case "l":
+			case "list":
+				return CommandType.LIST;
+			case "m":
+			case "mark":
+			case "do":
+			case "done":
+				return CommandType.MARK;
+			case "arc":
+			case "archive":
+				return CommandType.ARCHIVE;
 			
 		}
 		return CommandType.INVALID;
