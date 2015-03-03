@@ -16,6 +16,22 @@ public class TasmaController {
 		String[] inputParts = splitInput(input);
 		String command = inputParts[0];
 		String argument = inputParts[1];
+		
+		CommandType commandType = normalizeCommand(command);
+		switch (commandType) {
+			case ADD:
+				break;
+			case SEARCH:
+				break;
+			case LIST:
+				break;
+			case MARK:
+				break;
+			case ARCHIVE:
+				break;
+			default:
+				break;
+		}
 	}
 	
 	protected static CommandType normalizeCommand(String command) {
