@@ -14,7 +14,9 @@ public class TasmaController {
 	}
 	
 	public void execute(String input) {
-		
+		String[] inputParts = splitInput(input);
+		String command = inputParts[0];
+		String argument = inputParts[1];
 	}
 	
 	private static String[] splitInput(String input) {
