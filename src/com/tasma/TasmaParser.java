@@ -1,7 +1,5 @@
 package com.tasma;
 
-import java.util.ArrayList;
-
 /**
  * @author Manika Agarwal
  *
@@ -9,50 +7,24 @@ import java.util.ArrayList;
 
 public class TasmaParser {
 
-	public ArrayList<String> parseCommand(String command, CommandType type) {
-		switch (type) {
-		case ADD : 
-			return parseAdd(command);
-		case SEARCH :
-			return parseSearch(command);
-		case LIST :
-			return parseList(command);
-		case MARK :
-			return parseMark(command);
-		case ARCHIVE :
-			return parseArchive(command);
-		default :
-			break;	
-		}
-		return null;
+	private TasmaModel task;
+
+	public TasmaModel parseCommand(String command) {
+		getWhere();
+		getWhat();
+		getWho();
+		return task;
 	}
 
-	private ArrayList<String> parseAdd(String command) {
-		// TODO Auto-generated method stub
-		return null;
+	private void getWhere() {
+
 	}
 
-	private ArrayList<String> parseSearch(String command) {
-		// TODO Auto-generated method stub
-		return null;
+	private void getWhat() {
+
 	}
 
-	private ArrayList<String> parseList(String command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private void getWho() {
 
-	private ArrayList<String> parseMark(String command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private ArrayList<String> parseArchive(String command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public static void main(String args[]) {
-		
 	}
 }
