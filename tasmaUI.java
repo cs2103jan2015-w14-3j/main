@@ -40,6 +40,7 @@ public class TasmaApp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
 		textField = new JTextField();
 		textField.setText("Input task here");
 		textField.setBounds(10, 216, 322, 23);
