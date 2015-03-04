@@ -3,6 +3,8 @@
  */
 package com.tasma;
 
+import java.util.ArrayList;
+
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>
  */
@@ -13,7 +15,7 @@ public class TasmaController {
 	}
 	
 	public void execute(String input) {
-		String[] inputParts = splitInput(input);
+		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
 		String argument = inputParts[1];
 		
@@ -76,18 +78,22 @@ public class TasmaController {
 		return CommandType.INVALID;
 	}
 	
-	private static String[] splitInput(String input) {
-		int intSpacePos = input.indexOf(" ");
-		if (intSpacePos == -1) {
-			return new String[] {
-				input.substring(0, intSpacePos),
-				input.substring(intSpacePos + 1)
-			};
-		} else {
-			return new String[] {
-				input.trim(),
-				""
-			};
+	private static String[] splitArguments(String input) {
+		return splitArguments(input, 1);
+	}
+	
+	private static String[] splitArguments(String input, int argumentCount) {
+		ArrayList<String> arguments = new ArrayList<String>();
+		for (int i = 0; i < argumentCount; ++i) {
+			int intSpacePos = input.indexOf(" ");
+			if (intSpacePos == -1) {
+				arguments.add(input);
+				break;
+			} else {
+				arguments.add(input.substring(0, intSpacePos));
+				input = input.substring(intSpacePos + 1);
+			}
 		}
+		return (String[])arguments.toArray();
 	}
 }
