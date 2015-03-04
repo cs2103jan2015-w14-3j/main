@@ -1,3 +1,5 @@
+package com.tasma;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -45,8 +47,7 @@ public class TasmaApp extends JFrame {
 		textField.setBounds(10, 216, 322, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
-	
-	
+		
 		JButton btnNewButton = new JButton("Submit");
 		btnNewButton.setBounds(335, 216, 89, 23);
 		contentPane.add(btnNewButton);

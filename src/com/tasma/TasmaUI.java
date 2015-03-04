@@ -1,3 +1,5 @@
+package com.tasma;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -6,8 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-
-public class TasmaApp extends JFrame {
+public class TasmaUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -20,7 +21,7 @@ public class TasmaApp extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TasmaApp frame = new TasmaApp();
+					TasmaUI frame = new TasmaUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,7 +33,7 @@ public class TasmaApp extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TasmaApp() {
+	public TasmaUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
