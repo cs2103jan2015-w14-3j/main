@@ -10,6 +10,7 @@ public enum CommandType {
 	ADD,
 	SEARCH,
 	LIST,
+	EDIT,
 	MARK,
 	ARCHIVE,
 	INVALID

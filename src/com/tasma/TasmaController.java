@@ -27,6 +27,8 @@ public class TasmaController {
 				break;
 			case MARK:
 				break;
+			case EDIT:
+				break;
 			case ARCHIVE:
 				break;
 			default:
@@ -50,6 +52,11 @@ public class TasmaController {
 			case "q":
 			case "query":
 				return CommandType.SEARCH;
+			case "e":
+			case "edit":
+			case "update":
+			case "change":
+				return CommandType.EDIT;
 			case "u":
 			case "upcoming":
 			case "up":
