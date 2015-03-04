@@ -30,6 +30,9 @@ public class TasmaController {
 			case MARK:
 				break;
 			case EDIT:
+				String[] argumentParts = splitArguments(argument, 1);
+				String taskId = argumentParts[0];
+				argument = argumentParts[1];
 				break;
 			case ARCHIVE:
 				break;
