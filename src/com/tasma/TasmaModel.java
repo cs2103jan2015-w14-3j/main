@@ -1,20 +1,21 @@
 package com.tasma;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 
 /**
  * 
  */
 public class TasmaModel {
 	
-	ArrayList tasks;
+	ArrayList<TasmaTask> tasks;
+	
+	public void addTask() {
+		
+	}
 	
 	public void loadFromFile() {
 		
 	}
-	
 	
 	public void undoCommand() {
 		
