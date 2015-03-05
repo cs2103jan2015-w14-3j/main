@@ -1,7 +1,5 @@
 package com.tasma;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,25 +8,11 @@ import javax.swing.JButton;
 
 public class TasmaUI extends JFrame {
 
+	private static final long serialVersionUID = 7369112773183099080L;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPanel panel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TasmaUI frame = new TasmaUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
