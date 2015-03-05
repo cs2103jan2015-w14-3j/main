@@ -37,6 +37,7 @@ public class TasmaController {
 			case ARCHIVE:
 				break;
 			default:
+				// probably an invalid command, display invalid command back to user.
 				break;
 		}
 	}
