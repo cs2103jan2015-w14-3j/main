@@ -6,13 +6,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
+import java.awt.Button;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 import javax.swing.JButton;
+
 
 public class TasmaUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPanel panel;
+	private JTextField txtInputTaskHere;
 
 	/**
 	 * Launch the application.
@@ -41,19 +49,26 @@ public class TasmaUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setText("Input task here");
-		textField.setBounds(10, 216, 322, 23);
-		contentPane.add(textField);
-		textField.setColumns(10);
-	
-	
-		JButton btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(335, 216, 89, 23);
-		contentPane.add(btnNewButton);
+		txtInputTaskHere = new JTextField();
+		txtInputTaskHere.setForeground(Color.BLACK);
+		txtInputTaskHere.setBounds(10, 197, 414, 23);
+		txtInputTaskHere.setText("Input task here");
+		contentPane.add(txtInputTaskHere);
+		txtInputTaskHere.setColumns(10);
 		
-		panel = new JPanel();
-		panel.setBounds(10, 11, 414, 188);
-		contentPane.add(panel);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 414, 175);
+		contentPane.add(scrollPane);
+		
+		JList list = new JList();
+		scrollPane.setViewportView(list);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(111, 229, 89, 23);
+		contentPane.add(btnDelete);
+		
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setBounds(10, 229, 89, 23);
+		contentPane.add(btnSubmit);
 	}
 }
