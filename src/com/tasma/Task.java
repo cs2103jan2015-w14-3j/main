@@ -3,7 +3,10 @@ package com.tasma;
 import java.util.Date;
 
 public class Task {
-	String taskId;
-	String description;
-	Date deadline;
+	private String taskId;
+	private String details;
+	private String location;
+	private Date startDateTime;
+	private Date endDateTime;
+	private boolean isDone;
 }
