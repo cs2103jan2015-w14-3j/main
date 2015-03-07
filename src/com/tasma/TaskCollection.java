@@ -14,12 +14,23 @@ public class TaskCollection {
 		tasks = storage.load();
 	}
 	
-	public void add(Task task) {
+	public void create(Task task) {
 		
 	}
 	
-	public void undoCommand() {
+	public void update(Task task) {
 		
 	}
 	
+	public void get(String taskId) {
+		
+	}
+	
+	public void delete(String taskId) {
+		
+	}
+	
+	public ArrayList<Task> search(String query) {
+		return tasks;
+	}
 }
