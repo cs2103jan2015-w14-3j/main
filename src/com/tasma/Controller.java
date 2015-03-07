@@ -24,22 +24,29 @@ public class Controller {
 		CommandType commandType = normalizeCommand(command);
 		switch (commandType) {
 			case ADD:
+				doCommandEdit(argument);
 				break;
 			case SEARCH:
+				doCommandSearch(argument);
 				break;
 			case LIST:
+				doCommandList();
 				break;
 			case MARK:
+				doCommandMark(argument);
 				break;
 			case EDIT:
 				String[] argumentParts = splitArguments(argument, 1);
 				String taskId = argumentParts[0];
 				argument = argumentParts[1];
+				doCommandEdit(taskId, argument);
 				break;
 			case ARCHIVE:
+				doCommandArchive(argument);
 				break;
 			default:
 				// probably an invalid command, display invalid command back to user.
+				// TODO: display message that command is invalid;
 				break;
 		}
 	}
