@@ -10,10 +10,15 @@ import java.util.ArrayList;
  */
 public class Controller {
 	
+	TasmaUserInterface userInterface;
 	TaskCollection collection = new TaskCollection();
 	
 	public void initialize() {
 		collection.loadFromFile();
+	}
+	
+	public void setUserInterface(TasmaUserInterface ui) {
+		userInterface = ui;
 	}
 	
 	public void executeInput(String input) {
