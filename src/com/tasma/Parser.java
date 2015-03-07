@@ -7,9 +7,9 @@ package com.tasma;
 
 public class Parser {
 
-	private TasmaModel task;
+	private TaskCollection task;
 
-	public TasmaModel parseCommand(String command) {
+	public TaskCollection parseCommand(String command) {
 		getWhere();
 		getWhat();
 		getWho();

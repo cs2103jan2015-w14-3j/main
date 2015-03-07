@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * 
  */
-public class TasmaModel {
+public class TaskCollection {
 	
 	ArrayList<Task> tasks;
 	
