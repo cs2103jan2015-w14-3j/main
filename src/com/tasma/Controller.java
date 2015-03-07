@@ -13,7 +13,10 @@ public class Controller {
 	TasmaUserInterface userInterface;
 	TaskCollection collection = new TaskCollection();
 	
-	public void initialize() {
+	public void initialize() throws Exception {
+		if (userInterface == null) {
+			throw new Exception("The user interface for the controller has not been set.");
+		}
 		collection.loadFromFile();
 	}
 	
