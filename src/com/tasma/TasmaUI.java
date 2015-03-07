@@ -14,12 +14,12 @@ public class TasmaUI extends JFrame {
 	private JTextField textField;
 	private JPanel panel;
 	
-	private TasmaController controller;
+	private Controller controller;
 
 	/**
 	 * Create the frame.
 	 */
-	public TasmaUI(TasmaController controller) {
+	public TasmaUI(Controller controller) {
 		this.controller = controller;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

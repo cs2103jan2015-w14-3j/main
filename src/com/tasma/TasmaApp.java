@@ -8,7 +8,7 @@ public class TasmaApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		final TasmaController controller = new TasmaController();
+		final Controller controller = new Controller();
 		controller.initialize();
 		EventQueue.invokeLater(new Runnable() {
 			@Override

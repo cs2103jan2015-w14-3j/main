@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>
  */
-public class TasmaController {
+public class Controller {
 	
 	public void initialize() {
 		
