@@ -14,7 +14,7 @@ public class Controller {
 		
 	}
 	
-	public void execute(String input) {
+	public void executeInput(String input) {
 		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
 		String argument = inputParts[1];
