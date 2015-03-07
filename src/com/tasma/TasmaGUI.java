@@ -5,8 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.util.ArrayList;
 
-public class TasmaUI extends JFrame {
+public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
 	
@@ -14,14 +15,12 @@ public class TasmaUI extends JFrame {
 	private JTextField textField;
 	private JPanel panel;
 	
-	private Controller controller;
+	private Controller controller = new Controller();
 
 	/**
 	 * Create the frame.
 	 */
-	public TasmaUI(Controller controller) {
-		this.controller = controller;
-		
+	public TasmaGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -43,5 +42,17 @@ public class TasmaUI extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(10, 11, 414, 188);
 		contentPane.add(panel);
+	}
+	
+	public void initialize() {
+		controller.initialize();
+	}
+	
+	public void displayTasks(ArrayList<Task> tasks) {
+		
+	}
+	
+	public void displayMessage(String message) {
+		
 	}
 }
