@@ -1,15 +1,25 @@
 package com.tasma;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TasmaConsoleUI implements TasmaUserInterface {
 
-	@Override
+	private Controller controller = new Controller();
+	
 	public void initialize() {
-		// TODO Auto-generated method stub
-
+		controller.initialize();
 	}
 
+	public void run() {
+		Scanner sc = new Scanner(System.in);
+		while(true) {
+			System.out.print("Command: ");
+			String input = sc.nextLine();
+			controller.executeInput(input);
+		}
+	}
+	
 	@Override
 	public void displayTasks(ArrayList<Task> tasks) {
 		// TODO Auto-generated method stub
