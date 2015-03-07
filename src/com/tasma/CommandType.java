@@ -13,5 +13,6 @@ public enum CommandType {
 	EDIT,
 	MARK,
 	ARCHIVE,
+	EXIT,
 	INVALID
 }
