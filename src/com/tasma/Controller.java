@@ -44,6 +44,30 @@ public class Controller {
 		}
 	}
 	
+	protected void doCommandAdd(String details) {
+		
+	}
+	
+	protected void doCommandSearch(String query) {
+		
+	}
+	
+	protected void doCommandList() {
+		
+	}
+	
+	protected void doCommandMark(String taskId) {
+		
+	}
+	
+	protected void doCommandEdit(String taskId, String details) {
+		
+	}
+	
+	protected void doCommandArchive(String taskId) {
+		
+	}
+	
 	protected static CommandType normalizeCommand(String command) {
 		switch(command.trim().toLowerCase()) {
 			case "add":
