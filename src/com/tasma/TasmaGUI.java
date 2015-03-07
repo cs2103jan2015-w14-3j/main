@@ -43,15 +43,18 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		panel.setBounds(10, 11, 414, 188);
 		contentPane.add(panel);
 	}
-	
+
+	@Override
 	public void initialize() {
 		controller.initialize();
 	}
-	
+
+	@Override
 	public void displayTasks(ArrayList<Task> tasks) {
 		
 	}
-	
+
+	@Override
 	public void displayMessage(String message) {
 		
 	}
