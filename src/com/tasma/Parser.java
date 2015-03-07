@@ -5,7 +5,7 @@ package com.tasma;
  *
  */
 
-public class TasmaParser {
+public class Parser {
 
 	private TasmaModel task;
 
