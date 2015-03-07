@@ -44,6 +44,9 @@ public class Controller {
 			case ARCHIVE:
 				doCommandArchive(argument);
 				break;
+			case EXIT:
+				System.exit(0);
+				break;
 			default:
 				// probably an invalid command, display invalid command back to user.
 				// TODO: display message that command is invalid;
