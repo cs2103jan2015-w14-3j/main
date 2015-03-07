@@ -3,6 +3,7 @@ package com.tasma;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// This is an alternative UI for testing non-GUI stuff. 
 public class TasmaConsoleUI implements TasmaUserInterface {
 
 	private Controller controller = new Controller();
