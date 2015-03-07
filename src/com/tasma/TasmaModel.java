@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class TasmaModel {
 	
-	ArrayList<TasmaTask> tasks;
+	ArrayList<Task> tasks;
 	
 	public void addTask() {
 		
