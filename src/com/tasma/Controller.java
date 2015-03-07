@@ -10,8 +10,10 @@ import java.util.ArrayList;
  */
 public class Controller {
 	
+	TaskCollection collection = new TaskCollection();
+	
 	public void initialize() {
-		
+		collection.loadFromFile();
 	}
 	
 	public void executeInput(String input) {
