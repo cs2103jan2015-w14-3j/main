@@ -9,6 +9,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	private Controller controller = new Controller();
 	
 	public void initialize() {
+		controller.setUserInterface(this);
 		controller.initialize();
 	}
 
