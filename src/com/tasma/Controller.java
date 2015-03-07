@@ -24,7 +24,7 @@ public class Controller {
 		CommandType commandType = normalizeCommand(command);
 		switch (commandType) {
 			case ADD:
-				doCommandEdit(argument);
+				doCommandAdd(argument);
 				break;
 			case SEARCH:
 				doCommandSearch(argument);
