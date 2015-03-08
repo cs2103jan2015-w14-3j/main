@@ -12,8 +12,6 @@ public class Parser {
 	
 	private static final String EMPTY_STRING = "";
 	private static String taskDetails; 
-	private static String[] keywords = {"on", "at", "in"};
-	private static int keywordsSize = 3; 
 	
 	public Task parse(String details) {
 		parsedTask = new Task();
@@ -30,7 +28,8 @@ public class Parser {
 
 
 	private void getWhat() {
-		int index = 0;
+		String[] keywords = {"on", "at", "in"};
+		int keywordsSize = 3, index = 0; 
 		
 		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
 			taskDetails = EMPTY_STRING;
@@ -50,7 +49,9 @@ public class Parser {
 	}
 	
 	private void getWhen() {
-		
+		if (taskDetails != EMPTY_STRING) {
+			
+		}
 	}
 	
 	private void getWhere() {
