@@ -6,8 +6,14 @@ package com.tasma;
  */
 
 public class Parser {
+	private Task parsedTask;
+	
 	public Task parse(String details) {
-		return new Task();
+		getWhere();
+		getWhat();
+		getWho();
+		
+		return parsedTask;
 	}
 
 	private void getWhere() {
