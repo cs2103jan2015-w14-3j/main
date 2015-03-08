@@ -9,11 +9,13 @@ public class Parser {
 	private Task parsedTask;
 	
 	private static final String EMPTY_STRING = "";
+	private static String taskDetails; 
 	
 	public Task parse(String details) {
 		parsedTask = new Task();
+		taskDetails = details;
 		
-		getWhat(details);
+		getWhat();
 		
 		getWhere();
 		
@@ -23,10 +25,10 @@ public class Parser {
 	}
 
 
-	private void getWhat(String details) {
-		if (!details.contains("on") || !details.contains("at")) {
-			parsedTask.setDetails(details);  //command does not contain when or where details
-			details = EMPTY_STRING;
+	private void getWhat() {
+		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {
+			parsedTask.setDetails(taskDetails);  //command does not contain when or where details
+			taskDetails = EMPTY_STRING;
 		} else {
 			
 		}
