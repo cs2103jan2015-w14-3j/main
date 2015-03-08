@@ -17,9 +17,9 @@ public class Parser {
 		
 		getWhat();
 		
-		getWhere();
+		getWhen();
 		
-		getWho();
+		getWhere();
 		
 		return parsedTask;
 	}
@@ -38,7 +38,7 @@ public class Parser {
 		
 	}
 
-	private void getWho() {
+	private void getWhen() {
 
 	}
 }
