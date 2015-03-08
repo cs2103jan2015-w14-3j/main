@@ -26,19 +26,26 @@ public class Parser {
 
 
 	private void getWhat() {
-		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {
-			parsedTask.setDetails(taskDetails);  //command does not contain when or where details
+		int index = 0;
+		
+		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
 			taskDetails = EMPTY_STRING;
-		} else {
-			
+			//still in preliminary phases as task may not contain 'on' or 'at' but still have when and/or where details
+		} else if (taskDetails.contains("on")) {
+			index = taskDetails.indexOf("on");			
+		} else if (taskDetails.contains("at")) {
+			index = taskDetails.indexOf("at");
 		}
+		
+		parsedTask.setDetails(taskDetails);
+		taskDetails = taskDetails.substring(index); 
+	}
+	
+	private void getWhen() {
+		
 	}
 	
 	private void getWhere() {
 		
-	}
-
-	private void getWhen() {
-
-	}
+	}	
 }
