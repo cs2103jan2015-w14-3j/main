@@ -9,19 +9,22 @@ public class Parser {
 	private Task parsedTask;
 	
 	public Task parse(String details) {
+		getWhat(details);
+		
 		getWhere();
-		getWhat();
+		
 		getWho();
 		
 		return parsedTask;
 	}
 
-	private void getWhere() {
+
+	private void getWhat(String details) {
 
 	}
-
-	private void getWhat() {
-
+	
+	private void getWhere() {
+		
 	}
 
 	private void getWho() {
