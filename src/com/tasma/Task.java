@@ -1,13 +1,13 @@
 package com.tasma;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
 
 public class Task {
 	private String taskId = "";
 	private String details = "";
 	private String location = "";
-	private Date startDateTime;
-	private Date endDateTime;
+	private LocalDate startDateTime;
+	private LocalDate endDateTime;
 	private boolean isDone;
 	private boolean isArchived;
 	
@@ -44,19 +44,19 @@ public class Task {
 		this.location = location;
 	}
 
-	public Date getStartDateTime() {
+	public LocalDate getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(Date startDateTime) {
+	public void setStartDateTime(LocalDate startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public Date getEndDateTime() {
+	public LocalDate getEndDateTime() {
 		return endDateTime;
 	}
 
-	public void setEndDateTime(Date endDateTime) {
+	public void setEndDateTime(LocalDate endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 
