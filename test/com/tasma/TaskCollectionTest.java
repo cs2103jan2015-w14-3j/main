@@ -25,7 +25,7 @@ public class TaskCollectionTest {
 		Task task = new Task();
 		assertEquals("", task.getTaskId());
 		collection.create(task);
-		System.out.println(task.getTaskId());
+		assertTrue(!task.getTaskId().equals(""));
 	}
 
 }
