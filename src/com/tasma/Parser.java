@@ -51,8 +51,9 @@ public class Parser {
 
 	private void getWhen() {
 		if (taskDetails != EMPTY_STRING) {
-			final String[] keywords = {"on", "from", "at", "by"};
-			final int keywordsSize = 4; 
+			final String[] keywords = {"on", "from", "at", "by"},
+					daysOfWeek = {"mon", "tues", "wed", "thur", "fri", "sat", "sun"};
+			//final int keywordsSize = 4; 
 
 			if (taskDetails.contains(keywords[0])) {  //date
 				int indexOn = taskDetails.indexOf(keywords[0]);
@@ -60,42 +61,32 @@ public class Parser {
 				if (taskDetails.contains(keywords[1])) {
 					int indexFrom = taskDetails.indexOf(keywords[1]);
 					String dateOfTask = taskDetails.substring(indexOn + 3, indexFrom - 1);
-					
+
 					if (dateOfTask.contains("next")) {
-						int indexNext = taskDetails.indexOf("next");
+						int indexNext = taskDetails.indexOf("next"), i;
 						String date = taskDetails.substring(indexNext + "next".length());
-						
-						switch(date) {
-						case "mon" : 
-							parsedTask.setEndDateTime();
-						case "tues" : 
-							parsedTask.setEndDateTime();
-						case "wed" : 
-							parsedTask.setEndDateTime();
-						case "thur" : 
-							parsedTask.setEndDateTime();
-						case "fri" : 
-							parsedTask.setEndDateTime();
-						case "sat" : 
-							parsedTask.setEndDateTime();
-						case "sun" : 
-							parsedTask.setEndDateTime();
-						default:
-							;
+
+						for (i = 0; i < daysOfWeek.length; i++) {
+							if (date.contains(daysOfWeek[i])) {
+								LocalDate d;
+								//d = d.plusWeeks(1);
+								//d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
+
+							}
+
 						}
-						
+					} else if (taskDetails.contains(keywords[2])) {
+						int indexAt = taskDetails.indexOf(keywords[2]);
 					}
-				} else if (taskDetails.contains(keywords[2])) {
-					int indexAt = taskDetails.indexOf(keywords[2]);
+
+
 				}
-
-
-			}
-			/*for (i = 0; i < keywordsSize; i++) {
+				/*for (i = 0; i < keywordsSize; i++) {
 				if (taskDetails.contains(keywords[i])) {
 					index = taskDetails.indexOf(keywords[i]);	
 				}
 			}*/
+			}
 		}
 	}
 
