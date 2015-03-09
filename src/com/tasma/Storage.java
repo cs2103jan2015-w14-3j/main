@@ -1,6 +1,6 @@
 package com.tasma;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 public class Storage {
 	protected static final String FILENAME = "tasks.json";
 	
-	public void save(ArrayList<Task> tasks) {
+	public void save(Hashtable<String, Task> tasks) {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
     
@@ -24,14 +24,14 @@ public class Storage {
 	    }
 	}
 
-	public ArrayList<Task> load() {
-		ArrayList<Task> tasks = new ArrayList<Task>();
+	public Hashtable<String, Task> load() {
+		Hashtable<String, Task> tasks = new Hashtable<String, Task>();
 		File file = new File(FILENAME);
 		if (file.exists()) {
 			try {
 				FileReader reader = new FileReader(file);
 				Gson gson = new Gson();
-				tasks = gson.fromJson(reader, new TypeToken<ArrayList<Task>>() {}.getType());
+				tasks = gson.fromJson(reader, new TypeToken<Hashtable<String, Task>>() {}.getType());
 				reader.close();
 			}catch(IOException e) {
 				// TODO: work on exception handling
