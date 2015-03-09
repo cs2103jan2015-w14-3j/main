@@ -10,6 +10,10 @@ public class Task {
 	private Date endDateTime;
 	private boolean isDone;
 	
+	public Task() {
+		
+	}
+	
 	public Task(String taskId, String details) {
 		this.taskId = taskId;
 		this.details = details;
