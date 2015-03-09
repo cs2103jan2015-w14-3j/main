@@ -45,10 +45,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().trim().equals(""))  {
+					textDisplay.setText("");
 					controller.executeInput(textField.getText());
+					textField.setText("");
 				}
 				
-				textField.setText("");
 			}
 
 			@Override
