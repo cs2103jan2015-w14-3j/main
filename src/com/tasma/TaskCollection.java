@@ -22,8 +22,8 @@ public class TaskCollection {
 		
 	}
 	
-	public void get(String taskId) {
-		
+	public Task get(String taskId) {
+		return null;
 	}
 	
 	public void delete(String taskId) {
