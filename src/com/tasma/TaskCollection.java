@@ -1,6 +1,7 @@
 package com.tasma;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
 
 /**
  * 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class TaskCollection {
 	
 	Storage storage = new Storage();
-	ArrayList<Task> tasks;
+	Hashtable<String, Task> tasks;
 	
 	public void loadFromFile() {
 		tasks = storage.load();
@@ -30,7 +31,7 @@ public class TaskCollection {
 		
 	}
 	
-	public ArrayList<Task> search(String query) {
-		return tasks;
+	public Collection<Task> search(String query) {
+		return tasks.values();
 	}
 }
