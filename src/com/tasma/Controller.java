@@ -144,13 +144,14 @@ public class Controller {
 		for (int i = 0; i < argumentCount; ++i) {
 			int intSpacePos = input.indexOf(" ");
 			if (intSpacePos == -1) {
-				arguments.add(input);
+				arguments.add("");
 				break;
 			} else {
 				arguments.add(input.substring(0, intSpacePos));
 				input = input.substring(intSpacePos + 1);
 			}
 		}
+		arguments.add(input);
 		return arguments.toArray(new String[arguments.size()]);
 	}
 }
