@@ -9,6 +9,7 @@ public class Task {
 	private Date startDateTime;
 	private Date endDateTime;
 	private boolean isDone;
+	private boolean isArchived;
 	
 	public Task() {
 		
@@ -65,5 +66,13 @@ public class Task {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
 	}
 }
