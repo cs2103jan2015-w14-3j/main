@@ -38,7 +38,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField("Input task here");
+		textField = new JTextField("");
 		textField.setBounds(10, 237, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -47,6 +47,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().trim().equals(""))  {
 					controller.executeInput(textField.getText());
 				}
+				
+				textField.setText("");
 			}
 
 			@Override
