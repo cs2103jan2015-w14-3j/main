@@ -12,6 +12,7 @@ public class Controller {
 	
 	TasmaUserInterface userInterface;
 	TaskCollection collection = new TaskCollection();
+	Parser parser = new Parser();
 	
 	public void initialize() throws Exception {
 		if (userInterface == null) {
@@ -63,7 +64,9 @@ public class Controller {
 	}
 	
 	protected void doCommandAdd(String details) {
-		
+		Task task = parser.parse(details);
+		collection.create(task);
+		// TODO: display success message
 	}
 	
 	protected void doCommandSearch(String query) {
@@ -75,7 +78,10 @@ public class Controller {
 	}
 	
 	protected void doCommandMark(String taskId) {
-		
+		Task task = collection.get(taskId);
+		task.setDone(true);
+		collection.update(task);
+		// TODO: display message
 	}
 	
 	protected void doCommandEdit(String taskId, String details) {
