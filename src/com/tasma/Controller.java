@@ -8,13 +8,24 @@ import java.util.ArrayList;
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>
  */
-public class TasmaController {
+public class Controller {
 	
-	public void initialize() {
-		
+	TasmaUserInterface userInterface;
+	TaskCollection collection = new TaskCollection();
+	Parser parser = new Parser();
+	
+	public void initialize() throws Exception {
+		if (userInterface == null) {
+			throw new Exception("The user interface for the controller has not been set.");
+		}
+		collection.loadFromFile();
 	}
 	
-	public void execute(String input) {
+	public void setUserInterface(TasmaUserInterface ui) {
+		userInterface = ui;
+	}
+	
+	public void executeInput(String input) {
 		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
 		String argument = inputParts[1];
@@ -22,23 +33,63 @@ public class TasmaController {
 		CommandType commandType = normalizeCommand(command);
 		switch (commandType) {
 			case ADD:
+				doCommandAdd(argument);
 				break;
 			case SEARCH:
+				doCommandSearch(argument);
 				break;
 			case LIST:
+				doCommandList();
 				break;
 			case MARK:
+				doCommandMark(argument);
 				break;
 			case EDIT:
 				String[] argumentParts = splitArguments(argument, 1);
 				String taskId = argumentParts[0];
 				argument = argumentParts[1];
+				doCommandEdit(taskId, argument);
 				break;
 			case ARCHIVE:
+				doCommandArchive(argument);
+				break;
+			case EXIT:
+				System.exit(0);
 				break;
 			default:
+				// probably an invalid command, display invalid command back to user.
+				// TODO: display message that command is invalid;
 				break;
 		}
+	}
+	
+	protected void doCommandAdd(String details) {
+		Task task = parser.parse(details);
+		collection.create(task);
+		userInterface.displayMessage(String.format(UIMessage.ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+	}
+	
+	protected void doCommandSearch(String query) {
+		
+	}
+	
+	protected void doCommandList() {
+		
+	}
+	
+	protected void doCommandMark(String taskId) {
+		Task task = collection.get(taskId);
+		task.setDone(true);
+		collection.update(task);
+		// TODO: display message
+	}
+	
+	protected void doCommandEdit(String taskId, String details) {
+		
+	}
+	
+	protected void doCommandArchive(String taskId) {
+		
 	}
 	
 	protected static CommandType normalizeCommand(String command) {
