@@ -79,15 +79,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setBackground(UIManager.getColor("Button.background"));
 		textDisplay.setBounds(10, 204, 414, 22);
 		contentPane.add(textDisplay);
-		
-		// default display should be a list of upcoming tasks for the user
-		controller.executeInput("list");
 	}
 
 	@Override
 	public void initialize() throws Exception {
 		controller.setUserInterface(this);
 		controller.initialize();
+		
+		// default display should be a list of upcoming tasks for the user
+		controller.executeInput("list");
 	}
 
 	@Override
