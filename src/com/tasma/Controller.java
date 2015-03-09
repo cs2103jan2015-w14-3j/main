@@ -66,7 +66,7 @@ public class Controller {
 	protected void doCommandAdd(String details) {
 		Task task = parser.parse(details);
 		collection.create(task);
-		userInterface.displayMessage(String.format(UIMessage.ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
 	}
 	
 	protected void doCommandSearch(String query) {
