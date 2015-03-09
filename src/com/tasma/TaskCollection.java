@@ -29,9 +29,10 @@ public class TaskCollection {
 	
 	public void create(Task task) {
 		Hashids hasher = new Hashids(HASHIDS_SALT, 3);
-		String uniqueId = hasher.encode(task.getDetails().length(), task.hashCode(), (long)Math.random());
+		String uniqueId = hasher.encode((long)(Math.random() * 99), tasks.size());
+		int i = 0;
 		while (tasks.containsKey(uniqueId)) {
-			uniqueId = hasher.encode(task.getDetails().length(), task.hashCode(), (long)Math.random(), tasks.size());
+			uniqueId = hasher.encode((long)(Math.random() * 99), ++i);
 		}
 		task.setTaskId(uniqueId);
 		tasks.put(task.getTaskId(), task);
