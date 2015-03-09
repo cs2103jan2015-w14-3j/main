@@ -36,6 +36,7 @@ public class TaskCollection {
 		}
 		task.setTaskId(uniqueId);
 		tasks.put(task.getTaskId(), task);
+		storage.save(tasks);
 	}
 	
 	public void update(Task task) {
