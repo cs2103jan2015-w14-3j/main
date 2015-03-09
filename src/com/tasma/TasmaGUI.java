@@ -1,5 +1,6 @@
 package com.tasma;
 
+import com.tasma.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,6 +9,7 @@ import javax.swing.JButton;
 import java.util.ArrayList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -41,10 +43,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 11, 414, 189);
 		contentPane.add(scrollPane);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 	}
 
@@ -56,7 +60,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@Override
 	public void displayTasks(ArrayList<Task> tasks) {
-		
+		for (int i=0; i<tasks.size(); i++) {
+			System.out.println((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails());
+		}
 	}
 
 	@Override
