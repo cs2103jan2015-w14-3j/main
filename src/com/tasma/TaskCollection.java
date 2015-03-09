@@ -46,7 +46,7 @@ public class TaskCollection {
 	}
 	
 	public void delete(String taskId) {
-		
+		tasks.remove(taskId);
 	}
 	
 	public Collection<Task> search(String query) {
