@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -15,9 +17,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextArea textTasks = new JTextArea();
+	private JTextArea textDisplay = new JTextArea();
 	
 	private Controller controller = new Controller();
-	private String text = "";
 
 	/**
 	 * Create the frame.
@@ -32,7 +35,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField("Input task here");
-		textField.setBounds(10, 227, 414, 23);
+		textField.setBounds(10, 237, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		String command = textField.getText();
@@ -43,10 +46,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		scrollPane.setBounds(10, 11, 414, 189);
 		contentPane.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea(text, 5, 20);
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
-		scrollPane.setViewportView(textArea);
+		textTasks.setLineWrap(true);
+		textTasks.setEditable(false);
+		scrollPane.setViewportView(textTasks);
+		
+		textDisplay.setBackground(UIManager.getColor("Button.background"));
+		textDisplay.setBounds(10, 204, 414, 22);
+		contentPane.add(textDisplay);
 	}
 
 	@Override
@@ -57,16 +63,19 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@Override
 	public void displayTasks(ArrayList<Task> tasks) {
+		String text = "";
 		
 		for (int i=0; i<tasks.size(); i++) {
 			text.concat((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails() + "\n");
 		}
+		
+		textTasks.setText(text);
 		
 	}
 	
 
 	@Override
 	public void displayMessage(String message) {
-		
+		textDisplay.setText(message);
 	}
 }
