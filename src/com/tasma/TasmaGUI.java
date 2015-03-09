@@ -6,6 +6,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.util.ArrayList;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -13,7 +15,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	private JPanel contentPane;
 	private JTextField textField;
-	private JPanel panel;
 	
 	private Controller controller = new Controller();
 
@@ -39,9 +40,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		btnNewButton.setBounds(335, 216, 89, 23);
 		contentPane.add(btnNewButton);
 		
-		panel = new JPanel();
-		panel.setBounds(10, 11, 414, 188);
-		contentPane.add(panel);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 414, 189);
+		contentPane.add(scrollPane);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
 	}
 
 	@Override
