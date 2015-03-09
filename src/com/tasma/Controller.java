@@ -4,6 +4,7 @@
 package com.tasma;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>
@@ -74,7 +75,8 @@ public class Controller {
 	}
 	
 	protected void doCommandList() {
-		
+		Collection<Task> upcomingList = collection.upcoming();
+		userInterface.displayTasks(upcomingList);
 	}
 	
 	protected void doCommandMark(String taskId) {
