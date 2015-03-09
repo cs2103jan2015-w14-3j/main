@@ -81,7 +81,7 @@ public class Controller {
 		Task task = collection.get(taskId);
 		task.setDone(true);
 		collection.update(task);
-		// TODO: display message
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
 	}
 	
 	protected void doCommandEdit(String taskId, String details) {
@@ -89,7 +89,10 @@ public class Controller {
 	}
 	
 	protected void doCommandArchive(String taskId) {
-		
+		Task task = collection.get(taskId);
+		task.setArchived(true);
+		collection.update(task);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
 	}
 	
 	protected static CommandType normalizeCommand(String command) {

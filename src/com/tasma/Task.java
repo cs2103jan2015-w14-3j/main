@@ -3,12 +3,13 @@ package com.tasma;
 import java.util.Date;
 
 public class Task {
-	private String taskId;
-	private String details;
-	private String location;
+	private String taskId = "";
+	private String details = "";
+	private String location = "";
 	private Date startDateTime;
 	private Date endDateTime;
 	private boolean isDone;
+	private boolean isArchived;
 	
 	public Task() {
 		
@@ -65,5 +66,13 @@ public class Task {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
 	}
 }
