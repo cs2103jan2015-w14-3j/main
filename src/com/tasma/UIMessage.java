@@ -12,6 +12,8 @@ public class UIMessage {
 	public static final String COMMAND_EDIT_ARG_EMPTY = "The <edit> command requires the task ID and details of the task you wish to update with. Try:\n\tedit <taskId> <details>";
 
 	public static final String COMMAND_SEARCH_RESULT = "%d result(s) found for \"%s\".";
+
+	public static final String COMMAND_LIST_RESULT = "%d task(s) upcoming.";
 	
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. Please try again.";
 }
