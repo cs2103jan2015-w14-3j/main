@@ -36,9 +36,7 @@ public class Parser {
 			taskDetails = EMPTY_STRING;
 			//still in preliminary phases as task may not contain 'on' or 'at' but still have when and/or where details
 		} else {
-			int i;
-
-			for (i = 0; i < keywords.length; i++) {
+			for (int i = 0; i < keywords.length; i++) {
 				if (taskDetails.contains(keywords[i])) {
 					index = taskDetails.indexOf(keywords[i]);		
 				}
@@ -60,37 +58,29 @@ public class Parser {
 				if (taskDetails.contains(keywords[1])) {
 					int indexFrom = taskDetails.indexOf(keywords[1]);
 					String dateOfTask = taskDetails.substring(indexOn + 3, indexFrom - 1);
-					
+
 					int indexNext = 0, addWeek = 0;
-					
+
 					if (dateOfTask.contains("next")) {
 						indexNext = taskDetails.indexOf("next") + "next".length();
 						addWeek = 1;
 					}
-					
-						String date = taskDetails.substring(indexNext);
-						
-						for (int i = 0; i < daysOfWeek.length; i++) {
-							if (date.contains(daysOfWeek[i])) {
-								LocalDate d = new LocalDate();
-								d = d.plusWeeks(addWeek);
-								d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
-								
-								parsedTask.setEndDateTime(d);
-							}
+
+					String date = taskDetails.substring(indexNext);
+
+					for (int i = 0; i < daysOfWeek.length; i++) {
+						if (date.contains(daysOfWeek[i])) {
+							LocalDate d = new LocalDate();
+							d = d.plusWeeks(addWeek);
+							d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
+
+							parsedTask.setEndDateTime(d);
 						}
-					} else if (taskDetails.contains(keywords[2])) {
-						int indexAt = taskDetails.indexOf(keywords[2]);
 					}
-
-
+				} else if (taskDetails.contains(keywords[2])) {
+					int indexAt = taskDetails.indexOf(keywords[2]);
 				}
-				/*for (i = 0; i < keywordsSize; i++) {
-				if (taskDetails.contains(keywords[i])) {
-					index = taskDetails.indexOf(keywords[i]);	
-				}
-			}*/
-			}
+			}			
 		}
 	}
 
