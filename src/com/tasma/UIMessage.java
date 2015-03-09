@@ -9,6 +9,7 @@ public class UIMessage {
 	public static final String COMMAND_ARCHIVE_SUCCESS = "Your task #%s \"%s\" has been archived.";
 
 	public static final String COMMAND_EDIT_SUCCESS = "Your task #%s has been successfully updated.";
+	public static final String COMMAND_EDIT_ARG_EMPTY = "The <edit> command requires the task ID and details of the task you wish to update with. Try:\n\tedit <taskId> <details>";
 	
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. Please try again.";
 }
