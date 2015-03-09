@@ -74,7 +74,8 @@ public class Controller {
 	}
 	
 	protected void doCommandSearch(String query) {
-		
+		Collection<Task> resultList = collection.search(query);
+		userInterface.displayTasks(resultList);
 	}
 	
 	protected void doCommandList() {
