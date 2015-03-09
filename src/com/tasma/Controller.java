@@ -90,10 +90,14 @@ public class Controller {
 	}
 	
 	protected void doCommandMark(String taskId) {
-		Task task = collection.get(taskId);
-		task.setDone(true);
-		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+		if (taskId.equals("")) {
+			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY);
+		} else {
+			Task task = collection.get(taskId);
+			task.setDone(true);
+			collection.update(task);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+		}
 	}
 	
 	protected void doCommandEdit(String taskId, String details) {

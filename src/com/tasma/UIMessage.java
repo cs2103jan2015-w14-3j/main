@@ -5,6 +5,7 @@ public class UIMessage {
 	public static final String COMMAND_ADD_ARG_EMPTY = "The <add> command requires the details of the task you wish to add. Try:\n\tadd <details>";
 	
 	public static final String COMMAND_MARK_SUCCESS = "Your task #%s \"%s\" has been successfully marked as done.";
+	public static final String COMMAND_MARK_ARG_EMPTY = "The <mark> command requires the task ID of the task you wish to mark done. Try:\n\tmark <taskId>";
 
 	public static final String COMMAND_ARCHIVE_SUCCESS = "Your task #%s \"%s\" has been archived.";
 
