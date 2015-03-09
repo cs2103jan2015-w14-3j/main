@@ -13,6 +13,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 		controller.initialize();
 	}
 
+	@SuppressWarnings("resource")
 	public void run() {
 		Scanner sc = new Scanner(System.in);
 		while(true) {
@@ -30,8 +31,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 
 	@Override
 	public void displayMessage(String message) {
-		// TODO Auto-generated method stub
-
+		System.out.println(message);
 	}
 
 }
