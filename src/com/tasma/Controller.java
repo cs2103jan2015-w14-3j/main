@@ -111,10 +111,14 @@ public class Controller {
 	}
 	
 	protected void doCommandArchive(String taskId) {
-		Task task = collection.get(taskId);
-		task.setArchived(true);
-		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+		if (taskId.equals("")) {
+			userInterface.displayMessage(UIMessage.COMMAND_ARCHIVE_ARG_EMPTY);
+		} else {
+			Task task = collection.get(taskId);
+			task.setArchived(true);
+			collection.update(task);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+		}
 	}
 	
 	protected static CommandType normalizeCommand(String command) {
