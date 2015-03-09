@@ -30,7 +30,6 @@ public class Parser {
 
 	private void getWhat() {
 		final String[] keywords = {"on", "at", "in"};
-		final int keywordsSize = 3;
 		int index = 0; 
 
 		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
@@ -39,7 +38,7 @@ public class Parser {
 		} else {
 			int i;
 
-			for (i = 0; i < keywordsSize; i++) {
+			for (i = 0; i < keywords.length; i++) {
 				if (taskDetails.contains(keywords[i])) {
 					index = taskDetails.indexOf(keywords[i]);		
 				}
@@ -54,7 +53,6 @@ public class Parser {
 		if (taskDetails != EMPTY_STRING) {
 			final String[] keywords = {"on", "from", "at", "by"},
 					daysOfWeek = {"mon", "tues", "wed", "thur", "fri", "sat", "sun"};
-			//final int keywordsSize = 4; 
 
 			if (taskDetails.contains(keywords[0])) {  //date
 				int indexOn = taskDetails.indexOf(keywords[0]);
