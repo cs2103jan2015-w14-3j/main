@@ -58,7 +58,7 @@ public class Controller {
 				break;
 			default:
 				// probably an invalid command, display invalid command back to user.
-				// TODO: display message that command is invalid;
+				userInterface.displayMessage(UIMessage.COMMAND_INVALID);
 				break;
 		}
 	}
