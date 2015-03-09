@@ -47,6 +47,10 @@ public class TaskCollection {
 		return tasks.get(taskId);
 	}
 	
+	public Collection<Task> upcoming() {
+		return tasks.values();
+	}
+	
 	public void delete(String taskId) {
 		tasks.remove(taskId);
 	}
