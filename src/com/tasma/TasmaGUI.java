@@ -1,6 +1,5 @@
 package com.tasma;
 
-import com.tasma.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -32,11 +31,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField(20);
-		textField.setText("Input task here");
+		textField = new JTextField("Input task here");
 		textField.setBounds(10, 227, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		String command = textField.getText();
+		controller.executeInput(command);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
