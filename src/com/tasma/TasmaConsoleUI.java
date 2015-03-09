@@ -1,6 +1,6 @@
 package com.tasma;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 // This is an alternative UI for testing non-GUI stuff. 
@@ -24,7 +24,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	}
 	
 	@Override
-	public void displayTasks(ArrayList<Task> tasks) {
+	public void displayTasks(Collection<Task> tasks) {
 		// TODO Auto-generated method stub
 
 	}

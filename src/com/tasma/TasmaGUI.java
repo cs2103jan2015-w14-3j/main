@@ -7,7 +7,8 @@ import javax.swing.JTextField;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -82,11 +83,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	@Override
-	public void displayTasks(ArrayList<Task> tasks) {
+	public void displayTasks(Collection<Task> tasks) {
 		String text = "";
 		
-		for (int i=0; i<tasks.size(); i++) {
-			text.concat((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails() + "\n");
+		Iterator<Task> iterator = tasks.iterator();
+		int i = 0;
+		while(iterator.hasNext()) {
+			Task task = iterator.next();
+			text.concat((++i) + ". " + task.getTaskId() + " " + task.getDetails() + "\n");
 		}
 		
 		textTasks.setText(text);
