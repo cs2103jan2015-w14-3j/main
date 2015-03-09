@@ -95,9 +95,13 @@ public class Controller {
 	}
 	
 	protected void doCommandEdit(String taskId, String details) {
-		Task task = collection.get(taskId);
-		// TODO: to do edit command
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+		if (taskId.equals("") || details.equals("")) {
+			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
+		} else {
+			Task task = collection.get(taskId);
+			// TODO: to do edit command
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+		}
 	}
 	
 	protected void doCommandArchive(String taskId) {
