@@ -72,7 +72,7 @@ public class Parser {
 								LocalDate d = new LocalDate();
 								d = d.plusWeeks(1);
 								d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
-
+								parsedTask.setEndDateTime(d);
 							}
 
 						}
