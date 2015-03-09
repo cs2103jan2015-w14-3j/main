@@ -4,7 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -37,8 +41,25 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textField.setBounds(10, 237, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		String command = textField.getText();
-		controller.executeInput(command);
+		textField.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().trim().equals(""))  {
+					controller.executeInput(textField.getText());
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -71,6 +92,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textTasks.setText(text);
 		
 	}
+	
 	
 
 	@Override
