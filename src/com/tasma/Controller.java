@@ -151,6 +151,6 @@ public class Controller {
 				input = input.substring(intSpacePos + 1);
 			}
 		}
-		return (String[])arguments.toArray();
+		return arguments.toArray(new String[arguments.size()]);
 	}
 }
