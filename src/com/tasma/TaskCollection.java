@@ -40,7 +40,8 @@ public class TaskCollection {
 	}
 	
 	public void update(Task task) {
-		
+		tasks.put(task.getTaskId(), task);
+		storage.save(tasks);
 	}
 	
 	public Task get(String taskId) {
