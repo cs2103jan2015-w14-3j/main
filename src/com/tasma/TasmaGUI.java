@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.util.ArrayList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -24,6 +23,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	 * Create the frame.
 	 */
 	public TasmaGUI() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -31,23 +31,19 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
+		textField = new JTextField(20);
 		textField.setText("Input task here");
-		textField.setBounds(10, 216, 322, 23);
+		textField.setBounds(10, 227, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
-	
-	
-		JButton btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(335, 216, 89, 23);
-		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 11, 414, 189);
 		contentPane.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		JTextArea textArea = new JTextArea(5, 20);
+		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 	}
@@ -64,6 +60,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			System.out.println((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails());
 		}
 	}
+	
 
 	@Override
 	public void displayMessage(String message) {
