@@ -2,6 +2,8 @@ package com.tasma;
 
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.stream.Collectors;
+import java.util.List;
 import org.hashids.Hashids;
 
 /**
@@ -49,7 +51,10 @@ public class TaskCollection {
 	}
 	
 	public Collection<Task> upcoming() {
-		return tasks.values();
+		List<Task> upcomingList = tasks.values().stream()
+		    .filter(task -> !task.isDone() && !task.isArchived()).collect(Collectors.toList());
+
+		return upcomingList;
 	}
 	
 	public void delete(String taskId) {
