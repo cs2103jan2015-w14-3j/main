@@ -29,7 +29,10 @@ public class Controller {
 	public void executeInput(String input) {
 		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
-		String argument = inputParts[1];
+		String argument = "";
+		if (inputParts.length == 2) {
+			argument = inputParts[1];
+		}
 		
 		CommandType commandType = normalizeCommand(command);
 		switch (commandType) {
@@ -146,7 +149,6 @@ public class Controller {
 		for (int i = 0; i < argumentCount; ++i) {
 			int intSpacePos = input.indexOf(" ");
 			if (intSpacePos == -1) {
-				arguments.add("");
 				break;
 			} else {
 				arguments.add(input.substring(0, intSpacePos));
