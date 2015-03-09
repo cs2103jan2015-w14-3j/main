@@ -62,6 +62,9 @@ public class TaskCollection {
 	}
 	
 	public Collection<Task> search(String query) {
-		return tasks.values();
+		List<Task> resultList = tasks.values().stream()
+			    .filter(task -> task.getDetails().indexOf(query) != -1).collect(Collectors.toList());
+		
+		return resultList;
 	}
 }
