@@ -18,6 +18,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private JTextField textField;
 	
 	private Controller controller = new Controller();
+	private String text = "";
 
 	/**
 	 * Create the frame.
@@ -42,7 +43,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		scrollPane.setBounds(10, 11, 414, 189);
 		contentPane.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea(5, 20);
+		JTextArea textArea = new JTextArea(text, 5, 20);
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
@@ -56,9 +57,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@Override
 	public void displayTasks(ArrayList<Task> tasks) {
+		
 		for (int i=0; i<tasks.size(); i++) {
-			System.out.println((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails());
+			text.concat((i+1) + ". " + tasks.get(i).getTaskId() + " " + tasks.get(i).getDetails() + "\n");
 		}
+		
 	}
 	
 
