@@ -60,19 +60,24 @@ public class Parser {
 				if (taskDetails.contains(keywords[1])) {
 					int indexFrom = taskDetails.indexOf(keywords[1]);
 					String dateOfTask = taskDetails.substring(indexOn + 3, indexFrom - 1);
-
+					
+					int indexNext = 0, addWeek = 0;
+					
 					if (dateOfTask.contains("next")) {
-						int indexNext = taskDetails.indexOf("next"), i;
-						String date = taskDetails.substring(indexNext + "next".length());
-
-						for (i = 0; i < daysOfWeek.length; i++) {
+						indexNext = taskDetails.indexOf("next") + "next".length();
+						addWeek = 1;
+					}
+					
+						String date = taskDetails.substring(indexNext);
+						
+						for (int i = 0; i < daysOfWeek.length; i++) {
 							if (date.contains(daysOfWeek[i])) {
 								LocalDate d = new LocalDate();
-								d = d.plusWeeks(1);
+								d = d.plusWeeks(addWeek);
 								d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
+								
 								parsedTask.setEndDateTime(d);
 							}
-
 						}
 					} else if (taskDetails.contains(keywords[2])) {
 						int indexAt = taskDetails.indexOf(keywords[2]);
