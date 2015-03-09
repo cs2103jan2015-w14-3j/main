@@ -13,6 +13,7 @@ public class TasmaApp {
 			public void run() {
 				try {
 					TasmaGUI frame = new TasmaGUI();
+					frame.initialize();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
