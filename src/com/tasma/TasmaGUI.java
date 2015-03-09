@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import java.awt.Color;
 import javax.swing.UIManager;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
