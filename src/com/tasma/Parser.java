@@ -5,7 +5,8 @@ package com.tasma;
  *
  */
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
+import org.joda.time.DateTimeConstants;
 
 public class Parser {
 	private Task parsedTask;
@@ -68,9 +69,9 @@ public class Parser {
 
 						for (i = 0; i < daysOfWeek.length; i++) {
 							if (date.contains(daysOfWeek[i])) {
-								LocalDate d;
-								//d = d.plusWeeks(1);
-								//d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
+								LocalDate d = new LocalDate();
+								d = d.plusWeeks(1);
+								d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
 
 							}
 
