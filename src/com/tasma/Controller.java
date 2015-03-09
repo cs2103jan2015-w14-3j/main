@@ -80,6 +80,7 @@ public class Controller {
 	protected void doCommandSearch(String query) {
 		Collection<Task> resultList = collection.search(query);
 		userInterface.displayTasks(resultList);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
 	}
 	
 	protected void doCommandList() {
