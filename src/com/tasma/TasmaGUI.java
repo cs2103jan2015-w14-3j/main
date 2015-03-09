@@ -42,6 +42,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textField.setBounds(10, 237, 414, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		textField.requestFocus();
 		textField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().trim().equals(""))  {
@@ -73,6 +74,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textTasks.setLineWrap(true);
 		textTasks.setEditable(false);
 		scrollPane.setViewportView(textTasks);
+		textDisplay.setEditable(false);
 		
 		textDisplay.setBackground(UIManager.getColor("Button.background"));
 		textDisplay.setBounds(10, 204, 414, 22);
