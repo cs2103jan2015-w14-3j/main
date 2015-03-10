@@ -16,5 +16,8 @@ public class ParserMain {
 		parser.parse("DO CS2105 ON NEXT MON");
 		parser.parse("do cs2105 on mon");
 		parser.parse("do cs2105 on next mon at ALL");
+		parser.parse("do cs2105 on mon at ALL");
+		parser.parse("do cs2105 on next monday at ALL");
+		parser.parse("do cs2105 on monday at ALL");
 	}
 }
