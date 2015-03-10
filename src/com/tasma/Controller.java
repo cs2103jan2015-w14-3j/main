@@ -12,6 +12,7 @@ import java.util.Collection;
 public class Controller {
 	
 	private static final String ARGUMENT_SPACE = " ";
+	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
 	
 	TasmaUserInterface userInterface;
 	TaskCollection collection = new TaskCollection();
@@ -171,7 +172,7 @@ public class Controller {
 		ArrayList<String> arguments = new ArrayList<String>();
 		for (int i = 0; i < argumentCount; ++i) {
 			int intSpacePos = input.indexOf(ARGUMENT_SPACE);
-			if (intSpacePos == -1) {
+			if (intSpacePos == ARGUMENT_SPACE_NOT_FOUND) {
 				break;
 			} else {
 				arguments.add(input.substring(0, intSpacePos));
