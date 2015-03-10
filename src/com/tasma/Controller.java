@@ -118,6 +118,10 @@ public class Controller {
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_LIST_RESULT, upcomingList.size()));
 	}
 	
+	/**
+	 * Performs the mark done command that marks a task as completed
+	 * @param taskId The ID of the task that is to be mark as completed.
+	 */
 	protected void doCommandMark(String taskId) {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY);
