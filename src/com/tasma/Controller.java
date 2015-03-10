@@ -93,9 +93,13 @@ public class Controller {
 		if (details.trim().equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY);
 		} else {
-			Task task = parser.parse(details);
-			collection.create(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+			try {
+				Task task = parser.parse(details);
+				collection.create(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+			} catch (Exception e) {
+				displayException(e);
+			}
 		}
 	}
 	
@@ -126,10 +130,14 @@ public class Controller {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY);
 		} else {
-			Task task = collection.get(taskId);
-			task.setDone(true);
-			collection.update(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+			try {
+				Task task = collection.get(taskId);
+				task.setDone(true);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+			} catch (Exception e) {
+				displayException(e);
+			}
 		}
 	}
 	
@@ -147,11 +155,19 @@ public class Controller {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ARCHIVE_ARG_EMPTY);
 		} else {
-			Task task = collection.get(taskId);
-			task.setArchived(true);
-			collection.update(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+			try {
+				Task task = collection.get(taskId);
+				task.setArchived(true);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+			} catch (Exception e) {
+				displayException(e);
+			}
 		}
+	}
+	
+	protected void displayException(Exception e) {
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, e.getMessage()));
 	}
 	
 	/**
