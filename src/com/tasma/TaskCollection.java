@@ -31,11 +31,11 @@ public class TaskCollection {
 		this.storage = storage;
 	}
 	
-	public void loadFromFile() {
+	public void loadFromFile() throws Exception {
 		tasks = storage.load();
 	}
 	
-	public void create(Task task) {
+	public void create(Task task) throws Exception {
 		// the following code will generate a nice short ID that should be unique in the collection.
 		// this will allow the user to identify tasks through the use of these IDs.
 		Hashids hasher = new Hashids(HASHIDS_SALT, 3);
@@ -49,7 +49,7 @@ public class TaskCollection {
 		storage.save(tasks);
 	}
 	
-	public void update(Task task) {
+	public void update(Task task) throws Exception {
 		tasks.put(task.getTaskId(), task);
 		storage.save(tasks);
 	}
