@@ -124,6 +124,11 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Normalizes variation of a command into a specific CommandType for processing later
+	 * @param command The command to be interpreted.
+	 * @return Returns the command type if the command is valid, otherwise returns the CommandType.INVALID value.
+	 */
 	protected static CommandType normalizeCommand(String command) {
 		switch(command.trim().toLowerCase()) {
 			case "add":
