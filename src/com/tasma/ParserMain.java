@@ -11,5 +11,8 @@ public class ParserMain {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
 		parser.parse("do cs2105 on next mon");
+		parser.parse("do CS2105");
+		parser.parse("add yay by tues");
+		parser.parse("DO CS2105 ON NEXT MON");
 	}
 }
