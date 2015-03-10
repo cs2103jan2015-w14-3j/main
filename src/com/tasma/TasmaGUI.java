@@ -23,7 +23,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 	
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textCommand;
 	private JTextArea textTasks = new JTextArea();
 	private JTextArea textDisplay = new JTextArea();
 	
@@ -41,17 +41,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField("");
-		textField.setBounds(10, 237, 414, 23);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		textField.requestFocus();
-		textField.addKeyListener(new KeyListener() {
+		textCommand = new JTextField("");
+		textCommand.setBounds(10, 237, 414, 23);
+		contentPane.add(textCommand);
+		textCommand.setColumns(10);
+		textCommand.requestFocus();
+		textCommand.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().trim().equals(""))  {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  {
 					textDisplay.setText("");
-					controller.executeInput(textField.getText());
-					textField.setText("");
+					controller.executeInput(textCommand.getText());
+					textCommand.setText("");
 				}
 				
 			}
@@ -85,7 +85,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 	
 	public void requestCommandBoxFocus() {
-		textField.requestFocus();
+		textCommand.requestFocus();
 	}
 
 	@Override
