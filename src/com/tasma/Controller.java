@@ -85,6 +85,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Performs the add command that adds a new task to the list
+	 * @param details The details of the task to be added
+	 */
 	protected void doCommandAdd(String details) {
 		if (details.trim().equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY);
