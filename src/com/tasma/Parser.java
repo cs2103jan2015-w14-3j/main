@@ -77,14 +77,22 @@ public class Parser {
 							parsedTask.setEndDateTime(d);
 						}
 					}
-				} else if (taskDetails.contains(keywords[2])) {
+				} else if (taskDetails.contains(keywords[2])) {  //at time
 					int indexAt = taskDetails.indexOf(keywords[2]);
+					
 				}
-			}			
+			} else if (taskDetails.contains(keywords[1])) {
+				
+			} else if (taskDetails.contains(keywords[2])) {
+				
+			} else if (taskDetails.contains(keywords[3])) {
+				
+			} else {
+			}
 		}
 	}
 
 	private void getWhere() {
-
+		final String keyword = "at";
 	}	
 }
