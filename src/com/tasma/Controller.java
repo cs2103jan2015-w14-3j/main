@@ -11,6 +11,8 @@ import java.util.Collection;
  */
 public class Controller {
 	
+	private static final String ARGUMENT_SPACE = " ";
+	
 	TasmaUserInterface userInterface;
 	TaskCollection collection = new TaskCollection();
 	Parser parser = new Parser();
@@ -168,7 +170,7 @@ public class Controller {
 	private static String[] splitArguments(String input, int argumentCount) {
 		ArrayList<String> arguments = new ArrayList<String>();
 		for (int i = 0; i < argumentCount; ++i) {
-			int intSpacePos = input.indexOf(" ");
+			int intSpacePos = input.indexOf(ARGUMENT_SPACE);
 			if (intSpacePos == -1) {
 				break;
 			} else {
