@@ -99,6 +99,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Performs the search command that finds tasks that match the query
+	 * @param query The query string to search for
+	 */
 	protected void doCommandSearch(String query) {
 		Collection<Task> resultList = collection.search(query);
 		userInterface.displayTasks(resultList);
