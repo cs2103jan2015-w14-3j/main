@@ -22,4 +22,5 @@ public class UIMessage {
 	public static final String COMMAND_LIST_RESULT = "%d task(s) upcoming.";
 	
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. Please try again.";
+	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
 }
