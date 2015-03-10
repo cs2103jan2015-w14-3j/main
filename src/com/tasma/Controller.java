@@ -15,9 +15,9 @@ public class Controller {
 	private static final String ARGUMENT_SPACE = " ";
 	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
 	
-	TasmaUserInterface userInterface;
-	TaskCollection collection = new TaskCollection();
-	Parser parser = new Parser();
+	protected TasmaUserInterface userInterface;
+	protected TaskCollection collection = new TaskCollection();
+	protected Parser parser = new Parser();
 	
 	public void initialize() throws Exception {
 		if (userInterface == null) {
