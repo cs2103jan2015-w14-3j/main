@@ -29,17 +29,20 @@ public class Parser {
 
 
 	private void getWhat() {
-		final String[] keywords = {"on", "at", "in"};
+		final String[] keywords = {"on", "at", "in", "from", "by"};
 		int index = 0; 
 
-		if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
-			taskDetails = EMPTY_STRING;
+		//if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
+			//taskDetails = EMPTY_STRING;
 			//still in preliminary phases as task may not contain 'on' or 'at' but still have when and/or where details
-		} else {
+		//} else {
 			for (int i = 0; i < keywords.length; i++) {
 				if (taskDetails.contains(keywords[i])) {
-					index = taskDetails.indexOf(keywords[i]);		
-				}
+					if (index == 0 || taskDetails.indexOf(keywords[i]) < index) {
+						index = taskDetails.indexOf(keywords[i]);
+					}
+					
+		//		}
 			}
 		}
 
