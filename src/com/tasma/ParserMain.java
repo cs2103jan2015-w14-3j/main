@@ -14,5 +14,6 @@ public class ParserMain {
 		parser.parse("do CS2105");
 		parser.parse("add yay by tues");
 		parser.parse("DO CS2105 ON NEXT MON");
+		parser.parse("do cs2105 on mon");
 	}
 }
