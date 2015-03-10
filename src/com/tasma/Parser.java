@@ -11,8 +11,6 @@ import org.joda.time.DateTimeConstants;
 public class Parser {
 	private Task parsedTask;
 
-	private static final String EMPTY_STRING = "";
-	private static final String SPACE = " ";
 	private static String taskDetails; 
 
 	public Task parse(String details) {
@@ -51,7 +49,7 @@ public class Parser {
 	}
 
 	private void getWhen() {
-		if (taskDetails != EMPTY_STRING) {
+		if (taskDetails.length() != 0) {
 			final String[] keywords = {"on", "from", "at", "by"};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
@@ -73,7 +71,7 @@ public class Parser {
 				if (d.isBefore(new LocalDate())) {
 					d = d.plusWeeks(1);
 				}
-				
+
 				parsedTask.setEndDateTime(d);
 				taskDetails = taskDetails.substring(indexNext + day.length());
 			}
@@ -116,10 +114,16 @@ public class Parser {
 	}
 
 	private void getWhere() {		
-		if (taskDetails != EMPTY_STRING || taskDetails != SPACE) {
+		System.out.println(taskDetails+",");
+		System.out.println(taskDetails.length());
+		if (taskDetails.length() >= 2) {
+			System.out.println("yes");
 			final String keyword = "at";
-			int indexAt = taskDetails.toLowerCase().indexOf(keyword);
-			parsedTask.setLocation(taskDetails.substring(indexAt + 3));
+			if (taskDetails.toLowerCase().contains(keyword)) {
+				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
+				System.out.println(taskDetails.substring(indexAt + 3));
+				parsedTask.setLocation(taskDetails.substring(indexAt + 3));
+			}
 		}
 	}	
 
