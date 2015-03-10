@@ -62,7 +62,8 @@ public class Controller {
 				doCommandMark(argument);
 				break;
 			case EDIT:
-				String[] argumentParts = splitArguments(argument, 1);
+				// let's split the task ID from the edit details of the task
+				String[] argumentParts = splitArguments(argument);
 				String taskId = argumentParts[0];
 				argument = argumentParts[1];
 				doCommandEdit(taskId, argument);
