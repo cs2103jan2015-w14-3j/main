@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
 public class Storage {
 	protected static final String FILENAME = "tasks.json";
 	
-	public void save(Hashtable<String, Task> tasks) {
+	public void save(Hashtable<String, Task> tasks) throws IOException {
 		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
@@ -26,11 +26,11 @@ public class Storage {
 		    writer.write(json);  
 		    writer.close();
 	    } catch (IOException e) {  
-			// TODO: work on exception handling
+			throw e;
 	    }
 	}
 
-	public Hashtable<String, Task> load() {
+	public Hashtable<String, Task> load() throws IOException {
 		Hashtable<String, Task> tasks = new Hashtable<String, Task>();
 		File file = new File(FILENAME);
 		if (file.exists()) {
@@ -40,7 +40,7 @@ public class Storage {
 				tasks = gson.fromJson(reader, new TypeToken<Hashtable<String, Task>>() {}.getType());
 				reader.close();
 			}catch(IOException e) {
-				// TODO: work on exception handling
+				throw e;
 			}
 		}
 		return tasks;
