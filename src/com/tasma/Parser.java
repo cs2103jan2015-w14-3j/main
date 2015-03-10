@@ -7,12 +7,12 @@ package com.tasma;
 
 import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.base.AbstractInstant;
 
 public class Parser {
 	private Task parsedTask;
 
 	private static final String EMPTY_STRING = "";
+	private static final String SPACE = " ";
 	private static String taskDetails; 
 
 	public Task parse(String details) {
@@ -115,9 +115,12 @@ public class Parser {
 		}
 	}
 
-	private void getWhere() {
-		final String keyword = "at";
-		
+	private void getWhere() {		
+		if (taskDetails != EMPTY_STRING || taskDetails != SPACE) {
+			final String keyword = "at";
+			int indexAt = taskDetails.toLowerCase().indexOf(keyword);
+			parsedTask.setLocation(taskDetails.substring(indexAt + 3));
+		}
 	}	
 
 	private int determineDay(String day) {
