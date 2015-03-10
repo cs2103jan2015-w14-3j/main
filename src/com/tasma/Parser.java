@@ -33,9 +33,9 @@ public class Parser {
 		int index = 0; 
 
 		for (int i = 0; i < keywords.length; i++) {
-			if (taskDetails.contains(keywords[i])) {
-				if (index == 0 || taskDetails.indexOf(keywords[i]) < index) {
-					index = taskDetails.indexOf(keywords[i]);
+			if (taskDetails.toLowerCase().contains(keywords[i])) {
+				if (index == 0 || taskDetails.toLowerCase().indexOf(keywords[i]) < index) {
+					index = taskDetails.toLowerCase().indexOf(keywords[i]);
 				}
 			}
 		}
