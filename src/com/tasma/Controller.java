@@ -159,6 +159,8 @@ public class Controller {
 			case "arc":
 			case "archive":
 				return CommandType.ARCHIVE;
+			case "exit":
+				return CommandType.EXIT;
 			
 		}
 		return CommandType.INVALID;
