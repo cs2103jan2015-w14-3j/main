@@ -32,21 +32,21 @@ public class Parser {
 		final String[] keywords = {"on", "at", "in", "from", "by"};
 		int index = 0; 
 
-		//if (!taskDetails.contains("on") || !taskDetails.contains("at")) {  //command does not contain when or where details
-			//taskDetails = EMPTY_STRING;
-			//still in preliminary phases as task may not contain 'on' or 'at' but still have when and/or where details
-		//} else {
-			for (int i = 0; i < keywords.length; i++) {
-				if (taskDetails.contains(keywords[i])) {
-					if (index == 0 || taskDetails.indexOf(keywords[i]) < index) {
-						index = taskDetails.indexOf(keywords[i]);
-					}
-					
-		//		}
+		for (int i = 0; i < keywords.length; i++) {
+			if (taskDetails.contains(keywords[i])) {
+				if (index == 0 || taskDetails.indexOf(keywords[i]) < index) {
+					index = taskDetails.indexOf(keywords[i]);
+				}
 			}
 		}
 
-		parsedTask.setDetails(taskDetails);
+
+		if (index != 0) {
+			parsedTask.setDetails(taskDetails.substring(0, index));
+		} else {
+			parsedTask.setDetails(taskDetails);
+			index = taskDetails.length();
+		}
 		taskDetails = taskDetails.substring(index); 
 	}
 
@@ -70,7 +70,7 @@ public class Parser {
 					}
 
 					String date = taskDetails.substring(indexNext);
-
+					System.out.println("what"+date);
 					for (int i = 0; i < daysOfWeek.length; i++) {
 						if (date.contains(daysOfWeek[i])) {
 							LocalDate d = new LocalDate();
@@ -82,14 +82,14 @@ public class Parser {
 					}
 				} else if (taskDetails.contains(keywords[2])) {  //at time
 					int indexAt = taskDetails.indexOf(keywords[2]);
-					
+
 				}
 			} else if (taskDetails.contains(keywords[1])) {
-				
+
 			} else if (taskDetails.contains(keywords[2])) {
-				
+
 			} else if (taskDetails.contains(keywords[3])) {
-				
+
 			} else {
 			}
 		}
