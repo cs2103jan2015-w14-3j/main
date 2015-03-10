@@ -80,6 +80,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setBounds(10, 204, 414, 22);
 		contentPane.add(textDisplay);
 	}
+	
+	public void requestCommandBoxFocus() {
+		textField.requestFocus();
+	}
 
 	@Override
 	public void initialize() throws Exception {

@@ -15,6 +15,7 @@ public class TasmaApp {
 					TasmaGUI frame = new TasmaGUI();
 					frame.initialize();
 					frame.setVisible(true);
+					frame.requestCommandBoxFocus();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
