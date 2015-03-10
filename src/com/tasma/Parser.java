@@ -9,24 +9,22 @@ import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
-	private Task parsedTask;
-
-	private static String taskDetails; 
-
+	
 	public Task parse(String details) {
-		parsedTask = new Task();
-		taskDetails = details;
+		Task parsedTask = new Task();
 
-		getWhat();
+		String taskDetails = details; 
 
-		getWhen();
+		getWhat(parsedTask, taskDetails);
 
-		getWhere();
+		getWhen(parsedTask, taskDetails);
+
+		getWhere(parsedTask, taskDetails);
 
 		return parsedTask;
 	}
 
-	private void getWhat() {
+	private void getWhat(Task parsedTask, String taskDetails) {
 		final String[] keywords = {"on", "at", "in", "from", "by"};
 		int index = 0; 
 
@@ -48,7 +46,7 @@ public class Parser {
 		taskDetails = taskDetails.substring(index); 
 	}
 
-	private void getWhen() {
+	private void getWhen(Task parsedTask, String taskDetails) {
 		if (taskDetails.length() != 0) {
 			final String[] keywords = {"on", "from", "at", "by"};
 
@@ -61,7 +59,7 @@ public class Parser {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
 					addWeek = 1;
 				}
-				
+
 				String day = taskDetails.substring(indexNext);
 
 				LocalDate d = new LocalDate();
@@ -113,10 +111,10 @@ public class Parser {
 		}
 	}
 
-	private void getWhere() {		
+	private void getWhere(Task parsedTask, String taskDetails) {		
 		if (taskDetails.length() >= 2) {
 			final String keyword = "at";
-			
+
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3));
