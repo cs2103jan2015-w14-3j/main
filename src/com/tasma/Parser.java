@@ -53,15 +53,15 @@ public class Parser {
 			final String[] keywords = {"on", "from", "at", "by"};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
-				int indexOn = taskDetails.toLowerCase().indexOf(keywords[0]);
+				int indexOn = taskDetails.toLowerCase().indexOf(keywords[0]) + keywords[0].length();
 
-				int indexNext = 0, addWeek = 0;
+				int indexNext = indexOn, addWeek = 0;
 
 				if (taskDetails.toLowerCase().contains("next")) {
-					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();
+					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
 					addWeek = 1;
 				}
-
+				
 				String day = taskDetails.substring(indexNext);
 
 				LocalDate d = new LocalDate();
@@ -73,7 +73,7 @@ public class Parser {
 				}
 
 				parsedTask.setEndDateTime(d);
-				taskDetails = taskDetails.substring(indexNext + day.length());
+				taskDetails = taskDetails.substring(indexNext + 4);
 			}
 			//}
 			/*if (taskDetails.toLowerCase().contains(keywords[1])) {
@@ -114,14 +114,11 @@ public class Parser {
 	}
 
 	private void getWhere() {		
-		System.out.println(taskDetails+",");
-		System.out.println(taskDetails.length());
 		if (taskDetails.length() >= 2) {
-			System.out.println("yes");
 			final String keyword = "at";
+			
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
-				System.out.println(taskDetails.substring(indexAt + 3));
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3));
 			}
 		}
