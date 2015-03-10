@@ -1,3 +1,6 @@
+/**
+ * Tasma Task Manager
+ */
 package com.tasma;
 
 import java.util.Hashtable;
