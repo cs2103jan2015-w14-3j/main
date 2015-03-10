@@ -21,7 +21,7 @@ public class TaskCollectionTest {
 	}
 
 	@Test
-	public void testCreate() {
+	public void testCreate() throws Exception {
 		Task task = new Task();
 		assertEquals("", task.getTaskId());
 		collection.create(task);
