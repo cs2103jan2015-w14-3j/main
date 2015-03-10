@@ -39,6 +39,10 @@ public class Controller {
 		userInterface = ui;
 	}
 	
+	/**
+	 * Execute operations based on the user's input
+	 * @param input The input string of the user
+	 */
 	public void executeInput(String input) {
 		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
