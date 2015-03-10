@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.fatboyindustrial.gsonjavatime.Converters;
+import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +15,7 @@ public class Storage {
 	protected static final String FILENAME = "tasks.json";
 	
 	public void save(Hashtable<String, Task> tasks) {
-		final Gson gson = Converters.registerOffsetDateTime(new GsonBuilder()).create();
+		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
 	    try {
@@ -33,7 +33,7 @@ public class Storage {
 		if (file.exists()) {
 			try {
 				FileReader reader = new FileReader(file);
-				final Gson gson = Converters.registerOffsetDateTime(new GsonBuilder()).create();
+				final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 				tasks = gson.fromJson(reader, new TypeToken<Hashtable<String, Task>>() {}.getType());
 				reader.close();
 			}catch(IOException e) {
