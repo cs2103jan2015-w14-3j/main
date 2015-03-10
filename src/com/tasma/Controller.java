@@ -31,6 +31,10 @@ public class Controller {
 		collection.loadFromFile();
 	}
 	
+	/**
+	 * Set the user interface to be used by the controller.
+	 * @param ui The interface to be called by the controller.
+	 */
 	public void setUserInterface(TasmaUserInterface ui) {
 		userInterface = ui;
 	}
