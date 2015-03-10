@@ -19,6 +19,11 @@ public class Controller {
 	protected TaskCollection collection = new TaskCollection();
 	protected Parser parser = new Parser();
 	
+	/**
+	 * Performs initialization of the controller.
+	 * The user interface (i.e. TasmaUserInterface implementation) must have been set via the setUserInterface method prior to calling this method.
+	 * @throws Exception Thrown when the user interface for the controller is not set before initializing.
+	 */
 	public void initialize() throws Exception {
 		if (userInterface == null) {
 			throw new Exception("The user interface for the controller has not been set.");
