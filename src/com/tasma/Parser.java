@@ -56,12 +56,11 @@ public class Parser {
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				int indexOn = taskDetails.toLowerCase().indexOf(keywords[0]);
-				taskDetails = taskDetails.substring(indexOn+3);
 
 				int indexNext = 0, addWeek = 0;
 
 				if (taskDetails.toLowerCase().contains("next")) {
-					indexNext = taskDetails.toLowerCase().indexOf("next") + "next".length();
+					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();
 					addWeek = 1;
 				}
 
@@ -72,11 +71,11 @@ public class Parser {
 				d = d.withDayOfWeek(determineDay(day));
 
 				if (d.isBefore(new LocalDate())) {
-					System.out.println("before");
 					d = d.plusWeeks(1);
 				}
-
+				
 				parsedTask.setEndDateTime(d);
+				taskDetails = taskDetails.substring(indexNext + day.length());
 			}
 			//}
 			/*if (taskDetails.toLowerCase().contains(keywords[1])) {
@@ -118,6 +117,7 @@ public class Parser {
 
 	private void getWhere() {
 		final String keyword = "at";
+		
 	}	
 
 	private int determineDay(String day) {
