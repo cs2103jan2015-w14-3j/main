@@ -109,6 +109,9 @@ public class Controller {
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
 	}
 	
+	/**
+	 * Performs the list command that shows the list of upcoming tasks
+	 */
 	protected void doCommandList() {
 		Collection<Task> upcomingList = collection.upcoming();
 		userInterface.displayTasks(upcomingList);
