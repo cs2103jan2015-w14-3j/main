@@ -132,7 +132,6 @@ public class Controller {
 	protected void doCommandList() {
 		Collection<Task> upcomingList = collection.upcoming();
 		userInterface.displayTasks(upcomingList);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_LIST_RESULT, upcomingList.size()));
 	}
 	
 	/**
