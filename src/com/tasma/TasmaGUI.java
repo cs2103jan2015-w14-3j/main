@@ -84,6 +84,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void initialize() throws Exception {
 		controller.setUserInterface(this);
 		controller.initialize();
+		controller.executeInput("list");
 	}
 	
 	/**
