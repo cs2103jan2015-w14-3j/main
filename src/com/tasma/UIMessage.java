@@ -15,6 +15,7 @@ public class UIMessage {
 	public static final String COMMAND_ARCHIVE_ARG_EMPTY = "The <archive> command requires the task ID of the task you wish to archive. Try:\n\tarchive <taskId>";
 
 	public static final String COMMAND_EDIT_SUCCESS = "Your task #%s has been successfully updated.";
+	public static final String COMMAND_EDIT_NOTFOUND = "The task #%s you were looking to edit was not found.";
 	public static final String COMMAND_EDIT_ARG_EMPTY = "The <edit> command requires the task ID and details of the task you wish to update with. Try:\n\tedit <taskId> <details>";
 
 	public static final String COMMAND_SEARCH_RESULT = "%d result(s) found for \"%s\".";
