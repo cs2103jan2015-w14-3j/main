@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="lib/hashids-java-1.0.0"/>
 	<classpathentry kind="src" path="lib/gson-jodatime-serialisers-1.1.0/src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="lib" path="lib/gson-2.3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/joda-time-2.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
