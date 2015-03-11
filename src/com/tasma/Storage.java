@@ -17,6 +17,11 @@ import com.google.gson.reflect.TypeToken;
 public class Storage {
 	protected static final String FILENAME = "tasks.json";
 	
+	/**
+	 * Saves the hashtable of tasks into the default storage file.
+	 * @param tasks The hashtable of tasks to be saved
+	 * @throws IOException Thrown when there is a problem trying to save data into the file.
+	 */
 	public void save(Hashtable<String, Task> tasks) throws IOException {
 		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
@@ -30,6 +35,11 @@ public class Storage {
 	    }
 	}
 
+	/**
+	 * Loads the hashtable of tasks from the default storage file.
+	 * @return Returns the hashtable of tasks that was loaded from the file
+	 * @throws IOException Thrown when there is a problem trying to save data into the file.
+	 */
 	public Hashtable<String, Task> load() throws IOException {
 		Hashtable<String, Task> tasks = new Hashtable<String, Task>();
 		File file = new File(FILENAME);
