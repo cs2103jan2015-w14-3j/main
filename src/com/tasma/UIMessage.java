@@ -12,6 +12,7 @@ public class UIMessage {
 	public static final String COMMAND_MARK_ARG_EMPTY = "The <mark> command requires the task ID of the task you wish to mark done. Try:\n\tmark <taskId>";
 
 	public static final String COMMAND_ARCHIVE_SUCCESS = "Your task #%s \"%s\" has been archived.";
+	public static final String COMMAND_ARCHIVE_NOTFOUND = "The task #%s you were looking to archive was not found.";
 	public static final String COMMAND_ARCHIVE_ARG_EMPTY = "The <archive> command requires the task ID of the task you wish to archive. Try:\n\tarchive <taskId>";
 
 	public static final String COMMAND_EDIT_SUCCESS = "Your task #%s has been successfully updated.";
