@@ -160,8 +160,12 @@ public class Controller {
 			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
 		} else {
 			Task task = collection.get(taskId);
-			// TODO: to do edit command
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+			if (task == null) {
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, taskId));
+			} else {
+				// TODO: to do edit command
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+			}
 		}
 		// refresh the list on the window
 		doCommandList();
