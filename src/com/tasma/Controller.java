@@ -144,9 +144,13 @@ public class Controller {
 		} else {
 			try {
 				Task task = collection.get(taskId);
-				task.setDone(true);
-				collection.update(task);
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+				if (task == null) {
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
+				} else {
+					task.setDone(true);
+					collection.update(task);
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
+				}
 			} catch (Exception e) {
 				displayException(e);
 			}
