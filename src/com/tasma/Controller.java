@@ -161,7 +161,7 @@ public class Controller {
 		} else {
 			Task task = collection.get(taskId);
 			if (task == null) {
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, taskId));
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 			} else {
 				// TODO: to do edit command
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
@@ -177,9 +177,13 @@ public class Controller {
 		} else {
 			try {
 				Task task = collection.get(taskId);
-				task.setArchived(true);
-				collection.update(task);
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+				if (task == null) {
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
+				} else {
+					task.setArchived(true);
+					collection.update(task);
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
+				}
 			} catch (Exception e) {
 				displayException(e);
 			}
