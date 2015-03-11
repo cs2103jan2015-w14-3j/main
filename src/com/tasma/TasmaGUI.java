@@ -85,6 +85,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		controller.setUserInterface(this);
 		controller.initialize();
 	}
+	
+	public void requestCommandBoxFocus() {
+		textField.requestFocus();
+	}
 
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
