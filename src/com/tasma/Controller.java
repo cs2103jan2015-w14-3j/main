@@ -15,8 +15,19 @@ public class Controller {
 	private static final String ARGUMENT_SPACE = " ";
 	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
 	
+	/**
+	 * The user interface to call the output methods from
+	 */
 	protected TasmaUserInterface userInterface;
+	
+	/**
+	 * The task collection to work with
+	 */
 	protected TaskCollection collection = new TaskCollection();
+	
+	/**
+	 * The parser to parse the natural language syntax
+	 */
 	protected Parser parser = new Parser();
 	
 	/**
