@@ -101,6 +101,8 @@ public class Controller {
 				displayException(e);
 			}
 		}
+		// refresh the list on the window
+		doCommandList();
 	}
 	
 	/**
@@ -139,6 +141,8 @@ public class Controller {
 				displayException(e);
 			}
 		}
+		// refresh the list on the window
+		doCommandList();
 	}
 	
 	protected void doCommandEdit(String taskId, String details) {
@@ -149,6 +153,8 @@ public class Controller {
 			// TODO: to do edit command
 			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 		}
+		// refresh the list on the window
+		doCommandList();
 	}
 	
 	protected void doCommandArchive(String taskId) {
@@ -164,6 +170,8 @@ public class Controller {
 				displayException(e);
 			}
 		}
+		// refresh the list on the window
+		doCommandList();
 	}
 	
 	protected void displayException(Exception e) {
