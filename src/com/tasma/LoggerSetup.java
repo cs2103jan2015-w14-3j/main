@@ -10,7 +10,7 @@ import java.util.logging.SimpleFormatter;
 public class LoggerSetup {
 	public static void setup() throws IOException {
 		Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		logger.setLevel(Level.INFO);
+		logger.setLevel(Level.ALL);
 		
 		FileHandler logFile = new FileHandler("tasma.log");
 		logFile.setFormatter(new SimpleFormatter());
