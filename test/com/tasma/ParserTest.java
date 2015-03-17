@@ -26,4 +26,18 @@ public class ParserTest {
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
+	
+	@Test
+	public void test2() {
+		Parser caller = new Parser();
+		Task parsedTask = new Task();
+		parsedTask = caller.parse("do cs2105");
+		Task temp = new Task();
+		
+		temp.setDetails("do cs2105");
+
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getLocation(), parsedTask.getLocation());
+	}
 }
