@@ -16,9 +16,10 @@ public class ControllerTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testInitialize() {
-		fail("Not yet implemented");
+	@Test(expected = Exception.class)
+	public void testInitializeFail() throws Exception {
+		Controller controller = new Controller();
+		controller.initialize();
 	}
 
 	@Test
