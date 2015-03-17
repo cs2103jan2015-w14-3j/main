@@ -25,12 +25,20 @@ public class Controller {
 	/**
 	 * The task collection to work with
 	 */
-	protected TaskCollection collection = new TaskCollection();
+	protected TaskCollection collection;
 	
 	/**
 	 * The parser to parse the natural language syntax
 	 */
 	protected Parser parser = new Parser();
+	
+	public Controller() {
+		this(new TaskCollection());
+	}
+	
+	public Controller(TaskCollection collection) {
+		this.collection = collection;
+	}
 	
 	/**
 	 * Performs initialization of the controller.
