@@ -40,4 +40,24 @@ public class ParserTest {
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
+	
+	@Test
+	public void test3() {
+		Parser caller = new Parser();
+		Task parsedTask = new Task();
+		parsedTask = caller.parse("do cs2105 on next monday at ALL");
+		Task temp = new Task();
+		
+		temp.setDetails("do cs2105");
+
+		LocalDate d = new LocalDate();
+		d = d.plusWeeks(1);
+		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
+		temp.setEndDateTime(d);
+		
+		temp.setLocation("ALL");
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getLocation(), parsedTask.getLocation());
+	}
 }
