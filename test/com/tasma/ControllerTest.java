@@ -9,10 +9,12 @@ import org.junit.Test;
 public class ControllerTest {
 	
 	private Controller controller;
-	private Storage storage;
-
+	private MockStorage storage;
+	private TestUserInterface ui;
+	
 	@Before
 	public void setUp() throws Exception {
+		ui = new TestUserInterface();
 		storage = new MockStorage();
 		TaskCollection collection = new TaskCollection(storage);
 		controller = new Controller(collection);
@@ -29,7 +31,10 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testExecuteInput() {
-		
+	public void testExecuteInput() throws Exception {
+		controller.setUserInterface(ui);
+		controller.initialize();
+		controller.executeInput("add test");
+		assertEquals(1, storage.getTasks().size());
 	}
 }
