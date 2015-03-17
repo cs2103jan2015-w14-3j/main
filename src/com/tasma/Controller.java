@@ -106,6 +106,8 @@ public class Controller {
 			case ARCHIVE:
 				doCommandArchive(argument);
 				break;
+			case UNDO:
+				break;
 			case EXIT:
 				System.exit(0);
 				break;
@@ -275,6 +277,8 @@ public class Controller {
 			case "l":
 			case "list":
 				return CommandType.LIST;
+			case "undo":
+				return CommandType.UNDO;
 			case "m":
 			case "mark":
 			case "do":
