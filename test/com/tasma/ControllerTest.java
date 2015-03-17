@@ -7,9 +7,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ControllerTest {
+	
+	private Controller controller;
+	private Storage storage;
 
 	@Before
 	public void setUp() throws Exception {
+		storage = new MockStorage();
+		TaskCollection collection = new TaskCollection(storage);
+		controller = new Controller(collection);
 	}
 
 	@After
@@ -18,12 +24,12 @@ public class ControllerTest {
 
 	@Test(expected = Exception.class)
 	public void testInitializeFail() throws Exception {
-		Controller controller = new Controller();
+		// try to initialize without setting the UI, you would die
 		controller.initialize();
 	}
 
 	@Test
-	public void testExecute() {
-		fail("Not yet implemented");
+	public void testExecuteInput() {
+		
 	}
 }
