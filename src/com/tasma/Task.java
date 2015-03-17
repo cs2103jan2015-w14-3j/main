@@ -5,7 +5,7 @@ package com.tasma;
 
 import org.joda.time.LocalDate;
 
-public class Task {
+public class Task implements Cloneable {
 	private String taskId = "";
 	private String details = "";
 	private String location = "";
@@ -78,4 +78,9 @@ public class Task {
 	public void setArchived(boolean isArchived) {
 		this.isArchived = isArchived;
 	}
+	
+    @Override
+    protected Task clone() throws CloneNotSupportedException {
+        return (Task) super.clone();
+    }
 }
