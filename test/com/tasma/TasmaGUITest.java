@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class UItest {
+public class TasmaGUITest {
 
 	@Test
 	public void test() {
