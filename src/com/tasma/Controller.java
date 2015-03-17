@@ -6,12 +6,13 @@ package com.tasma;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class Controller {
-	
+	private static final Logger logger = Logger.getLogger( Controller.class.getName() );
 	private static final String ARGUMENT_SPACE = " ";
 	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
 	
