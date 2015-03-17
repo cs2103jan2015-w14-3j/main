@@ -6,6 +6,7 @@ package com.tasma;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -49,6 +50,7 @@ public class Controller {
 	 */
 	public void setUserInterface(TasmaUserInterface ui) {
 		userInterface = ui;
+		logger.log(Level.FINE, "Using {0} as the user interface now.", ui.getClass().getName());
 	}
 	
 	/**
