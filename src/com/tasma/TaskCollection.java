@@ -39,10 +39,10 @@ public class TaskCollection {
 		// the following code will generate a nice short ID that should be unique in the collection.
 		// this will allow the user to identify tasks through the use of these IDs.
 		Hashids hasher = new Hashids(HASHIDS_SALT, 3);
-		String uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), tasks.size());
+		String uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), tasks.size()).toLowerCase();
 		int i = 0;
 		while (tasks.containsKey(uniqueId)) {
-			uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), ++i);
+			uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), ++i).toLowerCase();
 		}
 		task.setTaskId(uniqueId);
 		tasks.put(task.getTaskId(), task);
