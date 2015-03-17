@@ -39,7 +39,9 @@ public class Controller {
 	 */
 	public void initialize() throws Exception {
 		if (userInterface == null) {
-			throw new Exception("The user interface for the controller has not been set.");
+			Exception exception = new Exception("The user interface for the controller has not been set.");
+			logger.log(Level.FINER, exception.toString(), exception);
+			throw exception;
 		}
 		collection.loadFromFile();
 	}
