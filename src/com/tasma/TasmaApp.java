@@ -14,6 +14,7 @@ public class TasmaApp {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				LoggerSetup.setup();
 				try {
 					TasmaGUI frame = new TasmaGUI();
 					frame.initialize();
