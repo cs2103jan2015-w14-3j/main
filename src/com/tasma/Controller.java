@@ -32,6 +32,11 @@ public class Controller {
 	 */
 	protected Parser parser = new Parser();
 	
+	/**
+	 * The last action to undo
+	 */
+	protected UndoAction undoAction;
+	
 	public Controller() {
 		this(new TaskCollection());
 	}
@@ -123,6 +128,7 @@ public class Controller {
 				Task task = parser.parse(details);
 				collection.create(task);
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+				undoAction = new UndoAction(CommandType.ADD, task.clone());
 			} catch (Exception e) {
 				displayException(e);
 			}
@@ -162,6 +168,7 @@ public class Controller {
 				if (task == null) {
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
 				} else {
+					undoAction = new UndoAction(CommandType.MARK, task.clone());
 					task.setDone(true);
 					collection.update(task);
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
@@ -182,23 +189,28 @@ public class Controller {
 			if (task == null) {
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 			} else {
-				Task updatedTask = parser.parse(details);
-				if (updatedTask.getDetails() != null) {
-					task.setDetails(updatedTask.getDetails());
+				try {
+					undoAction = new UndoAction(CommandType.EDIT, task.clone());
+					Task updatedTask = parser.parse(details);
+					if (updatedTask.getDetails() != null) {
+						task.setDetails(updatedTask.getDetails());
+					}
+	
+					if (updatedTask.getLocation() != null) {
+						task.setLocation(updatedTask.getLocation());
+					}
+	
+					if (updatedTask.getStartDateTime() != null) {
+						task.setStartDateTime(updatedTask.getStartDateTime());
+					}
+	
+					if (updatedTask.getEndDateTime() != null) {
+						task.setEndDateTime(updatedTask.getEndDateTime());
+					}
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+				} catch (Exception e) {
+					displayException(e);
 				}
-
-				if (updatedTask.getLocation() != null) {
-					task.setLocation(updatedTask.getLocation());
-				}
-
-				if (updatedTask.getStartDateTime() != null) {
-					task.setStartDateTime(updatedTask.getStartDateTime());
-				}
-
-				if (updatedTask.getEndDateTime() != null) {
-					task.setEndDateTime(updatedTask.getEndDateTime());
-				}
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 			}
 		}
 		// refresh the list on the window
@@ -214,6 +226,7 @@ public class Controller {
 				if (task == null) {
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
 				} else {
+					undoAction = new UndoAction(CommandType.ARCHIVE, task.clone());
 					task.setArchived(true);
 					collection.update(task);
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
