@@ -60,6 +60,8 @@ public class Controller {
 	 * @param input The input string of the user
 	 */
 	public void executeInput(String input) {
+		logger.log(Level.FINER, "Executing command {0}", input);
+		
 		String[] inputParts = splitArguments(input);
 		String command = inputParts[0];
 		String argument = "";
