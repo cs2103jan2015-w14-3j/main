@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TasmaApp {
-	private static final Logger logger = Logger.getLogger( Controller.class.getName() );
+	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	/**
 	 * Launch the application.
@@ -18,8 +18,6 @@ public class TasmaApp {
 			@Override
 			public void run() {
 				try {
-					LoggerSetup.setup();
-					
 					logger.log(Level.FINE, "Initializing window & application");
 					TasmaGUI frame = new TasmaGUI();
 					frame.initialize();
