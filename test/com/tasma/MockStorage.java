@@ -14,4 +14,8 @@ public final class MockStorage extends Storage {
 	public Hashtable<String, Task> load() {
 		return tasks;
 	}
+	
+	public Hashtable<String, Task> getTasks() {
+		return tasks;
+	}
 }
