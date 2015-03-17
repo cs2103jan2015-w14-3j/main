@@ -40,9 +40,9 @@ public class Parser {
 		}
 
 		if (index != 0) {
-			parsedTask.setDetails(taskDetails.substring(0, index));
+			parsedTask.setDetails(taskDetails.substring(0, index).trim());
 		} else {
-			parsedTask.setDetails(taskDetails);
+			parsedTask.setDetails(taskDetails.trim());
 			index = taskDetails.length();
 		}
 
