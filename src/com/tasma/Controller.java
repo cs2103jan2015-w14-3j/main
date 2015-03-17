@@ -167,7 +167,22 @@ public class Controller {
 			if (task == null) {
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 			} else {
-				// TODO: to do edit command
+				Task updatedTask = parser.parse(details);
+				if (updatedTask.getDetails() != null) {
+					task.setDetails(updatedTask.getDetails());
+				}
+
+				if (updatedTask.getLocation() != null) {
+					task.setLocation(updatedTask.getLocation());
+				}
+
+				if (updatedTask.getStartDateTime() != null) {
+					task.setStartDateTime(updatedTask.getStartDateTime());
+				}
+
+				if (updatedTask.getEndDateTime() != null) {
+					task.setEndDateTime(updatedTask.getEndDateTime());
+				}
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 			}
 		}
