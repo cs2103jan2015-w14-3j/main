@@ -107,6 +107,7 @@ public class Controller {
 				doCommandArchive(argument);
 				break;
 			case UNDO:
+				doCommandUndo();
 				break;
 			case EXIT:
 				System.exit(0);
@@ -239,6 +240,34 @@ public class Controller {
 		}
 		// refresh the list on the window
 		doCommandList();
+	}
+	
+	protected void doCommandUndo() {
+		try {
+			if (undoAction == null) {
+				// TODO: show no more undo message
+			} else {
+				switch(undoAction.getCommand()) {
+					case ADD:
+						collection.delete(undoAction.getTask().getTaskId());
+						break;
+					case EDIT:
+						collection.update(undoAction.getTask());
+						break;
+					case MARK:
+						collection.update(undoAction.getTask());
+						break;
+					case ARCHIVE:
+						collection.update(undoAction.getTask());
+						break;
+					default:
+						break;
+				}
+			}
+		} catch (Exception e) {
+			displayException(e);
+		}
+		undoAction = null;
 	}
 	
 	protected void displayException(Exception e) {
