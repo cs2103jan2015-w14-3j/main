@@ -6,6 +6,7 @@ package com.tasma;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,7 @@ public class Controller {
 	/**
 	 * The last action to undo
 	 */
-	protected UndoAction undoAction;
+	protected Stack<UndoAction> undoStack = new Stack<UndoAction>();
 	
 	public Controller() {
 		this(new TaskCollection());
@@ -131,7 +132,7 @@ public class Controller {
 				Task task = parser.parse(details);
 				collection.create(task);
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
-				undoAction = new UndoAction(CommandType.ADD, task.clone());
+				undoStack.push(new UndoAction(CommandType.ADD, task.clone()));
 			} catch (Exception e) {
 				displayException(e);
 			}
@@ -171,7 +172,7 @@ public class Controller {
 				if (task == null) {
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
 				} else {
-					undoAction = new UndoAction(CommandType.MARK, task.clone());
+					undoStack.push(new UndoAction(CommandType.MARK, task.clone()));
 					task.setDone(true);
 					collection.update(task);
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
@@ -193,7 +194,7 @@ public class Controller {
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 			} else {
 				try {
-					undoAction = new UndoAction(CommandType.EDIT, task.clone());
+					undoStack.push(new UndoAction(CommandType.EDIT, task.clone()));
 					Task updatedTask = parser.parse(details);
 					if (updatedTask.getDetails() != null) {
 						task.setDetails(updatedTask.getDetails());
@@ -229,7 +230,7 @@ public class Controller {
 				if (task == null) {
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
 				} else {
-					undoAction = new UndoAction(CommandType.ARCHIVE, task.clone());
+					undoStack.push(new UndoAction(CommandType.ARCHIVE, task.clone()));
 					task.setArchived(true);
 					collection.update(task);
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
@@ -244,9 +245,10 @@ public class Controller {
 	
 	protected void doCommandUndo() {
 		try {
-			if (undoAction == null) {
+			if (undoStack.size() == 0) {
 				// TODO: show no more undo message
 			} else {
+				UndoAction undoAction = undoStack.pop();
 				switch(undoAction.getCommand()) {
 					case ADD:
 						collection.delete(undoAction.getTask().getTaskId());
@@ -267,7 +269,6 @@ public class Controller {
 		} catch (Exception e) {
 			displayException(e);
 		}
-		undoAction = null;
 	}
 	
 	protected void displayException(Exception e) {
