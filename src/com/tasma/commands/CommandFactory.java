@@ -1,6 +1,5 @@
 package com.tasma.commands;
 
-import com.tasma.CommandType;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
