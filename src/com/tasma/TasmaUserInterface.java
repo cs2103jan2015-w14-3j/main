@@ -12,4 +12,8 @@ public interface TasmaUserInterface {
 	public void displayTasks(Collection<Task> tasks);
 	
 	public void displayMessage(String message);
+	
+	public void editCmdDisplay(String task);
+	
+	public void helpCmdDisplay(String helpMsg);
 }
