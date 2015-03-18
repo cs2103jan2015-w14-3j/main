@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * The main controller logic
+ * Tip: Good, cheap, fast - choose any two. (:
  * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class Controller {
@@ -157,7 +159,7 @@ public class Controller {
 	 */
 	protected void doCommandSearch(String query) {
 		if (query.equals("")) {
-			
+			// TODO: to handle empty search terms?
 		} else {
 			Collection<Task> resultList = collection.search(query);
 			userInterface.displayTasks(resultList);
@@ -207,38 +209,41 @@ public class Controller {
 	 * @param details The new details to replace the task.
 	 */
 	protected void doCommandEdit(String taskId, String details) {
-		if (taskId.equals("") || details.equals("")) {
+		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
 		} else {
 			assert !taskId.equals("");
-			assert !details.equals("");
 			
 			Task task = collection.get(taskId);
-			if (task == null) {
-				logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
+			if (details.equals("")) {
+				// TODO: display task details
 			} else {
-				try {
-					undoStack.push(new UndoAction(CommandType.EDIT, task.clone()));
-					Task updatedTask = parser.parse(details);
-					if (updatedTask.getDetails() != null) {
-						task.setDetails(updatedTask.getDetails());
+				if (task == null) {
+					logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
+					userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
+				} else {
+					try {
+						undoStack.push(new UndoAction(CommandType.EDIT, task.clone()));
+						Task updatedTask = parser.parse(details);
+						if (updatedTask.getDetails() != null) {
+							task.setDetails(updatedTask.getDetails());
+						}
+		
+						if (updatedTask.getLocation() != null) {
+							task.setLocation(updatedTask.getLocation());
+						}
+		
+						if (updatedTask.getStartDateTime() != null) {
+							task.setStartDateTime(updatedTask.getStartDateTime());
+						}
+		
+						if (updatedTask.getEndDateTime() != null) {
+							task.setEndDateTime(updatedTask.getEndDateTime());
+						}
+						userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+					} catch (Exception e) {
+						displayException(e);
 					}
-	
-					if (updatedTask.getLocation() != null) {
-						task.setLocation(updatedTask.getLocation());
-					}
-	
-					if (updatedTask.getStartDateTime() != null) {
-						task.setStartDateTime(updatedTask.getStartDateTime());
-					}
-	
-					if (updatedTask.getEndDateTime() != null) {
-						task.setEndDateTime(updatedTask.getEndDateTime());
-					}
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
-				} catch (Exception e) {
-					displayException(e);
 				}
 			}
 		}
