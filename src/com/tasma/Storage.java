@@ -5,6 +5,8 @@
 package com.tasma;
 
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -16,6 +18,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class Storage {
+	private static final Logger logger = Log.getLogger( Storage.class.getName() );
+	
 	protected static final String FILENAME = "tasks.json";
 	
 	/**
@@ -24,6 +28,7 @@ public class Storage {
 	 * @throws IOException Thrown when there is a problem trying to save data into the file.
 	 */
 	public void save(Hashtable<String, Task> tasks) throws IOException {
+		logger.log(Level.FINE, "Performing a save on {0} tasks to file", tasks.size());
 		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
@@ -42,6 +47,7 @@ public class Storage {
 	 * @throws IOException Thrown when there is a problem trying to save data into the file.
 	 */
 	public Hashtable<String, Task> load() throws IOException {
+		logger.log(Level.FINE, "Performing load from file");
 		Hashtable<String, Task> tasks = new Hashtable<String, Task>();
 		File file = new File(FILENAME);
 		if (file.exists()) {
