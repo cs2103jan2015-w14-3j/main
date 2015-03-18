@@ -30,4 +30,16 @@ public class TestUserInterface implements TasmaUserInterface {
 		return lastDisplayedMessage;
 	}
 
+	@Override
+	public void editCmdDisplay(String task) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void helpCmdDisplay(String helpMsg) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
