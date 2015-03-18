@@ -8,10 +8,16 @@ package com.tasma;
  *
  */
 
+import java.util.logging.Logger;
+
+import java.util.logging.Level;
+
 import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
+	
+	private static final Logger logger = Log.getLogger(Parser.class.getName() );
 	
 	public Task parse(String details) {
 		Task parsedTask = new Task();
@@ -28,6 +34,7 @@ public class Parser {
 	}
 
 	private void getWhat(Task parsedTask, String taskDetails) {
+		logger.log(Level.FINER, "Getting what details from {0}", taskDetails);
 		final String[] keywords = {"on", "at", "in", "from", "by"};
 		int index = 0; 
 
@@ -50,6 +57,7 @@ public class Parser {
 	}
 
 	private void getWhen(Task parsedTask, String taskDetails) {
+		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
 			final String[] keywords = {"on", "from", "at", "by"};
 
