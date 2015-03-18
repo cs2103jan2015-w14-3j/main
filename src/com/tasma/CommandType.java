@@ -16,5 +16,7 @@ public enum CommandType {
 	ARCHIVE,
 	EXIT,
 	UNDO,
+	TUTORIAL,
+	HELP,
 	INVALID
 }
