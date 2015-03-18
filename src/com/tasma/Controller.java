@@ -273,6 +273,8 @@ public class Controller {
 		} catch (Exception e) {
 			displayException(e);
 		}
+		// refresh the list on the window
+		doCommandList();
 	}
 	
 	protected void displayException(Exception e) {
