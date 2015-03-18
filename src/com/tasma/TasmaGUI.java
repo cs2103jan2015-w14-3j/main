@@ -128,4 +128,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void editCmdDisplay (String task) {
 		textCommand.setText(task);
 	}
+	
+	public void helpCmdDisplay (String helpMsg) {
+		textTasks.setText(helpMsg);
+	}
+	
+	
 }
