@@ -112,6 +112,12 @@ public class Controller {
 			case UNDO:
 				doCommandUndo();
 				break;
+			case HELP:
+				doCommandHelp(argument);
+				break;
+			case TUTORIAL:
+				doCommandTutorial();
+				break;
 			case EXIT:
 				System.exit(0);
 				break;
@@ -305,6 +311,14 @@ public class Controller {
 		
 		// refresh the list on the window
 		doCommandList();
+	}
+	
+	protected void doCommandHelp(String command) {
+		
+	}
+	
+	protected void doCommandTutorial() {
+		
 	}
 	
 	/**
