@@ -79,6 +79,11 @@ public class Task implements Cloneable {
 		this.isArchived = isArchived;
 	}
 	
+	@Override
+	public String toString(){
+		return details + " at " + location + " on " + endDateTime.toString(); 
+	}
+	
     @Override
     protected Task clone() throws CloneNotSupportedException {
         return (Task) super.clone();
