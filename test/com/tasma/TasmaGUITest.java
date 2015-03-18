@@ -15,7 +15,7 @@ public class TasmaGUITest extends TestCase {
 	public TasmaGUITest( String testName ) {
 		super(testName);
 	}
-	
+	//return the suite of tests being tested
 	public static Test suite() {
 		return (Test) new TestSuite(TasmaGUITest.class);
 	}
