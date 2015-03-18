@@ -1,6 +1,8 @@
-package com.tasma;
+package com.tasma.commands;
 
-import com.tasma.commands.AbstractCommand;
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.TasmaUserInterface;
 
 public abstract class TaskRestorableCommand extends AbstractCommand {
 
