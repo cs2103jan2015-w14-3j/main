@@ -105,7 +105,10 @@ public class Controller {
 				// let's split the task ID from the edit details of the task
 				String[] argumentParts = splitArguments(argument);
 				String taskId = argumentParts[0];
-				argument = argumentParts[1];
+				argument = "";
+				if (argumentParts.length == 2) {
+					argument = argumentParts[1];
+				}
 				doCommandEdit(taskId, argument);
 				break;
 			case ARCHIVE:
@@ -216,7 +219,7 @@ public class Controller {
 			
 			Task task = collection.get(taskId);
 			if (details.equals("")) {
-				// TODO: display task details
+				userInterface.editCmdDisplay(String.format("edit %s %s", taskId, task.toString()));
 			} else {
 				if (task == null) {
 					logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
