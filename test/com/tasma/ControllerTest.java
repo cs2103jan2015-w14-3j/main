@@ -31,10 +31,20 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testExecuteInput() throws Exception {
+	public void testExecuteInput1() throws Exception {
 		controller.setUserInterface(ui);
 		controller.initialize();
 		controller.executeInput("add test");
 		assertEquals(1, storage.getTasks().size());
+	}
+
+	@Test
+	public void testExecuteInput2() throws Exception {
+		controller.setUserInterface(ui);
+		controller.initialize();
+		controller.executeInput("add test");
+		assertEquals(1, storage.getTasks().size());
+		controller.executeInput("undo");
+		assertEquals(0, storage.getTasks().size());
 	}
 }
