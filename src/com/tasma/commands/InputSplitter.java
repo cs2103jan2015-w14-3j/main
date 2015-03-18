@@ -13,7 +13,10 @@ public class InputSplitter {
 	public String next() {
 		String result = "";
 		int intSpacePos = input.indexOf(ARGUMENT_SPACE);
-		if (intSpacePos != ARGUMENT_SPACE_NOT_FOUND) {
+		if (intSpacePos == ARGUMENT_SPACE_NOT_FOUND) {
+			result = input;
+			input = "";
+		} else {
 			result = input.substring(0, intSpacePos);
 			input = input.substring(intSpacePos + 1);
 		}
