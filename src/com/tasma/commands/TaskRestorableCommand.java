@@ -6,13 +6,15 @@ import com.tasma.TasmaUserInterface;
 
 public abstract class TaskRestorableCommand extends AbstractCommand {
 
+	protected Task task;
 	protected Task originalTask;
 	
 	public TaskRestorableCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String taskId) {
 		super(userInterface, collection);
 		try {
-			originalTask = collection.get(taskId).clone();
+			task = collection.get(taskId);
+			originalTask = task.clone();
 		} catch (CloneNotSupportedException e) {
 		}
 	}
