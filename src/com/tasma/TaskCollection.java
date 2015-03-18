@@ -68,8 +68,9 @@ public class TaskCollection {
 		return upcomingList;
 	}
 	
-	public void delete(String taskId) {
+	public void delete(String taskId) throws Exception {
 		tasks.remove(taskId);
+		storage.save(tasks);
 	}
 	
 	public Collection<Task> search(String query) {
