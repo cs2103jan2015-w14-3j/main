@@ -5,9 +5,12 @@ import com.tasma.TasmaUserInterface;
 
 public class HelpCommand extends AbstractCommand {
 
+	protected String command;
+	
 	public HelpCommand(TasmaUserInterface userInterface,
-			TaskCollection collection) {
+			TaskCollection collection, String command) {
 		super(userInterface, collection);
+		this.command = command;
 	}
 
 	@Override
