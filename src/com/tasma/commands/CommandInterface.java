@@ -1,7 +1,7 @@
 package com.tasma.commands;
 
 public interface CommandInterface {
-	public void execute();
+	public void execute() throws Exception;
 	
-	public void undo();
+	public void undo() throws Exception;
 }
