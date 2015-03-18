@@ -35,7 +35,7 @@ public class Parser {
 
 	private void getWhat(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINER, "Getting what details from {0}", taskDetails);
-		final String[] keywords = {"on", "at", "in", "from", "by"};
+		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
 		int index = 0; 
 
 		for (int i = 0; i < keywords.length; i++) {
@@ -59,7 +59,7 @@ public class Parser {
 	private void getWhen(Task parsedTask, String taskDetails) {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
-			final String[] keywords = {"on", "from", "at", "by"};
+			final String[] keywords = {" on ", " from ", " at ", " by "};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				int indexOn = taskDetails.toLowerCase().indexOf(keywords[0]) + keywords[0].length();
@@ -124,11 +124,11 @@ public class Parser {
 
 	private void getWhere(Task parsedTask, String taskDetails) {		
 		if (taskDetails.length() >= 2) {
-			final String keyword = "at";
+			final String keyword = " at ";
 
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
-				parsedTask.setLocation(taskDetails.substring(indexAt + 3));
+				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
 	}	
