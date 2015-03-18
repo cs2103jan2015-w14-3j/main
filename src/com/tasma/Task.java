@@ -81,7 +81,15 @@ public class Task implements Cloneable {
 	
 	@Override
 	public String toString(){
-		return details + " at " + location + " on " + endDateTime.toString(); 
+		String result = "";
+		result += details;
+		if (location != null) {
+			result += " at " + location;
+		}
+		if (endDateTime != null) {
+			result += " on " + endDateTime;
+		}
+		return result; 
 	}
 	
     @Override
