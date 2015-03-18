@@ -171,6 +171,7 @@ public class Controller {
 			try {
 				Task task = collection.get(taskId);
 				if (task == null) {
+					logger.log(Level.FINER, String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
 				} else {
 					undoStack.push(new UndoAction(CommandType.MARK, task.clone()));
@@ -192,6 +193,7 @@ public class Controller {
 		} else {
 			Task task = collection.get(taskId);
 			if (task == null) {
+				logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
 			} else {
 				try {
@@ -229,6 +231,7 @@ public class Controller {
 			try {
 				Task task = collection.get(taskId);
 				if (task == null) {
+					logger.log(Level.FINER, String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
 					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
 				} else {
 					undoStack.push(new UndoAction(CommandType.ARCHIVE, task.clone()));
