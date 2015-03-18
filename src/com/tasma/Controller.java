@@ -360,6 +360,12 @@ public class Controller {
 			case "arc":
 			case "archive":
 				return CommandType.ARCHIVE;
+			case "h":
+			case "help":
+				return CommandType.HELP;
+			case "t":
+			case "tutorial":
+				return CommandType.TUTORIAL;
 			case "exit":
 				return CommandType.EXIT;
 			
