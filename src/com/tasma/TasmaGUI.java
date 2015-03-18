@@ -124,4 +124,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void displayMessage(String message) {
 		textDisplay.setText(message);
 	}
+	
+	public void editCmdDisplay (String task) {
+		textCommand.setText(task);
+	}
 }
