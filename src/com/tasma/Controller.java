@@ -116,6 +116,7 @@ public class Controller {
 			default:
 				// probably an invalid command, display invalid command back to user.
 				userInterface.displayMessage(UIMessage.COMMAND_INVALID);
+				logger.log(Level.FINER, "Command \"{0}\" is invalid", input);
 				break;
 		}
 	}
