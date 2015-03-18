@@ -12,13 +12,13 @@ public class TasmaGUITest extends TestCase {
 	TasmaGUI window;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception{
 		window = new TasmaGUI();
 		window.setVisible(true);
 	}
 	
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception{
 		window.dispose();
 	}
 
