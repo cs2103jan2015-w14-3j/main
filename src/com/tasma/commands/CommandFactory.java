@@ -1,12 +1,8 @@
 package com.tasma.commands;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
-
 import com.tasma.CommandType;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
-import com.tasma.UIMessage;
 
 public class CommandFactory {
 
