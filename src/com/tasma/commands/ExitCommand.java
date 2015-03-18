@@ -8,7 +8,6 @@ class ExitCommand extends AbstractCommand {
 	public ExitCommand(TasmaUserInterface userInterface,
 			TaskCollection collection) {
 		super(userInterface, collection);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
