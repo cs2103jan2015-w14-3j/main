@@ -2,7 +2,7 @@ package com.tasma;
 
 import java.util.Collection;
 
-public class TestUserInterface implements TasmaUserInterface {
+public class MockUserInterface implements TasmaUserInterface {
 	
 	private Collection<Task> lastDisplayedTasks;
 	private String lastDisplayedMessage;
