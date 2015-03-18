@@ -57,6 +57,7 @@ public class Controller {
 			logger.log(Level.FINER, exception.toString(), exception);
 			throw exception;
 		}
+		assert userInterface != null;
 		collection.loadFromFile();
 	}
 	
@@ -65,6 +66,7 @@ public class Controller {
 	 * @param ui The interface to be called by the controller.
 	 */
 	public void setUserInterface(TasmaUserInterface ui) {
+		assert ui != null;
 		userInterface = ui;
 		logger.log(Level.FINE, "Using {0} as the user interface now.", ui.getClass().getName());
 	}
@@ -126,9 +128,10 @@ public class Controller {
 	 * @param details The details of the task to be added
 	 */
 	protected void doCommandAdd(String details) {
-		if (details.trim().equals("")) {
+		if (details.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY);
 		} else {
+			assert !details.equals("");
 			try {
 				Task task = parser.parse(details);
 				collection.create(task);
@@ -147,9 +150,13 @@ public class Controller {
 	 * @param query The query string to search for
 	 */
 	protected void doCommandSearch(String query) {
-		Collection<Task> resultList = collection.search(query);
-		userInterface.displayTasks(resultList);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
+		if (query.equals("")) {
+			
+		} else {
+			Collection<Task> resultList = collection.search(query);
+			userInterface.displayTasks(resultList);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
+		}
 	}
 	
 	/**
@@ -168,6 +175,7 @@ public class Controller {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY);
 		} else {
+			assert !taskId.equals("");
 			try {
 				Task task = collection.get(taskId);
 				if (task == null) {
@@ -196,6 +204,9 @@ public class Controller {
 		if (taskId.equals("") || details.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
 		} else {
+			assert !taskId.equals("");
+			assert !details.equals("");
+			
 			Task task = collection.get(taskId);
 			if (task == null) {
 				logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
@@ -237,6 +248,8 @@ public class Controller {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ARCHIVE_ARG_EMPTY);
 		} else {
+			assert !taskId.equals("");
+			
 			try {
 				Task task = collection.get(taskId);
 				if (task == null) {
@@ -260,11 +273,15 @@ public class Controller {
 	 * Performs the undo command to reverse the tasks list to the previous state.
 	 */
 	protected void doCommandUndo() {
+		assert undoStack != null;
+		
 		try {
 			if (undoStack.size() == 0) {
 				// TODO: show no more undo message
 			} else {
 				UndoAction undoAction = undoStack.pop();
+				assert undoAction != null;
+				
 				switch(undoAction.getCommand()) {
 					case ADD:
 						collection.delete(undoAction.getTask().getTaskId());
@@ -285,6 +302,7 @@ public class Controller {
 		} catch (Exception e) {
 			displayException(e);
 		}
+		
 		// refresh the list on the window
 		doCommandList();
 	}
@@ -294,6 +312,8 @@ public class Controller {
 	 * @param exception The exception to show
 	 */
 	protected void displayException(Exception exception) {
+		assert exception != null;
+		
 		logger.log(Level.FINE, exception.toString(), exception);
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
 	}
