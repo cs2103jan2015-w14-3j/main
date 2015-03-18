@@ -9,6 +9,8 @@ public class UndoAction {
 	private Task task;
 	
 	public UndoAction(CommandType command, Task task) {
+		assert task != null;
+		
 		this.command = command;
 		this.task = task;
 	}
