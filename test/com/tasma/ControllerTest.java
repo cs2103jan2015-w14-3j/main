@@ -10,11 +10,11 @@ public class ControllerTest {
 	
 	private Controller controller;
 	private MockStorage storage;
-	private TestUserInterface ui;
+	private MockUserInterface ui;
 	
 	@Before
 	public void setUp() throws Exception {
-		ui = new TestUserInterface();
+		ui = new MockUserInterface();
 		storage = new MockStorage();
 		TaskCollection collection = new TaskCollection(storage);
 		controller = new Controller(collection);
