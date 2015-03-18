@@ -4,11 +4,13 @@
 //@author A0132763
 package com.tasma;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.tasma.commands.CommandFactory;
+import com.tasma.commands.CommandInterface;
+import com.tasma.commands.UndoNotSupportedException;
 
 /**
  * The main controller logic
@@ -17,8 +19,6 @@ import java.util.logging.Logger;
  */
 public class Controller {
 	private static final Logger logger = Log.getLogger( Controller.class.getName() );
-	private static final String ARGUMENT_SPACE = " ";
-	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
 	
 	/**
 	 * The user interface to call the output methods from
@@ -31,14 +31,14 @@ public class Controller {
 	protected TaskCollection collection;
 	
 	/**
-	 * The parser to parse the natural language syntax
+	 * The command factory
 	 */
-	protected Parser parser = new Parser();
+	protected CommandFactory commandFactory;
 	
 	/**
 	 * The last action to undo
 	 */
-	protected Stack<UndoAction> undoStack = new Stack<UndoAction>();
+	protected Stack<CommandInterface> undoStack = new Stack<CommandInterface>();
 	
 	public Controller() {
 		this(new TaskCollection());
@@ -61,6 +61,7 @@ public class Controller {
 		}
 		assert userInterface != null;
 		collection.loadFromFile();
+		commandFactory = new CommandFactory(userInterface, collection);
 	}
 	
 	/**
@@ -78,255 +79,28 @@ public class Controller {
 	 * @param input The input string of the user
 	 */
 	public void executeInput(String input) {
-		logger.log(Level.FINER, "Executing command {0}", input);
-		
-		String[] inputParts = splitArguments(input);
-		String command = inputParts[0];
-		String argument = "";
-		if (inputParts.length == 2) {
-			argument = inputParts[1];
-		}
-		
-		CommandType commandType = normalizeCommand(command);
-		switch (commandType) {
-			case ADD:
-				doCommandAdd(argument);
-				break;
-			case SEARCH:
-				doCommandSearch(argument);
-				break;
-			case LIST:
-				doCommandList();
-				break;
-			case MARK:
-				doCommandMark(argument);
-				break;
-			case EDIT:
-				// let's split the task ID from the edit details of the task
-				String[] argumentParts = splitArguments(argument);
-				String taskId = argumentParts[0];
-				argument = "";
-				if (argumentParts.length == 2) {
-					argument = argumentParts[1];
+		if (input.trim().equals("undo")) {
+			if (undoStack.size() > 0) {
+				CommandInterface command = undoStack.pop();
+				try {
+					command.undo();
+				} catch (UndoNotSupportedException ex) {
+					
+				} catch (Exception e) {
+					displayException(e);
 				}
-				doCommandEdit(taskId, argument);
-				break;
-			case ARCHIVE:
-				doCommandArchive(argument);
-				break;
-			case UNDO:
-				doCommandUndo();
-				break;
-			case HELP:
-				doCommandHelp(argument);
-				break;
-			case TUTORIAL:
-				doCommandTutorial();
-				break;
-			case EXIT:
-				System.exit(0);
-				break;
-			default:
-				// probably an invalid command, display invalid command back to user.
-				userInterface.displayMessage(UIMessage.COMMAND_INVALID);
-				logger.log(Level.FINER, "Command \"{0}\" is invalid", input);
-				break;
-		}
-	}
-	
-	/**
-	 * Performs the add command that adds a new task to the list
-	 * @param details The details of the task to be added
-	 */
-	protected void doCommandAdd(String details) {
-		if (details.equals("")) {
-			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY);
-		} else {
-			assert !details.equals("");
-			try {
-				Task task = parser.parse(details);
-				collection.create(task);
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
-				undoStack.push(new UndoAction(CommandType.ADD, task.clone()));
-			} catch (Exception e) {
-				displayException(e);
-			}
-		}
-		// refresh the list on the window
-		doCommandList();
-	}
-	
-	/**
-	 * Performs the search command that finds tasks that match the query
-	 * @param query The query string to search for
-	 */
-	protected void doCommandSearch(String query) {
-		if (query.equals("")) {
-			// TODO: to handle empty search terms?
-		} else {
-			Collection<Task> resultList = collection.search(query);
-			userInterface.displayTasks(resultList);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
-		}
-	}
-	
-	/**
-	 * Performs the list command that shows the list of upcoming tasks
-	 */
-	protected void doCommandList() {
-		Collection<Task> upcomingList = collection.upcoming();
-		userInterface.displayTasks(upcomingList);
-	}
-	
-	/**
-	 * Performs the mark done command that marks a task as completed
-	 * @param taskId The ID of the task that is to be mark as completed.
-	 */
-	protected void doCommandMark(String taskId) {
-		if (taskId.equals("")) {
-			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY);
-		} else {
-			assert !taskId.equals("");
-			try {
-				Task task = collection.get(taskId);
-				if (task == null) {
-					logger.log(Level.FINER, String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_NOTFOUND, taskId));
-				} else {
-					undoStack.push(new UndoAction(CommandType.MARK, task.clone()));
-					task.setDone(true);
-					collection.update(task);
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getTaskId(), task.getDetails()));
-				}
-			} catch (Exception e) {
-				displayException(e);
-			}
-		}
-		// refresh the list on the window
-		doCommandList();
-	}
-	
-	/**
-	 * Performs the edit command that edits a single task
-	 * @param taskId The ID of the task to edit
-	 * @param details The new details to replace the task.
-	 */
-	protected void doCommandEdit(String taskId, String details) {
-		if (taskId.equals("")) {
-			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
-		} else {
-			assert !taskId.equals("");
-			
-			Task task = collection.get(taskId);
-			if (details.equals("")) {
-				userInterface.editCmdDisplay(String.format("edit %s %s", taskId, task.toString()));
 			} else {
-				if (task == null) {
-					logger.log(Level.FINER, String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_NOTFOUND, taskId));
-				} else {
-					try {
-						undoStack.push(new UndoAction(CommandType.EDIT, task.clone()));
-						Task updatedTask = parser.parse(details);
-						if (updatedTask.getDetails() != null) {
-							task.setDetails(updatedTask.getDetails());
-						}
-		
-						if (updatedTask.getLocation() != null) {
-							task.setLocation(updatedTask.getLocation());
-						}
-		
-						if (updatedTask.getStartDateTime() != null) {
-							task.setStartDateTime(updatedTask.getStartDateTime());
-						}
-		
-						if (updatedTask.getEndDateTime() != null) {
-							task.setEndDateTime(updatedTask.getEndDateTime());
-						}
-						userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
-					} catch (Exception e) {
-						displayException(e);
-					}
-				}
+				// TODO: show message that there is no more to undo
 			}
-		}
-		// refresh the list on the window
-		doCommandList();
-	}
-	
-	/**
-	 * Performs the archive command to mark a single task as done.
-	 * @param taskId The task ID of the task to mark
-	 */
-	protected void doCommandArchive(String taskId) {
-		if (taskId.equals("")) {
-			userInterface.displayMessage(UIMessage.COMMAND_ARCHIVE_ARG_EMPTY);
 		} else {
-			assert !taskId.equals("");
-			
+			CommandInterface command = commandFactory.getCommand(input);
 			try {
-				Task task = collection.get(taskId);
-				if (task == null) {
-					logger.log(Level.FINER, String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_NOTFOUND, taskId));
-				} else {
-					undoStack.push(new UndoAction(CommandType.ARCHIVE, task.clone()));
-					task.setArchived(true);
-					collection.update(task);
-					userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getTaskId(), task.getDetails()));
-				}
-			} catch (Exception e) {
-				displayException(e);
+				command.execute();
+				undoStack.push(command);
+			} catch (Exception ex) {
+				displayException(ex);
 			}
 		}
-		// refresh the list on the window
-		doCommandList();
-	}
-	
-	/**
-	 * Performs the undo command to reverse the tasks list to the previous state.
-	 */
-	protected void doCommandUndo() {
-		assert undoStack != null;
-		
-		try {
-			if (undoStack.size() == 0) {
-				// TODO: show no more undo message
-			} else {
-				UndoAction undoAction = undoStack.pop();
-				assert undoAction != null;
-				
-				switch(undoAction.getCommand()) {
-					case ADD:
-						collection.delete(undoAction.getTask().getTaskId());
-						break;
-					case EDIT:
-						collection.update(undoAction.getTask());
-						break;
-					case MARK:
-						collection.update(undoAction.getTask());
-						break;
-					case ARCHIVE:
-						collection.update(undoAction.getTask());
-						break;
-					default:
-						break;
-				}
-			}
-		} catch (Exception e) {
-			displayException(e);
-		}
-		
-		// refresh the list on the window
-		doCommandList();
-	}
-	
-	protected void doCommandHelp(String command) {
-		
-	}
-	
-	protected void doCommandTutorial() {
-		
 	}
 	
 	/**
@@ -338,79 +112,5 @@ public class Controller {
 		
 		logger.log(Level.FINE, exception.toString(), exception);
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
-	}
-	
-	/**
-	 * Normalizes variation of a command into a specific CommandType for processing later
-	 * @param command The command to be interpreted.
-	 * @return Returns the command type if the command is valid, otherwise returns the CommandType.INVALID value.
-	 */
-	protected static CommandType normalizeCommand(String command) {
-		switch(command.trim().toLowerCase()) {
-			case "add":
-			case "a":
-			case "insert":
-			case "create":
-			case "c":
-			case "set":
-				return CommandType.ADD;
-			case "s":
-			case "search":
-			case "find":
-			case "f":
-			case "q":
-			case "query":
-				return CommandType.SEARCH;
-			case "e":
-			case "edit":
-			case "update":
-			case "change":
-				return CommandType.EDIT;
-			case "u":
-			case "upcoming":
-			case "up":
-			case "l":
-			case "list":
-				return CommandType.LIST;
-			case "undo":
-				return CommandType.UNDO;
-			case "m":
-			case "mark":
-			case "do":
-			case "done":
-				return CommandType.MARK;
-			case "arc":
-			case "archive":
-				return CommandType.ARCHIVE;
-			case "h":
-			case "help":
-				return CommandType.HELP;
-			case "t":
-			case "tutorial":
-				return CommandType.TUTORIAL;
-			case "exit":
-				return CommandType.EXIT;
-			
-		}
-		return CommandType.INVALID;
-	}
-	
-	private static String[] splitArguments(String input) {
-		return splitArguments(input, 1);
-	}
-	
-	private static String[] splitArguments(String input, int argumentCount) {
-		ArrayList<String> arguments = new ArrayList<String>();
-		for (int i = 0; i < argumentCount; ++i) {
-			int intSpacePos = input.indexOf(ARGUMENT_SPACE);
-			if (intSpacePos == ARGUMENT_SPACE_NOT_FOUND) {
-				break;
-			} else {
-				arguments.add(input.substring(0, intSpacePos));
-				input = input.substring(intSpacePos + 1);
-			}
-		}
-		arguments.add(input);
-		return arguments.toArray(new String[arguments.size()]);
 	}
 }
