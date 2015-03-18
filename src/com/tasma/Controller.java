@@ -276,6 +276,7 @@ public class Controller {
 	}
 	
 	protected void displayException(Exception e) {
+		logger.log(Level.FINE, e.toString(), e);
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, e.getMessage()));
 	}
 	
