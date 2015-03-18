@@ -50,6 +50,9 @@ public class TaskCollection {
 	}
 	
 	public void update(Task task) throws Exception {
+		// make sure we don't put in a new task
+		assert tasks.containsKey(task.getTaskId());
+		
 		tasks.put(task.getTaskId(), task);
 		storage.save(tasks);
 	}
