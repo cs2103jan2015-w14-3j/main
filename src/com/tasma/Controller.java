@@ -187,6 +187,11 @@ public class Controller {
 		doCommandList();
 	}
 	
+	/**
+	 * Performs the edit command that edits a single task
+	 * @param taskId The ID of the task to edit
+	 * @param details The new details to replace the task.
+	 */
 	protected void doCommandEdit(String taskId, String details) {
 		if (taskId.equals("") || details.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_EDIT_ARG_EMPTY);
@@ -224,6 +229,10 @@ public class Controller {
 		doCommandList();
 	}
 	
+	/**
+	 * Performs the archive command to mark a single task as done.
+	 * @param taskId The task ID of the task to mark
+	 */
 	protected void doCommandArchive(String taskId) {
 		if (taskId.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_ARCHIVE_ARG_EMPTY);
@@ -247,6 +256,9 @@ public class Controller {
 		doCommandList();
 	}
 	
+	/**
+	 * Performs the undo command to reverse the tasks list to the previous state.
+	 */
 	protected void doCommandUndo() {
 		try {
 			if (undoStack.size() == 0) {
@@ -277,9 +289,13 @@ public class Controller {
 		doCommandList();
 	}
 	
-	protected void displayException(Exception e) {
-		logger.log(Level.FINE, e.toString(), e);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, e.getMessage()));
+	/**
+	 * Displays an exception message to the user
+	 * @param exception The exception to show
+	 */
+	protected void displayException(Exception exception) {
+		logger.log(Level.FINE, exception.toString(), exception);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
 	}
 	
 	/**
