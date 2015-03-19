@@ -18,11 +18,12 @@ import org.joda.time.DateTimeConstants;
 public class Parser {
 
 	private static final Logger logger = Log.getLogger(Parser.class.getName() );
-
+	private String str = null;
 	public Task parse(String details) {
 		Task parsedTask = new Task();
-
+		
 		String taskDetails = details; 
+		str = details;
 		try {
 			getWhat(parsedTask, taskDetails);
 
@@ -30,6 +31,7 @@ public class Parser {
 
 			getWhere(parsedTask, taskDetails);
 		} catch (InvalidInputException e) {
+			logger.log(Level.FINER, "Invalid input: {0}", str);
 			return null;
 		}
 
@@ -37,7 +39,7 @@ public class Parser {
 	}
 
 	private void getWhat(Task parsedTask, String taskDetails) throws InvalidInputException {
-		logger.log(Level.FINER, "Getting what details from {0}", taskDetails);
+		logger.log(Level.FINER, "Getting what details from {0}", str);
 		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
 		int index = 0; 
 
@@ -66,6 +68,7 @@ public class Parser {
 	private void getWhen(Task parsedTask, String taskDetails) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
+			logger.log(Level.FINER, "Getting when details from {0}", str);
 			final String[] keywords = {"on", "from", "at", "by"};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
@@ -146,6 +149,7 @@ public class Parser {
 
 	private void getWhere(Task parsedTask, String taskDetails) {		
 		if (taskDetails.length() >= 2) {
+			logger.log(Level.FINER, "Getting where details from {0}", str);
 			final String keyword = "at";
 
 			if (taskDetails.toLowerCase().contains(keyword)) {
