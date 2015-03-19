@@ -19,9 +19,4 @@ public class HelpCommand extends AbstractCommand {
 
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

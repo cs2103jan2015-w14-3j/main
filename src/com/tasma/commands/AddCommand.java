@@ -6,7 +6,7 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-public class AddCommand extends AbstractCommand {
+public class AddCommand extends AbstractUndoableCommand {
 	
 	protected String details;
 	protected Task resultTask;

@@ -19,9 +19,4 @@ public class ListCommand extends AbstractCommand {
 		userInterface.displayTasks(upcomingList);
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

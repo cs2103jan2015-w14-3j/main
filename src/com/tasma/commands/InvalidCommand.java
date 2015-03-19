@@ -16,9 +16,4 @@ public class InvalidCommand extends AbstractCommand {
 		userInterface.displayMessage(UIMessage.COMMAND_INVALID);
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

@@ -81,16 +81,7 @@ public class Controller {
 	public void executeInput(String input) {
 		if (input.trim().equals("undo")) {
 			if (undoStack.size() > 0) {
-				CommandInterface command = undoStack.pop();
-				try {
-					command.undo();
-				} catch (UndoNotSupportedException ex) {
-					
-				} catch (Exception e) {
-					displayException(e);
-				}
-			} else {
-				// TODO: show message that there is no more to undo
+			
 			}
 		} else {
 			CommandInterface command = commandFactory.getCommand(input);

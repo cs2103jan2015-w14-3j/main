@@ -15,9 +15,4 @@ class ExitCommand extends AbstractCommand {
 		System.exit(0);
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

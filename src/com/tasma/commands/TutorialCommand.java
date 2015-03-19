@@ -15,9 +15,4 @@ public class TutorialCommand extends AbstractCommand {
 		// TODO to implement tutorial
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

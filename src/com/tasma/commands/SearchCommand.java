@@ -28,9 +28,4 @@ public class SearchCommand extends AbstractCommand {
 		}
 	}
 
-	@Override
-	public void undo() throws Exception {
-		throw new UndoNotSupportedException();
-	}
-
 }

@@ -4,7 +4,7 @@ import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
-public abstract class TaskRestorableCommand extends AbstractCommand {
+public abstract class TaskRestorableCommand extends AbstractUndoableCommand {
 
 	protected Task task;
 	protected Task originalTask;
