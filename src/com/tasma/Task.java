@@ -80,7 +80,7 @@ public class Task implements Cloneable {
 	}
 
 	@Override
-	protected Task clone() throws CloneNotSupportedException {
+	public Task clone() throws CloneNotSupportedException {
 		return (Task) super.clone();
 	}
 	
