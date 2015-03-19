@@ -23,20 +23,27 @@ public class Parser {
 		Task parsedTask = new Task();
 
 		String taskDetails = details; 
+		try {
+			getWhat(parsedTask, taskDetails);
 
-		getWhat(parsedTask, taskDetails);
+			getWhen(parsedTask, taskDetails);
 
-		getWhen(parsedTask, taskDetails);
-
-		getWhere(parsedTask, taskDetails);
+			getWhere(parsedTask, taskDetails);
+		} catch (InvalidInputException e) {
+			return null;
+		}
 
 		return parsedTask;
 	}
 
-	private void getWhat(Task parsedTask, String taskDetails) {
+	private void getWhat(Task parsedTask, String taskDetails) throws InvalidInputException {
 		logger.log(Level.FINER, "Getting what details from {0}", taskDetails);
 		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
 		int index = 0; 
+
+		if (taskDetails.length() == 0) {
+			throw new InvalidInputException();
+		}
 
 		for (int i = 0; i < keywords.length; i++) {
 			if (taskDetails.toLowerCase().contains(keywords[i])) {
@@ -56,35 +63,40 @@ public class Parser {
 		taskDetails = taskDetails.substring(index); 
 	}
 
-	private void getWhen(Task parsedTask, String taskDetails) {
+	private void getWhen(Task parsedTask, String taskDetails) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
-			final String[] keywords = {" on ", " from ", " at ", " by "};
+			final String[] keywords = {"on", "from", "at", "by"};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				int indexOn = taskDetails.toLowerCase().indexOf(keywords[0]) + keywords[0].length();
 
-				int indexNext = indexOn, addWeek = 0;
+				int indexNext = indexOn;
 
 				LocalDate d = new LocalDate();
 
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
-					String day = taskDetails.substring(indexNext);
-					
+					String day = getWord(taskDetails, indexNext);
+				
 					d = d.plusWeeks(1);
-					d = d.withDayOfWeek(determineDay(day));
+					int date = determineDay(day);
+					
+					if (date != -1) {
+						d = d.withDayOfWeek(date);
+					} else {
+						throw new InvalidInputException();
+					}
+				} else if (determineDay(getWord(taskDetails, indexNext)) != -1) {
+					d = d.withDayOfWeek(determineDay(getWord(taskDetails, indexNext)));
 				} else if (isValidDate(getWord(taskDetails, indexNext))) {
 					String date = getWord(taskDetails, indexNext);
-					d = new LocalDate(Integer.parseInt(date.substring(6, 10)), Integer.parseInt(date.substring(3, 5)),
+	
+					d = new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
 							Integer.parseInt(date.substring(0, 2)));
-				} 
-
-				//System.out.println("next word = "+getWord(taskDetails, indexNext));
-
-
-
-
+				} else {
+					throw new InvalidInputException();
+				}
 
 				if (d.isBefore(new LocalDate())) {
 					d = d.plusWeeks(1);
@@ -93,6 +105,7 @@ public class Parser {
 				parsedTask.setEndDateTime(d);
 				taskDetails = taskDetails.substring(indexNext + 3).trim();
 			}
+
 			//}
 			/*if (taskDetails.toLowerCase().contains(keywords[1])) {
 					int indexFrom = taskDetails.toLowerCase().indexOf(keywords[1]);
@@ -133,7 +146,7 @@ public class Parser {
 
 	private void getWhere(Task parsedTask, String taskDetails) {		
 		if (taskDetails.length() >= 2) {
-			final String keyword = " at ";
+			final String keyword = "at";
 
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
@@ -149,25 +162,25 @@ public class Parser {
 			return DateTimeConstants.MONDAY;
 		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
 			return DateTimeConstants.TUESDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(daysOfWeek[2])) {
 			return DateTimeConstants.WEDNESDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(daysOfWeek[3])) {
 			return DateTimeConstants.THURSDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(daysOfWeek[4])) {
 			return DateTimeConstants.FRIDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(daysOfWeek[5])) {
 			return DateTimeConstants.SATURDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(daysOfWeek[6])) {
 			return DateTimeConstants.SUNDAY;
 		} else {
 			return -1;
 		}
 	}
 
-	private String getFirstWord(String details) {
+	/*private String getFirstWord(String details) {
 		String commandTypeString = details.trim().split("\\s+")[0];
 		return commandTypeString;
-	}
+	}*/
 
 	private String getWord(String details, int index) {
 		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
@@ -186,17 +199,16 @@ public class Parser {
 		}
 
 		final int day = Integer.parseInt(date.substring(0, 2)), month = Integer.parseInt(date.substring(3, 5)),
-				year = Integer.parseInt(date.substring(6, 10));
-
+				year = Integer.parseInt(date.substring(6, 8));
 		if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 			return false; // 31st of a month with 30 days
 		} else if (day >= 30 && month == 2) {
-		      return false; // February 30th or 31st
-	    } else if (month == 2 && day == 29 && !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
-	        return false; //February 29th outside a leap year
-	    } else {
-	        return true; //Valid date
-	    }
+			return false; // February 30th or 31st
+		} else if (month == 2 && day == 29 && !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
+			return false; //February 29th outside a leap year
+		} else {
+			return true; //Valid date
+		}
 	}
-	
+
 }
