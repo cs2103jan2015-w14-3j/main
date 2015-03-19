@@ -2,7 +2,7 @@ package com.tasma;
 
 import java.util.Collection;
 
-public class TestUserInterface implements TasmaUserInterface {
+public class MockUserInterface implements TasmaUserInterface {
 	
 	private Collection<Task> lastDisplayedTasks;
 	private String lastDisplayedMessage;
@@ -32,13 +32,12 @@ public class TestUserInterface implements TasmaUserInterface {
 
 	@Override
 	public void editCmdDisplay(String task) {
-		// TODO Auto-generated method stub
-		
+		lastDisplayedMessage = task;
 	}
 
 	@Override
 	public void helpCmdDisplay(String helpMsg) {
-		// TODO Auto-generated method stub
+		lastDisplayedMessage = helpMsg;
 		
 	}
 

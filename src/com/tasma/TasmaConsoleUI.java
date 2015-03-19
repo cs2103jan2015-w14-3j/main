@@ -28,8 +28,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

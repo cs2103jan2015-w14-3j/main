@@ -83,4 +83,17 @@ public class Task implements Cloneable {
 	protected Task clone() throws CloneNotSupportedException {
 		return (Task) super.clone();
 	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		result += details;
+		if (location != null) {
+			result += " at " + location;
+		}
+		if (endDateTime != null) {
+			result += " on " + endDateTime;
+		}
+		return result; 
+	}
 }
