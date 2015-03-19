@@ -9,16 +9,16 @@ package com.tasma;
  */
 
 import java.util.logging.Logger;
-
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
-	
+
 	private static final Logger logger = Log.getLogger(Parser.class.getName() );
-	
+
 	public Task parse(String details) {
 		Task parsedTask = new Task();
 
@@ -66,17 +66,25 @@ public class Parser {
 
 				int indexNext = indexOn, addWeek = 0;
 
+				LocalDate d = new LocalDate();
+
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
-					addWeek = 1;
-				}
+					String day = taskDetails.substring(indexNext);
+					
+					d = d.plusWeeks(1);
+					d = d.withDayOfWeek(determineDay(day));
+				} else if (isValidDate(getWord(taskDetails, indexNext))) {
+					String date = getWord(taskDetails, indexNext);
+					d = new LocalDate(Integer.parseInt(date.substring(6, 10)), Integer.parseInt(date.substring(3, 5)),
+							Integer.parseInt(date.substring(0, 2)));
+				} 
 
 				//System.out.println("next word = "+getWord(taskDetails, indexNext));
-				String day = taskDetails.substring(indexNext);
 
-				LocalDate d = new LocalDate();
-				d = d.plusWeeks(addWeek);
-				d = d.withDayOfWeek(determineDay(day));
+
+
+
 
 				if (d.isBefore(new LocalDate())) {
 					d = d.plusWeeks(1);
@@ -155,18 +163,40 @@ public class Parser {
 			return -1;
 		}
 	}
-	
+
 	private String getFirstWord(String details) {
 		String commandTypeString = details.trim().split("\\s+")[0];
 		return commandTypeString;
 	}
-	
+
 	private String getWord(String details, int index) {
 		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
 		return commandTypeString;
 	}
-	
-	private String removeFirstWord(String details) {
+
+	/*private String removeFirstWord(String details) {
 		return details.replace(getFirstWord(details), "").trim();
-	}	
+	}*/	
+
+	private boolean isValidDate(String date) {
+		final String regex = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
+		final Pattern pattern = Pattern.compile(regex);
+		if (!pattern.matcher(date).matches()) {
+			return false;
+		}
+
+		final int day = Integer.parseInt(date.substring(0, 2)), month = Integer.parseInt(date.substring(3, 5)),
+				year = Integer.parseInt(date.substring(6, 10));
+
+		if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+			return false; // 31st of a month with 30 days
+		} else if (day >= 30 && month == 2) {
+		      return false; // February 30th or 31st
+	    } else if (month == 2 && day == 29 && !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
+	        return false; //February 29th outside a leap year
+	    } else {
+	        return true; //Valid date
+	    }
+	}
+	
 }
