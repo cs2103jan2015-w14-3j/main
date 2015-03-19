@@ -71,6 +71,7 @@ public class Parser {
 					addWeek = 1;
 				}
 
+				//System.out.println("next word = "+getWord(taskDetails, indexNext));
 				String day = taskDetails.substring(indexNext);
 
 				LocalDate d = new LocalDate();
@@ -82,7 +83,7 @@ public class Parser {
 				}
 
 				parsedTask.setEndDateTime(d);
-				taskDetails = taskDetails.substring(indexNext + 4);
+				taskDetails = taskDetails.substring(indexNext + 3).trim();
 			}
 			//}
 			/*if (taskDetails.toLowerCase().contains(keywords[1])) {
@@ -153,6 +154,19 @@ public class Parser {
 		} else {
 			return -1;
 		}
-
 	}
+	
+	private String getFirstWord(String details) {
+		String commandTypeString = details.trim().split("\\s+")[0];
+		return commandTypeString;
+	}
+	
+	private String getWord(String details, int index) {
+		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
+		return commandTypeString;
+	}
+	
+	private String removeFirstWord(String details) {
+		return details.replace(getFirstWord(details), "").trim();
+	}	
 }
