@@ -29,6 +29,9 @@ public class AddCommand extends AbstractUndoableCommand {
 			userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
 			resultTask = task.clone();
 		}
+		
+		ListCommand listCommand = new ListCommand(userInterface, collection);
+		listCommand.execute();
 	}
 
 	@Override

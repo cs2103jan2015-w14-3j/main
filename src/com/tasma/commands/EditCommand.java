@@ -39,6 +39,9 @@ public class EditCommand extends TaskRestorableCommand {
 			}
 			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 		}
+		
+		ListCommand listCommand = new ListCommand(userInterface, collection);
+		listCommand.execute();
 	}
 
 }
