@@ -13,20 +13,20 @@ public class Task implements Cloneable {
 	private LocalDate endDateTime;
 	private boolean isDone;
 	private boolean isArchived;
-	
+
 	public Task() {
-		
+
 	}
-	
+
 	public Task(String taskId, String details) {
 		this.taskId = taskId;
 		this.details = details;
 	}
-	
+
 	public String getTaskId() {
 		return taskId;
 	}
-	
+
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
 	}
@@ -78,9 +78,9 @@ public class Task implements Cloneable {
 	public void setArchived(boolean isArchived) {
 		this.isArchived = isArchived;
 	}
-	
-    @Override
-    protected Task clone() throws CloneNotSupportedException {
-        return (Task) super.clone();
-    }
+
+	@Override
+	protected Task clone() throws CloneNotSupportedException {
+		return (Task) super.clone();
+	}
 }
