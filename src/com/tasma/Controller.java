@@ -19,8 +19,9 @@ import com.tasma.commands.CommandInterface;
 public class Controller {
 	private static final Logger logger = Log.getLogger( Controller.class.getName() );
 
-	private static final String UNDO_COMMAND = "undo";
-	private static final String REDO_COMMAND = "redo";
+	private static final String COMMAND_UNDO = "undo";
+	private static final String COMMAND_REDO = "redo";
+	private static final String COMMAND_LIST = "list";
 	
 	/**
 	 * The user interface to call the output methods from
@@ -82,9 +83,12 @@ public class Controller {
 	 */
 	public void executeInput(String input) {
 		try {
-			if (input.trim().equals(UNDO_COMMAND)) {
+			if (input.trim().equals(COMMAND_UNDO)) {
 				history.undo();
-			} else if (input.trim().equals(REDO_COMMAND)) {
+				
+				CommandInterface command = commandFactory.getCommand(COMMAND_LIST);
+				command.execute();
+			} else if (input.trim().equals(COMMAND_REDO)) {
 				history.redo();
 			} else {
 				CommandInterface command = commandFactory.getCommand(input);
