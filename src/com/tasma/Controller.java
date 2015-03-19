@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import com.tasma.commands.CommandFactory;
 import com.tasma.commands.CommandInterface;
-import com.tasma.commands.UndoNotSupportedException;
 
 /**
  * The main controller logic
@@ -19,6 +18,9 @@ import com.tasma.commands.UndoNotSupportedException;
  */
 public class Controller {
 	private static final Logger logger = Log.getLogger( Controller.class.getName() );
+
+	private static final String UNDO_COMMAND = "undo";
+	private static final String REDO_COMMAND = "redo";
 	
 	/**
 	 * The user interface to call the output methods from
@@ -36,9 +38,9 @@ public class Controller {
 	protected CommandFactory commandFactory;
 	
 	/**
-	 * The last action to undo
+	 * The history handling for undo/redo
 	 */
-	protected Stack<CommandInterface> undoStack = new Stack<CommandInterface>();
+	protected History history = new History();
 	
 	public Controller() {
 		this(new TaskCollection());
@@ -79,18 +81,18 @@ public class Controller {
 	 * @param input The input string of the user
 	 */
 	public void executeInput(String input) {
-		if (input.trim().equals("undo")) {
-			if (undoStack.size() > 0) {
-			
-			}
-		} else {
-			CommandInterface command = commandFactory.getCommand(input);
-			try {
+		try {
+			if (input.trim().equals(UNDO_COMMAND)) {
+				history.undo();
+			} else if (input.trim().equals(REDO_COMMAND)) {
+				history.redo();
+			} else {
+				CommandInterface command = commandFactory.getCommand(input);
 				command.execute();
-				undoStack.push(command);
-			} catch (Exception ex) {
-				displayException(ex);
+				history.offer(command);
 			}
+		} catch (Exception ex) {
+			displayException(ex);
 		}
 	}
 	
