@@ -35,7 +35,7 @@ public class Storage {
 		final String json = gson.toJson(tasks);
     
 	    try {
-	    	Path p1 = Paths.get(settings.getFilePath());	
+	    	Path p1 = Paths.get(Settings.getFilePath());	
 		    FileWriter writer = new FileWriter(p1 + "/" + FILENAME);  
 		    writer.write(json);  
 		    writer.close();
