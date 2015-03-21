@@ -48,4 +48,10 @@ public class CommandFactoryTest {
 		assertThat(command, instanceOf(SearchCommand.class));
 	}
 
+	@Test
+	public void testGetCommand4() {
+		CommandInterface command = factory.getCommand("list");
+		assertThat(command, instanceOf(ListCommand.class));
+	}
+
 }
