@@ -47,4 +47,16 @@ public class ControllerTest {
 		controller.executeInput("undo");
 		assertEquals(0, storage.getTasks().size());
 	}
+
+	@Test
+	public void testExecuteInput3() throws Exception {
+		controller.setUserInterface(ui);
+		controller.initialize();
+		controller.executeInput("add test");
+		assertEquals(1, storage.getTasks().size());
+		controller.executeInput("undo");
+		assertEquals(0, storage.getTasks().size());
+		controller.executeInput("redo");
+		assertEquals(1, storage.getTasks().size());
+	}
 }
