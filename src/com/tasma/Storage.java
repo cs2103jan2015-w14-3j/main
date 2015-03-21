@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
@@ -27,13 +29,14 @@ public class Storage {
 	 * @param tasks The hashtable of tasks to be saved
 	 * @throws IOException Thrown when there is a problem trying to save data into the file.
 	 */
-	public void save(Hashtable<String, Task> tasks) throws IOException {
+	public void save(Hashtable<String, Task> tasks, String filePath) throws IOException {
 		logger.log(Level.FINE, "Performing a save on {0} tasks to file", tasks.size());
 		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
 	    try {
-		    FileWriter writer = new FileWriter(FILENAME);  
+	    	Path p1 = Paths.get(filePath);	
+		    FileWriter writer = new FileWriter(p1 + "/" + FILENAME);  
 		    writer.write(json);  
 		    writer.close();
 	    } catch (IOException e) {  
