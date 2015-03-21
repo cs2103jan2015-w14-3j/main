@@ -1,7 +1,11 @@
 package com.tasma.commands;
 
 import com.tasma.TaskCollection;
-import com.tasma.TasmaUserInterface;
+import com.tasma.TasmaUserInterface;/**
+ * Tasma Task Manager
+ */
+//@author A0132763
+
 
 public class SetCommand extends AbstractCommand {
 
