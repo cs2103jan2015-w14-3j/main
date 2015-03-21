@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
