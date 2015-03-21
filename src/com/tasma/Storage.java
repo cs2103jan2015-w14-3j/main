@@ -24,6 +24,17 @@ public class Storage {
 	
 	protected static final String FILENAME = "tasks.json";
 	
+	private String path;
+	
+	public Storage()
+	{
+		this("");
+	}
+	
+	public Storage(String path) {
+		this.path = path;
+	}
+	
 	/**
 	 * Saves the hashtable of tasks into the default storage file.
 	 * @param tasks The hashtable of tasks to be saved
@@ -34,9 +45,8 @@ public class Storage {
 		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
-	    try {
-	    	Path p1 = Paths.get(Settings.getFilePath());	
-		    FileWriter writer = new FileWriter(p1 + "/" + FILENAME);  
+	    try {	
+		    FileWriter writer = new FileWriter(path + "/" + FILENAME);  
 		    writer.write(json);  
 		    writer.close();
 	    } catch (IOException e) {  
@@ -52,7 +62,7 @@ public class Storage {
 	public Hashtable<String, Task> load() throws IOException {
 		logger.log(Level.FINE, "Performing load from file");
 		Hashtable<String, Task> tasks = new Hashtable<String, Task>();
-		File file = new File(FILENAME);
+		File file = new File(path + "/" + FILENAME);
 		if (file.exists()) {
 			try {
 				FileReader reader = new FileReader(file);
