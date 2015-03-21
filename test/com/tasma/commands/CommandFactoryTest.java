@@ -54,4 +54,16 @@ public class CommandFactoryTest {
 		assertThat(command, instanceOf(ListCommand.class));
 	}
 
+	@Test
+	public void testGetCommand5() {
+		CommandInterface command = factory.getCommand("exit");
+		assertThat(command, instanceOf(ExitCommand.class));
+	}
+
+	@Test
+	public void testGetCommand6() {
+		CommandInterface command = factory.getCommand("edit test 123");
+		assertThat(command, instanceOf(EditCommand.class));
+	}
+
 }
