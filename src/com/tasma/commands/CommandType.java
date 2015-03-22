@@ -14,6 +14,7 @@ public enum CommandType {
 	EDIT,
 	MARK,
 	ARCHIVE,
+	SET,
 	EXIT,
 	UNDO,
 	TUTORIAL,
