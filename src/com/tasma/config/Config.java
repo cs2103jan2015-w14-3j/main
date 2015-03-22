@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.config;
 
 import java.io.File;
 import java.io.FileInputStream;

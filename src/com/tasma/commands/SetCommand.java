@@ -4,10 +4,10 @@
 //@author A0132763
 package com.tasma.commands;
 
-import com.tasma.Config;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
+import com.tasma.config.Config;
 
 public class SetCommand extends AbstractCommand implements UndoableCommandInterface {
 	
