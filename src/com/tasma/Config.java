@@ -17,12 +17,14 @@ public class Config {
 	
 	private Config() throws IOException {
 		configFile = new File("config.properties");
-	    if(!configFile.exists()) {
-	    	configFile.createNewFile();
+		properties = new Properties();
+	    if(configFile.exists()) {
+		    FileInputStream in = new FileInputStream(configFile);
+		    properties.load(in);
+		    in.close();
+	    } else {
+	    	// TODO load all default values
 	    }
-	    FileInputStream in = new FileInputStream(configFile);
-	    properties.load(in);
-	    in.close();
 	}
     
 	public static Config getInstance() throws Exception {
