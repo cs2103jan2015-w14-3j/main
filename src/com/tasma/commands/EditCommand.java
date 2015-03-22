@@ -26,22 +26,26 @@ public class EditCommand extends TaskRestorableCommand {
 		} else {
 			Parser parser = new Parser();
 			Task updatedTask = parser.parse(details);
-			if (updatedTask.getDetails() != null) {
-				task.setDetails(updatedTask.getDetails());
+			if (updatedTask == null) {
+				// TODO handle when the parser cannot parse the details
+			} else {
+				if (updatedTask.getDetails() != null) {
+					task.setDetails(updatedTask.getDetails());
+				}
+	
+				if (updatedTask.getLocation() != null) {
+					task.setLocation(updatedTask.getLocation());
+				}
+	
+				if (updatedTask.getStartDateTime() != null) {
+					task.setStartDateTime(updatedTask.getStartDateTime());
+				}
+	
+				if (updatedTask.getEndDateTime() != null) {
+					task.setEndDateTime(updatedTask.getEndDateTime());
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 			}
-
-			if (updatedTask.getLocation() != null) {
-				task.setLocation(updatedTask.getLocation());
-			}
-
-			if (updatedTask.getStartDateTime() != null) {
-				task.setStartDateTime(updatedTask.getStartDateTime());
-			}
-
-			if (updatedTask.getEndDateTime() != null) {
-				task.setEndDateTime(updatedTask.getEndDateTime());
-			}
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
 		}
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection);

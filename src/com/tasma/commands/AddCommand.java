@@ -29,9 +29,13 @@ public class AddCommand extends AbstractUndoableCommand {
 			
 			Parser parser = new Parser();
 			Task task = parser.parse(details);
-			collection.create(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
-			resultTask = task.clone();
+			if (task == null) {
+				
+			} else {
+				collection.create(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails(), task.getTaskId()));
+				resultTask = task.clone();
+			}
 		}
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection);
