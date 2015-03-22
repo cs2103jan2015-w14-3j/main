@@ -8,7 +8,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+
+import com.tasma.config.observers.StorageObserver;
 
 public class Config extends ObservableConfig {
 	
@@ -42,7 +45,13 @@ public class Config extends ObservableConfig {
 	}
 	
 	private void loadDefaultsAndObservers() {
+		StorageObserver storage = new StorageObserver();
+		for (Map.Entry<String, String> entry : storage.defaults().entrySet())
+		{
+			properties.setProperty(entry.getKey(), entry.getValue());
+		}
 		
+		this.addObserver(storage);
 	}
 	
 	/**
@@ -59,9 +68,14 @@ public class Config extends ObservableConfig {
 	 *         or null if it did not have one
 	 */
 	public String setProperty(String key, String value) throws IOException {
-		String prevValue = (String) properties.setProperty(key, value);
-		notifyObservers(key, prevValue, value);
-		saveToFile();
+		String prevValue = properties.getProperty(key);
+		if (prevValue.equals(value)) {
+			
+		} else {
+			properties.setProperty(key, value);
+			notifyObservers(key, prevValue, value);
+			saveToFile();
+		}
 		return prevValue;
 	}
 	
