@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author 
 package com.tasma.config;
 
 import java.io.File;
