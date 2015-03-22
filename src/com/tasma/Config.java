@@ -12,6 +12,7 @@ public class Config {
 	private static final String CONFIG_FILENAME = "app.config";
 	private static Config instance = null;
 	
+	private boolean isFirstRun = false;
 	private Properties properties;
 	private File configFile;
 	
@@ -23,6 +24,7 @@ public class Config {
 		    properties.load(in);
 		    in.close();
 	    } else {
+	    	isFirstRun = true;
 	    	// TODO load all default values
 	    }
 	}
@@ -51,6 +53,11 @@ public class Config {
 		String prevValue = (String) properties.setProperty(key, value);
 		saveToFile();
 		return prevValue;
+	}
+	
+	public boolean isFirstRun()
+	{
+		return isFirstRun;
 	}
 
 	private void saveToFile() throws IOException {
