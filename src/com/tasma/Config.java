@@ -9,14 +9,14 @@ import java.util.Properties;
 public class Config {
 	
 	private static final String DESCRIPTION = "";
-
+	private static final String CONFIG_FILENAME = "app.config";
 	private static Config instance = null;
 	
 	private Properties properties;
 	private File configFile;
 	
 	private Config() throws IOException {
-		configFile = new File("config.properties");
+		configFile = new File(CONFIG_FILENAME);
 		properties = new Properties();
 	    if(configFile.exists()) {
 		    FileInputStream in = new FileInputStream(configFile);
@@ -55,7 +55,7 @@ public class Config {
 
 	private void saveToFile() throws IOException {
 		// TODO Is it inefficient to use a new outputStream every time we save?
-		FileOutputStream out = new FileOutputStream("appProperties");
+		FileOutputStream out = new FileOutputStream(CONFIG_FILENAME);
 		properties.store(out, DESCRIPTION);
 		out.close();
 	}
