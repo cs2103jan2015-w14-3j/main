@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import com.tasma.commands.CommandFactory;
 import com.tasma.commands.CommandInterface;
+import com.tasma.commands.NotExecutedException;
 
 /**
  * The main controller logic
@@ -95,6 +96,8 @@ public class Controller {
 				command.execute();
 				history.offer(command);
 			}
+		} catch (NotExecutedException nee) {
+			
 		} catch (Exception ex) {
 			displayException(ex);
 		}
