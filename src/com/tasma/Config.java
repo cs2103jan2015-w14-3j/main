@@ -25,13 +25,9 @@ public class Config {
 	    in.close();
 	}
     
-	public static Config getInstance() {
+	public static Config getInstance() throws Exception {
 		if (instance == null) {
-			try {
-				instance = new Config();
-			} catch (Exception e) {
-
-			}
+			instance = new Config();
 		}
 		return instance;
 	}
