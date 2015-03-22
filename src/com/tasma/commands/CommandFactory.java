@@ -42,6 +42,9 @@ public class CommandFactory {
 			case ARCHIVE:
 				result = new ArchiveCommand(userInterface, collection, splitter.remainder());
 				break;
+			case SET:
+				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
+				break;
 			case HELP:
 				result = new SearchCommand(userInterface, collection, splitter.remainder());
 				break;
