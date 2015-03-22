@@ -25,7 +25,7 @@ public class Config {
 	    in.close();
 	}
     
-	protected static Config getInstance() {
+	public static Config getInstance() {
 		if (instance == null) {
 			try {
 				instance = new Config();
