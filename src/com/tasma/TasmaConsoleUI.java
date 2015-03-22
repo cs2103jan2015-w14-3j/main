@@ -11,9 +11,9 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 
 	private Controller controller = new Controller();
 	
-	public void initialize() throws Exception {
-		controller.setUserInterface(this);
-		controller.initialize();
+	public void initialize(Controller controller) throws Exception {
+		this.controller = controller;
+		this.controller.setUserInterface(this);
 	}
 
 	@SuppressWarnings("resource")

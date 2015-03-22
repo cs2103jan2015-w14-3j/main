@@ -20,9 +20,17 @@ public class TasmaApp implements Runnable {
 	@Override
 	public void run() {
 		try {
+			Controller controller = new Controller();
+			Config config = Config.getInstance();
+			
 			logger.log(Level.FINE, "Initializing window & application");
 			TasmaGUI frame = new TasmaGUI();
-			frame.initialize();
+			frame.initialize(controller);
+			controller.initialize();
+			controller.executeInput("list");
+			if (config.isFirstRun()) {
+				controller.executeInput("tutorial");
+			}
 			
 			logger.log(Level.FINE, "Showing window and requesting command box focus.");
 			frame.setVisible(true);

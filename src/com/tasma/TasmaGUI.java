@@ -24,7 +24,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private JTextArea textTasks = new JTextArea();
 	private JTextArea textDisplay = new JTextArea();
 	
-	private Controller controller = new Controller();
+	private Controller controller;
 
 	/**
 	 * Create the frame.
@@ -82,10 +82,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	@Override
-	public void initialize() throws Exception {
-		controller.setUserInterface(this);
-		controller.initialize();
-		controller.executeInput("list");
+	public void initialize(Controller controller) throws Exception {
+		this.controller = controller;
+		this.controller.setUserInterface(this);
 	}
 	
 	/**

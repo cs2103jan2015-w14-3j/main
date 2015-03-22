@@ -8,8 +8,9 @@ public class MockUserInterface implements TasmaUserInterface {
 	private String lastDisplayedMessage;
 
 	@Override
-	public void initialize() throws Exception {
+	public void initialize(Controller controller) throws Exception {
 		// test interface, nothing to initialize for now.
+		controller.setUserInterface(this);
 	}
 
 	@Override
