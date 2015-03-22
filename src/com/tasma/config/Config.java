@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Config {
+public class Config extends ObservableConfig {
 	
 	private static final String DESCRIPTION = "";
 	private static final String CONFIG_FILENAME = "app.config";
@@ -23,6 +23,7 @@ public class Config {
 	private Config() throws IOException {
 		configFile = new File(CONFIG_FILENAME);
 		properties = new Properties();
+		loadDefaultsAndObservers();
 	    if(configFile.exists()) {
 		    FileInputStream in = new FileInputStream(configFile);
 		    properties.load(in);
@@ -40,6 +41,10 @@ public class Config {
 		return instance;
 	}
 	
+	private void loadDefaultsAndObservers() {
+		
+	}
+	
 	/**
 	 * Searches for the property with the specified key in this property list.
 	 * Returns null if the property is not found.
@@ -55,6 +60,7 @@ public class Config {
 	 */
 	public String setProperty(String key, String value) throws IOException {
 		String prevValue = (String) properties.setProperty(key, value);
+		notifyObservers(key, prevValue, value);
 		saveToFile();
 		return prevValue;
 	}
