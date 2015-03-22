@@ -81,6 +81,7 @@ public class Controller {
 	 * @param input The input string of the user
 	 */
 	public void executeInput(String input) {
+		logger.log(Level.FINE, "Received input \"{0}\"", input);
 		try {
 			if (input.trim().equals(COMMAND_UNDO)) {
 				history.undo();
