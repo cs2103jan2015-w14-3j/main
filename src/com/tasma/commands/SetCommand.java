@@ -17,7 +17,7 @@ public class SetCommand extends AbstractCommand implements UndoableCommandInterf
 	public SetCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String key, String value) {
 		super(userInterface, collection);
-		this.key = key;
+		this.key = key.toLowerCase();
 		this.newValue = value;
 	}
 
@@ -25,7 +25,11 @@ public class SetCommand extends AbstractCommand implements UndoableCommandInterf
 	public void execute() throws Exception {
 		Config config = Config.getInstance();
 		previousValue = config.getProperty(key);
-		config.setProperty(key, newValue);
+		if (newValue.equals("")) {
+			userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
+		} else {
+			config.setProperty(key, newValue);
+		}
 	}
 
 	@Override
