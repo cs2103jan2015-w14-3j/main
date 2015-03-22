@@ -71,8 +71,9 @@ public class CommandFactory {
 			case "insert":
 			case "create":
 			case "c":
-			case "set":
 				return CommandType.ADD;
+			case "set":
+				return CommandType.SET;
 			case "s":
 			case "search":
 			case "find":
