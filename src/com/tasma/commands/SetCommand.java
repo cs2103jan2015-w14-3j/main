@@ -30,6 +30,7 @@ public class SetCommand extends AbstractCommand implements UndoableCommandInterf
 
 	@Override
 	public void undo() throws Exception {
+		Config config = Config.getInstance();
 		config.setProperty(key, previousValue);
 	}
 
