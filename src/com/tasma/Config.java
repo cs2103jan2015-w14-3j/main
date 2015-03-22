@@ -2,11 +2,14 @@ package com.tasma;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class Config {
 	
+	private static final String DESCRIPTION = "";
+
 	private static Config instance = null;
 	
 	private Properties properties;
@@ -46,7 +49,16 @@ public class Config {
 	 * @return the previous value of the specified key in this property list, 
 	 *         or null if it did not have one
 	 */
-	public String setProperty(String key, String value) {
-		return (String) properties.setProperty(key, value);
+	public String setProperty(String key, String value) throws IOException {
+		String prevValue = (String) properties.setProperty(key, value);
+		saveToFile();
+		return prevValue;
+	}
+
+	private void saveToFile() throws IOException {
+		// TODO Is it inefficient to use a new outputStream every time we save?
+		FileOutputStream out = new FileOutputStream("appProperties");
+		properties.store(out, DESCRIPTION);
+		out.close();
 	}
 }
