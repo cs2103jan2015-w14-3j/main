@@ -7,6 +7,7 @@ package com.tasma.commands;
 import com.tasma.Config;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
+import com.tasma.UIMessage;
 
 public class SetCommand extends AbstractCommand implements UndoableCommandInterface {
 	
@@ -29,6 +30,7 @@ public class SetCommand extends AbstractCommand implements UndoableCommandInterf
 			userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
 		} else {
 			config.setProperty(key, newValue);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key));
 		}
 	}
 
