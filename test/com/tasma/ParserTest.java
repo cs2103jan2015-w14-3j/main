@@ -3,7 +3,7 @@ package com.tasma;
 import static org.junit.Assert.*;
 
 import org.joda.time.DateTimeConstants;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class ParserTest {
@@ -22,7 +22,7 @@ public class ParserTest {
 		
 		temp.setDetails("do cs2105");
 		
-		LocalDate d = new LocalDate();
+		DateTime d = new DateTime();
 		d = d.plusWeeks(1);
 		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
 		temp.setEndDateTime(d);
@@ -65,7 +65,7 @@ public class ParserTest {
 		
 		temp.setDetails("do cs2105");
 
-		LocalDate d = new LocalDate();
+		DateTime d = new DateTime();
 		d = d.plusWeeks(1);
 		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
 		temp.setEndDateTime(d);

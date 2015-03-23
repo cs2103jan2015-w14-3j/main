@@ -3,14 +3,14 @@
  */
 package com.tasma;
 
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 public class Task implements Cloneable {
 	private String taskId = "";
 	private String details = "";
 	private String location = "";
-	private LocalDate startDateTime;
-	private LocalDate endDateTime;
+	private DateTime startDateTime;
+	private DateTime endDateTime;
 	private boolean isDone;
 	private boolean isArchived;
 
@@ -47,19 +47,19 @@ public class Task implements Cloneable {
 		this.location = location;
 	}
 
-	public LocalDate getStartDateTime() {
+	public DateTime getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(LocalDate startDateTime) {
+	public void setStartDateTime(DateTime startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public LocalDate getEndDateTime() {
+	public DateTime getEndDateTime() {
 		return endDateTime;
 	}
 
-	public void setEndDateTime(LocalDate endDateTime) {
+	public void setEndDateTime(DateTime endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 
