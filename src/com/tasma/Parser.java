@@ -97,9 +97,7 @@ public class Parser {
 					d = d.withDayOfWeek(determineDay(getWord(taskDetails, indexNext)));
 				} else if (isValidDate(getWord(taskDetails, indexNext))) {
 					String date = getWord(taskDetails, indexNext);
-
-					d = new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
-							Integer.parseInt(date.substring(0, 2)));
+					d = getDate(date);		
 				} else {
 					throw new InvalidInputException("Invalid date");
 				}
@@ -193,20 +191,6 @@ public class Parser {
 		}
 	}
 
-	private String getFirstWord(String details) {
-		String commandTypeString = details.trim().split("\\s+")[0];
-		return commandTypeString;
-	}
-
-	private String getWord(String details, int index) {
-		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
-		return commandTypeString;
-	}
-
-	private String removeFirstWord(String details) {
-		return details.replace(getFirstWord(details), "").trim();
-	}
-
 	private boolean isValidDate(String date) {
 		final String regexDate = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
 		final Pattern pattern = Pattern.compile(regexDate);
@@ -227,6 +211,10 @@ public class Parser {
 		}
 	}
 
+	private LocalDate getDate(String date) {
+		return new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
+				Integer.parseInt(date.substring(0, 2)));
+	}
 	private boolean isValidTime(String date) {
 		if (getFirstWord(date).compareToIgnoreCase("at") == 0) {
 			date = removeFirstWord(date);
@@ -242,5 +230,18 @@ public class Parser {
 			return false;
 		}
 	}
+	
+	private String getFirstWord(String details) {
+		String commandTypeString = details.trim().split("\\s+")[0];
+		return commandTypeString;
+	}
 
+	private String getWord(String details, int index) {
+		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
+		return commandTypeString;
+	}
+
+	private String removeFirstWord(String details) {
+		return details.replace(getFirstWord(details), "").trim();
+	}
 }
