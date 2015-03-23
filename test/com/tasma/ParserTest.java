@@ -12,7 +12,12 @@ public class ParserTest {
 	public void test1() {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
-		parsedTask = caller.parse("do cs2105 on next mon");
+		try {
+			parsedTask = caller.parse("do cs2105 on next mon");
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Task temp = new Task();
 		
 		temp.setDetails("do cs2105");
@@ -31,7 +36,12 @@ public class ParserTest {
 	public void test2() {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
-		parsedTask = caller.parse("do cs2105");
+		try {
+			parsedTask = caller.parse("do cs2105 on next mon");
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Task temp = new Task();
 		
 		temp.setDetails("do cs2105");
@@ -45,7 +55,12 @@ public class ParserTest {
 	public void test3() {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
-		parsedTask = caller.parse("do cs2105 on next monday at ALL");
+		try {
+			parsedTask = caller.parse("do cs2105 on next mon");
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Task temp = new Task();
 		
 		temp.setDetails("do cs2105");
