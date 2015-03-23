@@ -70,7 +70,6 @@ public class Parser {
 	private void getWhen(Task parsedTask) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
-			System.out.println(taskDetails);
 			logger.log(Level.FINE, "Getting when details from {0}", str);
 			final String[] keywords = {"on", "from", "at", "by"};
 
@@ -110,9 +109,10 @@ public class Parser {
 				
 				//System.out.println(d);
 				parsedTask.setEndDateTime(d);
-				//System.out.println(taskDetails);
+				//System.out.println("1. "+taskDetails);
 				
-				taskDetails = taskDetails.substring(indexNext + 3).trim();
+				taskDetails = taskDetails.substring(indexNext + 1);
+				taskDetails = removeFirstWord(taskDetails);
 				//System.out.println(taskDetails);
 			}
 
@@ -155,14 +155,13 @@ public class Parser {
 	}
 
 	private void getWhere(Task parsedTask) {		
-		if (taskDetails.length() >= 2) {
+		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting where details from {0}", str);
 			final String keyword = "at";
-
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
-				System.out.println(taskDetails.substring(indexAt + 3).trim());
+				//System.out.println(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
 	}	
@@ -189,19 +188,19 @@ public class Parser {
 		}
 	}
 
-	/*private String getFirstWord(String details) {
+	private String getFirstWord(String details) {
 		String commandTypeString = details.trim().split("\\s+")[0];
 		return commandTypeString;
-	}*/
+	}
 
 	private String getWord(String details, int index) {
 		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
 		return commandTypeString;
 	}
 
-	/*private String removeFirstWord(String details) {
+	private String removeFirstWord(String details) {
 		return details.replace(getFirstWord(details), "").trim();
-	}*/	
+	}
 
 	private boolean isValidDate(String date) {
 		final String regex = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
