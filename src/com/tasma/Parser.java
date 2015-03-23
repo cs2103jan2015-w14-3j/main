@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
@@ -70,6 +69,7 @@ public class Parser {
 
 	private void getWhen(Task parsedTask) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
+		
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting when details from {0}", str);
 			final String[] keywords = {"on", "from", "at", "by"};
@@ -79,7 +79,7 @@ public class Parser {
 
 				int indexNext = indexOn;
 
-				LocalDate d = new LocalDate();
+				DateTime d = new DateTime();
 
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
@@ -102,21 +102,21 @@ public class Parser {
 					throw new InvalidInputException("Invalid date");
 				}
 
-				if (d.isBefore(new LocalDate())) {
+				if (d.isBefore(new DateTime())) {
 					d = d.plusWeeks(1);
 				}
 
-				//System.out.println(d);
-				parsedTask.setEndDateTime(d);
+				System.out.println(d);
+				//parsedTask.setEndDateTime(d);
 				//System.out.println("1. "+taskDetails);
 
 				taskDetails = taskDetails.substring(indexNext + 1);
 				taskDetails = removeFirstWord(taskDetails);
 				System.out.println(taskDetails);
 
-				if (isValidTime("at 2pm")) {
+				/*if (isValidTime("at 2pm")) {
 					System.out.println("yes1");
-				}
+				}*/
 			}
 
 			//}
@@ -135,7 +135,7 @@ public class Parser {
 					System.out.println("when"+date);
 					for (int i = 0; i < daysOfWeek.length; i++) {
 						if (date.contains(daysOfWeek[i])) {
-							LocalDate d = new LocalDate();
+							DateTime d = new DateTime();
 							d = d.plusWeeks(addWeek);
 							d = d.withDayOfWeek(DateTimeConstants.FRIDAY);
 
@@ -211,9 +211,13 @@ public class Parser {
 		}
 	}
 
-	private LocalDate getDate(String date) {
-		return new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
-				Integer.parseInt(date.substring(0, 2)));
+	private DateTime getDate(String date) {
+		DateTime d = new DateTime();
+		d = d.withDayOfMonth(Integer.parseInt(date.substring(0, 2)));
+		d = d.withMonthOfYear(Integer.parseInt(date.substring(3, 5)));
+		d = d.withYear(2000 + Integer.parseInt(date.substring(6, 8)));
+		
+		return d;
 	}
 	private boolean isValidTime(String date) {
 		if (getFirstWord(date).compareToIgnoreCase("at") == 0) {

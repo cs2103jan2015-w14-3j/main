@@ -15,7 +15,7 @@ public class ParserMain {
 		Parser parser = new Parser();
 		
 		try {
-			/*System.out.println("do cs2105 on next mon");
+			System.out.println("do cs2105 on next mon");
 			parser.parse("do cs2105 on next mon");
 
 			System.out.println("do CS2105");
@@ -45,11 +45,11 @@ public class ParserMain {
 			System.out.println("do cs2105 on 24/05/15 at ALL");
 			parser.parse("do cs2105 on 24/05/15 at ALL");
 
-			System.out.println("do cs2105 on 24.05.15 at ALL");
-			parser.parse("do cs2105 on 24.05.15 at ALL");*/
+			System.out.println("do cs2105 on 22.05.15 at ALL");
+			parser.parse("do cs2105 on 22.05.15 at ALL");
 
-			System.out.println("do cs2105 on 24-05-15 at 2pm at ALL");
-			parser.parse("do cs2105 on 24-05-15 at 2pm at ALL");
+			System.out.println("do cs2105 on 22-05-15 at 2pm at ALL");
+			parser.parse("do cs2105 on 22-05-15 at 2pm at ALL");
 		} catch (InvalidInputException e) {
 			System.out.println(e.getMessage());
 		}
