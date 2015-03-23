@@ -5,7 +5,7 @@ package com.tasma;
 
 /**
  * Dummy class for testing parser 
- * @author Manika
+ * @author Manika Agarwal
  *
  */
 
@@ -13,6 +13,7 @@ package com.tasma;
 public class ParserMain {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
+		
 		try {
 			System.out.println("do cs2105 on next mon");
 			parser.parse("do cs2105 on next mon");
@@ -47,8 +48,8 @@ public class ParserMain {
 			System.out.println("do cs2105 on 24.05.15 at ALL");
 			parser.parse("do cs2105 on 24.05.15 at ALL");
 
-			System.out.println("do cs2105 on 24-05-15 at ALL");
-			parser.parse("do cs2105 on 24-05-15 at ALL");
+			System.out.println("do cs2105 on 24-05-15 at 2pm at ALL");
+			parser.parse("do cs2105 on 24-05-15 at 2pm at ALL");
 		} catch (InvalidInputException e) {
 			System.out.println(e.getMessage());
 		}

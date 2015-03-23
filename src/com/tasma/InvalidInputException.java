@@ -10,8 +10,7 @@ public class InvalidInputException extends Exception{
 	public InvalidInputException() {}
 
     //Constructor that accepts a message
-    public InvalidInputException(String message)
-    {
+    public InvalidInputException(String message) {
        super(message);
     }
 

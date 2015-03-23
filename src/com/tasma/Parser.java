@@ -19,18 +19,19 @@ public class Parser {
 
 	private static final Logger logger = Log.getLogger(Parser.class.getName() );
 	private String str = null;
+	private String taskDetails;
 	
 	public Task parse(String details) throws InvalidInputException{
 		Task parsedTask = new Task();
 		
-		String taskDetails = details; 
+		taskDetails = details; 
 		str = details;
 		try {
-			getWhat(parsedTask, taskDetails);
+			getWhat(parsedTask);
 
-			getWhen(parsedTask, taskDetails);
+			getWhen(parsedTask);
 
-			getWhere(parsedTask, taskDetails);
+			getWhere(parsedTask);
 		} catch (InvalidInputException e) {
 			logger.log(Level.FINER, "InvalidInputException thrown: {0}", e.getMessage());
 			throw e;
@@ -39,8 +40,8 @@ public class Parser {
 		return parsedTask;
 	}
 
-	private void getWhat(Task parsedTask, String taskDetails) throws InvalidInputException {
-		logger.log(Level.FINER, "Getting what details from {0}", str);
+	private void getWhat(Task parsedTask) throws InvalidInputException {
+		logger.log(Level.FINE, "Getting what details from {0}", str);
 		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
 		int index = 0; 
 
@@ -63,13 +64,14 @@ public class Parser {
 			index = taskDetails.length();
 		}
 
-		taskDetails = taskDetails.substring(index); 
+		taskDetails = taskDetails.substring(index).trim(); 
 	}
 
-	private void getWhen(Task parsedTask, String taskDetails) throws InvalidInputException {
+	private void getWhen(Task parsedTask) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 		if (taskDetails.length() != 0) {
-			logger.log(Level.FINER, "Getting when details from {0}", str);
+			System.out.println(taskDetails);
+			logger.log(Level.FINE, "Getting when details from {0}", str);
 			final String[] keywords = {"on", "from", "at", "by"};
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
@@ -105,9 +107,13 @@ public class Parser {
 				if (d.isBefore(new LocalDate())) {
 					d = d.plusWeeks(1);
 				}
-
+				
+				//System.out.println(d);
 				parsedTask.setEndDateTime(d);
+				//System.out.println(taskDetails);
+				
 				taskDetails = taskDetails.substring(indexNext + 3).trim();
+				//System.out.println(taskDetails);
 			}
 
 			//}
@@ -148,14 +154,15 @@ public class Parser {
 		}
 	}
 
-	private void getWhere(Task parsedTask, String taskDetails) {		
+	private void getWhere(Task parsedTask) {		
 		if (taskDetails.length() >= 2) {
-			logger.log(Level.FINER, "Getting where details from {0}", str);
+			logger.log(Level.FINE, "Getting where details from {0}", str);
 			final String keyword = "at";
 
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
+				System.out.println(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
 	}	
