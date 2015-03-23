@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.DateTimeConstants;
 
@@ -20,10 +21,10 @@ public class Parser {
 	private static final Logger logger = Log.getLogger(Parser.class.getName() );
 	private String str = null;
 	private String taskDetails;
-	
+
 	public Task parse(String details) throws InvalidInputException{
 		Task parsedTask = new Task();
-		
+
 		taskDetails = details; 
 		str = details;
 		try {
@@ -83,10 +84,10 @@ public class Parser {
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
 					String day = getWord(taskDetails, indexNext);
-				
+
 					d = d.plusWeeks(1);
 					int date = determineDay(day);
-					
+
 					if (date != -1) {
 						d = d.withDayOfWeek(date);
 					} else {
@@ -96,7 +97,7 @@ public class Parser {
 					d = d.withDayOfWeek(determineDay(getWord(taskDetails, indexNext)));
 				} else if (isValidDate(getWord(taskDetails, indexNext))) {
 					String date = getWord(taskDetails, indexNext);
-	
+
 					d = new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
 							Integer.parseInt(date.substring(0, 2)));
 				} else {
@@ -106,14 +107,18 @@ public class Parser {
 				if (d.isBefore(new LocalDate())) {
 					d = d.plusWeeks(1);
 				}
-				
+
 				//System.out.println(d);
 				parsedTask.setEndDateTime(d);
 				//System.out.println("1. "+taskDetails);
-				
+
 				taskDetails = taskDetails.substring(indexNext + 1);
 				taskDetails = removeFirstWord(taskDetails);
-				//System.out.println(taskDetails);
+				System.out.println(taskDetails);
+
+				if (isValidTime("at 2pm")) {
+					System.out.println("yes1");
+				}
 			}
 
 			//}
@@ -203,8 +208,8 @@ public class Parser {
 	}
 
 	private boolean isValidDate(String date) {
-		final String regex = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
-		final Pattern pattern = Pattern.compile(regex);
+		final String regexDate = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
+		final Pattern pattern = Pattern.compile(regexDate);
 		if (!pattern.matcher(date).matches()) {
 			return false;
 		}
@@ -219,6 +224,22 @@ public class Parser {
 			return false; //February 29th outside a leap year
 		} else {
 			return true; //Valid date
+		}
+	}
+
+	private boolean isValidTime(String date) {
+		if (getFirstWord(date).compareToIgnoreCase("at") == 0) {
+			date = removeFirstWord(date);
+			System.out.println("yes");
+			final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
+			final Pattern pattern = Pattern.compile(regexTime);
+			if (!pattern.matcher(date).matches()) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
 		}
 	}
 
