@@ -11,6 +11,9 @@ public class StorageObserver implements ChangeObserverInterface, DefaultProvider
 	@Override
 	public void notify(String key, String oldValue, String newValue) {
 		// TODO to move the tasks.json file and update the storage path
+		if (key.equals("storage")) {
+			
+		}
 	}
 	
 	public Map<String, String> defaults() {
