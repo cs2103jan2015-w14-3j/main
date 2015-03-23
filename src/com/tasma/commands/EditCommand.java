@@ -17,6 +17,7 @@ public class EditCommand extends TaskRestorableCommand {
 	public EditCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String taskId, String details) {
 		super(userInterface, collection, taskId);
+		this.details = details;
 	}
 
 	@Override
