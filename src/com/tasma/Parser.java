@@ -19,7 +19,8 @@ public class Parser {
 
 	private static final Logger logger = Log.getLogger(Parser.class.getName() );
 	private String str = null;
-	public Task parse(String details) {
+	
+	public Task parse(String details) throws InvalidInputException{
 		Task parsedTask = new Task();
 		
 		String taskDetails = details; 
@@ -31,8 +32,8 @@ public class Parser {
 
 			getWhere(parsedTask, taskDetails);
 		} catch (InvalidInputException e) {
-			logger.log(Level.FINER, "Invalid input: {0}", str);
-			return null;
+			logger.log(Level.FINER, "InvalidInputException thrown: {0}", e.getMessage());
+			throw e;
 		}
 
 		return parsedTask;
@@ -88,7 +89,7 @@ public class Parser {
 					if (date != -1) {
 						d = d.withDayOfWeek(date);
 					} else {
-						throw new InvalidInputException();
+						throw new InvalidInputException("Invalid day");
 					}
 				} else if (determineDay(getWord(taskDetails, indexNext)) != -1) {
 					d = d.withDayOfWeek(determineDay(getWord(taskDetails, indexNext)));
@@ -98,7 +99,7 @@ public class Parser {
 					d = new LocalDate(2000 + Integer.parseInt(date.substring(6, 8)), Integer.parseInt(date.substring(3, 5)),
 							Integer.parseInt(date.substring(0, 2)));
 				} else {
-					throw new InvalidInputException();
+					throw new InvalidInputException("Invalid date");
 				}
 
 				if (d.isBefore(new LocalDate())) {
