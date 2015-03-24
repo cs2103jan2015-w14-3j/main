@@ -31,7 +31,7 @@ public class CommandFactory {
 				result = new SearchCommand(userInterface, collection, splitter.remainder());
 				break;
 			case LIST:
-				result = new ListCommand(userInterface, collection);
+				result = new ListCommand(userInterface, collection, splitter.remainder());
 				break;
 			case MARK:
 				result = new MarkCommand(userInterface, collection, splitter.remainder());
