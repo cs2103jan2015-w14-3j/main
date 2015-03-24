@@ -102,6 +102,35 @@ public class ParserTest {
 			assertEquals("Invalid date", e.getMessage()); 
 		}
 	}
+	
+	//Negative time - currently cannot detect, stores as place
+	@Test
+	public void test5() {
+		Parser caller = new Parser();
+		Task parsedTask = new Task();
+
+		try {
+			parsedTask = caller.parse("do cs2105 on 22-05-15 at -2pm at ALL");
+		} catch (InvalidInputException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Task temp = new Task();
+
+		temp.setDetails("do cs2105");
+
+		DateTime d = initializeDateTime();
+		d = d.withDayOfMonth(22);
+		d = d.withMonthOfYear(5);
+		d = d.withYear(2015);
+		temp.setEndDateTime(d);
+
+		temp.setLocation("-2pm at ALL");
+
+		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals(temp.getLocation(), parsedTask.getLocation());
+	}
 
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
