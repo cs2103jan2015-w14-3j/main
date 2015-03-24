@@ -69,7 +69,7 @@ public class Parser {
 
 	private void getWhen(Task parsedTask) throws InvalidInputException {
 		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
-		
+
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting when details from {0}", str);
 			final String[] keywords = {"on", "from", "at", "by"};
@@ -79,8 +79,8 @@ public class Parser {
 
 				int indexNext = indexOn;
 
-				DateTime d = new DateTime();
-
+				DateTime d = initializeDateTime();
+				
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
 					String day = getWord(taskDetails, indexNext);
@@ -107,16 +107,21 @@ public class Parser {
 				}
 
 				System.out.println(d);
-				//parsedTask.setEndDateTime(d);
 				//System.out.println("1. "+taskDetails);
 
 				taskDetails = taskDetails.substring(indexNext + 1);
 				taskDetails = removeFirstWord(taskDetails);
 				System.out.println(taskDetails);
 
-				/*if (isValidTime("at 2pm")) {
+				if (isValidTime(taskDetails)) {
 					System.out.println("yes1");
-				}*/
+					d = getTime(taskDetails, d);
+					System.out.println(d);
+					taskDetails = removeFirstWord(taskDetails);
+					taskDetails = removeFirstWord(taskDetails);
+					System.out.println(taskDetails);
+				}
+				//parsedTask.setEndDateTime(d);
 			}
 
 			//}
@@ -159,15 +164,20 @@ public class Parser {
 
 	private void getWhere(Task parsedTask) {		
 		if (taskDetails.length() != 0) {
+			System.out.println("yes");
 			logger.log(Level.FINE, "Getting where details from {0}", str);
 			final String keyword = "at";
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
-				//System.out.println(taskDetails.substring(indexAt + 3).trim());
+				System.out.println(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
 	}	
+	
+	private DateTime initializeDateTime() {
+		return new DateTime(0, 1, 1, 0, 0, 0, 0);
+	}
 
 	private int determineDay(String day) {
 		final String[] daysOfWeek = {"mon", "tues", "wed", "thur", "fri", "sat", "sun"};
@@ -212,20 +222,21 @@ public class Parser {
 	}
 
 	private DateTime getDate(String date) {
-		DateTime d = new DateTime();
+		DateTime d = initializeDateTime();
 		d = d.withDayOfMonth(Integer.parseInt(date.substring(0, 2)));
 		d = d.withMonthOfYear(Integer.parseInt(date.substring(3, 5)));
 		d = d.withYear(2000 + Integer.parseInt(date.substring(6, 8)));
-		
 		return d;
 	}
-	private boolean isValidTime(String date) {
-		if (getFirstWord(date).compareToIgnoreCase("at") == 0) {
-			date = removeFirstWord(date);
-			System.out.println("yes");
+
+	private boolean isValidTime(String time) {
+		if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
+			time = getWord(time, "at".length() + 1);
+			System.out.println(time);
 			final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 			final Pattern pattern = Pattern.compile(regexTime);
-			if (!pattern.matcher(date).matches()) {
+
+			if (!pattern.matcher(time).matches()) {
 				return false;
 			} else {
 				return true;
@@ -234,7 +245,37 @@ public class Parser {
 			return false;
 		}
 	}
-	
+
+	private DateTime getTime(String taskDetails, DateTime d) {
+		String date = getWord(taskDetails, "at".length() + 1);
+		int addHours = 0;
+
+		if (date.substring(date.length()-2).compareToIgnoreCase("pm") == 0) {
+			addHours = 12;
+		}
+
+		int indexColon = date.indexOf(":"), hours, minutes = 0;
+
+		if (indexColon == -1 ) {
+			hours = Integer.parseInt(date.substring(0, date.length() - 2));
+		} else {
+			hours = Integer.parseInt(date.substring(0, indexColon));
+			minutes = Integer.parseInt(date.substring(indexColon+1, date.length() - 2));
+		}
+
+		if (hours == 12 && addHours == 0) {
+			hours = 0;  //12am
+		} else if (hours == 12 & addHours == 12) {
+			addHours = 0;  //12pm
+		}
+
+		d = d.withHourOfDay(hours + addHours);
+		//System.out.println("hour = "+hours+"addHours = "+addHours);
+		d = d.withMinuteOfHour(minutes);
+
+		return d;
+	}
+
 	private String getFirstWord(String details) {
 		String commandTypeString = details.trim().split("\\s+")[0];
 		return commandTypeString;
