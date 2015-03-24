@@ -11,10 +11,16 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
+	
+	private static final String FILTER_NONE = "";
+	private static final String FILTER_PAST = "past";
+	
+	private String filter;
 
 	public ListCommand(TasmaUserInterface userInterface,
-			TaskCollection collection) {
+			TaskCollection collection, String filter) {
 		super(userInterface, collection);
+		this.filter = filter;
 	}
 
 	@Override
