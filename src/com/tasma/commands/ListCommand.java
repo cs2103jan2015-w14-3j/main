@@ -30,8 +30,20 @@ public class ListCommand extends AbstractCommand {
 
 	@Override
 	public void execute() throws Exception {
-		Collection<Task> upcomingList = collection.upcoming();
-		userInterface.displayTasks(upcomingList);
+		Collection<Task> list = null;
+		switch (filter.toLowerCase()) {
+			case FILTER_PAST:
+				list = collection.past();
+				break;
+			default:
+				list = collection.upcoming();
+				break;
+		}
+		if (list == null) {
+			// TODO handle list null
+		} else {
+			userInterface.displayTasks(list);
+		}
 	}
 
 }
