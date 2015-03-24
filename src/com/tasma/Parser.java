@@ -114,6 +114,7 @@ public class Parser {
 					taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
+				
 				parsedTask.setEndDateTime(d);
 			}
 
@@ -167,7 +168,11 @@ public class Parser {
 	}	
 	
 	private DateTime initializeDateTime() {
-		return new DateTime(2000, 1, 1, 0, 0, 0, 0);
+		DateTime d = new DateTime();
+		d = d.withHourOfDay(0);
+		d = d.withMinuteOfHour(0);
+		d = d.withMillisOfDay(0);
+		return d;
 	}
 
 	private int determineDay(String day) {
@@ -260,7 +265,6 @@ public class Parser {
 		}
 
 		d = d.withHourOfDay(hours + addHours);
-		//System.out.println("hour = "+hours+"addHours = "+addHours);
 		d = d.withMinuteOfHour(minutes);
 
 		return d;
