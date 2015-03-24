@@ -68,7 +68,7 @@ public class ParserTest {
 		Task parsedTask = new Task();
 		
 		try {
-			parsedTask = caller.parse("do cs2105 on next mon");
+			parsedTask = caller.parse("do cs2105 on next mon at ALL");
 		} catch (InvalidInputException e) {
 			System.out.println(e.getMessage());
 		}
@@ -77,7 +77,7 @@ public class ParserTest {
 		
 		temp.setDetails("do cs2105");
 
-		DateTime d = new DateTime();
+		DateTime d = initializeDateTime();
 		d = d.plusWeeks(1);
 		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
 		temp.setEndDateTime(d);
