@@ -18,6 +18,11 @@ public class ListCommand extends AbstractCommand {
 	private String filter;
 
 	public ListCommand(TasmaUserInterface userInterface,
+			TaskCollection collection) {
+		this(userInterface, collection, "");
+	}
+
+	public ListCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String filter) {
 		super(userInterface, collection);
 		this.filter = filter;
