@@ -15,20 +15,19 @@ public class ParserTest {
 		try {
 			parsedTask = caller.parse("do cs2105 on next mon");
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		Task temp = new Task();
 		
 		temp.setDetails("do cs2105");
 		
-		DateTime d = new DateTime();
+		DateTime d = initializeDateTime();
 		d = d.plusWeeks(1);
 		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
 		temp.setEndDateTime(d);
 		
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
 		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 	
@@ -39,15 +38,14 @@ public class ParserTest {
 		try {
 			parsedTask = caller.parse("do cs2105 on next mon");
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		Task temp = new Task();
 		
 		temp.setDetails("do cs2105");
 
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
 		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 	
@@ -58,8 +56,7 @@ public class ParserTest {
 		try {
 			parsedTask = caller.parse("do cs2105 on next mon");
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		Task temp = new Task();
 		
@@ -71,8 +68,17 @@ public class ParserTest {
 		temp.setEndDateTime(d);
 		
 		temp.setLocation("ALL");
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
+		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
 		assertEquals(temp.getLocation(), parsedTask.getLocation());
+	}
+	
+	private DateTime initializeDateTime() {
+		DateTime d = new DateTime();
+		d = d.withHourOfDay(0);
+		d = d.withMinuteOfHour(0);
+		d = d.withMillisOfDay(0);
+		return d;
 	}
 }
