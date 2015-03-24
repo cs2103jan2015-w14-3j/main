@@ -61,6 +61,13 @@ public class TaskCollection {
 		return tasks.get(taskId);
 	}
 	
+	public Collection<Task> past() {
+		List<Task> pastList = tasks.values().stream()
+		    .filter(task -> !task.isDone() && !task.isArchived() && task.getEndDateTime() != null && task.getEndDateTime().isBeforeNow()).collect(Collectors.toList());
+
+		return pastList;
+	}
+	
 	public Collection<Task> upcoming() {
 		List<Task> upcomingList = tasks.values().stream()
 		    .filter(task -> !task.isDone() && !task.isArchived()).collect(Collectors.toList());
