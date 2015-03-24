@@ -100,6 +100,7 @@ public class Controller {
 			
 		} catch (Exception ex) {
 			displayException(ex);
+			userInterface.editCmdDisplay(input);
 		}
 	}
 	
