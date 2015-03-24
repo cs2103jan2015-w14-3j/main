@@ -106,22 +106,15 @@ public class Parser {
 					d = d.plusWeeks(1);
 				}
 
-				System.out.println(d);
-				//System.out.println("1. "+taskDetails);
-
 				taskDetails = taskDetails.substring(indexNext + 1);
 				taskDetails = removeFirstWord(taskDetails);
-				System.out.println(taskDetails);
 
 				if (isValidTime(taskDetails)) {
-					System.out.println("yes1");
 					d = getTime(taskDetails, d);
-					System.out.println(d);
+					taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
-					taskDetails = removeFirstWord(taskDetails);
-					System.out.println(taskDetails);
 				}
-				//parsedTask.setEndDateTime(d);
+				parsedTask.setEndDateTime(d);
 			}
 
 			//}
@@ -164,19 +157,17 @@ public class Parser {
 
 	private void getWhere(Task parsedTask) {		
 		if (taskDetails.length() != 0) {
-			System.out.println("yes");
 			logger.log(Level.FINE, "Getting where details from {0}", str);
 			final String keyword = "at";
 			if (taskDetails.toLowerCase().contains(keyword)) {
 				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
-				System.out.println(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
 	}	
 	
 	private DateTime initializeDateTime() {
-		return new DateTime(0, 1, 1, 0, 0, 0, 0);
+		return new DateTime(2000, 1, 1, 0, 0, 0, 0);
 	}
 
 	private int determineDay(String day) {
@@ -232,7 +223,6 @@ public class Parser {
 	private boolean isValidTime(String time) {
 		if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
 			time = getWord(time, "at".length() + 1);
-			System.out.println(time);
 			final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 			final Pattern pattern = Pattern.compile(regexTime);
 
