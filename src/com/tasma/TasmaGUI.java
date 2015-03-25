@@ -97,13 +97,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
 		String text = "";
+		String archiveWord = "";
 		
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			text = String.format("%d. %s %-10s", i+1, task.getTaskId(), task.getDetails());
+			text = String.format("%d. %-5s %s", i+1, task.getTaskId(), task.getDetails());
 			
 			if (task.getEndDateTime() != null) {
 				text = text.concat(" on " + task.getEndDateTime());
@@ -112,6 +113,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			if (task.getLocation().length() != 0) {
 				text = text.concat(" at " + task.getLocation());
 			}
+			
+			if (task.isArchived()) {
+				archiveWord = "Archived";
+			}
+			else {
+				archiveWord = "Not Archived";			
+			}
+			
+			text = text.concat(archiveWord);
 			
 			text = text.concat("\n");
 		}
