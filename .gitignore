@@ -100,3 +100,5 @@ tasks.json
 
 tasma.log
 tasma.log.lck
+
+app.config
