@@ -12,19 +12,6 @@ public class TasmaGUITest extends TestCase {
 	
 	TasmaGUI window;
 	
-	public TasmaGUITest( String testName ) {
-		super(testName);
-	}
-	//return the suite of tests being tested
-	public static Test suite() {
-		return (Test) new TestSuite(TasmaGUITest.class);
-	}
-	
-	//Rigorous Test
-	public void testTasmaGUI() {
-		assertTrue(true);
-	}
-	
 	@Before
 	public void setUp() throws Exception{
 		window = new TasmaGUI();
