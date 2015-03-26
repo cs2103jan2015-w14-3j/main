@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -69,10 +70,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 		});
 		textDisplay.setEditable(false);
-		
 		textDisplay.setBackground(UIManager.getColor("Button.background"));
 		textDisplay.setBounds(10, 204, 414, 22);
 		contentPane.add(textDisplay);
+		list.setSelectionModel(new DisabledItemSelectionModel());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 10, 424, 186);
 		
@@ -84,6 +85,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void initialize(Controller controller) throws Exception {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
+	}
+	//For disabling the selection capability of the list
+	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
+		
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void setSelectionInterval(int index0, int index1) {
+			super.setSelectionInterval(-1, -1);
+		}
 	}
 	
 	/**
