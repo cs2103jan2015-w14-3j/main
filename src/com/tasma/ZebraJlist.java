@@ -1,5 +1,6 @@
 package com.tasma;
 
+@SuppressWarnings("rawtypes")
 public class ZebraJList extends javax.swing.JList{
 	
 	private java.awt.Color rowColors[] = new java.awt.Color[2];
