@@ -7,17 +7,26 @@ public class ZebraJList extends javax.swing.JList{
     
     public ZebraJList() {};
     
-    public ZebraJList( javax.swing.ListModel dataModel ) {
-        super( dataModel );
+    public ZebraJList(javax.swing.ListModel dataModel) {
+        super(dataModel);
     }
-    public ZebraJList( Object[] listData )
-    {
-        super( listData );
+    public ZebraJList(Object[] listData) {
+        super(listData);
     }
-    public ZebraJList( java.util.Vector<?> listData )
-    {
-        super( listData );
+    public ZebraJList(java.util.Vector<?> listData) {
+        super(listData);
     }
     
-    
+    /** Add zebra stripes to the background. */
+    public void paintComponent(java.awt.Graphics g)
+    {
+        drawStripes = (getLayoutOrientation()==VERTICAL) && isOpaque();
+        if (!drawStripes) {
+            super.paintComponent(g);
+            return;
+        }
+        
+        
+        
+    }
 }
