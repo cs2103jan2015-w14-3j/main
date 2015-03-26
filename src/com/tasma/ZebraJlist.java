@@ -3,18 +3,22 @@ package com.tasma;
 @SuppressWarnings("rawtypes")
 public class ZebraJList extends javax.swing.JList{
 	
+	private static final long serialVersionUID = 1L;
 	private java.awt.Color rowColors[] = new java.awt.Color[2];
     private boolean drawStripes = false;
     
     public ZebraJList() {};
     
-    public ZebraJList(javax.swing.ListModel dataModel) {
+    @SuppressWarnings("unchecked")
+	public ZebraJList(javax.swing.ListModel dataModel) {
         super(dataModel);
     }
-    public ZebraJList(Object[] listData) {
+    @SuppressWarnings("unchecked")
+	public ZebraJList(Object[] listData) {
         super(listData);
     }
-    public ZebraJList(java.util.Vector<?> listData) {
+    @SuppressWarnings("unchecked")
+	public ZebraJList(java.util.Vector<?> listData) {
         super(listData);
     }
     
