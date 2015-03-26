@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+import javax.swing.JList;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -21,10 +22,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	private JPanel contentPane;
 	private JTextField textCommand;
-	private JTextArea textTasks = new JTextArea();
 	private JTextArea textDisplay = new JTextArea();
 	
 	private Controller controller;
+	private JList<String> list = new JList<String>();
+	private JScrollPane scrollPane = new JScrollPane();
 
 	/**
 	 * Create the frame.
@@ -40,7 +42,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.setLayout(null);
 		
 		textCommand = new JTextField("");
-		textCommand.setBounds(10, 237, 414, 23);
+		textCommand.setBounds(10, 237, 424, 23);
 		contentPane.add(textCommand);
 		textCommand.setColumns(10);
 		textCommand.addKeyListener(new KeyListener() {
@@ -66,20 +68,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				
 			}
 		});
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 11, 414, 189);
-		contentPane.add(scrollPane);
-		
-		textTasks.setLineWrap(true);
-		textTasks.setEditable(false);
-		scrollPane.setViewportView(textTasks);
 		textDisplay.setEditable(false);
 		
 		textDisplay.setBackground(UIManager.getColor("Button.background"));
 		textDisplay.setBounds(10, 204, 414, 22);
 		contentPane.add(textDisplay);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(10, 10, 424, 186);
+		
+		contentPane.add(scrollPane);
+		scrollPane.setViewportView(list);
 	}
 
 	@Override
@@ -99,6 +97,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void displayTasks(Collection<Task> tasks) {
 		String text = "";
 		String archiveWord = "";
+		String[] listTasks = new String[tasks.size()];
 		
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
@@ -121,10 +120,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			
 			text += archiveWord;
 			
-			text += "\n";
+			listTasks[i++] = text;
 		}
 		
-		textTasks.setText(text);
+		list.setListData(listTasks);
 		
 	}
 
@@ -138,6 +137,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 	
 	public void helpCmdDisplay (String helpMsg) {
-		textTasks.setText(helpMsg);
+		String[] helpMsgs = new String[1];
+		helpMsgs[0] = helpMsg;
+		list.setListData(helpMsgs);
 	}
 }
