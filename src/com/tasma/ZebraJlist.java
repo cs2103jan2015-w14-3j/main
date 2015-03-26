@@ -27,6 +27,7 @@ public class ZebraJList extends javax.swing.JList{
         }
         
         // Paint zebra background stripes
+        updateZebraColors();
         final java.awt.Insets insets = getInsets();
         final int w   = getWidth()  - insets.left - insets.right;
         final int h   = getHeight() - insets.top  - insets.bottom;
@@ -93,11 +94,31 @@ public class ZebraJList extends javax.swing.JList{
         final javax.swing.ListCellRenderer ren = super.getCellRenderer();
         if (ren == null)
             return null;
-        if ( wrapper == null )
+        if (wrapper == null)
             wrapper = new RendererWrapper();
         wrapper.ren = ren;
         return wrapper;
     }
     
-    
+    /** Compute zebra background stripe colors. */
+    private void updateZebraColors( ) {
+        if ( (rowColors[0] = getBackground( )) == null ) {
+            rowColors[0] = rowColors[1] = java.awt.Color.white;
+            return;
+        }
+        final java.awt.Color sel = getSelectionBackground( );
+        if ( sel == null ) {
+            rowColors[1] = rowColors[0];
+            return;
+        }
+        final float[] bgHSB = java.awt.Color.RGBtoHSB(
+            rowColors[0].getRed( ), rowColors[0].getGreen( ),
+            rowColors[0].getBlue( ), null );
+        final float[] selHSB  = java.awt.Color.RGBtoHSB(
+            sel.getRed( ), sel.getGreen( ), sel.getBlue( ), null );
+        rowColors[1] = java.awt.Color.getHSBColor(
+            (selHSB[1]==0.0||selHSB[2]==0.0) ? bgHSB[0] : selHSB[0],
+            0.1f * selHSB[1] + 0.9f * bgHSB[1],
+            bgHSB[2] + ((bgHSB[2]<0.5f) ? 0.05f : -0.05f) );
+    }
 }
