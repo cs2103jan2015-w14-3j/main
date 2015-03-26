@@ -66,4 +66,21 @@ public class ZebraJList extends javax.swing.JList{
         super.paintComponent(g);
         setOpaque(true);
     }
+    
+    /** Wrap a cell renderer to add zebra stripes behind list cells. */
+    private class RendererWrapper implements javax.swing.ListCellRenderer
+    {
+        public javax.swing.ListCellRenderer ren = null;
+ 
+        public java.awt.Component getListCellRendererComponent(
+            javax.swing.JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus )
+        {
+            final java.awt.Component c = ren.getListCellRendererComponent(
+                list, value, index, isSelected, cellHasFocus );
+            if ( !isSelected && drawStripes )
+                c.setBackground( rowColors[index&1] );
+            return c;
+        }
+    }
 }
