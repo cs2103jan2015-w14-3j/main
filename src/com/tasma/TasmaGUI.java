@@ -15,7 +15,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
-import javax.swing.JList;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -26,7 +25,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private JTextArea textDisplay = new JTextArea();
 	
 	private Controller controller;
-	private JList<String> list = new JList<String>();
+	private ZebraJList list = new ZebraJList();
 	private JScrollPane scrollPane = new JScrollPane();
 
 	/**
@@ -104,6 +103,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.requestFocus();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
 		String text = "";
@@ -147,6 +147,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setText(task);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void helpCmdDisplay (String helpMsg) {
 		String[] helpMsgs = new String[1];
 		helpMsgs[0] = helpMsg;
