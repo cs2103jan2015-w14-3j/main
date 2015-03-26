@@ -35,14 +35,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setTitle("TASMA");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 563, 377);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textCommand = new JTextField("");
-		textCommand.setBounds(10, 237, 424, 23);
+		textCommand.setBounds(61, 302, 428, 23);
 		contentPane.add(textCommand);
 		textCommand.setColumns(10);
 		textCommand.addKeyListener(new KeyListener() {
@@ -70,11 +70,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		});
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(UIManager.getColor("Button.background"));
-		textDisplay.setBounds(10, 204, 414, 22);
+		textDisplay.setBounds(61, 261, 428, 22);
 		contentPane.add(textDisplay);
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 10, 424, 186);
+		scrollPane.setBounds(61, 32, 428, 206);
 		
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(list);
