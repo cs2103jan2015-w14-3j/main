@@ -30,6 +30,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	 * Create the frame.
 	 */
 	public TasmaGUI() {
+		setTitle("TASMA");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
