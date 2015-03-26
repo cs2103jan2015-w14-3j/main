@@ -68,7 +68,7 @@ public class Parser {
 	}
 
 	private void getWhen(Task parsedTask) throws InvalidInputException {
-		assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
+		//assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting when details from {0}", str);
@@ -80,7 +80,7 @@ public class Parser {
 				int indexNext = indexOn;
 
 				DateTime d = initializeDateTime();
-				
+
 				if (taskDetails.toLowerCase().contains("next")) {
 					indexNext = taskDetails.toLowerCase().indexOf("next", indexOn) + "next".length();	
 					String day = getWord(taskDetails, indexNext);
@@ -108,18 +108,18 @@ public class Parser {
 
 				taskDetails = taskDetails.substring(indexNext + 1);
 				taskDetails = removeFirstWord(taskDetails);
-
+				
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
 					taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
-				
+
 				parsedTask.setEndDateTime(d);
 			}
-
-			//}
-			/*if (taskDetails.toLowerCase().contains(keywords[1])) {
+		} 
+		//}
+		/*if (taskDetails.toLowerCase().contains(keywords[1])) {
 					int indexFrom = taskDetails.toLowerCase().indexOf(keywords[1]);
 					String dateOfTask = taskDetails.substring(indexOn + 3, indexFrom - 1);
 
@@ -145,7 +145,7 @@ public class Parser {
 					int indexAt = taskDetails.indexOf(keywords[2]);
 
 				}*/
-			/*} else if (taskDetails.contains(keywords[1])) {
+		/*} else if (taskDetails.contains(keywords[1])) {
 
 			} else if (taskDetails.contains(keywords[2])) {
 
@@ -153,7 +153,6 @@ public class Parser {
 
 			} else {
 			}*/
-		}
 	}
 
 	private void getWhere(Task parsedTask) {		
@@ -166,7 +165,7 @@ public class Parser {
 			}
 		}
 	}	
-	
+
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
 		d = d.withHourOfDay(0);
@@ -257,7 +256,7 @@ public class Parser {
 			hours = Integer.parseInt(date.substring(0, indexColon));
 			minutes = Integer.parseInt(date.substring(indexColon+1, date.length() - 2));
 		}
-
+	
 		if (hours == 12 && addHours == 0) {
 			hours = 0;  //12am
 		} else if (hours == 12 & addHours == 12) {
