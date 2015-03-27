@@ -1,8 +1,10 @@
 package com.tasma.config.observers;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tasma.Storage;
 import com.tasma.config.ChangeObserverInterface;
 import com.tasma.config.DefaultProviderInterface;
 
@@ -12,7 +14,8 @@ public class StorageObserver implements ChangeObserverInterface, DefaultProvider
 	public void notify(String key, String oldValue, String newValue) {
 		// TODO to move the tasks.json file and update the storage path
 		if (key.equals("storage")) {
-			
+			File oldFile = new File(oldValue, Storage.FILENAME);
+			oldFile.renameTo(new File(newValue, Storage.FILENAME));
 		}
 	}
 	
