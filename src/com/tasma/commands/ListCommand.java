@@ -12,7 +12,6 @@ import com.tasma.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
 	
-	private static final String FILTER_NONE = "";
 	private static final String FILTER_PAST = "past";
 	
 	private String filter;
