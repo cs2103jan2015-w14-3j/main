@@ -47,6 +47,7 @@ public class AddCommand extends AbstractUndoableCommand {
 		assert resultTask != null;
 		
 		collection.delete(resultTask.getTaskId());
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getTaskId(), resultTask.getDetails()));
 	}
 
 }
