@@ -40,7 +40,7 @@ public class Storage {
 	 */
 	public void save(Hashtable<String, Task> tasks) throws IOException {
 		logger.log(Level.FINE, "Performing a save on {0} tasks to file", tasks.size());
-		final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
+		final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
     
 	    try {
@@ -66,12 +66,12 @@ public class Storage {
 		if (file.exists()) {
 			try {
 				FileReader reader = new FileReader(file);
-				final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
+				final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
 				tasks = gson.fromJson(reader, new TypeToken<Hashtable<String, Task>>() {}.getType());
 				reader.close();
 			}catch(IOException e) {
 				throw e;
-			}
+			} 
 		}
 		return tasks;
 	}
