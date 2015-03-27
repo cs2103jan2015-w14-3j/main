@@ -63,9 +63,9 @@ public class Task implements Cloneable {
 		if (endDateTime == null) {
 			return ""; 
 		} else { 
-			String date = String.valueOf(endDateTime.getDayOfMonth()) + "-" + 
-					String.valueOf(endDateTime.getMonthOfYear()) + "-" + 
-					String.valueOf(endDateTime.getYear());
+			String date = String.valueOf(String.format("%02d", endDateTime.getDayOfMonth())) + "-" + 
+					String.valueOf(String.format("%02d", endDateTime.getMonthOfYear())) + "-" + 
+					String.valueOf(endDateTime.getYear() % 100);
 
 			if (endDateTime.getHourOfDay() == 0 && endDateTime.getMinuteOfHour() == 0) {
 				return date;
@@ -119,12 +119,13 @@ public class Task implements Cloneable {
 	public String toString(){
 		String result = "";
 		result += details;
-		if (location != null) {
+		if (endDateTime != null) {
+			result += " on " + getStringEndDateTime();
+		}
+		if (location.length() > 0) {
 			result += " at " + location;
 		}
-		if (endDateTime != null) {
-			result += " on " + endDateTime;
-		}
+		
 		return result; 
 	}
 }
