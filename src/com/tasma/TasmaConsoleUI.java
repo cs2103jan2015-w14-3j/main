@@ -9,7 +9,7 @@ import java.util.Scanner;
 // This is an alternative UI for testing non-GUI stuff. 
 public class TasmaConsoleUI implements TasmaUserInterface {
 
-	private Controller controller = new Controller();
+	private Controller controller;
 	
 	public void initialize(Controller controller) throws Exception {
 		this.controller = controller;

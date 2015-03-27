@@ -23,11 +23,11 @@ public class TaskCollection {
 	Storage storage;
 	Hashtable<String, Task> tasks;
 	
-	public TaskCollection() {
+	public TaskCollection() throws Exception {
 		this.storage = new Storage();
 	}
 	
-	public TaskCollection(Storage storage) {
+	public TaskCollection(Storage storage) throws Exception {
 		this.storage = storage;
 	}
 	

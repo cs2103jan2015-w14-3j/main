@@ -43,7 +43,7 @@ public class Controller {
 	 */
 	protected History history = new History();
 	
-	public Controller() {
+	public Controller() throws Exception {
 		this(new TaskCollection());
 	}
 	
