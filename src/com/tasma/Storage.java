@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken;
 public class Storage {
 	private static final Logger logger = Log.getLogger( Storage.class.getName() );
 	
-	protected static final String FILENAME = "tasks.json";
+	public static final String FILENAME = "tasks.json";
 	
 	private String path;
 	
