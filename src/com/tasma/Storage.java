@@ -16,6 +16,7 @@ import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.tasma.config.Config;
 
 public class Storage {
 	private static final Logger logger = Log.getLogger( Storage.class.getName() );
@@ -24,12 +25,11 @@ public class Storage {
 	
 	private String path;
 	
-	public Storage()
-	{
-		this(System.getProperty("user.dir"));
+	public Storage() throws Exception {
+		this(Config.getInstance().getProperty("storage"));
 	}
 	
-	public Storage(String path) {
+	public Storage(String path) throws Exception {
 		this.path = path;
 	}
 	
