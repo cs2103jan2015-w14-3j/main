@@ -38,6 +38,7 @@ public class SetCommand extends AbstractCommand implements UndoableCommandInterf
 	public void undo() throws Exception {
 		Config config = Config.getInstance();
 		config.setProperty(key, previousValue);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key));
 	}
 
 }
