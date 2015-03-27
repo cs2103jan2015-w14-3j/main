@@ -115,7 +115,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			text = String.format("%d. Task%-5s \n %s", i++, task.getTaskId(), task.getDetails());
+			text = String.format("%d. Task %-5s \n %s", ++i, task.getTaskId(), task.getDetails());
 			
 			if (task.getEndDateTime() != null) {
 				text = text.concat(" on " + task.getEndDateTime());
@@ -131,7 +131,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			
 			text += archiveWord;
 			
-			listTasks[i++] = text;
+			listTasks[i-1] = text;
 		}
 		
 		list.setListData(listTasks);
