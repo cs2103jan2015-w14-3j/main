@@ -7,6 +7,7 @@ package com.tasma.commands;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
+import com.tasma.UIMessage;
 
 public abstract class TaskRestorableCommand extends AbstractUndoableCommand {
 
@@ -26,6 +27,7 @@ public abstract class TaskRestorableCommand extends AbstractUndoableCommand {
 	@Override
 	public void undo() throws Exception {
 		collection.update(originalTask);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_UNDO, task.getTaskId()));
 	}
 
 }

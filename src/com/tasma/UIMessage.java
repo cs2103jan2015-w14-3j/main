@@ -20,6 +20,7 @@ public class UIMessage {
 	public static final String COMMAND_EDIT_SUCCESS = "Your task #%s has been successfully updated.";
 	public static final String COMMAND_EDIT_NOTFOUND = "The task #%s you were looking to edit was not found.";
 	public static final String COMMAND_EDIT_ARG_EMPTY = "The <edit> command requires the task ID and details of the task you wish to update with. Try:\n\tedit <taskId> <details>";
+	public static final String COMMAND_EDIT_UNDO = "Changes to your task #%s has been undone.";
 
 	public static final String COMMAND_SEARCH_RESULT = "%d result(s) found for \"%s\".";
 
