@@ -85,7 +85,7 @@ public class Parser {
 					taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
-			} else if (taskDetails.toLowerCase().contains(keywords[1])) {
+			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
 					taskDetails = taskDetails.substring("at".length() + 1);
