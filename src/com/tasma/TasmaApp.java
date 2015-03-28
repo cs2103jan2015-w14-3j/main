@@ -12,6 +12,10 @@ import com.tasma.config.Config;
 public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
+	private Controller controller;
+	private Config config;
+	private TasmaGUI frame; 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -19,20 +23,20 @@ public class TasmaApp implements Runnable {
 		EventQueue.invokeLater(new TasmaApp());
 	}
 	
-	@Override
-	public void run() {
+	public TasmaApp() {
 		try {
-			TrayIcon tray = new TrayIcon();
-			tray.setup();
+			controller = new Controller();
+			config = Config.getInstance();
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	@Override
+	public void run() {
 		try {
-			Controller controller = new Controller();
-			Config config = Config.getInstance();
-			
 			logger.log(Level.FINE, "Initializing window & application");
-			TasmaGUI frame = new TasmaGUI();
+			frame = new TasmaGUI();
 			frame.initialize(controller);
 			controller.initialize();
 			controller.executeInput("list");
@@ -40,12 +44,17 @@ public class TasmaApp implements Runnable {
 				controller.executeInput("tutorial");
 			}
 			
-			logger.log(Level.FINE, "Showing window and requesting command box focus.");
 			frame.setVisible(true);
 			frame.requestCommandBoxFocus();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.toString(), e);
 			e.printStackTrace();
+		}
+		try {
+			TrayIcon tray = new TrayIcon(frame);
+			tray.setup();
+		} catch (Exception e) {
+			
 		}
 	}
 }

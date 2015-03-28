@@ -13,9 +13,18 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 public class TrayIcon {
-	PopupMenu popupMenu;
-	java.awt.TrayIcon trayIcon;
-	SystemTray tray;
+	private PopupMenu popupMenu;
+	private java.awt.TrayIcon trayIcon;
+	private SystemTray tray;
+	
+	private TasmaGUI userInterface;
+	
+	public TrayIcon(TasmaGUI userInterface) throws Exception {
+		if (userInterface == null) {
+			throw new Exception();
+		}
+		this.userInterface = userInterface;
+	}
 	
 	public void setup() throws UnsupportedOperationException {
         if (!SystemTray.isSupported()) {
@@ -36,28 +45,22 @@ public class TrayIcon {
 	}
 	
 	protected void buildMenu() {
+        MenuItem showItem = new MenuItem("Show Tasma");
         MenuItem aboutItem = new MenuItem("About");
-        CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
-        CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
-        Menu displayMenu = new Menu("Display");
-        MenuItem errorItem = new MenuItem("Error");
-        MenuItem warningItem = new MenuItem("Warning");
-        MenuItem infoItem = new MenuItem("Info");
-        MenuItem noneItem = new MenuItem("None");
         MenuItem exitItem = new MenuItem("Exit");
          
         //Add components to popup menu
+        popupMenu.add(showItem);
+        popupMenu.addSeparator();
         popupMenu.add(aboutItem);
         popupMenu.addSeparator();
-        popupMenu.add(cb1);
-        popupMenu.add(cb2);
-        popupMenu.addSeparator();
-        popupMenu.add(displayMenu);
-        displayMenu.add(errorItem);
-        displayMenu.add(warningItem);
-        displayMenu.add(infoItem);
-        displayMenu.add(noneItem);
         popupMenu.add(exitItem);
+        
+        showItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                userInterface.setVisible(true);
+            }
+        });
         
         exitItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
