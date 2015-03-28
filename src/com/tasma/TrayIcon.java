@@ -1,5 +1,6 @@
 package com.tasma;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.SystemTray;
@@ -24,7 +25,7 @@ public class TrayIcon {
 		this.userInterface = userInterface;
 	}
 	
-	public void setup() throws UnsupportedOperationException {
+	public void setup() throws Exception {
         if (!SystemTray.isSupported()) {
             throw new UnsupportedOperationException();
         }
@@ -34,23 +35,26 @@ public class TrayIcon {
         tray = SystemTray.getSystemTray();
         buildMenu();
         trayIcon.setPopupMenu(popupMenu);
+        trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
 
-        try {
-            tray.add(trayIcon);
-        } catch (Exception e) {
-        	
-        }
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                	userInterface.setVisible(true);
+                }
+            }
+
+        });
+
+        tray.add(trayIcon);
 	}
 	
 	protected void buildMenu() {
         MenuItem showItem = new MenuItem("Show Tasma");
-        MenuItem aboutItem = new MenuItem("About");
         MenuItem exitItem = new MenuItem("Exit");
          
         //Add components to popup menu
         popupMenu.add(showItem);
-        popupMenu.addSeparator();
-        popupMenu.add(aboutItem);
         popupMenu.addSeparator();
         popupMenu.add(exitItem);
         
