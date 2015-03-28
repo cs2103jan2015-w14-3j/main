@@ -16,4 +16,10 @@ public interface TasmaUserInterface {
 	public void editCmdDisplay(String task);
 	
 	public void helpCmdDisplay(String helpMsg);
+	
+	public void show();
+	
+	public void hide();
+	
+	public boolean isVisible();
 }

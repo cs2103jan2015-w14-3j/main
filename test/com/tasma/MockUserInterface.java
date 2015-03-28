@@ -42,4 +42,19 @@ public class MockUserInterface implements TasmaUserInterface {
 		
 	}
 
+	@Override
+	public void show() {
+		
+	}
+
+	@Override
+	public void hide() {
+		
+	}
+
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+
 }

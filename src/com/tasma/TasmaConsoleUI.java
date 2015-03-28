@@ -43,4 +43,19 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 		System.out.println(helpMsg);
 	}
 
+	@Override
+	public void show() {
+		
+	}
+
+	@Override
+	public void hide() {
+		
+	}
+
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+
 }
