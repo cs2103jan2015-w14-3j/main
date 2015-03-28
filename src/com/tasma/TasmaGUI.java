@@ -154,4 +154,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		helpMsgs[0] = helpMsg;
 		list.setListData(helpMsgs);
 	}
+	
+	@SuppressWarnings("deprecation")
+	public void show() {
+		this.requestCommandBoxFocus();
+		super.show();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void hide() {
+		super.hide();
+	}
 }
