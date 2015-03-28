@@ -42,7 +42,7 @@ public class Parser {
 	}
 
 	private void getWhat(Task parsedTask) throws InvalidInputException {
-		logger.log(Level.FINE, "Getting what details from {0}", str);
+		logger.log(Level.FINE, "Getting what details from \"{0}\"", str);
 		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
 		int index = 0; 
 
@@ -72,7 +72,7 @@ public class Parser {
 		//assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 
 		if (taskDetails.length() != 0) {
-			logger.log(Level.FINE, "Getting when details from {0}", str);
+			logger.log(Level.FINE, "Getting when details from \"{0}\"", str);
 			final String[] keywords = {"on", "from", "at", "by"};
 
 			DateTime d = new DateTime();
@@ -140,6 +140,17 @@ public class Parser {
 			}*/
 	}
 
+	private void getWhere(Task parsedTask) {		
+		if (taskDetails.length() != 0) {
+			logger.log(Level.FINE, "Getting where details from \"{0}\"", str);
+			final String keyword = "at";
+			if (taskDetails.toLowerCase().contains(keyword)) {
+				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
+				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
+			}
+		}
+	}	
+
 	private DateTime parseTime(String keyword) throws InvalidInputException {
 		int indexKeyword = taskDetails.toLowerCase().indexOf(keyword) + keyword.length();
 
@@ -176,18 +187,7 @@ public class Parser {
 		taskDetails = removeFirstWord(taskDetails);
 		return d;
 	}
-
-	private void getWhere(Task parsedTask) {		
-		if (taskDetails.length() != 0) {
-			logger.log(Level.FINE, "Getting where details from {0}", str);
-			final String keyword = "at";
-			if (taskDetails.toLowerCase().contains(keyword)) {
-				int indexAt = taskDetails.toLowerCase().indexOf(keyword);
-				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
-			}
-		}
-	}	
-
+	
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
 		d = d.withHourOfDay(0);
