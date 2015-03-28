@@ -22,6 +22,12 @@ public class TasmaApp implements Runnable {
 	@Override
 	public void run() {
 		try {
+			TrayIcon tray = new TrayIcon();
+			tray.setup();
+		} catch (Exception e) {
+			
+		}
+		try {
 			Controller controller = new Controller();
 			Config config = Config.getInstance();
 			
@@ -41,9 +47,5 @@ public class TasmaApp implements Runnable {
 			logger.log(Level.SEVERE, e.toString(), e);
 			e.printStackTrace();
 		}
-	}
-	
-	protected void setupSystemTray() {
-		
 	}
 }
