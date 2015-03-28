@@ -42,4 +42,8 @@ public class TasmaApp implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	protected void setupSystemTray() {
+		
+	}
 }
