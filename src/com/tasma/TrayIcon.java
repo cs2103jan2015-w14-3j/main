@@ -16,9 +16,9 @@ public class TrayIcon {
 	private java.awt.TrayIcon trayIcon;
 	private SystemTray tray;
 	
-	private TasmaGUI userInterface;
+	private TasmaUserInterface userInterface;
 	
-	public TrayIcon(TasmaGUI userInterface) throws Exception {
+	public TrayIcon(TasmaUserInterface userInterface) throws Exception {
 		if (userInterface == null) {
 			throw new Exception();
 		}
@@ -40,7 +40,7 @@ public class TrayIcon {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                	userInterface.setVisible(true);
+                	userInterface.show();
                 }
             }
 
@@ -60,7 +60,7 @@ public class TrayIcon {
         
         showItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                userInterface.setVisible(true);
+                userInterface.show();
             }
         });
         
