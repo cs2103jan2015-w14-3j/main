@@ -4,17 +4,24 @@
 package com.tasma;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.KeyStroke;
+
 import com.tasma.config.Config;
+import com.tulskiy.keymaster.common.HotKey;
+import com.tulskiy.keymaster.common.HotKeyListener;
+import com.tulskiy.keymaster.common.Provider;
 
 public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	private Controller controller;
 	private Config config;
-	private TasmaGUI frame; 
+	private TasmaUserInterface frame; 
 	
 	/**
 	 * Launch the application.
@@ -44,8 +51,17 @@ public class TasmaApp implements Runnable {
 				controller.executeInput("tutorial");
 			}
 			
-			frame.setVisible(true);
-			frame.requestCommandBoxFocus();
+			frame.show();
+
+			Provider provider = Provider.getCurrentProvider(true);
+			provider.register(KeyStroke.getKeyStroke("alt shift X"), new HotKeyListener() {
+
+				@Override
+				public void onHotKey(HotKey hotKey) {
+					frame.show();
+				}
+	        });
+			
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.toString(), e);
 			e.printStackTrace();
