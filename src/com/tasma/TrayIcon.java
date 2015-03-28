@@ -1,8 +1,6 @@
 package com.tasma;
 
-import java.awt.CheckboxMenuItem;
 import java.awt.Image;
-import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.SystemTray;
 import java.awt.PopupMenu;

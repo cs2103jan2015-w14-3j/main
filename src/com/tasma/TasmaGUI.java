@@ -34,7 +34,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public TasmaGUI() {
 		setTitle("TASMA");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// must use HIDE on CLOSE for the TrayIcon to work properly
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 449, 320);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
