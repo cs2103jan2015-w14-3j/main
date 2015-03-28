@@ -15,10 +15,10 @@ import org.hashids.Hashids;
 public class TaskCollection {
 	
 	// a random salt taken from random.org :D
-	protected static final String HASHIDS_SALT = "cTEBjAzL17k4Vx81t6WPqqzmmN37mvK6UHEZgI8B7UCESsFjksU1LiDwfQ5P";
+	protected static final String HASHIDS_SALT = "cTEBjAzL17k4Vx8";
 	
 	// a small number that allows the generation of a small random number so that the Hashids generated is small
-	protected static final int HASHIDS_RANDOM_MULTIPLIER = 99;
+	protected static final int HASHIDS_RANDOM_MULTIPLIER = 3;
 	
 	Storage storage;
 	Hashtable<String, Task> tasks;
@@ -39,10 +39,10 @@ public class TaskCollection {
 		// the following code will generate a nice short ID that should be unique in the collection.
 		// this will allow the user to identify tasks through the use of these IDs.
 		Hashids hasher = new Hashids(HASHIDS_SALT, 3);
-		String uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), tasks.size()).toLowerCase();
+		String uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER) + tasks.size()).toLowerCase();
 		int i = 0;
 		while (tasks.containsKey(uniqueId)) {
-			uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER), ++i).toLowerCase();
+			uniqueId = hasher.encode((long)(Math.random() * HASHIDS_RANDOM_MULTIPLIER) + ++i + tasks.size()).toLowerCase();
 		}
 		task.setTaskId(uniqueId);
 		tasks.put(task.getTaskId(), task);
