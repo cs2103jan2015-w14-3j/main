@@ -27,6 +27,7 @@ public abstract class TaskRestorableCommand extends AbstractUndoableCommand {
 		}
 	}
 
+	// TODO fix bug
 	@Override
 	public void undo() throws Exception {
 		collection.update(originalTask);
