@@ -6,7 +6,6 @@ package com.tasma;
 import org.joda.time.DateTime;
 
 public class Task implements Cloneable {
-	private String taskId = "";
 	private String details = "";
 	private String location = "";
 	private DateTime startDateTime;
@@ -19,16 +18,7 @@ public class Task implements Cloneable {
 	}
 
 	public Task(String taskId, String details) {
-		this.taskId = taskId;
 		this.details = details;
-	}
-
-	public String getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
 	}
 
 	public String getDetails() {
