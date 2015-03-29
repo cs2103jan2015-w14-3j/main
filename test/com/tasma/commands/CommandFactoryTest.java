@@ -20,7 +20,6 @@ public class CommandFactoryTest {
 	private MockUserInterface userInterface;
 	private MockStorage storage;
 	private TaskCollection collection;
-	private LinkedList<Task> state;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -28,7 +27,6 @@ public class CommandFactoryTest {
 		storage = new MockStorage();
 		collection = new TaskCollection(storage);
 		factory = new CommandFactory(userInterface, collection);
-		state = new LinkedList<Task>();
 	}
 
 	@After
@@ -36,32 +34,32 @@ public class CommandFactoryTest {
 	}
 
 	@Test
-	public void testGetCommand1() {
-		CommandInterface command = factory.getCommand("add test", state);
+	public void testGetCommand1() throws Exception {
+		CommandInterface command = factory.getCommand("add test");
 		assertThat(command, instanceOf(AddCommand.class));
 	}
 
 	@Test
-	public void testGetCommand2() {
-		CommandInterface command = factory.getCommand("list", state);
+	public void testGetCommand2() throws Exception {
+		CommandInterface command = factory.getCommand("list");
 		assertThat(command, instanceOf(ListCommand.class));
 	}
 
 	@Test
-	public void testGetCommand3() {
-		CommandInterface command = factory.getCommand("search test", state);
+	public void testGetCommand3() throws Exception {
+		CommandInterface command = factory.getCommand("search test");
 		assertThat(command, instanceOf(SearchCommand.class));
 	}
 
 	@Test
-	public void testGetCommand4() {
-		CommandInterface command = factory.getCommand("list", state);
+	public void testGetCommand4() throws Exception {
+		CommandInterface command = factory.getCommand("list");
 		assertThat(command, instanceOf(ListCommand.class));
 	}
 
 	@Test
-	public void testGetCommand5() {
-		CommandInterface command = factory.getCommand("exit", state);
+	public void testGetCommand5() throws Exception {
+		CommandInterface command = factory.getCommand("exit");
 		assertThat(command, instanceOf(ExitCommand.class));
 	}
 
