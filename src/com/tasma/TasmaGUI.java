@@ -156,7 +156,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			text = String.format("%d. Task %-5s \n %s \n", ++i, task.getTaskId(), task.getDetails());
+			text = String.format("%d. %s \n", ++i, task.getTaskId(), task.getDetails());
 			
 			if (task.getEndDateTime() != null) {
 				text = text.concat("Date: " + task.getStringEndDateTime() + "\n");
