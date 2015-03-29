@@ -4,13 +4,9 @@
 package com.tasma;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.KeyStroke;
-
 import com.tasma.config.Config;
 import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;

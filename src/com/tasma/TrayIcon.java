@@ -1,6 +1,5 @@
 package com.tasma;
 
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.SystemTray;
