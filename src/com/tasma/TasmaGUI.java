@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,8 +17,10 @@ import java.util.Iterator;
 
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
@@ -36,6 +39,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public TasmaGUI() {
 		super();
 		decorateFrame();
@@ -81,6 +85,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setBounds(10, 228, 428, 22);
 		contentPane.add(textDisplay);
 		list.setSelectionModel(new DisabledItemSelectionModel());
+		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 11, 428, 206);
 		
@@ -90,7 +95,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	//@author A0132763
 	private void decorateFrame() {
-		setTitle("Tasma");
+		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
 		setResizable(false);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
@@ -114,6 +119,19 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
 	}
+	
+	public class CustomListRenderer implements ListCellRenderer<Object> {
+
+		   @Override
+		   public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+		        boolean isSelected, boolean cellHasFocus) {
+
+		        JTextArea renderer = new JTextArea(3,10);
+		        renderer.setText(value.toString());
+		        renderer.setLineWrap(true);
+		        return renderer;
+		   }
+		}
 
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
@@ -138,14 +156,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			text = String.format("%d. Task %-5s \n %s", ++i, task.getTaskId(), task.getDetails());
+			text = String.format("%d. Task %-5s \n %s \n", ++i, task.getTaskId(), task.getDetails());
 			
 			if (task.getEndDateTime() != null) {
-				text = text.concat(" on " + task.getStringEndDateTime());
+				text = text.concat("Date: " + task.getStringEndDateTime() + "\n");
 			}
 			
 			if (task.getLocation().length() != 0) {
-				text = text.concat(" at " + task.getLocation());
+				text = text.concat("Location: " + task.getLocation() + "\n");
 			}
 			
 			if (task.isArchived()) {
@@ -177,7 +195,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		list.setListData(helpMsgs);
 	}
 	
-    //Obtain the image URL
+	 //Obtain the image URL
     protected static Image createImage(String path, String description) {
         URL imageURL = TrayIcon.class.getResource(path);
          
@@ -189,3 +207,4 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
         }
     }
 }
+
