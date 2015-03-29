@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -41,17 +42,21 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	 */
 	@SuppressWarnings("unchecked")
 	public TasmaGUI() {
-		super();
 		decorateFrame();
 		addWindowEvents();
 		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 		
-		textCommand = new JTextField("");
-		textCommand.setBounds(10, 261, 428, 23);
+		textCommand = new JTextField();
+		textCommand.setBorder(new EmptyBorder(5, 5, 5, 5));
+		textCommand.setBounds(0, 262, 480, 30);
+		textCommand.setBackground(new Color(41, 171, 226));
+		textCommand.setForeground(Color.WHITE);
+		textCommand.setCaretColor(Color.WHITE);
 		contentPane.add(textCommand);
 		textCommand.setColumns(10);
 		JFrame thisFrame = this;
@@ -81,13 +86,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 		});
 		textDisplay.setEditable(false);
-		textDisplay.setBackground(UIManager.getColor("Button.background"));
-		textDisplay.setBounds(10, 228, 428, 22);
+		textDisplay.setBackground(Color.WHITE);
+		textDisplay.setBounds(10, 210, 460, 22);
 		contentPane.add(textDisplay);
+		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 11, 428, 206);
+		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		scrollPane.setBounds(6, 6, 460, 200);
 		
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(list);
@@ -100,7 +107,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setResizable(false);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 449, 320);
+		setBounds(0, 0, 480, 320);
 		
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
