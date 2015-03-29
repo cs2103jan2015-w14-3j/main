@@ -96,6 +96,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 449, 320);
+		
+		// sets the window to center of the screen
+		setLocationRelativeTo(null);
 	}
 	
 	private void addWindowEvents() {
