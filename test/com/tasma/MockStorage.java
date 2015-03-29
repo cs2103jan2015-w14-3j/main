@@ -1,6 +1,6 @@
 package com.tasma;
 
-import java.util.Hashtable;
+import java.util.LinkedList;
 
 public final class MockStorage extends Storage {
 	
@@ -9,19 +9,19 @@ public final class MockStorage extends Storage {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected Hashtable<String, Task> tasks = new Hashtable<String, Task>();
+	protected LinkedList<Task> tasks = new LinkedList<Task>();
 	
 	@Override
-	public void save(Hashtable<String, Task> tasks) {
+	public void save(LinkedList<Task> tasks) {
 		this.tasks = tasks;
 	}
 
 	@Override
-	public Hashtable<String, Task> load() {
+	public LinkedList<Task> load() {
 		return tasks;
 	}
 	
-	public Hashtable<String, Task> getTasks() {
+	public LinkedList<Task> getTasks() {
 		return tasks;
 	}
 }

@@ -4,6 +4,7 @@
 //@author A0132763
 package com.tasma;
 
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +43,11 @@ public class Controller {
 	 * The history handling for undo/redo
 	 */
 	protected History history = new History();
+	
+	/**
+	 * The current state of the tasks shown
+	 */
+	protected LinkedList<Task> currentState = new LinkedList<Task>();
 	
 	public Controller() throws Exception {
 		this(new TaskCollection());
@@ -87,12 +93,12 @@ public class Controller {
 			if (input.trim().equals(COMMAND_UNDO)) {
 				history.undo();
 				
-				CommandInterface command = commandFactory.getCommand(COMMAND_LIST);
+				CommandInterface command = commandFactory.getCommand(COMMAND_LIST, currentState);
 				command.execute();
 			} else if (input.trim().equals(COMMAND_REDO)) {
 				history.redo();
 			} else {
-				CommandInterface command = commandFactory.getCommand(input);
+				CommandInterface command = commandFactory.getCommand(input, currentState);
 				command.execute();
 				history.offer(command);
 			}

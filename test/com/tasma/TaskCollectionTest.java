@@ -10,9 +10,12 @@ public class TaskCollectionTest {
 
 	protected TaskCollection collection;
 	
+	protected MockStorage storage;
+	
 	@Before
 	public void setUp() throws Exception {
-		collection = new TaskCollection(new MockStorage());
+		storage = new MockStorage();
+		collection = new TaskCollection(storage);
 		collection.loadFromFile();
 	}
 
@@ -23,9 +26,8 @@ public class TaskCollectionTest {
 	@Test
 	public void testCreate() throws Exception {
 		Task task = new Task();
-		assertEquals("", task.getTaskId());
 		collection.create(task);
-		assertTrue(!task.getTaskId().equals(""));
+		assertEquals(0, storage.getTasks().size());
 	}
 
 }

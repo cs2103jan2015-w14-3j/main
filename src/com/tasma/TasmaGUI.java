@@ -147,8 +147,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
-		String text = "";
-		String archiveWord = "";
 		String[] listTasks = new String[tasks.size()];
 		
 		Iterator<Task> iterator = tasks.iterator();
@@ -156,7 +154,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			text = String.format("%d. %s \n", ++i, task.getTaskId(), task.getDetails());
+			String text = String.format("%d. %s\n", ++i, task.getDetails());
 			
 			if (task.getEndDateTime() != null) {
 				text = text.concat("Date: " + task.getStringEndDateTime() + "\n");
@@ -167,16 +165,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 			
 			if (task.isArchived()) {
-				archiveWord = " Archived";
+				text += " Archived";
 			}
 			
-			text += archiveWord;
+			if (task.isDone()) {
+				text += " Done";
+			}
 			
 			listTasks[i-1] = text;
 		}
 		
 		list.setListData(listTasks);
-		
 	}
 
 	@Override

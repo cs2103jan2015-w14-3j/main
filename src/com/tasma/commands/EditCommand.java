@@ -4,6 +4,7 @@
 //@author A0132763
 package com.tasma.commands;
 
+import java.util.List;
 import com.tasma.Parser;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
@@ -15,15 +16,15 @@ public class EditCommand extends TaskRestorableCommand {
 	protected String details;
 	
 	public EditCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, String taskId, String details) {
-		super(userInterface, collection, taskId);
+			TaskCollection collection, List<Task> state, int index, String details) {
+		super(userInterface, collection, state, index);
 		this.details = details;
 	}
 
 	@Override
 	public void execute() throws Exception {
 		if (details.equals("")) {
-			userInterface.editCmdDisplay(String.format("edit %s %s", task.getTaskId(), task.toString()));
+			userInterface.editCmdDisplay(String.format("edit %s", task.toString()));
 		} else {
 			Parser parser = new Parser();
 			Task updatedTask = parser.parse(details);
@@ -45,11 +46,11 @@ public class EditCommand extends TaskRestorableCommand {
 				if (updatedTask.getEndDateTime() != null) {
 					task.setEndDateTime(updatedTask.getEndDateTime());
 				}
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getTaskId()));
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS));
 			}
 		}
 		
-		ListCommand listCommand = new ListCommand(userInterface, collection);
+		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
 	}
 

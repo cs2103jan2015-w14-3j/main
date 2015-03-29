@@ -4,6 +4,8 @@
 //@author A0132763
 package com.tasma.commands;
 
+import java.util.List;
+import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
@@ -17,7 +19,7 @@ public class CommandFactory {
 		this.collection = collection;
 	}
 
-	public CommandInterface getCommand(String input) {
+	public CommandInterface getCommand(String input, List<Task> state) {
 		CommandInterface result = null;
 		InputSplitter splitter = new InputSplitter(input);
 		String command = splitter.next();
@@ -25,22 +27,22 @@ public class CommandFactory {
 		CommandType commandType = normalizeCommand(command);
 		switch (commandType) {
 			case ADD:
-				result = new AddCommand(userInterface, collection, splitter.remainder());
+				result = new AddCommand(userInterface, collection, state, splitter.remainder());
 				break;
 			case SEARCH:
 				result = new SearchCommand(userInterface, collection, splitter.remainder());
 				break;
 			case LIST:
-				result = new ListCommand(userInterface, collection, splitter.remainder());
+				result = new ListCommand(userInterface, collection, state, splitter.remainder());
 				break;
 			case MARK:
-				result = new MarkCommand(userInterface, collection, splitter.remainder());
+				result = new MarkCommand(userInterface, collection, state, Integer.parseInt(splitter.remainder()));
 				break;
 			case EDIT:
-				result = new EditCommand(userInterface, collection, splitter.next(), splitter.remainder());
+				result = new EditCommand(userInterface, collection, state, Integer.parseInt(splitter.next()), splitter.remainder());
 				break;
 			case ARCHIVE:
-				result = new ArchiveCommand(userInterface, collection, splitter.remainder());
+				result = new ArchiveCommand(userInterface, collection, state, Integer.parseInt(splitter.remainder()));
 				break;
 			case SET:
 				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
