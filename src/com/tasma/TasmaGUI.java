@@ -5,16 +5,33 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 import java.awt.Component;
+=======
+import java.awt.Image;
+>>>>>>> origin/master
+=======
+import java.awt.Image;
+>>>>>>> origin/master
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 
 import javax.swing.DefaultListSelectionModel;
+<<<<<<< HEAD
+<<<<<<< HEAD
 import javax.swing.JList;
+=======
+import javax.swing.ImageIcon;
+>>>>>>> origin/master
+=======
+import javax.swing.ImageIcon;
+>>>>>>> origin/master
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
@@ -92,7 +109,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	//@author A0132763
 	private void decorateFrame() {
-		setTitle("TASMA");
+		setTitle("Tasma");
+		setIconImage(createImage("res/logo16.png", "icon"));
 		setResizable(false);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -187,4 +205,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		helpMsgs[0] = helpMsg;
 		list.setListData(helpMsgs);
 	}
+	
+    //Obtain the image URL
+    protected static Image createImage(String path, String description) {
+        URL imageURL = TrayIcon.class.getResource(path);
+         
+        if (imageURL == null) {
+            System.err.println("Resource not found: " + path);
+            return null;
+        } else {
+            return (new ImageIcon(imageURL, description)).getImage();
+        }
+    }
 }
