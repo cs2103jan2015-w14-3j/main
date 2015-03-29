@@ -14,17 +14,19 @@ import com.tasma.UIMessage;
 public class EditCommand extends TaskRestorableCommand {
 
 	protected String details;
+	protected int index;
 	
 	public EditCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, List<Task> state, int index, String details) {
 		super(userInterface, collection, state, index);
 		this.details = details;
+		this.index = index;
 	}
 
 	@Override
 	public void execute() throws Exception {
 		if (details.equals("")) {
-			userInterface.editCmdDisplay(String.format("edit %s", task.toString()));
+			userInterface.editCmdDisplay(String.format("edit %d %s", index, task.toString()));
 		} else {
 			Parser parser = new Parser();
 			Task updatedTask = parser.parse(details);
