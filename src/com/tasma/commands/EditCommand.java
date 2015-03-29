@@ -48,7 +48,7 @@ public class EditCommand extends TaskRestorableCommand {
 				if (updatedTask.getEndDateTime() != null) {
 					task.setEndDateTime(updatedTask.getEndDateTime());
 				}
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS));
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()));
 			}
 		}
 		

@@ -21,7 +21,7 @@ public class ArchiveCommand extends TaskRestorableCommand {
 	public void execute() throws Exception {
 		task.setArchived(true);
 		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getDetails()));
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();

@@ -21,7 +21,7 @@ public class MarkCommand extends TaskRestorableCommand {
 	public void execute() throws Exception {
 		task.setDone(true);
 		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()));
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
