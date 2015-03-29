@@ -26,7 +26,7 @@ public class EditCommand extends TaskRestorableCommand {
 	@Override
 	public void execute() throws Exception {
 		if (details.equals("")) {
-			userInterface.editCmdDisplay(String.format("edit %d %s", index, task.toString()));
+			userInterface.editCmdDisplay(String.format("edit %d %s", index + 1, task.toString()));
 		} else {
 			Parser parser = new Parser();
 			Task updatedTask = parser.parse(details);
