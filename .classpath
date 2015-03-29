@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="lib/hashids-java-1.0.0"/>
 	<classpathentry kind="src" path="lib/gson-jodatime-serialisers-1.1.0/src/main/java"/>
 	<classpathentry kind="src" path="lib/jkeymaster-jkeymaster-1.1/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
