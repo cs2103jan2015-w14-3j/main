@@ -7,6 +7,8 @@ import javax.swing.JTextField;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -37,6 +39,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 449, 320);
+
+		this.addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e) {
+                textCommand.requestFocus();
+			}
+		});
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,13 +107,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		}
 	}
 	
-	/**
-	 * Performs a request for focus on the command box
-	 */
-	public void requestCommandBoxFocus() {
-		textCommand.requestFocus();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
@@ -153,16 +156,5 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		String[] helpMsgs = new String[1];
 		helpMsgs[0] = helpMsg;
 		list.setListData(helpMsgs);
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void show() {
-		this.requestCommandBoxFocus();
-		super.show();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void hide() {
-		super.hide();
 	}
 }
