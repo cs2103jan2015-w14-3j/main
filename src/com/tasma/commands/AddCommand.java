@@ -38,7 +38,7 @@ public class AddCommand extends AbstractUndoableCommand {
 			} else {
 				collection.create(task);
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()));
-				resultTask = task.clone();
+				resultTask = task;
 			}
 		}
 		
