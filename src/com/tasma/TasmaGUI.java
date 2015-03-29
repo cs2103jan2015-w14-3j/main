@@ -34,18 +34,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	 * Create the frame.
 	 */
 	public TasmaGUI() {
-		setTitle("TASMA");
-		setResizable(false);
-		// must use HIDE on CLOSE for the TrayIcon to work properly
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 449, 320);
-
-		this.addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-                textCommand.requestFocus();
-			}
-		});
-		
+		super();
+		decorateFrame();
+		addWindowEvents();
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,12 +81,30 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(list);
 	}
+	
+	//@author A0132763
+	private void decorateFrame() {
+		setTitle("TASMA");
+		setResizable(false);
+		// must use HIDE on CLOSE for the TrayIcon to work properly
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setBounds(100, 100, 449, 320);
+	}
+	
+	private void addWindowEvents() {
+		this.addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e) {
+                textCommand.requestFocus();
+			}
+		});
+	}
 
 	@Override
 	public void initialize(Controller controller) throws Exception {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
 	}
+
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
 		
