@@ -5,8 +5,6 @@
 package com.tasma.commands;
 
 import java.util.LinkedList;
-import java.util.List;
-
 import com.tasma.InvalidInputException;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
