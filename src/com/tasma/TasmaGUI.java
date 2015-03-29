@@ -6,14 +6,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -93,6 +96,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	//@author A0132763
 	private void decorateFrame() {
 		setTitle("TASMA");
+		setIconImage(createImage("res/logo16.png", "icon"));
 		setResizable(false);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -187,4 +191,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		helpMsgs[0] = helpMsg;
 		list.setListData(helpMsgs);
 	}
+	
+	 //Obtain the image URL
+    protected static Image createImage(String path, String description) {
+        URL imageURL = TrayIcon.class.getResource(path);
+         
+        if (imageURL == null) {
+            System.err.println("Resource not found: " + path);
+            return null;
+        } else {
+            return (new ImageIcon(imageURL, description)).getImage();
+        }
+    }
 }
+
