@@ -11,16 +11,21 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-public class EditCommand extends TaskRestorableCommand {
+public class EditCommand extends AbstractUndoableCommand {
 
 	protected String details;
 	protected int index;
+	protected List<Task> state;
+	protected Task task;
+	protected Task oldTaskDetails;
 	
 	public EditCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, List<Task> state, int index, String details) {
-		super(userInterface, collection, state, index);
+		super(userInterface, collection);
+		this.state = state;
 		this.details = details;
 		this.index = index;
+		this.task = state.get(index);
 	}
 
 	@Override
@@ -33,6 +38,7 @@ public class EditCommand extends TaskRestorableCommand {
 			if (updatedTask == null) {
 				// TODO handle when the parser cannot parse the details
 			} else {
+				oldTaskDetails = task.clone();
 				if (updatedTask.getDetails() != null) {
 					task.setDetails(updatedTask.getDetails());
 				}
@@ -56,4 +62,6 @@ public class EditCommand extends TaskRestorableCommand {
 		listCommand.execute();
 	}
 
+	@Override
+	public void undo() throws Exception {
 }
