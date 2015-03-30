@@ -5,7 +5,6 @@ package com.tasma;
 
 /**
  * @author Manika Agarwal
- *
  */
 
 import java.util.logging.Logger;
@@ -16,9 +15,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
-
-	private static final Logger logger = Log.getLogger(Parser.class.getName() );
+	/** For logging for Parser */
+	private static final Logger logger = Log.getLogger(Parser.class.getName());
+	/** Stores original taskDetails for logging */
 	private String str = null;
+	/** Stores taskDetails for parsing */
 	private String taskDetails;
 
 	/**
@@ -348,7 +349,7 @@ public class Parser {
 	}
 
 	/**
-	 * Return first word of passed string.
+	 * Returns first word of passed string.
 	 * @param details String from which first word is to be extracted.
 	 * @return First word of passed string.
 	 */
@@ -358,7 +359,7 @@ public class Parser {
 	}
 
 	/**
-	 * Return word at passed index in passed string.
+	 * Returns word at passed index in passed string.
 	 * @param details String from which word is to be extracted.
 	 * @param index   Starting index in details from which word is to be extracted.
 	 * @return Relevant word of passed string.
