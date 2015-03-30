@@ -21,6 +21,12 @@ public class Parser {
 	private String str = null;
 	private String taskDetails;
 
+	/**
+	 * Calls the relevant functions to parse the passed string.
+	 * @param taskDetails Details of the task to be parsed.
+	 * @return Instance of a Task which contains the parsed details.
+	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
+	 */
 	public Task parse(String taskDetails) throws InvalidInputException{
 		Task parsedTask = new Task();
 
@@ -41,6 +47,11 @@ public class Parser {
 		return parsedTask;
 	}
 
+	/**
+	 * Parses the task's "what" details.
+	 * @param parsedTask Instance of Task in which parsed details are to be stored.
+	 * @throws InvalidInputException Thrown when taskDetails is zero length.
+	 */
 	private void getWhat(Task parsedTask) throws InvalidInputException {
 		logger.log(Level.FINE, "Getting what details from \"{0}\"", str);
 		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
@@ -68,6 +79,11 @@ public class Parser {
 		taskDetails = taskDetails.substring(index).trim(); 
 	}
 
+	/**
+	 * Parses the task's "when" details.
+	 * @param parsedTask Instance of Task in which parsed details are to be stored.
+	 * @throws InvalidInputException Thrown when date or time is invalid.
+	 */
 	private void getWhen(Task parsedTask) throws InvalidInputException {
 		//assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 
@@ -75,10 +91,10 @@ public class Parser {
 			logger.log(Level.FINE, "Getting when details from \"{0}\"", str);
 			final String[] keywords = {"on", "from", "at", "by"};
 
-			DateTime d = new DateTime();
+			DateTime d = initializeDateTime();
 			
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
-				d = parseTime(keywords[0]);
+				d = parseDate(keywords[0]);
 
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
@@ -92,7 +108,7 @@ public class Parser {
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[3])) {
-				d = parseTime(keywords[3]);
+				d = parseDate(keywords[3]);
 				
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
@@ -140,6 +156,10 @@ public class Parser {
 			}*/
 	}
 
+	/**
+	 * Parses the task's "where" details.
+	 * @param parsedTask Instance of Task in which parsed details are to be stored.
+	 */
 	private void getWhere(Task parsedTask) {		
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting where details from \"{0}\"", str);
@@ -151,7 +171,13 @@ public class Parser {
 		}
 	}	
 
-	private DateTime parseTime(String keyword) throws InvalidInputException {
+	/**
+	 * Parses the task's date details.
+	 * @param keyword Keyword before the date in taskDetails.
+	 * @return DateTime object containing the parsed date.
+	 * @throws InvalidInputException Thrown when date is invalid
+	 */
+	private DateTime parseDate(String keyword) throws InvalidInputException {
 		int indexKeyword = taskDetails.toLowerCase().indexOf(keyword) + keyword.length();
 
 		int indexNext = indexKeyword;
@@ -174,7 +200,7 @@ public class Parser {
 			d = d.withDayOfWeek(determineDay(getWord(taskDetails, indexNext)));
 		} else if (isValidDate(getWord(taskDetails, indexNext))) {
 			String date = getWord(taskDetails, indexNext);
-			d = getDate(date);		
+			d = getDate(date, d);		
 		} else {
 			throw new InvalidInputException("Invalid date");
 		}
@@ -188,6 +214,10 @@ public class Parser {
 		return d;
 	}
 	
+	/**
+	 * Initializes and returns a DateTime object.
+	 * @return Initialized DateTime object.
+	 */
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
 		d = d.withHourOfDay(0);
@@ -196,8 +226,13 @@ public class Parser {
 		return d;
 	}
 
+	/**
+	 * Determines which day of the week the passed string is.
+	 * @param day String containing day to be parsed.
+	 * @return Relevant DateTimeConstants if "day" contains a valid day, -1 otherwise
+	 */
 	private int determineDay(String day) {
-		final String[] daysOfWeek = {"mon", "tues", "wed", "thur", "fri", "sat", "sun"};
+		final String[] daysOfWeek = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
 
 		if (day.toLowerCase().contains(daysOfWeek[0])) {
 			return DateTimeConstants.MONDAY;
@@ -218,6 +253,11 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Checks if the passed string contains a valid date in dd/-.mm/-.yy form.
+	 * @param date String to be checked.
+	 * @return true if "date" contains a valid date, false otherwise.
+	 */
 	private boolean isValidDate(String date) {
 		final String regexDate = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
 		final Pattern pattern = Pattern.compile(regexDate);
@@ -238,14 +278,24 @@ public class Parser {
 		}
 	}
 
-	private DateTime getDate(String date) {
-		DateTime d = initializeDateTime();
+	/**
+	 * Gets date from passed string.
+	 * @param date String containing date to be parsed.
+	 * @param d	   DateTime object to be modified with parsed details.
+	 * @return DateTime object containing the parsed date.
+	 */
+	private DateTime getDate(String date, DateTime d) {
 		d = d.withDayOfMonth(Integer.parseInt(date.substring(0, 2)));
 		d = d.withMonthOfYear(Integer.parseInt(date.substring(3, 5)));
 		d = d.withYear(2000 + Integer.parseInt(date.substring(6, 8)));
 		return d;
 	}
 
+	/**
+	 * Checks if the passed string contains a valid time in 12 hour format.
+	 * @param time String to be checked.
+	 * @return true if "time" contains a valid time, false otherwise.
+	 */
 	private boolean isValidTime(String time) {
 		if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
 			time = getWord(time, "at".length() + 1);
@@ -262,6 +312,12 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Gets time from passed string.
+	 * @param taskDetails String containing date to be parsed.
+	 * @param d	   		  DateTime object to be modified with parsed details.
+	 * @return DateTime object containing the parsed time.
+	 */
 	private DateTime getTime(String taskDetails, DateTime d) {
 		String date = getWord(taskDetails, "at".length() + 1);
 		int addHours = 0;
@@ -291,16 +347,32 @@ public class Parser {
 		return d;
 	}
 
+	/**
+	 * Return first word of passed string.
+	 * @param details String from which first word is to be extracted.
+	 * @return First word of passed string.
+	 */
 	private String getFirstWord(String details) {
 		String commandTypeString = details.trim().split("\\s+")[0];
 		return commandTypeString;
 	}
 
+	/**
+	 * Return word at passed index in passed string.
+	 * @param details String from which word is to be extracted.
+	 * @param index   Starting index in details from which word is to be extracted.
+	 * @return Relevant word of passed string.
+	 */
 	private String getWord(String details, int index) {
 		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
 		return commandTypeString;
 	}
-
+	
+	/**
+	 * Removes first word of passed string and returns the rest of the string.
+	 * @param details String from which first word is to be removed.
+	 * @return Passed string without first word.
+	 */
 	private String removeFirstWord(String details) {
 		return details.replace(getFirstWord(details), "").trim();
 	}
