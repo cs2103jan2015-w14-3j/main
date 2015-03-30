@@ -114,9 +114,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 	
 	private void addWindowEvents() {
+		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
                 textCommand.requestFocus();
+			}
+			
+			@SuppressWarnings("deprecation")
+			public void windowDeactivated(WindowEvent e) {
+                thisFrame.hide();
 			}
 		});
 	}
