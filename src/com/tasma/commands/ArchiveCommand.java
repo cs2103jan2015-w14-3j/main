@@ -36,5 +36,6 @@ public class ArchiveCommand extends AbstractUndoableCommand  {
 	@Override
 	public void undo() throws Exception {
 		task.setArchived(false);
+		collection.update(task);
 	}
 }

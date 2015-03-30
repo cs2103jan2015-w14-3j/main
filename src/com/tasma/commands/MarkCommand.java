@@ -10,11 +10,16 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-public class MarkCommand extends TaskRestorableCommand {
+public class MarkCommand extends AbstractUndoableCommand {
+	
+	private List<Task> state;
+	private Task task;
 	
 	public MarkCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, List<Task> state, int index) {
-		super(userInterface, collection, state, index);
+		super(userInterface, collection);
+		this.state = state;
+		this.task = state.get(index);
 	}
 
 	@Override
@@ -27,4 +32,9 @@ public class MarkCommand extends TaskRestorableCommand {
 		listCommand.execute();
 	}
 
+	@Override
+	public void undo() throws Exception {
+		task.setDone(false);
+		collection.update(task);
+	}
 }
