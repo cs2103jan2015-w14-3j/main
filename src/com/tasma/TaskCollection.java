@@ -69,4 +69,10 @@ public class TaskCollection {
 		
 		return resultList;
 	}
+
+	public List<Task> done() {
+		List<Task> doneList = tasks.stream()
+			    .filter(task -> task.isDone() && !task.isArchived()).collect(Collectors.toList());
+		return doneList;
+	}
 }
