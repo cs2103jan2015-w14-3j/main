@@ -56,6 +56,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setBackground(new Color(41, 171, 226));
 		textCommand.setForeground(Color.WHITE);
 		textCommand.setCaretColor(Color.WHITE);
+		textCommand.setFont(textCommand.getFont().deriveFont(14.0f));
 		contentPane.add(textCommand);
 		textCommand.setColumns(10);
 		JFrame thisFrame = this;
