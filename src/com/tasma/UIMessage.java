@@ -4,7 +4,7 @@
 //@author A0132763
 package com.tasma;
 
-public class UIMessage {
+public final class UIMessage {
 	public static final String COMMAND_ADD_SUCCESS = "Your task \"%s\" has been successfully created.";
 	public static final String COMMAND_ADD_ARG_EMPTY = "The <add> command requires the details of the task you wish to add. Try:\n\tadd <details>";
 	public static final String COMMAND_ADD_UNDO = "Your task \"%s\" has been undone.";
