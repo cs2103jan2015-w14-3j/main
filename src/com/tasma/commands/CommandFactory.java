@@ -26,7 +26,7 @@ public class CommandFactory {
 		InputSplitter splitter = new InputSplitter(input);
 		String command = splitter.next();
 
-		CommandType commandType = CommandIdentifier.normalize(command);
+		CommandType commandType = AliasHandler.normalize(command);
 		switch (commandType) {
 			case ADD:
 				result = new AddCommand(userInterface, collection, currentState, splitter.remainder());
