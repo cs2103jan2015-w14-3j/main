@@ -50,7 +50,7 @@ public class CommandFactory {
 				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
 				break;
 			case HELP:
-				result = new SearchCommand(userInterface, collection, splitter.remainder());
+				result = new HelpCommand(userInterface, collection, splitter.remainder());
 				break;
 			case TUTORIAL:
 				result = new TutorialCommand(userInterface, collection);
