@@ -10,7 +10,8 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
-	
+
+	private static final String FILTER_DONE = "done";
 	private static final String FILTER_PAST = "past";
 	
 	private String filter;
@@ -34,6 +35,9 @@ public class ListCommand extends AbstractCommand {
 		switch (filter.toLowerCase()) {
 			case FILTER_PAST:
 				list = collection.past();
+				break;
+			case FILTER_DONE:
+				list = collection.done();
 				break;
 			default:
 				list = collection.upcoming();
