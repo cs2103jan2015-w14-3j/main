@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
+	
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 	/** Stores original taskDetails for logging */
@@ -59,7 +60,7 @@ public class Parser {
 		int index = 0; 
 
 		if (taskDetails.length() == 0) {
-			throw new InvalidInputException();
+			throw new InvalidInputException("Length of input string is zero");
 		}
 
 		for (int i = 0; i < keywords.length; i++) {
@@ -83,7 +84,7 @@ public class Parser {
 	/**
 	 * Parses the task's "when" details.
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
-	 * @throws InvalidInputException Thrown when date or time is invalid.
+	 * @throws InvalidInputException Thrown when called functions throw InvalidInputException.
 	 */
 	private void getWhen(Task parsedTask) throws InvalidInputException {
 		//assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
@@ -99,13 +100,19 @@ public class Parser {
 
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					taskDetails = taskDetails.substring("at".length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
+					}
+					//taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					taskDetails = taskDetails.substring("at".length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
+					}
+					//taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[3])) {
@@ -113,11 +120,15 @@ public class Parser {
 				
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					taskDetails = taskDetails.substring("at".length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
+					}
+					//taskDetails = taskDetails.substring("at".length() + 1);
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			}
 			
+			System.out.println(d);
 			parsedTask.setEndDateTime(d);
 		} 
 		//}
@@ -300,6 +311,9 @@ public class Parser {
 	private boolean isValidTime(String time) {
 		if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
 			time = getWord(time, "at".length() + 1);
+		} else {
+			time = getFirstWord(time);
+		}
 			final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 			final Pattern pattern = Pattern.compile(regexTime);
 
@@ -308,9 +322,9 @@ public class Parser {
 			} else {
 				return true;
 			}
-		} else {
+		/*} else {
 			return false;
-		}
+		}*/
 	}
 
 	/**
@@ -320,7 +334,13 @@ public class Parser {
 	 * @return DateTime object containing the parsed time.
 	 */
 	private DateTime getTime(String taskDetails, DateTime d) {
-		String date = getWord(taskDetails, "at".length() + 1);
+		String date;
+		if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+			date = getWord(taskDetails, "at".length() + 1);
+		} else {
+			date = getFirstWord(taskDetails);
+		}
+		//String date = getWord(taskDetails, "at".length() + 1);
 		int addHours = 0;
 
 		if (date.substring(date.length()-2).compareToIgnoreCase("pm") == 0) {
