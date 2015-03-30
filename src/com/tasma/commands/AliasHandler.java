@@ -1,6 +1,8 @@
 package com.tasma.commands;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AliasHandler {
@@ -69,5 +71,15 @@ public class AliasHandler {
 			result = builtInMapping.get(commandLower);
 		}
 		return result;
+	}
+	
+	public static List<String> aliases(CommandType commandType) {
+		List<String> keys = new LinkedList<String>(); 
+		for (Map.Entry<String, CommandType> entry : builtInMapping.entrySet()) {
+			if (entry.getValue().equals(commandType)) {
+			    keys.add(entry.getKey());
+			}
+		}
+		return keys;
 	}
 }
