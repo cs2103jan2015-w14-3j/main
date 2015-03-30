@@ -69,5 +69,7 @@ public class EditCommand extends AbstractUndoableCommand {
 		task.setEndDateTime(oldTaskDetails.getEndDateTime());
 		task.setLocation(oldTaskDetails.getLocation());
 		collection.update(task);
+		
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_UNDO, task.getDetails()));
 	}
 }

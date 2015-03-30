@@ -37,5 +37,7 @@ public class ArchiveCommand extends AbstractUndoableCommand  {
 	public void undo() throws Exception {
 		task.setArchived(false);
 		collection.update(task);
+
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_UNDO, task.getDetails()));
 	}
 }

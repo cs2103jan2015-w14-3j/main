@@ -5,6 +5,7 @@
 package com.tasma.commands;
 
 import java.util.List;
+
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
@@ -36,5 +37,7 @@ public class MarkCommand extends AbstractUndoableCommand {
 	public void undo() throws Exception {
 		task.setDone(false);
 		collection.update(task);
+
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()));
 	}
 }
