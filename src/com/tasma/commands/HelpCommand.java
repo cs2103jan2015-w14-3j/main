@@ -12,12 +12,14 @@ import com.tasma.TasmaUserInterface;
 
 public class HelpCommand extends AbstractCommand {
 
-	protected CommandType commandType;
+	protected CommandType commandType = CommandType.HELP;
 	
 	public HelpCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String command) {
 		super(userInterface, collection);
-		this.commandType = AliasHandler.normalize(command);
+		if (!command.equals("")) {
+			this.commandType = AliasHandler.normalize(command);			
+		}
 	}
 
 	@Override
