@@ -212,5 +212,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
+    
+    @SuppressWarnings("deprecation")
+	@Override
+    public void show() {
+    	setExtendedState(JFrame.NORMAL);
+    	super.show();
+    	toFront();
+    	repaint();
+    }
 }
 
