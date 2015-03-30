@@ -64,4 +64,10 @@ public class EditCommand extends AbstractUndoableCommand {
 
 	@Override
 	public void undo() throws Exception {
+		task.setDetails(oldTaskDetails.getDetails());
+		task.setStartDateTime(oldTaskDetails.getStartDateTime());
+		task.setEndDateTime(oldTaskDetails.getEndDateTime());
+		task.setLocation(oldTaskDetails.getLocation());
+		collection.update(task);
+	}
 }
