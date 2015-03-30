@@ -45,14 +45,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		addWindowEvents();
 		
 		contentPane = new JPanel();
-		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
 		textCommand = new JTextField();
-		textCommand.setBorder(new EmptyBorder(5, 5, 5, 5));
-		textCommand.setBounds(0, 262, 480, 30);
+		textCommand.setBorder(new EmptyBorder(10, 10, 10, 10));
+		textCommand.setBounds(0, 0, 480, 40);
 		textCommand.setBackground(new Color(41, 171, 226));
 		textCommand.setForeground(Color.WHITE);
 		textCommand.setCaretColor(Color.WHITE);
@@ -87,14 +86,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		});
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(Color.WHITE);
-		textDisplay.setBounds(10, 210, 460, 22);
+		textDisplay.setBounds(10, 250, 460, 22);
 		contentPane.add(textDisplay);
 		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setBounds(6, 6, 460, 200);
+		scrollPane.setBounds(6, 56, 460, 200);
 		
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(list);
@@ -109,7 +108,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setUndecorated(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(0, 0, 480, 320);
+		setBounds(0, 0, 480, 400);
 		
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
