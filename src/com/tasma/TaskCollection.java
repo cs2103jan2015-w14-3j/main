@@ -65,7 +65,7 @@ public class TaskCollection {
 	
 	public List<Task> search(String query) {
 		List<Task> resultList = tasks.stream()
-			    .filter(task -> task.getDetails().indexOf(query) != -1).collect(Collectors.toList());
+			    .filter(task -> !task.isArchived() && task.getDetails().indexOf(query) != -1).collect(Collectors.toList());
 		
 		return resultList;
 	}
