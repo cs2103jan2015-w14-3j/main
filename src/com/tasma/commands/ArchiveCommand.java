@@ -5,16 +5,22 @@
 package com.tasma.commands;
 
 import java.util.List;
+
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-public class ArchiveCommand extends TaskRestorableCommand {
+public class ArchiveCommand extends AbstractUndoableCommand  {
 
+	private List<Task> state;
+	private Task task;
+	
 	public ArchiveCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, List<Task> state, int number) {
-		super(userInterface, collection, state, number);
+			TaskCollection collection, List<Task> state, int index) {
+		super(userInterface, collection);
+		this.state = state;
+		this.task = state.get(index);
 	}
 
 	@Override
@@ -26,5 +32,9 @@ public class ArchiveCommand extends TaskRestorableCommand {
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
 	}
-
+	
+	@Override
+	public void undo() throws Exception {
+		task.setArchived(false);
+	}
 }
