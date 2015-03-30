@@ -33,20 +33,28 @@ public class HelpCommand extends AbstractCommand {
 				message = HelpMessage.HELP_SEARCH;
 				break;
 			case LIST:
+				message = HelpMessage.HELP_LIST;
 				break;
 			case MARK:
+				message = HelpMessage.HELP_MARK;
 				break;
 			case EDIT:
+				message = HelpMessage.HELP_EDIT;
 				break;
 			case ARCHIVE:
+				message = HelpMessage.HELP_ARCHIVE;
 				break;
 			case SET:
+				message = HelpMessage.HELP_SET;
 				break;
 			case HELP:
+				message = HelpMessage.HELP_HELP;
 				break;
 			case TUTORIAL:
+				message = HelpMessage.HELP_TUTORIAL;
 				break;
 			case EXIT:
+				message = HelpMessage.HELP_EXIT;
 				break;
 			default:
 				// probably an invalid command
@@ -63,10 +71,15 @@ public class HelpCommand extends AbstractCommand {
 	
 	protected static String listImplode(List<String> list) {
 		StringBuilder builder = new StringBuilder();
-		builder.append(list.remove(0));
-		for (String s: list) {
-			builder.append(", ");
-			builder.append(s);
+		
+		if (list.isEmpty()) {
+			builder.append("none");
+		} else {
+			builder.append(list.remove(0));
+			for (String s: list) {
+				builder.append(", ");
+				builder.append(s);
+			}
 		}
 		return builder.toString();
 	}
