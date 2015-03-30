@@ -17,6 +17,7 @@ public enum CommandType {
 	SET,
 	EXIT,
 	UNDO,
+	REDO,
 	TUTORIAL,
 	HELP,
 	INVALID
