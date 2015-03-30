@@ -23,7 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
