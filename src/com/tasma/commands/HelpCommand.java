@@ -28,6 +28,7 @@ public class HelpCommand extends AbstractCommand {
 				message = HelpMessage.HELP_ADD;
 				break;
 			case SEARCH:
+				message = HelpMessage.HELP_SEARCH;
 				break;
 			case LIST:
 				break;
