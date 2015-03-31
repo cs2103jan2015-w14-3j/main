@@ -76,16 +76,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 
 			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyTyped(KeyEvent e) {}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyReleased(KeyEvent e) {}
 		});
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(Color.WHITE);
