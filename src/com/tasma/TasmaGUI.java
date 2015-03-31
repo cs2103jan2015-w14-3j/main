@@ -3,12 +3,12 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -54,7 +54,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		
 		textCommand = new JTextField();
 		textCommand.setBorder(new EmptyBorder(10, 10, 10, 10));
-		textCommand.setBounds(0, 0, 480, 40);
+		textCommand.setSize(new Dimension(480, 40));
 		textCommand.setBackground(new Color(41, 171, 226));
 		textCommand.setForeground(Color.WHITE);
 		textCommand.setCaretColor(Color.WHITE);
@@ -67,7 +67,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					thisFrame.setVisible(false);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  {
-					textDisplay.setText("");
+					textDisplay.setVisible(false);
+					thisFrame.setSize(480, 400);
 					String command = textCommand.getText();
 					textCommand.setText("");
 					controller.executeInput(command);
@@ -83,18 +84,18 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		});
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(Color.WHITE);
-		textDisplay.setBounds(6, 311, 460, 49);
 		textDisplay.setRows(1);
 		textDisplay.setLineWrap(true);
 		textDisplay.setVisible(false);
 		textDisplay.setWrapStyleWord(true);
+		textDisplay.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.add(textDisplay, BorderLayout.PAGE_END);
 		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setBounds(6, 56, 460, 244);
+		scrollPane.setPreferredSize(new Dimension(470, 300));
 		
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
@@ -119,6 +120,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
                 textCommand.requestFocus();
+				textDisplay.setVisible(false);
+				thisFrame.setSize(480, 400);
 			}
 			
 			@SuppressWarnings("deprecation")
@@ -195,6 +198,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayMessage(String message) {
 		textDisplay.setText(message);
+		textDisplay.setVisible(true);
+		setSize(480, 400 + textDisplay.getPreferredSize().height);
 	}
 	
 	public void editCmdDisplay (String task) {
