@@ -104,3 +104,5 @@ tasma.log.lck
 app.config
 tasma.log.1
 tasma.log.2
+
+test.config
