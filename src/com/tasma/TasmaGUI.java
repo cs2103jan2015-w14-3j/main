@@ -3,6 +3,7 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
 import java.awt.Color;
@@ -106,6 +107,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setUndecorated(true);
+		getRootPane().setBorder(new LineBorder(Color.LIGHT_GRAY));
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(0, 0, 480, 400);
