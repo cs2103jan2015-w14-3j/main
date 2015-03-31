@@ -27,7 +27,7 @@ public class TaskCollectionTest {
 	public void testCreate() throws Exception {
 		Task task = new Task();
 		collection.create(task);
-		assertEquals(0, storage.getTasks().size());
+		assertEquals(1, storage.getTasks().size());
 	}
 
 }
