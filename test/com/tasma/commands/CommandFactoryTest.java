@@ -33,21 +33,54 @@ public class CommandFactoryTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test the cases of add commands
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetCommand1() throws Exception {
-		CommandInterface command = factory.getCommand("add test");
+		CommandInterface command;
+		command = factory.getCommand("add test");
+		assertThat(command, instanceOf(AddCommand.class));
+		command = factory.getCommand("a test");
+		assertThat(command, instanceOf(AddCommand.class));
+		command = factory.getCommand("create test");
+		assertThat(command, instanceOf(AddCommand.class));
+		command = factory.getCommand("c test");
 		assertThat(command, instanceOf(AddCommand.class));
 	}
 
+	/**
+	 * Test the cases of list commands
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetCommand2() throws Exception {
-		CommandInterface command = factory.getCommand("list");
+		CommandInterface command;
+		command = factory.getCommand("list");
+		assertThat(command, instanceOf(ListCommand.class));
+		command = factory.getCommand("l");
+		assertThat(command, instanceOf(ListCommand.class));
+		command = factory.getCommand("up");
+		assertThat(command, instanceOf(ListCommand.class));
+		command = factory.getCommand("upcoming");
 		assertThat(command, instanceOf(ListCommand.class));
 	}
 
+	/**
+	 * Test the cases of search commands
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetCommand3() throws Exception {
-		CommandInterface command = factory.getCommand("search test");
+		CommandInterface command;
+		command = factory.getCommand("search test");
+		assertThat(command, instanceOf(SearchCommand.class));
+		command = factory.getCommand("s test");
+		assertThat(command, instanceOf(SearchCommand.class));
+		command = factory.getCommand("find test");
+		assertThat(command, instanceOf(SearchCommand.class));
+		command = factory.getCommand("q test");
 		assertThat(command, instanceOf(SearchCommand.class));
 	}
 
