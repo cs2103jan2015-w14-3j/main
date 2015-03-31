@@ -206,13 +206,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setText(task);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void helpCmdDisplay (String helpMsg) {
-		String[] helpMsgs = new String[1];
-		helpMsgs[0] = helpMsg;
-		list.setListData(helpMsgs);
-	}
-	
 	 //Obtain the image URL
     protected static Image createImage(String path, String description) {
         URL imageURL = TrayIcon.class.getResource(path);

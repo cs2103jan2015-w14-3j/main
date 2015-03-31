@@ -37,12 +37,6 @@ public class MockUserInterface implements TasmaUserInterface {
 	}
 
 	@Override
-	public void helpCmdDisplay(String helpMsg) {
-		lastDisplayedMessage = helpMsg;
-		
-	}
-
-	@Override
 	public void show() {
 		
 	}
