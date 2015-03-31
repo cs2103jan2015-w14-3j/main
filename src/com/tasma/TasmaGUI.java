@@ -230,10 +230,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     @SuppressWarnings("deprecation")
 	@Override
     public void show() {
-    	setExtendedState(JFrame.NORMAL);
+    	this.setState(NORMAL);
     	super.show();
-    	toFront();
-    	repaint();
+    	JFrame thisFrame = this;
+    	java.awt.EventQueue.invokeLater(new Runnable() {
+    	    @Override
+    	    public void run() {
+    	    	thisFrame.requestFocus();
+    	        thisFrame.toFront();
+    	        thisFrame.repaint();
+    	    }
+    	});
     }
 }
 
