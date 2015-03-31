@@ -13,6 +13,7 @@ import com.tasma.MockStorage;
 import com.tasma.MockUserInterface;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
 
 /**
  * @author sam
@@ -57,6 +58,19 @@ public class AddCommandTest {
 		command.execute();
 		assertEquals(1, storage.getTasks().size());
 		assertThat(storage.getTasks().get(0), instanceOf(Task.class));
+	}
+	
+	/**
+	 * Test method for {@link com.tasma.commands.AddCommand#execute()}.
+	 */
+	@Test
+	public void testExecuteEmpty() throws Exception {
+		assertEquals(0, storage.getTasks().size());
+		LinkedList<Task> state = new LinkedList<Task>();
+		command = new AddCommand(userInterface, collection, state, "");
+		command.execute();
+		assertEquals(0, storage.getTasks().size());
+		assertEquals(UIMessage.COMMAND_ADD_ARG_EMPTY, userInterface.getLastDisplayedMessage());
 	}
 
 	/**
