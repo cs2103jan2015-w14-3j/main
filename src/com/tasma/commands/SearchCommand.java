@@ -24,7 +24,7 @@ public class SearchCommand extends AbstractCommand {
 	@Override
 	public void execute() throws Exception {
 		if (query.equals("")) {
-			// TODO: to handle empty search terms?
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_EMPTY_QUERY));
 		} else {
 			Collection<Task> resultList = collection.search(query);
 			userInterface.displayTasks(resultList);
