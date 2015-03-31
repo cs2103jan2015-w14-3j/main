@@ -140,7 +140,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		   public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 		        boolean isSelected, boolean cellHasFocus) {
 
-		        JTextArea renderer = new JTextArea(3,10);
+		        JTextArea renderer = new JTextArea();
 		        renderer.setText(value.toString());
 		        renderer.setLineWrap(true);
 		        return renderer;
