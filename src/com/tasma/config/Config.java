@@ -35,7 +35,6 @@ public class Config extends ObservableConfig {
 		    in.close();
 	    } else {
 	    	isFirstRun = true;
-	    	// TODO load all default values
 	    }
 	}
 
