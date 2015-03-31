@@ -6,6 +6,7 @@ package com.tasma.commands;
 
 import java.util.List;
 
+import com.tasma.Palette;
 import com.tasma.Parser;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
@@ -27,7 +28,7 @@ public class AddCommand extends AbstractUndoableCommand {
 	@Override
 	public void execute() throws Exception {
 		if (details.equals("")) {
-			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY);
+			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY, Palette.MESSAGE_WARNING);
 		} else {
 			assert !details.equals("");
 			
@@ -37,7 +38,7 @@ public class AddCommand extends AbstractUndoableCommand {
 				
 			} else {
 				collection.create(task);
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()));
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
 				resultTask = task;
 			}
 		}
@@ -51,7 +52,7 @@ public class AddCommand extends AbstractUndoableCommand {
 		assert resultTask != null;
 		
 		collection.delete(resultTask);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getDetails()), Palette.MESSAGE_SUCCESS);
 	}
 
 }

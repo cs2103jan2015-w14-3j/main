@@ -6,6 +6,7 @@ package com.tasma.commands;
 
 import java.util.List;
 
+import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
@@ -27,7 +28,7 @@ public class MarkCommand extends AbstractUndoableCommand {
 	public void execute() throws Exception {
 		task.setDone(true);
 		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
@@ -38,6 +39,6 @@ public class MarkCommand extends AbstractUndoableCommand {
 		task.setDone(false);
 		collection.update(task);
 
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
 	}
 }

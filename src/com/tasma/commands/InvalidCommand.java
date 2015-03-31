@@ -4,6 +4,7 @@
 //@author A0132763
 package com.tasma.commands;
 
+import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
@@ -17,7 +18,7 @@ public class InvalidCommand extends AbstractCommand {
 
 	@Override
 	public void execute() throws Exception {
-		userInterface.displayMessage(UIMessage.COMMAND_INVALID);
+		userInterface.displayMessage(UIMessage.COMMAND_INVALID, Palette.MESSAGE_DANGER);
 	}
 
 }

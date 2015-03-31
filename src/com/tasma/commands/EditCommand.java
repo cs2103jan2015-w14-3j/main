@@ -5,6 +5,8 @@
 package com.tasma.commands;
 
 import java.util.List;
+
+import com.tasma.Palette;
 import com.tasma.Parser;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
@@ -54,7 +56,7 @@ public class EditCommand extends AbstractUndoableCommand {
 				if (updatedTask.getEndDateTime() != null) {
 					task.setEndDateTime(updatedTask.getEndDateTime());
 				}
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()));
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
 			}
 		}
 		
@@ -70,6 +72,6 @@ public class EditCommand extends AbstractUndoableCommand {
 		task.setLocation(oldTaskDetails.getLocation());
 		collection.update(task);
 		
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_UNDO, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
 	}
 }

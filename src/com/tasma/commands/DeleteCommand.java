@@ -6,6 +6,7 @@ package com.tasma.commands;
 
 import java.util.List;
 
+import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
@@ -26,7 +27,7 @@ public class DeleteCommand extends AbstractUndoableCommand  {
 	@Override
 	public void execute() throws Exception {
 		collection.delete(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
@@ -36,6 +37,6 @@ public class DeleteCommand extends AbstractUndoableCommand  {
 	public void undo() throws Exception {
 		collection.create(task);
 
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_UNDO, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
 	}
 }

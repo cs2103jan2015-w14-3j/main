@@ -6,6 +6,7 @@ package com.tasma.commands;
 
 import java.util.Collection;
 
+import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
@@ -24,11 +25,11 @@ public class SearchCommand extends AbstractCommand {
 	@Override
 	public void execute() throws Exception {
 		if (query.equals("")) {
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_EMPTY_QUERY));
+			userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY, Palette.MESSAGE_WARNING);
 		} else {
 			Collection<Task> resultList = collection.search(query);
 			userInterface.displayTasks(resultList);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query));
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query), Palette.MESSAGE_INFO);
 		}
 	}
 

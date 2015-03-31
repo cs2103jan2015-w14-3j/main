@@ -4,6 +4,7 @@
 //@author A0132763
 package com.tasma.commands;
 
+import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
@@ -20,7 +21,7 @@ public class TutorialCommand extends AbstractCommand {
 
 	@Override
 	public void execute() throws Exception {
-		userInterface.displayMessage(TUTORIAL_MESSAGE);
+		userInterface.displayMessage(TUTORIAL_MESSAGE, Palette.MESSAGE_INFO);
 	}
 
 }
