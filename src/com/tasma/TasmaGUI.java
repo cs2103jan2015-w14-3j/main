@@ -106,8 +106,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setIconImage(createImage("res/logo.png", "icon"));
 		setResizable(false);
 		setAlwaysOnTop(true);
-		setUndecorated(true);
-		getRootPane().setBorder(new LineBorder(Color.LIGHT_GRAY));
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(0, 0, 480, 400);
