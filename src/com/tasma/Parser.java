@@ -3,9 +3,7 @@
  */
 package com.tasma;
 
-/**
- * @author Manika Agarwal
- */
+//@author A0118888J
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -103,7 +101,7 @@ public class Parser {
 					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
 						taskDetails = taskDetails.substring("at".length() + 1);
 					}
-					//taskDetails = taskDetails.substring("at".length() + 1);
+				
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
@@ -112,7 +110,7 @@ public class Parser {
 					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
 						taskDetails = taskDetails.substring("at".length() + 1);
 					}
-					//taskDetails = taskDetails.substring("at".length() + 1);
+			
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[3])) {
@@ -123,12 +121,11 @@ public class Parser {
 					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
 						taskDetails = taskDetails.substring("at".length() + 1);
 					}
-					//taskDetails = taskDetails.substring("at".length() + 1);
+
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			}
 			
-			System.out.println(d);
 			parsedTask.setEndDateTime(d);
 		} 
 		//}
@@ -322,9 +319,6 @@ public class Parser {
 			} else {
 				return true;
 			}
-		/*} else {
-			return false;
-		}*/
 	}
 
 	/**
@@ -340,7 +334,7 @@ public class Parser {
 		} else {
 			date = getFirstWord(taskDetails);
 		}
-		//String date = getWord(taskDetails, "at".length() + 1);
+		
 		int addHours = 0;
 
 		if (date.substring(date.length()-2).compareToIgnoreCase("pm") == 0) {
