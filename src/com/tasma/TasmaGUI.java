@@ -87,14 +87,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		});
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(Color.WHITE);
-		textDisplay.setBounds(10, 250, 460, 22);
+		textDisplay.setBounds(6, 311, 460, 49);
 		contentPane.add(textDisplay);
 		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setBounds(6, 56, 460, 200);
+		scrollPane.setBounds(6, 56, 460, 244);
 		
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(list);
