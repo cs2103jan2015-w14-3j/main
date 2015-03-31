@@ -194,10 +194,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		
 		list.setListData(listTasks);
 	}
-
+	
 	@Override
 	public void displayMessage(String message) {
+		displayMessage(message, Palette.MESSAGE_DEFAULT);
+	}
+
+	@Override
+	public void displayMessage(String message, Color color) {
 		textDisplay.setText(message);
+		textDisplay.setForeground(color);
 		textDisplay.setVisible(true);
 		setSize(480, 400 + textDisplay.getPreferredSize().height);
 	}

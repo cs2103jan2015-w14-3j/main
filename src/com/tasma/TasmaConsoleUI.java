@@ -3,6 +3,7 @@
  */
 package com.tasma;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Scanner;
 
@@ -30,11 +31,18 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	public void displayTasks(Collection<Task> tasks) {
 		
 	}
-
+	
 	@Override
 	public void displayMessage(String message) {
+		displayMessage(message, null);
+	}
+
+	@Override
+	public void displayMessage(String message, Color color) {
 		System.out.println(message);
 	}
+	
+	
 	
 	public void editCmdDisplay (String task) {
 	}
