@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.config;
 
 import static org.junit.Assert.*;
 
