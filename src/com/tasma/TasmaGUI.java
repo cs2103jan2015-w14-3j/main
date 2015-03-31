@@ -122,7 +122,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				textDisplay.setVisible(false);
 				thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
                 textCommand.requestFocus();
 			}
