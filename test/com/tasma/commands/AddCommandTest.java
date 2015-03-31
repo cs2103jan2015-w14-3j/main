@@ -78,7 +78,14 @@ public class AddCommandTest {
 	 */
 	@Test
 	public void testUndo() throws Exception {
-		fail("Not yet implemented");
+		assertEquals(0, storage.getTasks().size());
+		LinkedList<Task> state = new LinkedList<Task>();
+		command = new AddCommand(userInterface, collection, state, "test");
+		command.execute();
+		assertEquals(1, storage.getTasks().size());
+		assertEquals(String.format(UIMessage.COMMAND_ADD_SUCCESS, "test"), userInterface.getLastDisplayedMessage());
+		command.undo();
+		assertEquals(0, storage.getTasks().size());
 	}
 
 }
