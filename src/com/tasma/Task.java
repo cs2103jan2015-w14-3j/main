@@ -48,7 +48,8 @@ public class Task implements Cloneable {
 	public DateTime getEndDateTime() {
 		return endDateTime;
 	}
-
+	
+	//@author A0118888J
 	public String getStringEndDateTime() {
 		if (endDateTime == null) {
 			return ""; 
@@ -80,6 +81,7 @@ public class Task implements Cloneable {
 		}
 	}
 
+	//@author A0132763
 	public void setEndDateTime(DateTime endDateTime) {
 		this.endDateTime = endDateTime;
 	}
@@ -105,6 +107,7 @@ public class Task implements Cloneable {
 		return (Task) super.clone();
 	}
 
+	//@author A0118888J
 	@Override
 	public String toString(){
 		String result = "";
