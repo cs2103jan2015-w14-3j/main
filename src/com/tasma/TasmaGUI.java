@@ -122,9 +122,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-                textCommand.requestFocus();
 				textDisplay.setVisible(false);
 				thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
+                textCommand.requestFocus();
 			}
 			
 			@SuppressWarnings("deprecation")
@@ -230,17 +230,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     @SuppressWarnings("deprecation")
 	@Override
     public void show() {
-    	this.setState(NORMAL);
     	super.show();
-    	JFrame thisFrame = this;
-    	java.awt.EventQueue.invokeLater(new Runnable() {
-    	    @Override
-    	    public void run() {
-    	    	thisFrame.requestFocus();
-    	        thisFrame.toFront();
-    	        thisFrame.repaint();
-    	    }
-    	});
+    	setState(NORMAL);
+    	toFront();
     }
 }
 
