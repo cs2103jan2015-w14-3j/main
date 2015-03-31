@@ -97,4 +97,16 @@ public class CommandFactoryTest {
 		assertThat(command, instanceOf(ExitCommand.class));
 	}
 
+	/**
+	 * Test the cases of set commands
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetCommand5() throws Exception {
+		CommandInterface command;
+		command = factory.getCommand("set");
+		assertThat(command, instanceOf(SetCommand.class));
+		command = factory.getCommand("set two test");
+		assertThat(command, instanceOf(SetCommand.class));
+	}
 }
