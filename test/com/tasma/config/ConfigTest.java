@@ -15,7 +15,12 @@ public class ConfigTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		config = Config.getInstance();
+		config = Config.getInstance("test");
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		
 	}
 
 	@Test
