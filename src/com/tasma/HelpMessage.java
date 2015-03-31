@@ -18,8 +18,8 @@ public final class HelpMessage {
 	public static final String HELP_MARK = "\tmark <task number>\n\n"
 			+ "The 'mark' command marks a specified task as done. The [task number] parameter is the number corresponding to the task that you want to select.";
 
-	public static final String HELP_ARCHIVE = "\tarchive <task number>\n\n"
-			+ "The 'archive' command sends a specified task to the archives. The [task number] parameter is the number corresponding to the task that you want to select.";
+	public static final String HELP_DELETE = "\tdelete <task number>\n\n"
+			+ "The 'delete' command deletes a specified task from the list of tasks. The [task number] parameter is the number corresponding to the task that you want to select.";
 
 	public static final String HELP_EDIT = "\tedit <task number> [task details]\n\n"
 			+ "The 'edit' command allows you to modify details of a specific task. The [task number] parameter is the number corresponding to the task that you want to select. In the event that the new details of the task is not entered, the old details will be displayed in the command box for your convenience to edit.";

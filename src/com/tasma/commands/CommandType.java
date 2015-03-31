@@ -13,7 +13,7 @@ public enum CommandType {
 	LIST,
 	EDIT,
 	MARK,
-	ARCHIVE,
+	DELETE,
 	SET,
 	EXIT,
 	UNDO,

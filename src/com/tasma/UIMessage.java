@@ -14,10 +14,10 @@ public final class UIMessage {
 	public static final String COMMAND_MARK_ARG_EMPTY = "The <mark> command requires the task ID of the task you wish to mark done. Try:\n\tmark <number>";
 	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
 
-	public static final String COMMAND_ARCHIVE_SUCCESS = "Your task \"%s\" has been archived.";
-	public static final String COMMAND_ARCHIVE_NOTFOUND = "The task you were looking to archive was not found.";
-	public static final String COMMAND_ARCHIVE_ARG_EMPTY = "The <archive> command requires the task ID of the task you wish to archive. Try:\n\tarchive <number>";
-	public static final String COMMAND_ARCHIVE_UNDO = "Your task \"%s\" has been unarchived.";
+	public static final String COMMAND_DELETE_SUCCESS = "Your task \"%s\" has been deleted.";
+	public static final String COMMAND_DELETE_NOTFOUND = "The task you were looking to delete was not found.";
+	public static final String COMMAND_DELETE_ARG_EMPTY = "The <delete> command requires the task ID of the task you wish to remove. Try:\n\tdelete <number>";
+	public static final String COMMAND_DELETE_UNDO = "Your task \"%s\" has been undeleted.";
 
 	public static final String COMMAND_EDIT_SUCCESS = "Your task \"%s\" has been successfully updated.";
 	public static final String COMMAND_EDIT_NOTFOUND = "The task you were looking to edit was not found.";

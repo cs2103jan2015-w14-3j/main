@@ -41,8 +41,8 @@ public class HelpCommand extends AbstractCommand {
 			case EDIT:
 				message = HelpMessage.HELP_EDIT;
 				break;
-			case ARCHIVE:
-				message = HelpMessage.HELP_ARCHIVE;
+			case DELETE:
+				message = HelpMessage.HELP_DELETE;
 				break;
 			case SET:
 				message = HelpMessage.HELP_SET;

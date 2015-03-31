@@ -43,8 +43,8 @@ public class CommandFactory {
 			case EDIT:
 				result = new EditCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());
 				break;
-			case ARCHIVE:
-				result = new ArchiveCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
+			case DELETE:
+				result = new DeleteCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
 				break;
 			case SET:
 				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());

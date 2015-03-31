@@ -11,12 +11,12 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-public class ArchiveCommand extends AbstractUndoableCommand  {
+public class DeleteCommand extends AbstractUndoableCommand  {
 
 	private List<Task> state;
 	private Task task;
 	
-	public ArchiveCommand(TasmaUserInterface userInterface,
+	public DeleteCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, List<Task> state, int index) {
 		super(userInterface, collection);
 		this.state = state;
@@ -25,9 +25,8 @@ public class ArchiveCommand extends AbstractUndoableCommand  {
 
 	@Override
 	public void execute() throws Exception {
-		task.setArchived(true);
-		collection.update(task);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_SUCCESS, task.getDetails()));
+		collection.delete(task);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()));
 		
 		ListCommand listCommand = new ListCommand(userInterface, collection, state);
 		listCommand.execute();
@@ -35,9 +34,8 @@ public class ArchiveCommand extends AbstractUndoableCommand  {
 	
 	@Override
 	public void undo() throws Exception {
-		task.setArchived(false);
-		collection.update(task);
+		collection.create(task);
 
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_ARCHIVE_UNDO, task.getDetails()));
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_UNDO, task.getDetails()));
 	}
 }

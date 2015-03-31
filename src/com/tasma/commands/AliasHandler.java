@@ -46,8 +46,10 @@ public class AliasHandler {
     	builtInMapping.put("do", CommandType.MARK);
     	builtInMapping.put("done", CommandType.MARK);
 
-    	builtInMapping.put("arc", CommandType.ARCHIVE);
-    	builtInMapping.put("archive", CommandType.ARCHIVE);
+    	builtInMapping.put("d", CommandType.DELETE);
+    	builtInMapping.put("delete", CommandType.DELETE);
+    	builtInMapping.put("r", CommandType.DELETE);
+    	builtInMapping.put("remove", CommandType.DELETE);
     	
     	builtInMapping.put("h", CommandType.HELP);
     	builtInMapping.put("help", CommandType.HELP);
