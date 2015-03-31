@@ -84,15 +84,16 @@ public class CommandFactoryTest {
 		assertThat(command, instanceOf(SearchCommand.class));
 	}
 
+	/**
+	 * Test the cases of quit commands
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetCommand4() throws Exception {
-		CommandInterface command = factory.getCommand("list");
-		assertThat(command, instanceOf(ListCommand.class));
-	}
-
-	@Test
-	public void testGetCommand5() throws Exception {
-		CommandInterface command = factory.getCommand("exit");
+		CommandInterface command;
+		command = factory.getCommand("exit");
+		assertThat(command, instanceOf(ExitCommand.class));
+		command = factory.getCommand("quit");
 		assertThat(command, instanceOf(ExitCommand.class));
 	}
 
