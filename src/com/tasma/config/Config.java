@@ -69,7 +69,7 @@ public class Config extends ObservableConfig {
 	 */
 	public String setProperty(String key, String value) throws IOException {
 		String prevValue = properties.getProperty(key);
-		if (prevValue.equals(value)) {
+		if (prevValue != null && prevValue.equals(value)) {
 			
 		} else {
 			properties.setProperty(key, value);
