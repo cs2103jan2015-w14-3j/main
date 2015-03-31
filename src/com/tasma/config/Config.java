@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -16,15 +17,16 @@ import com.tasma.config.observers.StorageObserver;
 public class Config extends ObservableConfig {
 	
 	private static final String DESCRIPTION = "";
-	private static final String CONFIG_FILENAME = "app.config";
-	private static Config instance = null;
+	private static final String CONFIG_DEFAULT_FILENAME = "app";
+	private static final String CONFIG_FILE_EXTENSION = ".config";
+	private static final HashMap<String, Config> instances = new HashMap<String, Config>();
 	
 	private boolean isFirstRun = false;
 	private Properties properties;
 	private File configFile;
 	
-	private Config() throws IOException {
-		configFile = new File(CONFIG_FILENAME);
+	private Config(String name) throws IOException {
+		configFile = new File(name + CONFIG_FILE_EXTENSION);
 		properties = new Properties();
 		loadDefaultsAndObservers();
 	    if(configFile.exists()) {
@@ -36,12 +38,16 @@ public class Config extends ObservableConfig {
 	    	// TODO load all default values
 	    }
 	}
-    
+
 	public static Config getInstance() throws Exception {
-		if (instance == null) {
-			instance = new Config();
+		return getInstance(CONFIG_DEFAULT_FILENAME);
+	}
+	
+	public static Config getInstance(String name) throws Exception {
+		if (!instances.containsKey(name)) {
+			instances.put(name, new Config(name));
 		}
-		return instance;
+		return instances.get(name);
 	}
 	
 	private void loadDefaultsAndObservers() {
@@ -86,7 +92,7 @@ public class Config extends ObservableConfig {
 
 	private void saveToFile() throws IOException {
 		// TODO Is it inefficient to use a new outputStream every time we save?
-		FileOutputStream out = new FileOutputStream(CONFIG_FILENAME);
+		FileOutputStream out = new FileOutputStream(configFile);
 		properties.store(out, DESCRIPTION);
 		out.close();
 	}
