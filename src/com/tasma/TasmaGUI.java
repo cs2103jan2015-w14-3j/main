@@ -30,6 +30,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
 	
+	private static final int WINDOW_DEFAULT_WIDTH = 480;
+	private static final int WINDOW_DEFAULT_HEIGHT = 320;
+	
 	private JPanel contentPane;
 	private JTextField textCommand;
 	private JTextArea textDisplay = new JTextArea();
@@ -68,7 +71,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					thisFrame.setVisible(false);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  {
 					textDisplay.setVisible(false);
-					thisFrame.setSize(480, 400);
+					thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 					String command = textCommand.getText();
 					textCommand.setText("");
 					controller.executeInput(command);
@@ -95,7 +98,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setPreferredSize(new Dimension(470, 300));
+		scrollPane.setPreferredSize(new Dimension(470, 220));
 		
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
@@ -109,7 +112,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(0, 0, 480, 400);
+		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 		
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
@@ -121,7 +124,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			public void windowActivated(WindowEvent e) {
                 textCommand.requestFocus();
 				textDisplay.setVisible(false);
-				thisFrame.setSize(480, 400);
+				thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 			}
 			
 			@SuppressWarnings("deprecation")
@@ -205,7 +208,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setText(message);
 		textDisplay.setForeground(color);
 		textDisplay.setVisible(true);
-		setSize(480, 400 + textDisplay.getPreferredSize().height);
+		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT + textDisplay.getPreferredSize().height);
 	}
 	
 	public void editCmdDisplay (String task) {

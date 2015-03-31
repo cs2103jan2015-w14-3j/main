@@ -42,8 +42,6 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 		System.out.println(message);
 	}
 	
-	
-	
 	public void editCmdDisplay (String task) {
 	}
 
