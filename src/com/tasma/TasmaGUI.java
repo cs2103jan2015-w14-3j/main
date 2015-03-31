@@ -89,6 +89,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setBackground(Color.WHITE);
 		textDisplay.setBounds(6, 311, 460, 49);
 		contentPane.add(textDisplay);
+		textDisplay.setRows(1);
+		textDisplay.setLineWrap(true);
+		textDisplay.setVisible(false);
+		textDisplay.setWrapStyleWord(true);
 		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
