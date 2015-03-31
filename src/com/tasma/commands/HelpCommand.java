@@ -7,6 +7,7 @@ package com.tasma.commands;
 import java.util.List;
 
 import com.tasma.HelpMessage;
+import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
@@ -66,7 +67,7 @@ public class HelpCommand extends AbstractCommand {
 				message,
 				listImplode(AliasHandler.aliases(commandType))
 			);
-		userInterface.displayMessage(displayMessage);
+		userInterface.displayMessage(displayMessage, Palette.MESSAGE_INFO);
 	}
 	
 	protected static String listImplode(List<String> list) {
