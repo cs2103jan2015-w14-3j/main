@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -47,7 +48,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setLayout(null);
+		BorderLayout contentPaneLayout = new BorderLayout();
+		contentPane.setLayout(contentPaneLayout);
 		setContentPane(contentPane);
 		
 		textCommand = new JTextField();
@@ -57,7 +59,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setForeground(Color.WHITE);
 		textCommand.setCaretColor(Color.WHITE);
 		textCommand.setFont(textCommand.getFont().deriveFont(14.0f));
-		contentPane.add(textCommand);
+		contentPane.add(textCommand, BorderLayout.PAGE_START);
 		textCommand.setColumns(10);
 		JFrame thisFrame = this;
 		textCommand.addKeyListener(new KeyListener() {
@@ -88,11 +90,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setEditable(false);
 		textDisplay.setBackground(Color.WHITE);
 		textDisplay.setBounds(6, 311, 460, 49);
-		contentPane.add(textDisplay);
 		textDisplay.setRows(1);
 		textDisplay.setLineWrap(true);
 		textDisplay.setVisible(false);
 		textDisplay.setWrapStyleWord(true);
+		contentPane.add(textDisplay, BorderLayout.PAGE_END);
 		
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
@@ -100,7 +102,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		scrollPane.setBounds(6, 56, 460, 244);
 		
-		contentPane.add(scrollPane);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
 	}
 	
