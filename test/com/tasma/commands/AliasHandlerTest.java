@@ -5,6 +5,10 @@ package com.tasma.commands;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -167,7 +171,24 @@ public class AliasHandlerTest {
 	 */
 	@Test
 	public void testAliases() {
-		fail("Not yet implemented");
+		List<String> result;
+		result = AliasHandler.aliases(CommandType.ADD);
+		assertFalse(result.isEmpty());
+		result = AliasHandler.aliases(CommandType.SEARCH);
+		assertFalse(result.isEmpty());
+	}
+
+	/**
+	 * Invalid input test case
+	 * Test method for {@link com.tasma.commands.AliasHandler#aliases(com.tasma.commands.CommandType)}.
+	 */
+	@Test
+	public void testAliasesInvalid() {
+		List<String> result;
+		result = AliasHandler.aliases(CommandType.INVALID);
+		assertTrue(result.isEmpty());
+		result = AliasHandler.aliases(null);
+		assertTrue(result.isEmpty());
 	}
 
 }
