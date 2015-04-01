@@ -33,7 +33,7 @@ public class AliasHandlerTest {
 	 * Test cases for various kinds of invalid commands
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
-	@Test
+	@Test(expected = InvalidInputException.class)
 	public void testNormalizeInvalid() throws Exception {
 		assertEquals(CommandType.INVALID, AliasHandler.normalize(""));
 		assertEquals(CommandType.INVALID, AliasHandler.normalize("TODAY"));
@@ -114,7 +114,6 @@ public class AliasHandlerTest {
 	 */
 	@Test
 	public void testNormalizeDelete() throws Exception {
-		assertEquals(CommandType.DELETE, AliasHandler.normalize("d"));
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("delete"));
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("DEL"));
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("Delete"));
