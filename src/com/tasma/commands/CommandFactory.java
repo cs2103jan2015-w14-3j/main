@@ -32,7 +32,7 @@ public class CommandFactory {
 				result = new AddCommand(userInterface, collection, currentState, splitter.remainder());
 				break;
 			case SEARCH:
-				result = new SearchCommand(userInterface, collection, splitter.remainder());
+				result = new SearchCommand(userInterface, collection, currentState, splitter.remainder());
 				break;
 			case LIST:
 				result = new ListCommand(userInterface, collection, currentState, splitter.remainder());
