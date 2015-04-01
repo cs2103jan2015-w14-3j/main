@@ -1,13 +1,19 @@
 package com.tasma.demo;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Stack;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.KeyStroke;
+
 import com.tasma.Controller;
 import com.tasma.MockStorage;
 import com.tasma.TaskCollection;
-import com.tasma.TasmaApp;
 import com.tasma.TasmaGUI;
 import com.tasma.TasmaUserInterface;
 import com.tulskiy.keymaster.common.HotKey;
@@ -22,7 +28,7 @@ public class DemoApp implements Runnable {
 	private TasmaUserInterface frame; 
 
 	public static void main(String[] main) {
-		EventQueue.invokeLater(new TasmaApp());
+		EventQueue.invokeLater(new DemoApp());
 	}
 	
 	public DemoApp() {
@@ -53,6 +59,8 @@ public class DemoApp implements Runnable {
 				}
 	        });
 			
+			Actor actor = new Actor();
+			actor.initialize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,16 +70,51 @@ public class DemoApp implements Runnable {
 	protected class Actor {
 		private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
 		private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
-		
+		private JFrame demoControl = new JFrame();
 		public void initialize() {
+			prepareWindow();
+			prepareIV();
+			loadActions();
 		}
 		
-		public void previous() {
-			if (actionsCompleted.size() > 0) {
-				Runnable action = actionsCompleted.pop();
-				actionsAvailable.push(action);
-				action.run();
-			}
+		protected void prepareIV() {
+			
+		}
+		
+		protected void prepareWindow() {
+			Actor thisActor = this;
+			demoControl.setLayout(new BorderLayout());
+			demoControl.setResizable(false);
+			demoControl.setUndecorated(true);
+			demoControl.setSize(160, 40);
+			JButton prevButton = new JButton("Exit");
+			demoControl.getContentPane().add(prevButton, BorderLayout.WEST);
+			prevButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+			
+			JButton nextButton = new JButton("Next");
+			demoControl.getContentPane().add(nextButton, BorderLayout.EAST);
+			nextButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					thisActor.next();
+				}
+			});
+
+			demoControl.setVisible(true);
+		}
+		
+		public void loadActions() {
+			actionsAvailable.offer(new Runnable() {
+				@Override
+				public void run() {
+					frame.editCmdDisplay("test");
+				}
+			});
 		}
 		
 		public void next() {
