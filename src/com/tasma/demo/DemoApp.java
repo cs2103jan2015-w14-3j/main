@@ -76,7 +76,10 @@ public class DemoApp implements Runnable {
 		}
 		
 		protected void prepareIV() {
-			
+			controller.executeInput("a bring mom to visit doctor on next monday");
+			controller.executeInput("a settle bank account matters tomorrow");
+			controller.executeInput("a bring dog to vet for check up");
+			controller.executeInput("list");
 		}
 		
 		protected void prepareWindow() {
