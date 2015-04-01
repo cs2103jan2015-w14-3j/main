@@ -34,7 +34,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeInvalid() {
+	public void testNormalizeInvalid() throws Exception {
 		assertEquals(CommandType.INVALID, AliasHandler.normalize(""));
 		assertEquals(CommandType.INVALID, AliasHandler.normalize("TODAY"));
 		assertEquals(CommandType.INVALID, AliasHandler.normalize("tmr"));
@@ -45,7 +45,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeAdd() {
+	public void testNormalizeAdd() throws Exception {
 		assertEquals(CommandType.ADD, AliasHandler.normalize("add"));
 		assertEquals(CommandType.ADD, AliasHandler.normalize("a"));
 		assertEquals(CommandType.ADD, AliasHandler.normalize("create"));
@@ -60,7 +60,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeSet() {
+	public void testNormalizeSet() throws Exception {
 		assertEquals(CommandType.SET, AliasHandler.normalize("set"));
 		assertEquals(CommandType.SET, AliasHandler.normalize("Set"));
 		assertEquals(CommandType.SET, AliasHandler.normalize("SET"));
@@ -71,7 +71,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeSearch() {
+	public void testNormalizeSearch() throws Exception {
 		assertEquals(CommandType.SEARCH, AliasHandler.normalize("find"));
 		assertEquals(CommandType.SEARCH, AliasHandler.normalize("f"));
 		assertEquals(CommandType.SEARCH, AliasHandler.normalize("FIND"));
@@ -85,7 +85,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeEdit() {
+	public void testNormalizeEdit() throws Exception {
 		assertEquals(CommandType.EDIT, AliasHandler.normalize("edit"));
 		assertEquals(CommandType.EDIT, AliasHandler.normalize("update"));
 		assertEquals(CommandType.EDIT, AliasHandler.normalize("e"));
@@ -99,7 +99,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeMark() {
+	public void testNormalizeMark() throws Exception {
 		assertEquals(CommandType.MARK, AliasHandler.normalize("mark"));
 		assertEquals(CommandType.MARK, AliasHandler.normalize("Mark"));
 		assertEquals(CommandType.MARK, AliasHandler.normalize("MARK"));
@@ -113,7 +113,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeDelete() {
+	public void testNormalizeDelete() throws Exception {
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("d"));
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("delete"));
 		assertEquals(CommandType.DELETE, AliasHandler.normalize("DEL"));
@@ -128,7 +128,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeHelp() {
+	public void testNormalizeHelp() throws Exception {
 		assertEquals(CommandType.HELP, AliasHandler.normalize("help"));
 		assertEquals(CommandType.HELP, AliasHandler.normalize("HELP"));
 		assertEquals(CommandType.HELP, AliasHandler.normalize("h"));
@@ -141,7 +141,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeTutorial() {
+	public void testNormalizeTutorial() throws Exception {
 		assertEquals(CommandType.TUTORIAL, AliasHandler.normalize("T"));
 		assertEquals(CommandType.TUTORIAL, AliasHandler.normalize("tutorial"));
 		assertEquals(CommandType.TUTORIAL, AliasHandler.normalize("Tutorial"));
@@ -153,7 +153,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#normalize(java.lang.String)}.
 	 */
 	@Test
-	public void testNormalizeUndoRedo() {
+	public void testNormalizeUndoRedo() throws Exception {
 		assertEquals(CommandType.UNDO, AliasHandler.normalize("undo"));
 		assertEquals(CommandType.UNDO, AliasHandler.normalize("Undo"));
 		assertEquals(CommandType.UNDO, AliasHandler.normalize("UNDO"));
@@ -166,7 +166,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#aliases(com.tasma.commands.CommandType)}.
 	 */
 	@Test
-	public void testAliases() {
+	public void testAliases() throws Exception {
 		List<String> result;
 		result = AliasHandler.aliases(CommandType.ADD);
 		assertFalse(result.isEmpty());
@@ -179,7 +179,7 @@ public class AliasHandlerTest {
 	 * Test method for {@link com.tasma.commands.AliasHandler#aliases(com.tasma.commands.CommandType)}.
 	 */
 	@Test
-	public void testAliasesInvalid() {
+	public void testAliasesInvalid() throws Exception {
 		List<String> result;
 		result = AliasHandler.aliases(CommandType.INVALID);
 		assertTrue(result.isEmpty());
