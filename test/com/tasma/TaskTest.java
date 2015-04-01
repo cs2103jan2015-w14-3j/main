@@ -39,6 +39,15 @@ public class TaskTest {
 		String s = t.getStringEndDateTime();
 		assertEquals(s, "06-05-15 at 12:00am"); // not implemented yet?
 	}
+
+	@Test
+	public void testGetStringEndDateTime4() {
+		Task t = new Task();
+		DateTime dt = new DateTime(2015, 5, 6, 1, 10);
+		t.setEndDateTime(dt);
+		String s = t.getStringEndDateTime();
+		assertEquals(s, "06-05-15 at 1:10am"); // not implemented yet?
+	}
 	
 	@Test
 	public void testGetStringEndDateTime3() {
