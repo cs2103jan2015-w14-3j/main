@@ -38,7 +38,7 @@ public class Parser {
 
 			getWhen(parsedTask);
 
-			//getWhere(parsedTask);
+			getWhere(parsedTask);
 		} catch (InvalidInputException e) {
 			logger.log(Level.FINER, "InvalidInputException thrown: {0}", e.getMessage());
 			throw e;
@@ -98,8 +98,8 @@ public class Parser {
 
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
-						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
 					}
 				
 					taskDetails = removeFirstWord(taskDetails);
@@ -107,8 +107,8 @@ public class Parser {
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
-						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
 					}
 			
 					taskDetails = removeFirstWord(taskDetails);
@@ -118,8 +118,8 @@ public class Parser {
 				
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
-						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
+						taskDetails = taskDetails.substring("at".length() + 1);
 					}
 
 					taskDetails = removeFirstWord(taskDetails);
@@ -169,7 +169,7 @@ public class Parser {
 	 * Parses the task's "where" details.
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
 	 */
-	/*private void getWhere(Task parsedTask) {		
+	private void getWhere(Task parsedTask) {		
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting where details from \"{0}\"", str);
 			final String keyword = "at";
@@ -178,7 +178,7 @@ public class Parser {
 				parsedTask.setLocation(taskDetails.substring(indexAt + 3).trim());
 			}
 		}
-	}*/	
+	}	
 
 	/**
 	 * Parses the task's date details.
