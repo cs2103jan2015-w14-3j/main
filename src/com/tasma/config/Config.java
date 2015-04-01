@@ -60,6 +60,14 @@ public class Config extends ObservableConfig {
 	}
 	
 	/**
+	 * Removes the property in the file associated with the key
+	 * @param key
+	 */
+	public void removeProperty(String key) {
+		properties.remove(key);
+	}
+	
+	/**
 	 * Searches for the property with the specified key in this property list.
 	 * Returns null if the property is not found.
 	 */
