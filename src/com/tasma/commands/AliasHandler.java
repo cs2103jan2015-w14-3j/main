@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.tasma.InvalidInputException;
 import com.tasma.config.Config;
 
 public class AliasHandler {
@@ -67,10 +69,22 @@ public class AliasHandler {
 	 * Normalizes variation of a command into a specific CommandType for processing later
 	 * @param command The command to be interpreted.
 	 * @return Returns the command type if the command is valid, otherwise returns the CommandType.INVALID value.
+	 * @throws InvalidInputException 
 	 */
-	public static CommandType normalize(String command) {
+	public static CommandType normalize(String command) throws InvalidInputException {
 		CommandType result = CommandType.INVALID;
+
 		String commandLower = command.toLowerCase();
+		String alias;
+		try {
+			alias = getCustomAlias(command);
+			if (alias != null) {
+				commandLower = alias.toLowerCase();
+			}
+		} catch (Exception e) {
+			throw new InvalidInputException();
+		}
+		
 		if (builtInMapping.containsKey(commandLower)) {
 			result = builtInMapping.get(commandLower);
 		}
