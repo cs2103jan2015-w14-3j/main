@@ -86,6 +86,14 @@ public class AliasHandler {
 		return keys;
 	}
 	
+	public static String getCustomAlias(String customAlias) throws Exception {
+		if (customAlias == null || customAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		return settings.getProperty(customAlias);
+	}
+	
 	public static void setCustomAlias(String newCustomAlias, String command) throws Exception {
 		if (newCustomAlias == null || newCustomAlias.equals("")) {
 			throw new IllegalArgumentException();
