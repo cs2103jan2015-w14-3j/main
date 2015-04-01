@@ -10,7 +10,7 @@ import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 import com.tasma.config.Config;
 
-public class SetCommand extends AbstractCommand implements UndoableCommandInterface {
+public class SetCommand extends AbstractUndoableCommand {
 	
 	private String key;
 	private String previousValue;
