@@ -86,18 +86,20 @@ public class DemoApp implements Runnable {
 			demoControl.setLayout(new BorderLayout());
 			demoControl.setResizable(false);
 			demoControl.setUndecorated(true);
-			demoControl.setSize(160, 40);
-			JButton prevButton = new JButton("Exit");
-			demoControl.getContentPane().add(prevButton, BorderLayout.WEST);
-			prevButton.addActionListener(new ActionListener(){
+			demoControl.setSize(40, 60);
+			JButton exitButton = new JButton("X");
+			exitButton.setSize(40, 20);
+			demoControl.getContentPane().add(exitButton, BorderLayout.PAGE_START);
+			exitButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
 				}
 			});
 			
-			JButton nextButton = new JButton("Next");
-			demoControl.getContentPane().add(nextButton, BorderLayout.EAST);
+			JButton nextButton = new JButton(">");
+			exitButton.setSize(40, 20);
+			demoControl.getContentPane().add(nextButton, BorderLayout.PAGE_END);
 			nextButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
