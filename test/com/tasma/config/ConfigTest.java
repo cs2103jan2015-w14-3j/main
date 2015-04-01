@@ -32,7 +32,6 @@ public class ConfigTest {
 	@Test
 	public void testDefaults() throws Exception {
 		assertTrue(config.isFirstRun());
-		assertEquals(System.getProperty("user.dir"), config.getProperty("storage"));
 	}
 
 	@Test
