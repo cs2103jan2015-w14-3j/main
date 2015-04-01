@@ -88,6 +88,7 @@ public class DemoApp implements Runnable {
 			demoControl.setResizable(false);
 			demoControl.setUndecorated(true);
 			demoControl.setSize(40, 60);
+			demoControl.setAlwaysOnTop(true);
 			JButton exitButton = new JButton("X");
 			exitButton.setSize(40, 20);
 			demoControl.getContentPane().add(exitButton, BorderLayout.PAGE_START);
@@ -139,6 +140,14 @@ public class DemoApp implements Runnable {
 				public void run() {
 					frame.editCmdDisplay("");
 					controller.executeInput("add return library book on next wednesday");
+				}
+			});
+			
+			actionsAvailable.offer(new Runnable() {
+				@Override
+				public void run() {
+					frame.displayMessage("");
+					frame.editCmdDisplay("a");
 				}
 			});
 			
@@ -320,6 +329,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					frame.editCmdDisplay("");
 					frame.hide();
 				}
 			});
