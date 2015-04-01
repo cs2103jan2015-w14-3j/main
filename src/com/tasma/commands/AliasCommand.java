@@ -4,23 +4,31 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
 public class AliasCommand extends AbstractUndoableCommand {
+	
+	private String key;
+	private String previousValue;
+	private String newValue;
 
 	public AliasCommand(TasmaUserInterface userInterface,
-			TaskCollection collection) {
+			TaskCollection collection, String key, String value) {
 		super(userInterface, collection);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void undo() throws Exception {
-		// TODO Auto-generated method stub
-
+		this.key = key.toLowerCase();
+		this.newValue = value;
 	}
 
 	@Override
 	public void execute() throws Exception {
-		// TODO Auto-generated method stub
+		previousValue = AliasHandler.getCustomAlias(key);
+		AliasHandler.setCustomAlias(key, newValue);
+	}
 
+	@Override
+	public void undo() throws Exception {
+		if (previousValue == null) {
+			AliasHandler.removeCustomAlias(key);
+		} else {
+			AliasHandler.setCustomAlias(key, previousValue);
+		}
 	}
 
 }
