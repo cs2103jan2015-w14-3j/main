@@ -13,18 +13,22 @@ import com.tasma.TasmaUserInterface;
 
 public class HelpCommand extends AbstractCommand {
 
-	protected CommandType commandType = CommandType.HELP;
+	protected String command;
 	
 	public HelpCommand(TasmaUserInterface userInterface,
 			TaskCollection collection, String command) {
 		super(userInterface, collection);
-		if (!command.equals("")) {
-			this.commandType = AliasHandler.normalize(command);			
-		}
+		this.command = command;
 	}
 
 	@Override
 	public void execute() throws Exception {
+		CommandType commandType = CommandType.HELP;
+
+		if (!command.equals("")) {
+			commandType = AliasHandler.normalize(command);
+		}
+		
 		String message = "";
 		switch (commandType) {
 			case ADD:
