@@ -48,4 +48,13 @@ public class TaskTest {
 		String s = t.getStringEndDateTime();
 		assertEquals(s, "13-12-15 at 12:30pm");
 	}
+	
+	@Test
+	public void testToString() {
+		Task t = new Task("aabc", "buy snacks");
+		t.setStartDateTime(new DateTime(2015, 5, 6, 11, 0));
+		t.setEndDateTime(new DateTime(2016, 11, 30, 23, 59));
+		String s = t.toString();
+		System.out.println(s);
+	}
 }
