@@ -21,11 +21,13 @@ public class Config extends ObservableConfig {
 	private static final String CONFIG_FILE_EXTENSION = ".config";
 	private static final HashMap<String, Config> instances = new HashMap<String, Config>();
 	
+	private String name;
 	private boolean isFirstRun = false;
 	private Properties properties;
 	private File configFile;
 	
 	private Config(String name) throws IOException {
+		this.name = name;
 		configFile = new File(name + CONFIG_FILE_EXTENSION);
 		properties = new Properties();
 		loadDefaultsAndObservers();
@@ -50,13 +52,19 @@ public class Config extends ObservableConfig {
 	}
 	
 	private void loadDefaultsAndObservers() {
-		StorageObserver storage = new StorageObserver();
-		for (Map.Entry<String, String> entry : storage.defaults().entrySet())
+		if (name.equals(CONFIG_DEFAULT_FILENAME)) {
+			StorageObserver storage = new StorageObserver();
+			loadMap(storage.defaults());
+			
+			this.addObserver(storage);
+		}
+	}
+	
+	private void loadMap(Map<String, String> map) {
+		for (Map.Entry<String, String> entry : map.entrySet())
 		{
 			properties.setProperty(entry.getKey(), entry.getValue());
 		}
-		
-		this.addObserver(storage);
 	}
 	
 	/**
