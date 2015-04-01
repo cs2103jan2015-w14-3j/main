@@ -49,6 +49,9 @@ public class CommandFactory {
 			case SET:
 				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
 				break;
+			case ALIAS:
+				result = new AliasCommand(userInterface, collection, splitter.next(), splitter.remainder());
+				break;
 			case HELP:
 				result = new HelpCommand(userInterface, collection, splitter.remainder());
 				break;
