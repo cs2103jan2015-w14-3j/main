@@ -31,6 +31,10 @@ public final class UIMessage {
 
 	public static final String COMMAND_SET_SUCCESS = "Configuration value for %s has been updated.";
 	public static final String COMMAND_SET_UNDO = "Configuration value for %s has been restored.";
+
+	public static final String COMMAND_ALIAS_UPDATED = "Alias command %s has been updated.";
+	public static final String COMMAND_ALIAS_RESTORE = "Alias command %s has been restored.";
+	public static final String COMMAND_ALIAS_REMOVE = "Alias command %s has been removed.";
 	
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. If you need help, enter the 'help' command and I will be glad to assist you.";
 	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";

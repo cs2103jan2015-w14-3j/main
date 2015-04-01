@@ -1,7 +1,9 @@
 package com.tasma.commands;
 
+import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
+import com.tasma.UIMessage;
 
 public class AliasCommand extends AbstractUndoableCommand {
 	
@@ -26,8 +28,10 @@ public class AliasCommand extends AbstractUndoableCommand {
 		previousValue = AliasHandler.getCustomAlias(key);
 		if (isRemoveOperation) {
 			AliasHandler.removeCustomAlias(key);
+			userInterface.displayMessage(UIMessage.COMMAND_ALIAS_REMOVE, Palette.MESSAGE_SUCCESS);
 		} else {
 			AliasHandler.setCustomAlias(key, newValue);
+			userInterface.displayMessage(UIMessage.COMMAND_ALIAS_UPDATED, Palette.MESSAGE_SUCCESS);
 		}
 	}
 
@@ -35,8 +39,10 @@ public class AliasCommand extends AbstractUndoableCommand {
 	public void undo() throws Exception {
 		if (previousValue == null) {
 			AliasHandler.removeCustomAlias(key);
+			userInterface.displayMessage(UIMessage.COMMAND_ALIAS_REMOVE, Palette.MESSAGE_SUCCESS);
 		} else {
 			AliasHandler.setCustomAlias(key, previousValue);
+			userInterface.displayMessage(UIMessage.COMMAND_ALIAS_RESTORE, Palette.MESSAGE_SUCCESS);
 		}
 	}
 
