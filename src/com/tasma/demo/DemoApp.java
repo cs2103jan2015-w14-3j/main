@@ -48,8 +48,6 @@ public class DemoApp implements Runnable {
 			controller.initialize();
 			controller.executeInput("list");
 			
-			frame.show();
-
 			Provider provider = Provider.getCurrentProvider(true);
 			provider.register(KeyStroke.getKeyStroke("alt shift X"), new HotKeyListener() {
 
@@ -114,7 +112,9 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					frame.editCmdDisplay("test");
+					frame.show();
+				}
+			});
 				}
 			});
 		}
