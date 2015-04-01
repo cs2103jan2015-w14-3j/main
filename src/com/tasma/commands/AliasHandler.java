@@ -20,6 +20,7 @@ public class AliasHandler {
     	builtInMapping.put("c", CommandType.ADD);
     	
     	builtInMapping.put("set", CommandType.SET);
+    	builtInMapping.put("alias", CommandType.ALIAS);
     	
     	builtInMapping.put("s", CommandType.SEARCH);
     	builtInMapping.put("search", CommandType.SEARCH);
