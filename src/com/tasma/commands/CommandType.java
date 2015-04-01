@@ -20,5 +20,6 @@ public enum CommandType {
 	REDO,
 	TUTORIAL,
 	HELP,
+	ALIAS,
 	INVALID
 }
