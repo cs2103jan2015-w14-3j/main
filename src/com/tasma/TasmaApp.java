@@ -28,6 +28,7 @@ public class TasmaApp implements Runnable {
 	
 	public TasmaApp() {
 		try {
+			frame = new TasmaGUI();
 			controller = new Controller();
 			config = Config.getInstance();
 		} catch (Exception e) {
@@ -39,7 +40,6 @@ public class TasmaApp implements Runnable {
 	public void run() {
 		try {
 			logger.log(Level.FINE, "Initializing window & application");
-			frame = new TasmaGUI();
 			frame.initialize(controller);
 			controller.initialize();
 			controller.executeInput("list");
