@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import com.tasma.config.Config;
 
 public class AliasHandler {
 	
+	private static final String ALIAS_CONFIG_NAME = "aliases";
 	private static final Map<String, CommandType> builtInMapping;
     static
     {
@@ -82,5 +84,22 @@ public class AliasHandler {
 			}
 		}
 		return keys;
+	}
+	
+	public static void setCustomAlias(String newCustomAlias, String command) throws Exception {
+		if (newCustomAlias == null || newCustomAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		CommandType type = normalize(command);
+		settings.setProperty(newCustomAlias, type.toString());
+	}
+	
+	public static void removeCustomAlias(String customAlias) throws Exception {
+		if (customAlias == null || customAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		settings.removeProperty(customAlias);
 	}
 }
