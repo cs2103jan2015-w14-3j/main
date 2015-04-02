@@ -145,7 +145,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        JTextArea renderer = new JTextArea();
 		        renderer.setText(value.toString());
 		        renderer.setLineWrap(true);
-		        Font font = new Font("monospaced", Font.PLAIN, 14);
+		        Font font = new Font("monospaced", Font.PLAIN, 12);
 		        renderer.setFont(font);
 		        return renderer;
 		   }
