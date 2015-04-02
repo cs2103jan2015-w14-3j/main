@@ -25,7 +25,6 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ScrollPaneConstants;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -101,7 +100,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		scrollPane.setPreferredSize(new Dimension(470, 220));
 		
@@ -116,7 +114,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
+		setSize(528, 329);
 		
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
