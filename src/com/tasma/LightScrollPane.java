@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,6 +22,10 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class LightScrollPane extends JComponent{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int SCROLL_BAR_ALPHA_ROLLOVER = 150;
     private static final int SCROLL_BAR_ALPHA = 100;
     private static final int THUMB_BORDER_SIZE = 2;
@@ -48,7 +55,12 @@ public class LightScrollPane extends JComponent{
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setLayout(new ScrollPaneLayout() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void layoutContainer(Container parent) {
                 viewport.setBounds(0, 0, getWidth(), getHeight());
                 SwingUtilities.invokeLater(new Runnable() {
@@ -65,7 +77,12 @@ public class LightScrollPane extends JComponent{
         layeredPane.add(scrollPane);
 
         setLayout(new BorderLayout() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void layoutContainer(Container target) {
                 super.layoutContainer(target);
                 int width = getWidth();
@@ -111,7 +128,13 @@ public class LightScrollPane extends JComponent{
     }
     
     private static class MyScrollBarButton extends JButton {
-        private MyScrollBarButton() {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MyScrollBarButton() {
             setOpaque(false);
             setFocusable(false);
             setFocusPainted(false);
@@ -119,5 +142,45 @@ public class LightScrollPane extends JComponent{
             setBorder(BorderFactory.createEmptyBorder());
         }
     }
+    
+    private static class MyScrollBarUI extends BasicScrollBarUI {
+        @Override
+        protected JButton createDecreaseButton(int orientation) {
+            return new MyScrollBarButton();
+        }
 
+        @Override
+        protected JButton createIncreaseButton(int orientation) {
+            return new MyScrollBarButton();
+        }
+
+        @Override
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+        }
+
+        @Override
+        protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+            int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVER : SCROLL_BAR_ALPHA;
+            int orientation = scrollbar.getOrientation();
+            int arc = THUMB_SIZE;
+            int x = thumbBounds.x + THUMB_BORDER_SIZE;
+            int y = thumbBounds.y + THUMB_BORDER_SIZE;
+
+            int width = orientation == JScrollBar.VERTICAL ?
+                    THUMB_SIZE : thumbBounds.width - (THUMB_BORDER_SIZE * 2);
+            width = Math.max(width, THUMB_SIZE);
+
+            int height = orientation == JScrollBar.VERTICAL ?
+                    thumbBounds.height - (THUMB_BORDER_SIZE * 2) : THUMB_SIZE;
+            height = Math.max(height, THUMB_SIZE);
+
+            Graphics2D graphics2D = (Graphics2D) g.create();
+            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics2D.setColor(new Color(THUMB_COLOR.getRed(),
+                    THUMB_COLOR.getGreen(), THUMB_COLOR.getBlue(), alpha));
+            graphics2D.fillRoundRect(x, y, width, height, arc, arc);
+            graphics2D.dispose();
+        }
+    }
 }
