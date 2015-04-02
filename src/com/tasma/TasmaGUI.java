@@ -35,7 +35,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final int WINDOW_DEFAULT_HEIGHT = 320;
 	
 	private JPanel contentPane;
-	private JTextField textCommand;
+	private PlaceholderTextField textCommand;
 	private JTextArea textDisplay = new JTextArea();
 	
 	private Controller controller;
@@ -56,7 +56,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.setLayout(contentPaneLayout);
 		setContentPane(contentPane);
 		
-		textCommand = new JTextField();
+		textCommand = new PlaceholderTextField();
+		textCommand.setPlaceholder("What would you like to do?");
+		textCommand.setPlaceholderColor(Palette.PLACEHOLDER_TEXT);
 		textCommand.setBorder(new EmptyBorder(10, 10, 10, 10));
 		textCommand.setSize(new Dimension(480, 40));
 		textCommand.setBackground(Palette.THEME_BLUE);
