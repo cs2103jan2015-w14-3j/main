@@ -18,6 +18,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
@@ -25,6 +26,8 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+
+import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -165,7 +168,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
-		String[] listTasks = new String[tasks.size()];
+		//For listing down the tasks
+		String[] listTasks = new String[tasks.size() + 3];
 		
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
@@ -179,6 +183,28 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			text += task.getStringEndDateTime();
 			
 			listTasks[i-1] = text;
+		}
+		
+		Vector today = new Vector(); Vector tomorrow = new Vector();
+		Vector remain = new Vector();
+		
+		Iterator<Task> sIterator = tasks.iterator();
+		int j = 0;
+		
+		LocalDate dateNow = new LocalDate();
+		LocalDate dateTmr = dateNow.plusDays(1);
+		
+		while(sIterator.hasNext()) {
+			Task task = iterator.next();
+			
+			if (task.getEndDateTime().equals(dateNow)) {
+				today.add(listTasks[++i]);
+			}
+			else if (task.getEndDateTime().equals(dateTmr)) {
+				tomorrow.add(listTasks[++i]);
+			}
+			else
+				remain.add(listTasks[++i]);
 		}
 		
 		list.setListData(listTasks);
