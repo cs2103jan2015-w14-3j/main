@@ -87,7 +87,7 @@ public class DemoApp implements Runnable {
 			demoControl.setLayout(new BorderLayout());
 			demoControl.setResizable(false);
 			demoControl.setUndecorated(true);
-			demoControl.setSize(40, 60);
+			demoControl.setSize(60, 60);
 			demoControl.setAlwaysOnTop(true);
 			JButton exitButton = new JButton("X");
 			exitButton.setSize(40, 20);
