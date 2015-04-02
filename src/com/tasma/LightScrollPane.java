@@ -1,5 +1,6 @@
 package com.tasma;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 
 import javax.swing.JComponent;
@@ -43,6 +44,31 @@ public class LightScrollPane extends JComponent{
                         displayScrollBarsIfNecessary(viewport);
                     }
                 });
+            }
+        });
+        
+        layeredPane.add(verticalScrollBar);
+        layeredPane.add(scrollPane);
+
+        setLayout(new BorderLayout() {
+            @Override
+            public void layoutContainer(Container target) {
+                super.layoutContainer(target);
+                int width = getWidth();
+                int height = getHeight();
+                scrollPane.setBounds(0, 0, width, height);
+
+                int scrollBarSize = 12;
+                int cornerOffset = verticalScrollBar.isVisible() &&
+                        horizontalScrollBar.isVisible() ? scrollBarSize : 0;
+                if (verticalScrollBar.isVisible()) {
+                    verticalScrollBar.setBounds(width - scrollBarSize, 0,
+                            scrollBarSize, height - cornerOffset);
+                }
+                if (horizontalScrollBar.isVisible()) {
+                    horizontalScrollBar.setBounds(0, height - scrollBarSize,
+                            width - cornerOffset, scrollBarSize);
+                }
             }
         });
 }
