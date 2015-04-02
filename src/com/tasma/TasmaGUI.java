@@ -110,7 +110,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private void decorateFrame() {
 		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
-		setResizable(false);
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
