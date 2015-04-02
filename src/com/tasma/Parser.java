@@ -13,7 +13,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 public class Parser {
-	
+
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 	/** Stores original taskDetails for logging */
@@ -54,7 +54,7 @@ public class Parser {
 	 */
 	private void getWhat(Task parsedTask) throws InvalidInputException {
 		logger.log(Level.FINE, "Getting what details from \"{0}\"", str);
-		final String[] keywords = {" on ", " at ", " in ", " from ", " by "};
+		final String[] keywords = {" on ", " at ", " from ", " by ", "tomorrow", "tmrw", "tmr", "today", "tdy"};
 		int index = 0; 
 
 		if (taskDetails.length() == 0) {
@@ -89,10 +89,10 @@ public class Parser {
 
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting when details from \"{0}\"", str);
-			final String[] keywords = {"on", "from", "at", "by"};
+			final String[] keywords = {"on", "from", "at", "by", "tomorrow", "tmrw", "tmr", "today", "tdy"};
 
 			DateTime d = initializeDateTime();
-			
+
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				d = parseDate(keywords[0]);
 
@@ -101,7 +101,7 @@ public class Parser {
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
-				
+
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
@@ -110,11 +110,22 @@ public class Parser {
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
-			
+
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			} else if (taskDetails.toLowerCase().contains(keywords[3])) {
-				d = parseDate(keywords[3]);
+				if (taskDetails.toLowerCase().contains(keywords[4]) || 
+						taskDetails.toLowerCase().contains(keywords[5]) || 
+						taskDetails.toLowerCase().contains(keywords[6])) {
+					d = parseDay(1);
+				} else if (taskDetails.toLowerCase().contains(keywords[7]) || 
+						taskDetails.toLowerCase().contains(keywords[8])) {
+					d = parseDay(0);
+				} else {
+					d = parseDate(keywords[3]);
+				}
+				
+				taskDetails = removeFirstWord(taskDetails);
 				
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
@@ -124,8 +135,15 @@ public class Parser {
 
 					taskDetails = removeFirstWord(taskDetails);
 				}
+			} else if (taskDetails.toLowerCase().contains(keywords[4]) || 
+					taskDetails.toLowerCase().contains(keywords[5]) || 
+					taskDetails.toLowerCase().contains(keywords[6])) {
+				d = parseDay(1);
+			} else if (taskDetails.toLowerCase().contains(keywords[7]) || 
+					taskDetails.toLowerCase().contains(keywords[8])) {
+				d = parseDay(0);
 			}
-			
+
 			parsedTask.setEndDateTime(d);
 		} 
 		//}
@@ -222,7 +240,19 @@ public class Parser {
 		taskDetails = removeFirstWord(taskDetails);
 		return d;
 	}
-	
+
+	/**
+	 * Parses the task's today/tomorrow details.
+	 * @param days No. of days to be added from today.
+	 * @return DateTime object containing the parsed day.
+	 */
+	private DateTime parseDay(int days) {
+		DateTime d = initializeDateTime();
+		d = d.plusDays(days);
+
+		taskDetails = removeFirstWord(taskDetails);
+		return d;
+	}
 	/**
 	 * Initializes and returns a DateTime object.
 	 * @return Initialized DateTime object.
@@ -238,10 +268,10 @@ public class Parser {
 	/**
 	 * Determines which day of the week the passed string is.
 	 * @param day String containing day to be parsed.
-	 * @return Relevant DateTimeConstants if "day" contains a valid day, -1 otherwise
+	 * @return Relevant DateTimeConstants if "day" is a valid day/week, -1 otherwise
 	 */
 	private int determineDay(String day) {
-		final String[] daysOfWeek = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
+		final String[] daysOfWeek = {"mon", "tue", "wed", "thu", "fri", "sat", "sun", "week"};
 
 		if (day.toLowerCase().contains(daysOfWeek[0])) {
 			return DateTimeConstants.MONDAY;
@@ -257,7 +287,9 @@ public class Parser {
 			return DateTimeConstants.SATURDAY;
 		} else if (day.toLowerCase().contains(daysOfWeek[6])) {
 			return DateTimeConstants.SUNDAY;
-		} else {
+		} else if (day.toLowerCase().contains(daysOfWeek[7])) {
+			return new DateTime().getDayOfWeek();
+		}else {
 			return -1;
 		}
 	}
@@ -311,14 +343,14 @@ public class Parser {
 		} else {
 			time = getFirstWord(time);
 		}
-			final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
-			final Pattern pattern = Pattern.compile(regexTime);
+		final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
+		final Pattern pattern = Pattern.compile(regexTime);
 
-			if (!pattern.matcher(time).matches()) {
-				return false;
-			} else {
-				return true;
-			}
+		if (!pattern.matcher(time).matches()) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -334,7 +366,7 @@ public class Parser {
 		} else {
 			date = getFirstWord(taskDetails);
 		}
-		
+
 		int addHours = 0;
 
 		if (date.substring(date.length()-2).compareToIgnoreCase("pm") == 0) {
@@ -382,7 +414,7 @@ public class Parser {
 		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
 		return commandTypeString;
 	}
-	
+
 	/**
 	 * Removes first word of passed string and returns the rest of the string.
 	 * @param details String from which first word is to be removed.
