@@ -178,14 +178,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				
 			text += task.getStringEndDateTime();
 			
-			if (task.isArchived()) {
-				text += " Archived";
-			}
-			
-			if (task.isDone()) {
-				text += " Done";
-			}
-			
 			listTasks[i-1] = text;
 		}
 		
