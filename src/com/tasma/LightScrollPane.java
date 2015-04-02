@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class LightScrollPane extends JComponent{
+public class LightScrollPane extends JScrollPane{
 	
 	/**
 	 * 
@@ -41,8 +41,8 @@ public class LightScrollPane extends JComponent{
     
     private Timer timer;
     
-    public LightScrollPane(JComponent component) {
-        scrollPane = new JScrollPane(component);
+    public LightScrollPane() {
+        scrollPane = new JScrollPane();
         verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setVisible(false);
         verticalScrollBar.setOpaque(false);
@@ -77,8 +77,6 @@ public class LightScrollPane extends JComponent{
         layeredPane.setLayer(verticalScrollBar, JLayeredPane.PALETTE_LAYER);
         layeredPane.setLayer(horizontalScrollBar, JLayeredPane.PALETTE_LAYER);
 
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setLayout(new ScrollPaneLayout() {
             /**
 			 * 
@@ -208,4 +206,5 @@ public class LightScrollPane extends JComponent{
             graphics2D.dispose();
         }
     }
+    
 }
