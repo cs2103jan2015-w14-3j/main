@@ -3,6 +3,8 @@ package com.tasma;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
@@ -90,5 +92,22 @@ public class LightScrollPane extends JComponent{
         displayHorizontalScrollBarIfNecessary(viewPort);
     }
 
+    private void displayVerticalScrollBarIfNecessary(JViewport viewPort) {
+        Rectangle viewRect = viewPort.getViewRect();
+        Dimension viewSize = viewPort.getViewSize();
+        boolean shouldDisplayVerticalScrollBar =
+                viewSize.getHeight() > viewRect.getHeight();
+        verticalScrollBar.setVisible(shouldDisplayVerticalScrollBar);
+    }
+
+    private void displayHorizontalScrollBarIfNecessary(JViewport viewPort) {
+        Rectangle viewRect = viewPort.getViewRect();
+        Dimension viewSize = viewPort.getViewSize();
+        boolean shouldDisplayHorizontalScrollBar =
+                viewSize.getWidth() > viewRect.getWidth();
+        horizontalScrollBar.setVisible(shouldDisplayHorizontalScrollBar);
+    }
     
+    
+
 }
