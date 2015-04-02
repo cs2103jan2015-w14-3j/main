@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -109,7 +110,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private void decorateFrame() {
 		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
-		setResizable(false);
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -144,6 +144,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        JTextArea renderer = new JTextArea();
 		        renderer.setText(value.toString());
 		        renderer.setLineWrap(true);
+		        Font font = new Font("monospaced", Font.PLAIN, 12);
+		        renderer.setFont(font);
 		        return renderer;
 		   }
 		}
@@ -169,17 +171,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			String text = String.format("%d. %s", ++i, task.getDetails());
+			String text = (++i) + ". " + task.getDetails();
 			
 			if (task.getStartDateTime() != null) {
 				text += "\n Date:" + " from " + task.getStringStartDateTime() + " to " + task.getStringEndDateTime();
 			} else if (task.getEndDateTime() != null) {
 				text += "\n Date: " + task.getStringEndDateTime();
 			}
-			
-			/*if (task.getEndDateTime() != null) {
-				text = text.concat("\n" + "Date: " + task.getStringEndDateTime());
-			}*/
 			
 			if (task.getLocation().length() != 0) {
 				text = text.concat("\n" + "Location: " + task.getLocation());
@@ -193,10 +191,32 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				text += " Done";
 			}
 			
+			text = fill(text, 50, " ");
+				
+			text += task.getStringEndDateTime();
+			
 			listTasks[i-1] = text;
 		}
 		
 		list.setListData(listTasks);
+	}
+	
+	private String fill(int length, String with) {
+	    StringBuilder sb = new StringBuilder(length);
+	    while (sb.length() < length) {
+	        sb.append(with);
+	    }
+	    return sb.toString();
+	}
+	
+	private String fill(String value, int length, String with) {
+
+	    StringBuilder result = new StringBuilder(length);
+	    result.append(value);
+	    result.append(fill(Math.max(0, length - value.length()), with));
+
+	    return result.toString();
+
 	}
 	
 	@Override
