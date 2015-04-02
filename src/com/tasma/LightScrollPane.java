@@ -1,12 +1,14 @@
 package com.tasma;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -30,10 +32,17 @@ public class LightScrollPane extends JComponent{
         verticalScrollBar.setOpaque(false);
         verticalScrollBar.setUI(new MyScrollBarUI());
 
+        horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+        horizontalScrollBar.setVisible(false);
+        horizontalScrollBar.setOpaque(false);
+        horizontalScrollBar.setUI(new MyScrollBarUI());
+
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setLayer(verticalScrollBar, JLayeredPane.PALETTE_LAYER);
+        layeredPane.setLayer(horizontalScrollBar, JLayeredPane.PALETTE_LAYER);
 
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setLayout(new ScrollPaneLayout() {
             @Override
             public void layoutContainer(Container parent) {
@@ -47,6 +56,7 @@ public class LightScrollPane extends JComponent{
             }
         });
         
+        layeredPane.add(horizontalScrollBar);
         layeredPane.add(verticalScrollBar);
         layeredPane.add(scrollPane);
 
@@ -71,4 +81,14 @@ public class LightScrollPane extends JComponent{
                 }
             }
         });
+        add(layeredPane, BorderLayout.CENTER);
+        layeredPane.setBackground(Color.BLUE);
+    }
+    
+    private void displayScrollBarsIfNecessary(JViewport viewPort) {
+        displayVerticalScrollBarIfNecessary(viewPort);
+        displayHorizontalScrollBarIfNecessary(viewPort);
+    }
+
+    
 }
