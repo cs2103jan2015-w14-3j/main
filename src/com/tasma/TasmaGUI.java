@@ -171,9 +171,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			
 			String text = String.format("%d. %s", ++i, task.getDetails());
 			
-			if (task.getEndDateTime() != null) {
-				text = text.concat("\n" + "Date: " + task.getStringEndDateTime());
+			if (task.getStartDateTime() != null) {
+				text += "\n Date:" + " from " + task.getStringStartDateTime() + " to " + task.getStringEndDateTime();
+			} else if (task.getEndDateTime() != null) {
+				text += "\n Date: " + task.getStringEndDateTime();
 			}
+			
+			/*if (task.getEndDateTime() != null) {
+				text = text.concat("\n" + "Date: " + task.getStringEndDateTime());
+			}*/
 			
 			if (task.getLocation().length() != 0) {
 				text = text.concat("\n" + "Location: " + task.getLocation());

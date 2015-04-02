@@ -89,21 +89,70 @@ public class Parser {
 
 		if (taskDetails.length() != 0) {
 			logger.log(Level.FINE, "Getting when details from \"{0}\"", str);
-			final String[] keywords = {"on", "from", "at", "by", "tomorrow", "tmrw", "tmr", "today", "tdy"};
+			final String[] keywords = {"on", "from", "at", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "to"};
 
 			DateTime d = initializeDateTime();
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				d = parseDate(keywords[0]);
-
+		
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
+				
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
 
 					taskDetails = removeFirstWord(taskDetails);
 				}
+			} else if (taskDetails.toLowerCase().contains(keywords[1])) {
+				String day = getWord(taskDetails, keywords[1].length());
+				if (day.equals(keywords[4]) || day.equals(keywords[5]) || day.equals(keywords[6])) {
+					d = parseDay(1);
+				} else if (day.equals(keywords[7]) || day.equals(keywords[8])) {
+					d = parseDay(0);
+				} else {
+					d = parseDate(keywords[1]);
+				}
+				
+				taskDetails = removeFirstWord(taskDetails);
+
+				if (isValidTime(taskDetails)) {
+					d = getTime(taskDetails, d);
+				
+					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
+						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					}
+
+					taskDetails = removeFirstWord(taskDetails);
+				}
+				
+				parsedTask.setStartDateTime(d);
+				
+				d = initializeDateTime();
+				
+				day = getWord(taskDetails, keywords[9].length());
+				
+				if (day.equals(keywords[4]) || day.equals(keywords[5]) || day.equals(keywords[6])) {
+					d = parseDay(1);
+				} else if (day.equals(keywords[7]) || day.equals(keywords[8])) {
+					d = parseDay(0);
+				} else {
+					d = parseDate(keywords[9]);
+				}
+
+				taskDetails = removeFirstWord(taskDetails);
+				
+				if (isValidTime(taskDetails)) {
+					d = getTime(taskDetails, d);
+				
+					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
+						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					}
+
+					taskDetails = removeFirstWord(taskDetails);
+				}
+				
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
@@ -124,9 +173,9 @@ public class Parser {
 				} else {
 					d = parseDate(keywords[3]);
 				}
-				
+
 				taskDetails = removeFirstWord(taskDetails);
-				
+
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
@@ -139,9 +188,25 @@ public class Parser {
 					taskDetails.toLowerCase().contains(keywords[5]) || 
 					taskDetails.toLowerCase().contains(keywords[6])) {
 				d = parseDay(1);
+				if (isValidTime(taskDetails)) {
+					d = getTime(taskDetails, d);
+					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
+						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					}
+
+					taskDetails = removeFirstWord(taskDetails);
+				}
 			} else if (taskDetails.toLowerCase().contains(keywords[7]) || 
 					taskDetails.toLowerCase().contains(keywords[8])) {
 				d = parseDay(0);
+				if (isValidTime(taskDetails)) {
+					d = getTime(taskDetails, d);
+					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
+						taskDetails = taskDetails.substring(keywords[2].length() + 1);
+					}
+
+					taskDetails = removeFirstWord(taskDetails);
+				}
 			}
 
 			parsedTask.setEndDateTime(d);
@@ -228,6 +293,8 @@ public class Parser {
 		} else if (isValidDate(getWord(taskDetails, indexNext))) {
 			String date = getWord(taskDetails, indexNext);
 			d = getDate(date, d);		
+		} else if (isValidTime(getWord(taskDetails, indexNext))) {
+			return d;
 		} else {
 			throw new InvalidInputException("Invalid date");
 		}
