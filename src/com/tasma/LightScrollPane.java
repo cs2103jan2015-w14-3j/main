@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollBar;
@@ -108,6 +110,14 @@ public class LightScrollPane extends JComponent{
         horizontalScrollBar.setVisible(shouldDisplayHorizontalScrollBar);
     }
     
-    
+    private static class MyScrollBarButton extends JButton {
+        private MyScrollBarButton() {
+            setOpaque(false);
+            setFocusable(false);
+            setFocusPainted(false);
+            setBorderPainted(false);
+            setBorder(BorderFactory.createEmptyBorder());
+        }
+    }
 
 }
