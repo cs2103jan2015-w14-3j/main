@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -144,6 +145,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        JTextArea renderer = new JTextArea();
 		        renderer.setText(value.toString());
 		        renderer.setLineWrap(true);
+		        Font font = new Font("monospaced", Font.PLAIN, 14);
+		        renderer.setFont(font);
 		        return renderer;
 		   }
 		}
@@ -169,11 +172,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
 			
-			String text = String.format("%d. %s", ++i, task.getDetails());
+			String text = (++i) + ". " + task.getDetails();
 			
-			if (task.getEndDateTime() != null) {
-				text = text.concat("\n" + "Date: " + task.getStringEndDateTime());
-			}
+			text = fill(text, 50, " ");
+				
+			text += task.getStringEndDateTime();
 			
 			if (task.isArchived()) {
 				text += " Archived";
@@ -187,6 +190,24 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		}
 		
 		list.setListData(listTasks);
+	}
+	
+	private String fill(int length, String with) {
+	    StringBuilder sb = new StringBuilder(length);
+	    while (sb.length() < length) {
+	        sb.append(with);
+	    }
+	    return sb.toString();
+	}
+	
+	private String fill(String value, int length, String with) {
+
+	    StringBuilder result = new StringBuilder(length);
+	    result.append(value);
+	    result.append(fill(Math.max(0, length - value.length()), with));
+
+	    return result.toString();
+
 	}
 	
 	@Override
