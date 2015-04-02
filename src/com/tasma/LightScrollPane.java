@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class LightScrollPane extends JComponent{
@@ -36,17 +39,39 @@ public class LightScrollPane extends JComponent{
     private final JScrollBar verticalScrollBar;
     private final JScrollBar horizontalScrollBar;
     
+    private Timer timer;
+    
     public LightScrollPane(JComponent component) {
         scrollPane = new JScrollPane(component);
         verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setVisible(false);
         verticalScrollBar.setOpaque(false);
         verticalScrollBar.setUI(new MyScrollBarUI());
+        verticalScrollBar.addAdjustmentListener(new AdjustmentListener(){
+        	
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                verticalScrollBar.setUI(new MyScrollBarUI());
+                timer.stop();
+                timer.start();
+            }
+ 
+        });
 
         horizontalScrollBar = scrollPane.getHorizontalScrollBar();
         horizontalScrollBar.setVisible(false);
         horizontalScrollBar.setOpaque(false);
         horizontalScrollBar.setUI(new MyScrollBarUI());
+        horizontalScrollBar.addAdjustmentListener(new AdjustmentListener(){
+        	 
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                horizontalScrollBar.setUI(new MyScrollBarUI());
+                timer.stop();
+                timer.start();
+            }
+ 
+        });
 
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setLayer(verticalScrollBar, JLayeredPane.PALETTE_LAYER);
