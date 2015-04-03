@@ -173,9 +173,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		LocalDate dateNow = new LocalDate();
 		LocalDate dateTmr = dateNow.plusDays(1);
 
-		Vector<Task> today = new Vector<Task>();
-		Vector<Task> tomorrow = new Vector<Task>();
-		Vector<Task> remain = new Vector<Task>();
+		Vector<String> today = new Vector<String>();
+		Vector<String> tomorrow = new Vector<String>();
+		Vector<String> remain = new Vector<String>();
 
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
