@@ -1,8 +1,11 @@
 /**
  * Tasma Task Manager
  */
+//@author A0132763
 package com.tasma;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -54,7 +57,21 @@ public class TaskCollection {
 	public List<Task> upcoming() {
 		List<Task> upcomingList = tasks.stream()
 		    .filter(task -> !task.isDone() && !task.isArchived()).collect(Collectors.toList());
-
+		
+		Collections.sort(upcomingList, new Comparator<Task>() {
+		    @Override
+		    public int compare(Task t1, Task t2) {
+		    	if (t1.getStartDateTime() == null && t2.getStartDateTime() == null) {
+		    		return 0;
+		    	} else if (t1.getStartDateTime() == null) {
+		    		return -1;
+		    	} else if (t2.getStartDateTime() == null) {
+		    		return 1;
+		    	}
+		    	return t1.getStartDateTime().compareTo(t2.getStartDateTime());
+		    }
+		}); 
+		
 		return upcomingList;
 	}
 	
