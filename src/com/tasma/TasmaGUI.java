@@ -3,7 +3,6 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,14 +19,13 @@ import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-
 import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
@@ -44,6 +42,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private Controller controller;
 	private ZebraJList list = new ZebraJList();
 	private JScrollPane scrollPane = new JScrollPane();
+	private JPopupMenu popupCmdHint;
 
 	/**
 	 * Create the frame.
@@ -160,7 +159,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		LinkedList<Object> listToday = new LinkedList<Object>();
 		LinkedList<Object> listTomorrow = new LinkedList<Object>();
 		LinkedList<Object> listRemaining = new LinkedList<Object>();
-		
+
 		listFloating.add("Floating");
 		listOverdue.add("Overdue");
 		listToday.add("Today");
@@ -185,7 +184,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 			++taskIndex;
 		}
-		
+
 		LinkedList<Object> finalList = new LinkedList<Object>();
 		if (listFloating.size() > 1) {
 			finalList.addAll(listFloating);
@@ -196,34 +195,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		if (listToday.size() > 1) {
 			finalList.addAll(listToday);
 		}
-		
+
 		if (listToday.size() > 1) {
 			finalList.addAll(listTomorrow);
 		}
-		
+
 		if (listRemaining.size() > 1) {
 			finalList.addAll(listRemaining);
 		}
 
 		list.setListData(finalList.toArray());
-	}
-
-	private String fill(int length, String with) {
-	    StringBuilder sb = new StringBuilder(length);
-	    while (sb.length() < length) {
-	        sb.append(with);
-	    }
-	    return sb.toString();
-	}
-
-	private String fill(String value, int length, String with) {
-
-	    StringBuilder result = new StringBuilder(length);
-	    result.append(value);
-	    result.append(fill(Math.max(0, length - value.length()), with));
-
-	    return result.toString();
-
 	}
 
 	@Override
@@ -281,21 +262,21 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
 				int taskIndex = entry.getKey();
 			    Task task = entry.getValue();
-	
+
 			    GridBagLayout layout = new GridBagLayout();
 			    panel.setLayout(layout);
-			    
+
 			    GridBagConstraints c = new GridBagConstraints();
-			       
+
 			    JTextArea textIndex = new JTextArea();
 			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setBackground(null);
 			    c.fill = GridBagConstraints.HORIZONTAL;
-			    c.gridx = 0; 
+			    c.gridx = 0;
 			    c.gridy = 0;
 			    panel.add(textIndex, c);
-	
+
 			    JTextArea textDetails = new JTextArea();
 			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
 			    textDetails.setText(task.getDetails());
@@ -308,7 +289,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridy = 0;
 		        c.weightx = 1;
 		        panel.add(textDetails, c);
-		
+
 		        JTextArea textDateTime = new JTextArea();
 		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
 		        textDateTime.setText(task.getStringStartDateTime());
