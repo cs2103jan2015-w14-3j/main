@@ -145,10 +145,10 @@ public class Task implements Cloneable {
 		String result = "";
 		result += details;
 
-		if (startDateTime != null) {
+		if (startDateTime != endDateTime) {
 			result += " from " + getStringStartDateTime() + " to " + getStringEndDateTime();
-		} else if (endDateTime != null) {
-			result += " on " + getStringEndDateTime();
+		} else if (startDateTime != null) {
+			result += " on " + getStringStartDateTime();
 		}
 		
 		return result; 
