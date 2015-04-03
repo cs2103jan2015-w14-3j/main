@@ -3,7 +3,6 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -169,7 +168,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
 		//For listing down the tasks
-		String[] listTasks = new String[tasks.size() + 3];
+		String[] listTasks = new String[tasks.size()];
 		
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
@@ -198,13 +197,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			Task task = iterator.next();
 			
 			if (task.getEndDateTime().equals(dateNow)) {
-				today.add(listTasks[++i]);
+				today.add(listTasks[++j]);
 			}
 			else if (task.getEndDateTime().equals(dateTmr)) {
-				tomorrow.add(listTasks[++i]);
+				tomorrow.add(listTasks[++j]);
 			}
 			else
-				remain.add(listTasks[++i]);
+				remain.add(listTasks[++j]);
 		}
 		
 		list.setListData(listTasks);
