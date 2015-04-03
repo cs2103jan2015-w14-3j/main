@@ -3,7 +3,6 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,18 +14,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
-import java.util.Collection;
+import java.util.List;
 import java.util.Iterator;
-import java.util.Vector;
-
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-
-import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -167,7 +162,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void displayTasks(Collection<Task> tasks) {
 		//For listing down the tasks
 		String[] listTasks = new String[tasks.size()];
 
@@ -186,6 +180,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		}
 
 		list.setListData(listTasks);
+	public void displayTasks(List<Task> tasks) {
 	}
 
 	private String fill(int length, String with) {

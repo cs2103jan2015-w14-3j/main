@@ -5,12 +5,12 @@
 package com.tasma;
 
 import java.awt.Color;
-import java.util.Collection;
+import java.util.List;
 
 public interface TasmaUserInterface {
 	public void initialize(Controller controller) throws Exception;
 	
-	public void displayTasks(Collection<Task> tasks);
+	public void displayTasks(List<Task> tasks);
 	
 	public void displayMessage(String message);
 	

@@ -1,11 +1,11 @@
 package com.tasma;
 
 import java.awt.Color;
-import java.util.Collection;
+import java.util.List;
 
 public class MockUserInterface implements TasmaUserInterface {
 	
-	private Collection<Task> lastDisplayedTasks;
+	private List<Task> lastDisplayedTasks;
 	private String lastDisplayedMessage;
 
 	@Override
@@ -15,7 +15,7 @@ public class MockUserInterface implements TasmaUserInterface {
 	}
 
 	@Override
-	public void displayTasks(Collection<Task> tasks) {
+	public void displayTasks(List<Task> tasks) {
 		lastDisplayedTasks = tasks;
 	}
 	
@@ -29,7 +29,7 @@ public class MockUserInterface implements TasmaUserInterface {
 		lastDisplayedMessage = message;
 	}
 	
-	public Collection<Task> getLastDisplayedTasks() {
+	public List<Task> getLastDisplayedTasks() {
 		return lastDisplayedTasks;
 	}
 	

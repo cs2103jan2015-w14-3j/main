@@ -4,7 +4,7 @@
 package com.tasma;
 
 import java.awt.Color;
-import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 // This is an alternative UI for testing non-GUI stuff. 
@@ -28,7 +28,7 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	}
 	
 	@Override
-	public void displayTasks(Collection<Task> tasks) {
+	public void displayTasks(List<Task> tasks) {
 		
 	}
 	
