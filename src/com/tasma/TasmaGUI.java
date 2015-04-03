@@ -3,6 +3,7 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,13 +16,19 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.AbstractMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+
+import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -134,58 +141,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.controller.setUserInterface(this);
 	}
 
-	public class CustomListRenderer implements ListCellRenderer<Object> {
-
-		@SuppressWarnings("serial")
-		@Override
-		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-		    Task task = (Task)value;
-
-		    JPanel panel = new JPanel();
-		    GridBagLayout layout = new GridBagLayout();
-		    panel.setLayout(layout);
-		    
-		    GridBagConstraints c = new GridBagConstraints();
-		       
-		    JTextArea textIndex = new JTextArea();
-		    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
-		    textIndex.setText(Integer.toString(index + 1));
-		    textIndex.setBackground(null);
-		    c.fill = GridBagConstraints.HORIZONTAL;
-		    c.gridx = 0; 
-		    c.gridy = 0;
-		    panel.add(textIndex, c);
-
-		    JTextArea textDetails = new JTextArea();
-		    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
-		    textDetails.setText(task.getDetails());
-		    textDetails.setLineWrap(true);
-		    textDetails.setBackground(null);
-		    textDetails.setFont(textDetails.getFont().deriveFont(16.0f));
-		    c = new GridBagConstraints();
-	        c.fill = GridBagConstraints.HORIZONTAL;
-	        c.gridx = 1;
-	        c.gridy = 0;
-	        c.weightx = 1;
-	        panel.add(textDetails, c);
-	
-	        JTextArea textDateTime = new JTextArea();
-	        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
-	        textDateTime.setText(task.getStringStartDateTime());
-	        textDateTime.setLineWrap(true);
-	        textDateTime.setBackground(null);
-	        textDateTime.setFont(textDateTime.getFont().deriveFont(12.0f));
-	        c = new GridBagConstraints();
-	        c.fill = GridBagConstraints.HORIZONTAL;
-	        c.gridx = 1;
-	        c.gridy = 1;
-	        panel.add(textDateTime, c);	
-	
-	        return panel;
-	    }
-	}
-
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
 
@@ -200,7 +155,57 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(List<Task> tasks) {
-		list.setListData(tasks.toArray());
+		LinkedList<Object> listFloating = new LinkedList<Object>();
+		LinkedList<Object> listOverdue = new LinkedList<Object>();
+		LinkedList<Object> listToday = new LinkedList<Object>();
+		LinkedList<Object> listTomorrow = new LinkedList<Object>();
+		LinkedList<Object> listRemaining = new LinkedList<Object>();
+		
+		listFloating.add("Floating");
+		listOverdue.add("Overdue");
+		listToday.add("Today");
+		listTomorrow.add("Tomorrow");
+		listRemaining.add("Upcoming");
+
+		LocalDate dateNow = new LocalDate();
+		LocalDate dateTmr = dateNow.plusDays(1);
+		int taskIndex = 0;
+		for (Task task: tasks) {
+			Map.Entry<Integer, Task> entry = new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
+			if (task.getStartDateTime() == null) {
+				listFloating.add(entry);
+			} else if (task.getEndDateTime().isBeforeNow()) {
+				listOverdue.add(entry);
+			} else if (task.getEndDateTime().equals(dateNow)) {
+				listToday.add(entry);
+			} else if (task.getEndDateTime().equals(dateTmr)) {
+				listTomorrow.add(entry);
+			} else {
+				listRemaining.add(entry);
+			}
+			++taskIndex;
+		}
+		
+		LinkedList<Object> finalList = new LinkedList<Object>();
+		if (listFloating.size() > 1) {
+			finalList.addAll(listFloating);
+		}
+		if (listOverdue.size() > 1) {
+			finalList.addAll(listOverdue);
+		}
+		if (listToday.size() > 1) {
+			finalList.addAll(listToday);
+		}
+		
+		if (listToday.size() > 1) {
+			finalList.addAll(listTomorrow);
+		}
+		
+		if (listRemaining.size() > 1) {
+			finalList.addAll(listRemaining);
+		}
+
+		list.setListData(finalList.toArray());
 	}
 
 	private String fill(int length, String with) {
@@ -257,4 +262,66 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     	setState(NORMAL);
     	toFront();
     }
+
+	public class CustomListRenderer implements ListCellRenderer<Object> {
+
+		@SuppressWarnings("serial")
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+			boolean isSelected, boolean cellHasFocus) {
+		    JPanel panel = new JPanel();
+			if (value instanceof String) {
+				JTextArea textSectionHeader = new JTextArea();
+				textSectionHeader.setText(value.toString());
+				textSectionHeader.setFont(textSectionHeader.getFont().deriveFont(20.0f));
+				textSectionHeader.setBackground(null);
+				panel.add(textSectionHeader);
+			} else if (value instanceof Map.Entry) {
+				@SuppressWarnings("unchecked")
+				Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
+				int taskIndex = entry.getKey();
+			    Task task = entry.getValue();
+	
+			    GridBagLayout layout = new GridBagLayout();
+			    panel.setLayout(layout);
+			    
+			    GridBagConstraints c = new GridBagConstraints();
+			       
+			    JTextArea textIndex = new JTextArea();
+			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textIndex.setText(Integer.toString(taskIndex + 1));
+			    textIndex.setBackground(null);
+			    c.fill = GridBagConstraints.HORIZONTAL;
+			    c.gridx = 0; 
+			    c.gridy = 0;
+			    panel.add(textIndex, c);
+	
+			    JTextArea textDetails = new JTextArea();
+			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textDetails.setText(task.getDetails());
+			    textDetails.setLineWrap(true);
+			    textDetails.setBackground(null);
+			    textDetails.setFont(textDetails.getFont().deriveFont(16.0f));
+			    c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 1;
+		        c.gridy = 0;
+		        c.weightx = 1;
+		        panel.add(textDetails, c);
+		
+		        JTextArea textDateTime = new JTextArea();
+		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        textDateTime.setText(task.getStringStartDateTime());
+		        textDateTime.setLineWrap(true);
+		        textDateTime.setBackground(null);
+		        textDateTime.setFont(textDateTime.getFont().deriveFont(12.0f));
+		        c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 1;
+		        c.gridy = 1;
+		        panel.add(textDateTime, c);
+			}
+	        return panel;
+	    }
+	}
 }
