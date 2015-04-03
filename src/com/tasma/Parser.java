@@ -208,7 +208,10 @@ public class Parser {
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			}
-
+			
+			if (parsedTask.getStartDateTime() == null) {
+				parsedTask.setStartDateTime(d);
+			}
 			parsedTask.setEndDateTime(d);
 		} 
 		//}
