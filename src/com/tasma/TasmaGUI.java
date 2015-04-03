@@ -3,7 +3,6 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,14 +31,14 @@ import org.joda.time.LocalDate;
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
-	
+
 	private static final int WINDOW_DEFAULT_WIDTH = 480;
 	private static final int WINDOW_DEFAULT_HEIGHT = 320;
-	
+
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
 	private JTextArea textDisplay = new JTextArea();
-	
+
 	private Controller controller;
 	private ZebraJList list = new ZebraJList();
 	private JScrollPane scrollPane = new JScrollPane();
@@ -51,13 +50,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public TasmaGUI() {
 		decorateFrame();
 		addWindowEvents();
-		
+
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		BorderLayout contentPaneLayout = new BorderLayout();
 		contentPane.setLayout(contentPaneLayout);
 		setContentPane(contentPane);
-		
+
 		textCommand = new PlaceholderTextField();
 		textCommand.setPlaceholder("What would you like to do?");
 		textCommand.setPlaceholderColor(Palette.PLACEHOLDER_TEXT);
@@ -81,7 +80,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					textCommand.setText("");
 					controller.executeInput(command);
 				}
-				
+
 			}
 
 			@Override
@@ -99,17 +98,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setTabSize(3);
 		textDisplay.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.add(textDisplay, BorderLayout.PAGE_END);
-		
+
 		list.setSelectionModel(new DisabledItemSelectionModel());
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		scrollPane.setPreferredSize(new Dimension(470, 220));
-		
+
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
 	}
-	
+
 	//@author A0132763
 	private void decorateFrame() {
 		setTitle("TASMA");
@@ -118,11 +117,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(528, 329);
-		
+
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
 	}
-	
+
 	private void addWindowEvents() {
 		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
@@ -138,7 +137,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
 	}
-	
+
 	public class CustomListRenderer implements ListCellRenderer<Object> {
 
 		   @Override
@@ -156,7 +155,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
-		
+
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -164,33 +163,33 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			super.setSelectionInterval(-1, -1);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
 		//For listing down the tasks
 		String[] listTasks = new String[tasks.size()];
-		
+
 		LocalDate dateNow = new LocalDate();
 		LocalDate dateTmr = dateNow.plusDays(1);
-		
-		Vector today = new Vector();
-		Vector tomorrow = new Vector();
-		Vector remain = new Vector();
-		
+
+		Vector<Task> today = new Vector<Task>();
+		Vector<Task> tomorrow = new Vector<Task>();
+		Vector<Task> remain = new Vector<Task>();
+
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
 		while(iterator.hasNext()) {
 			Task task = iterator.next();
-			
+
 			String text = (++i) + ". " + task.getDetails();
-			
+
 			text = fill(text, 50, " ");
-				
+
 			text += task.getStringEndDateTime();
-			
+
 			listTasks[i-1] = text;
-			
+
 			if (task.getEndDateTime().equals(dateNow)) {
 				today.add(text);
 			} else if (task.getEndDateTime().equals(dateTmr)) {
@@ -199,10 +198,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				remain.add(text);
 			}
 		}
-		
+
 		list.setListData(listTasks);
 	}
-	
+
 	private String fill(int length, String with) {
 	    StringBuilder sb = new StringBuilder(length);
 	    while (sb.length() < length) {
@@ -210,7 +209,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	    }
 	    return sb.toString();
 	}
-	
+
 	private String fill(String value, int length, String with) {
 
 	    StringBuilder result = new StringBuilder(length);
@@ -220,7 +219,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	    return result.toString();
 
 	}
-	
+
 	@Override
 	public void displayMessage(String message) {
 		displayMessage(message, Palette.MESSAGE_DEFAULT);
@@ -233,15 +232,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textDisplay.setVisible(true);
 		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT + textDisplay.getPreferredSize().height);
 	}
-	
+
 	public void editCmdDisplay (String task) {
 		textCommand.setText(task);
 	}
-	
+
 	 //Obtain the image URL
     protected static Image createImage(String path, String description) {
         URL imageURL = TrayIcon.class.getResource(path);
-         
+
         if (imageURL == null) {
             System.err.println("Resource not found: " + path);
             return null;
@@ -249,7 +248,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
-    
+
     @SuppressWarnings("deprecation")
 	@Override
     public void show() {
@@ -258,4 +257,3 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     	toFront();
     }
 }
-
