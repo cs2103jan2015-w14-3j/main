@@ -152,6 +152,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
 		    textIndex.setText(Integer.toString(index + 1));
 		    textIndex.setBackground(null);
+		    textIndex.setFont(textIndex.getFont().deriveFont(16.0f));
 		    c.fill = GridBagConstraints.HORIZONTAL;
 		    c.gridx = 0; 
 		    c.gridy = 0;
