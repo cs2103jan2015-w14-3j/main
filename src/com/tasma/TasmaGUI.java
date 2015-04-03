@@ -170,13 +170,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		//For listing down the tasks
 		String[] listTasks = new String[tasks.size()];
 
-		LocalDate dateNow = new LocalDate();
-		LocalDate dateTmr = dateNow.plusDays(1);
-
-		Vector<String> today = new Vector<String>();
-		Vector<String> tomorrow = new Vector<String>();
-		Vector<String> remain = new Vector<String>();
-
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;
 		while(iterator.hasNext()) {
@@ -189,14 +182,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			text += task.getStringEndDateTime();
 
 			listTasks[i-1] = text;
-
-			if (task.getEndDateTime().equals(dateNow)) {
-				today.add(text);
-			} else if (task.getEndDateTime().equals(dateTmr)) {
-				tomorrow.add(text);
-			} else {
-				remain.add(text);
-			}
 		}
 
 		list.setListData(listTasks);
