@@ -8,7 +8,6 @@ import org.joda.time.LocalDate;
 
 public class Task implements Cloneable {
 	private String details = "";
-	private String location = "";
 	private DateTime startDateTime;
 	private DateTime endDateTime;
 	private boolean isDone;
@@ -28,14 +27,6 @@ public class Task implements Cloneable {
 
 	public void setDetails(String details) {
 		this.details = details;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public DateTime getStartDateTime() {
@@ -159,11 +150,7 @@ public class Task implements Cloneable {
 		} else if (endDateTime != null) {
 			result += " on " + getStringEndDateTime();
 		}
-
-		if (location.length() > 0) {
-			result += " at " + location;
-		}
-
+		
 		return result; 
 	}
 }

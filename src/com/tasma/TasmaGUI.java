@@ -169,7 +169,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayTasks(Collection<Task> tasks) {
 		//For listing down the tasks
-		String[] listTasks = new String[tasks.size() + 3];
+		String[] listTasks = new String[tasks.size()];
 		
 		Iterator<Task> iterator = tasks.iterator();
 		int i = 0;

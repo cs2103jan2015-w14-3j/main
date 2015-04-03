@@ -30,7 +30,6 @@ public class ParserTest {
 
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
-		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 
 	@Test
@@ -59,7 +58,6 @@ public class ParserTest {
 
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
-		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 
 	@Test
@@ -82,11 +80,8 @@ public class ParserTest {
 		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
 		temp.setEndDateTime(d);
 
-		temp.setLocation("ALL");
-
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
-		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 
 	//Invalid case for date parsing
@@ -125,11 +120,8 @@ public class ParserTest {
 		d = d.withYear(2015);
 		temp.setEndDateTime(d);
 
-		temp.setLocation("-2pm at ALL");
-
 		assertEquals(temp.getDetails(), parsedTask.getDetails());
 		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
-		assertEquals(temp.getLocation(), parsedTask.getLocation());
 	}
 
 	private DateTime initializeDateTime() {
