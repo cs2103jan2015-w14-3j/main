@@ -30,16 +30,16 @@ public final class HelpMessage {
 
 	public static final String HELP_HELP = "\thelp <command>\n\n"
 			+ "The 'help' command provides you information on how to use the various commands in Tasma. The <command> is the command to show help for and can be any of the following:\n\n"
-			+ "\tadd:\tCreates a new task\n"
+			+ "\tadd:\t\tCreates a new task\n"
 			+ "\tsearch:\tSearches for tasks\n"
-			+ "\tlist:\tShows a list of upcoming tasks\n"
+			+ "\tlist:\t\tShows a list of upcoming tasks\n"
 			+ "\tmark:\tMarks a task as done\n"
-			+ "\tarchive:\tMoves a task to the archives\n"
-			+ "\tedit:\tUpdates the details of a task\n"
-			+ "\tset:\tSets values to application configuration\n"
-			+ "\thelp:\tProvides help information like this one\n"
+			+ "\tdelete:\tPermanently deletes a task\n"
+			+ "\tedit:\t\tUpdates the details of a task\n"
+			+ "\tset:\t\tSets values to application configuration\n"
+			+ "\thelp:\t\tProvides help information like this one\n"
 			+ "\ttutorial:\tShows the welcome tutorial again\n"
-			+ "\texit:\tQuits the Tasma application\n";
+			+ "\texit:\t\tQuits the application\n";
 
 
 	public static final String HELP_TUTORIAL = "\ttutorial\n\n"
