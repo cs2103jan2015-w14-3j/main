@@ -7,7 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,7 +16,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.List;
-import java.util.Iterator;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
@@ -136,18 +136,55 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	public class CustomListRenderer implements ListCellRenderer<Object> {
 
-		   @Override
-		   public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-		        boolean isSelected, boolean cellHasFocus) {
+		@SuppressWarnings("serial")
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+			boolean isSelected, boolean cellHasFocus) {
+		    Task task = (Task)value;
 
-		        JTextArea renderer = new JTextArea();
-		        renderer.setText(value.toString());
-		        renderer.setLineWrap(true);
-		        Font font = new Font("monospaced", Font.PLAIN, 12);
-		        renderer.setFont(font);
-		        return renderer;
-		   }
-		}
+		    JPanel panel = new JPanel();
+		    GridBagLayout layout = new GridBagLayout();
+		    panel.setLayout(layout);
+		    
+		    GridBagConstraints c = new GridBagConstraints();
+		       
+		    JTextArea textIndex = new JTextArea();
+		    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+		    textIndex.setText(Integer.toString(index + 1));
+		    textIndex.setBackground(null);
+		    c.fill = GridBagConstraints.HORIZONTAL;
+		    c.gridx = 0; 
+		    c.gridy = 0;
+		    panel.add(textIndex, c);
+
+		    JTextArea textDetails = new JTextArea();
+		    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+		    textDetails.setText(task.getDetails());
+		    textDetails.setLineWrap(true);
+		    textDetails.setBackground(null);
+		    textDetails.setFont(textDetails.getFont().deriveFont(16.0f));
+		    c = new GridBagConstraints();
+	        c.fill = GridBagConstraints.HORIZONTAL;
+	        c.gridx = 1;
+	        c.gridy = 0;
+	        c.weightx = 1;
+	        panel.add(textDetails, c);
+	
+	        JTextArea textDateTime = new JTextArea();
+	        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+	        textDateTime.setText(task.getStringStartDateTime());
+	        textDateTime.setLineWrap(true);
+	        textDateTime.setBackground(null);
+	        textDateTime.setFont(textDateTime.getFont().deriveFont(12.0f));
+	        c = new GridBagConstraints();
+	        c.fill = GridBagConstraints.HORIZONTAL;
+	        c.gridx = 1;
+	        c.gridy = 1;
+	        panel.add(textDateTime, c);	
+	
+	        return panel;
+	    }
+	}
 
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
@@ -162,25 +199,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@SuppressWarnings("unchecked")
 	@Override
-		//For listing down the tasks
-		String[] listTasks = new String[tasks.size()];
-
-		Iterator<Task> iterator = tasks.iterator();
-		int i = 0;
-		while(iterator.hasNext()) {
-			Task task = iterator.next();
-
-			String text = (++i) + ". " + task.getDetails();
-
-			text = fill(text, 50, " ");
-
-			text += task.getStringEndDateTime();
-
-			listTasks[i-1] = text;
-		}
-
-		list.setListData(listTasks);
 	public void displayTasks(List<Task> tasks) {
+		list.setListData(tasks.toArray());
 	}
 
 	private String fill(int length, String with) {
