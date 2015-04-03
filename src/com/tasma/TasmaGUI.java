@@ -3,6 +3,7 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -10,15 +11,19 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.List;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
@@ -37,6 +42,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private Controller controller;
 	private ZebraJList list = new ZebraJList();
 	private JScrollPane scrollPane = new JScrollPane();
+	private JPopupMenu popupCmdHint;
 
 	/**
 	 * Create the frame.
@@ -136,7 +142,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	public class CustomListRenderer implements ListCellRenderer<Object> {
 
-		@SuppressWarnings("serial")
 		@Override
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
@@ -202,24 +207,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayTasks(List<Task> tasks) {
 		list.setListData(tasks.toArray());
-	}
-
-	private String fill(int length, String with) {
-	    StringBuilder sb = new StringBuilder(length);
-	    while (sb.length() < length) {
-	        sb.append(with);
-	    }
-	    return sb.toString();
-	}
-
-	private String fill(String value, int length, String with) {
-
-	    StringBuilder result = new StringBuilder(length);
-	    result.append(value);
-	    result.append(fill(Math.max(0, length - value.length()), with));
-
-	    return result.toString();
-
 	}
 
 	@Override
