@@ -32,8 +32,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
 
-	private static final int WINDOW_DEFAULT_WIDTH = 480;
-	private static final int WINDOW_DEFAULT_HEIGHT = 320;
+	private static final int WINDOW_DEFAULT_WIDTH = 520;
+	private static final int WINDOW_DEFAULT_HEIGHT = 360;
 
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
@@ -105,7 +105,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		list.setCellRenderer(new CustomListRenderer());
 		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setPreferredSize(new Dimension(470, 220));
+		scrollPane.setPreferredSize(new Dimension(480, 220));
 
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
@@ -118,7 +118,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setSize(528, 329);
+		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
