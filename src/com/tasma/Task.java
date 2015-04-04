@@ -1,6 +1,7 @@
 /**
  * Tasma Task Manager
  */
+//@author A0132763
 package com.tasma;
 
 import org.joda.time.DateTime;
@@ -12,10 +13,6 @@ public class Task implements Cloneable {
 	private DateTime endDateTime;
 	private boolean isDone;
 	private boolean isArchived;
-
-	public Task() {
-
-	}
 
 	public Task(String taskId, String details) {
 		this.details = details;

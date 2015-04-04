@@ -21,6 +21,9 @@ import com.tasma.config.Config;
 public class Storage {
 	private static final Logger logger = Log.getLogger( Storage.class.getName() );
 	
+	/**
+	 * The file name of the task storage file
+	 */
 	public static final String FILENAME = "tasks.json";
 	
 	private String path;

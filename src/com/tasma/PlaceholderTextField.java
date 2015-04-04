@@ -22,10 +22,18 @@ public class PlaceholderTextField extends JTextField {
     private String placeholder;
     private Color placeholderColor = getDisabledTextColor();
 
+    /**
+     * Get the placeholder text
+     * @return String
+     */
     public String getPlaceholder() {
         return placeholder;
     }
     
+	/**
+	 * Get the colour of the placeholder text
+	 * @return java.awt.Color
+	 */
     public Color getPlaceholderColor() {
     	return placeholderColor;
     }
@@ -46,10 +54,18 @@ public class PlaceholderTextField extends JTextField {
         		pG.getFontMetrics().getMaxAscent() + getInsets().top);
     }
 
+    /**
+     * Set the placeholder text
+     * @param String
+     */
     public void setPlaceholder(final String s) {
         placeholder = s;
     }
     
+    /**
+     * Set the placeholder text colour
+     * @param java.awt.Color
+     */
     public void setPlaceholderColor(Color color) {
     	this.placeholderColor = color;
     }
