@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763
 package com.tasma;
 
 import java.awt.Color;
@@ -7,6 +11,11 @@ import java.awt.RenderingHints;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
 
+/**
+ * Provides placeholder text functionality - usability importance
+ * Otherwise the command box will be a sad empty lonely blue box.
+ * @author Sam Yong
+ */
 @SuppressWarnings("serial")
 public class PlaceholderTextField extends JTextField {
 
@@ -30,12 +39,11 @@ public class PlaceholderTextField extends JTextField {
         }
 
         final Graphics2D g = (Graphics2D) pG;
-        g.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(placeholderColor);
-        g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
-            .getMaxAscent() + getInsets().top);
+        g.drawString(placeholder, getInsets().left,
+        		pG.getFontMetrics().getMaxAscent() + getInsets().top);
     }
 
     public void setPlaceholder(final String s) {

@@ -1,14 +1,13 @@
 /**
  * Tasma Task Manager
  */
+//@author A0118888J
 package com.tasma;
 
 /**
  * Dummy class for testing parser 
  * @author Manika Agarwal
- *
  */
-
 public class ParserMain {
 	public static void main(String[] args) {
 		Parser parser = new Parser();

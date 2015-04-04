@@ -1,14 +1,12 @@
 /**
  * Tasma Task Manager
  */
-package com.tasma;
-
 //@author A0118888J
+package com.tasma;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
@@ -16,8 +14,10 @@ public class Parser {
 
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
+	
 	/** Stores original taskDetails for logging */
 	private String str = null;
+	
 	/** Stores taskDetails for parsing */
 	private String taskDetails;
 
