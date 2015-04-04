@@ -3,6 +3,7 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,13 +20,19 @@ import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+
 import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
@@ -74,9 +81,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		JFrame thisFrame = this;
 		textCommand.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
 					thisFrame.setVisible(false);
-				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  {
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
 					textDisplay.setVisible(false);
 					thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 					String command = textCommand.getText();
@@ -107,6 +114,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		scrollPane.setPreferredSize(new Dimension(480, 220));
+		JScrollBar vertical = scrollPane.getVerticalScrollBar();
+		InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+		im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
 
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(list);
