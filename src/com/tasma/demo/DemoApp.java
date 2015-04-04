@@ -73,6 +73,8 @@ public class DemoApp implements Runnable {
 
 	
 	protected class Actor {
+		private static final float DEFAULT_KEY_PRESS_FRAME_OPACITY = 0.6f;
+		
 		private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
 		private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
 		private JFrame demoControl = new JFrame();
@@ -95,7 +97,7 @@ public class DemoApp implements Runnable {
 			keyPressFrame.setLocation(keyPressFrame.getLocation().x, (int)(1.75 * keyPressFrame.getLocation().y));
 			keyPressFrame.setVisible(false);
 			keyPressFrame.setShape(new RoundRectangle2D.Double(0, 0, 200, 60, 5, 5));
-			keyPressFrame.setOpacity(0.6f);
+			keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
 			labelKeyPress = new JLabel("");
 			labelKeyPress.setForeground(Color.WHITE);
 			labelKeyPress.setBackground(Color.DARK_GRAY);
@@ -136,15 +138,21 @@ public class DemoApp implements Runnable {
 		}
 		
 		protected void showKeyPress(String key) {
+			keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
 			keyPressFrame.setVisible(true);
 			labelKeyPress.setText(key);
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					keyPressFrame.setVisible(false);
+					if (keyPressFrame.getOpacity() > 0) {
+						keyPressFrame.setOpacity(Math.max(0, keyPressFrame.getOpacity() - 0.05f));
+					} else {
+						timer.cancel();
+						keyPressFrame.setVisible(false);
+					}
 				}
-			}, 1000);
+			}, 1200, 30);
 		}
 		
 		public void loadActions() {
