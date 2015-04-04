@@ -45,11 +45,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
-	private JTextArea textDisplay = new JTextArea();
+	private JTextArea textMessage = new JTextArea();
 
 	private Controller controller;
-	private ZebraJList list = new ZebraJList();
-	private JScrollPane scrollPane = new JScrollPane();
+	private ZebraJList listTasks = new ZebraJList();
+	private JScrollPane listTasksScrollPane = new JScrollPane();
 	private JPopupMenu popupCmdHint;
 
 	/**
@@ -84,7 +84,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
 					thisFrame.setVisible(false);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
-					textDisplay.setVisible(false);
+					textMessage.setVisible(false);
 					thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 					String command = textCommand.getText();
 					textCommand.setText("");
@@ -99,28 +99,30 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			@Override
 			public void keyReleased(KeyEvent e) {}
 		});
-		textDisplay.setEditable(false);
-		textDisplay.setBackground(Color.WHITE);
-		textDisplay.setRows(1);
-		textDisplay.setLineWrap(true);
-		textDisplay.setVisible(false);
-		textDisplay.setWrapStyleWord(true);
-		textDisplay.setTabSize(3);
-		textDisplay.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.add(textDisplay, BorderLayout.PAGE_END);
+		textMessage.setEditable(false);
+		textMessage.setBackground(Color.WHITE);
+		textMessage.setRows(1);
+		textMessage.setLineWrap(true);
+		textMessage.setVisible(false);
+		textMessage.setWrapStyleWord(true);
+		textMessage.setTabSize(3);
+		textMessage.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.add(textMessage, BorderLayout.PAGE_END);
 
-		list.setSelectionModel(new DisabledItemSelectionModel());
-		list.setCellRenderer(new CustomListRenderer());
-		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		scrollPane.setPreferredSize(new Dimension(480, 220));
-		JScrollBar vertical = scrollPane.getVerticalScrollBar();
+		listTasks.setSelectionModel(new DisabledItemSelectionModel());
+		listTasks.setCellRenderer(new CustomListRenderer());
+		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+		listTasksScrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		listTasksScrollPane.setPreferredSize(new Dimension(480, 220));
+		
+		// provide scrolling support for list scroll pane's scroll bar
+		JScrollBar vertical = listTasksScrollPane.getVerticalScrollBar();
 		InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
 		im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
 
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setViewportView(list);
+		contentPane.add(listTasksScrollPane, BorderLayout.CENTER);
+		listTasksScrollPane.setViewportView(listTasks);
 	}
 
 	//@author A0132763
@@ -220,8 +222,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			finalList.add(UIMessage.TASK_LIST_EMPTY);
 		}
 
-		list.setVisibleRowCount(Math.min(MAX_TASK_DISPLAY_COUNT, finalList.size()));;
-		list.setListData(finalList.toArray());
+		listTasks.setVisibleRowCount(Math.min(MAX_TASK_DISPLAY_COUNT, finalList.size()));;
+		listTasks.setListData(finalList.toArray());
 		updateWindowHeight();
 	}
 
@@ -233,11 +235,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayMessage(String message, Color color) {
 		if (message.equals("")) {
-			textDisplay.setVisible(false);
+			textMessage.setVisible(false);
 		} else {
-			textDisplay.setText(message);
-			textDisplay.setForeground(color);
-			textDisplay.setVisible(true);
+			textMessage.setText(message);
+			textMessage.setForeground(color);
+			textMessage.setVisible(true);
 		}
 		updateWindowHeight();
 	}
@@ -248,9 +250,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	protected void updateWindowHeight() {
 		int height = WINDOW_DEFAULT_HEIGHT;
-		height += list.getPreferredScrollableViewportSize().height;
-		if (textDisplay.isVisible()) {
-			height += textDisplay.getPreferredSize().height;
+		height += listTasks.getPreferredScrollableViewportSize().height;
+		if (textMessage.isVisible()) {
+			height += textMessage.getPreferredSize().height;
 		}
 		setSize(WINDOW_DEFAULT_WIDTH, height);
 	}
