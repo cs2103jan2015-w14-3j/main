@@ -73,15 +73,7 @@ public class DemoApp implements Runnable {
 		private JFrame demoControl = new JFrame();
 		public void initialize() {
 			prepareWindow();
-			prepareIV();
 			loadActions();
-		}
-		
-		protected void prepareIV() {
-			controller.executeInput("a bring mom to visit doctor on next monday");
-			controller.executeInput("a settle bank account matters tomorrow");
-			controller.executeInput("a bring dog to vet for check up");
-			controller.executeInput("list");
 		}
 		
 		protected void prepareWindow() {
@@ -118,7 +110,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					frame.displayMessage("");
+					controller.executeInput("tutorial");
 					frame.show();
 				}
 			});
@@ -126,6 +118,11 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					controller.executeInput("a bring mom to visit doctor on next monday");
+					controller.executeInput("a settle bank account matters tomorrow");
+					controller.executeInput("a bring dog to vet for check up");
+					controller.executeInput("list");
+					frame.displayMessage("");
 					commandBoxAnimator.animate("add");
 				}
 			});
