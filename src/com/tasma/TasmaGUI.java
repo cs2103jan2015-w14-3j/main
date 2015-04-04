@@ -227,7 +227,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	public class CustomListRenderer implements ListCellRenderer<Object> {
 
-		@SuppressWarnings("serial")
 		@Override
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
