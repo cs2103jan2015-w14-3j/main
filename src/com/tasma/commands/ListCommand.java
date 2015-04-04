@@ -5,6 +5,7 @@
 package com.tasma.commands;
 
 import java.util.List;
+
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
@@ -43,6 +44,7 @@ public class ListCommand extends AbstractCommand {
 				list = collection.notDone();
 				break;
 		}
+		TaskListSorter.sort(list);
 		state.clear();
 		state.addAll(list);
 		if (list == null) {

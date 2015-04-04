@@ -29,6 +29,7 @@ public class SearchCommand extends AbstractCommand {
 			userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY, Palette.MESSAGE_WARNING);
 		} else {
 			List<Task> resultList = collection.search(query);
+			TaskListSorter.sort(resultList);
 
 			state.clear();
 			state.addAll(resultList);
