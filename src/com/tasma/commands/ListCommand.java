@@ -14,6 +14,7 @@ public class ListCommand extends AbstractCommand {
 
 	private static final String FILTER_DONE = "done";
 	private static final String FILTER_PAST = "past";
+	private static final String FILTER_UPCOMING = "upcoming";
 	
 	private String filter;
 	private List<Task> state;
@@ -34,6 +35,9 @@ public class ListCommand extends AbstractCommand {
 	public void execute() throws Exception {
 		List<Task> list = null;
 		switch (filter.toLowerCase()) {
+			case FILTER_UPCOMING:
+				list = collection.upcoming();
+				break;
 			case FILTER_PAST:
 				list = collection.past();
 				break;
