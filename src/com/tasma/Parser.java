@@ -28,7 +28,7 @@ public class Parser {
 	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
 	 */
 	public Task parse(String taskDetails) throws InvalidInputException{
-		Task parsedTask = new Task();
+		Task parsedTask = new Task(taskDetails);
 
 		this.taskDetails = taskDetails; 
 		str = taskDetails;

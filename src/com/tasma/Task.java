@@ -14,7 +14,7 @@ public class Task implements Cloneable {
 	private boolean isDone;
 	private boolean isArchived;
 
-	public Task(String taskId, String details) {
+	public Task(String details) {
 		this.details = details;
 	}
 
