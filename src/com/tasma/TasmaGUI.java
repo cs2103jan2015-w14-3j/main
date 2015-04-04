@@ -203,6 +203,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		if (listRemaining.size() > 1) {
 			finalList.addAll(listRemaining);
 		}
+		
+		// since the list is empty, we should show some message to indicate
+		if (finalList.size() == 0) {
+			finalList.add(UIMessage.TASK_LIST_EMPTY);
+		}
 
 		list.setListData(finalList.toArray());
 	}
