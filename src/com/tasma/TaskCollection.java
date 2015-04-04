@@ -7,16 +7,25 @@ package com.tasma;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.List;
 
 /**
- * 
+ * Provides operations on the collection of the user's tasks.
+ * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class TaskCollection {
 	
-	Storage storage;
-	LinkedList<Task> tasks;
+	/**
+	 * The storage component to save / load tasks to / from
+	 */
+	protected Storage storage;
+	
+	/**
+	 * The amazing list of user's tasks, every single one stored here
+	 */
+	protected LinkedList<Task> tasks;
 	
 	public TaskCollection() throws Exception {
 		this.storage = new Storage();
@@ -26,83 +35,128 @@ public class TaskCollection {
 		this.storage = storage;
 	}
 	
+	/**
+	 * Performs loading of tasks from storage file
+	 * @throws Exception
+	 */
 	public void loadFromFile() throws Exception {
 		tasks = storage.load();
 	}
 	
+	/**
+	 * Create a new task and register it into the storage
+	 * @param task The Task object to was created
+	 * @throws Exception
+	 */
 	public void create(Task task) throws Exception {
-		// the following code will generate a nice short ID that should be unique in the collection.
-		// this will allow the user to identify tasks through the use of these IDs.
 		tasks.add(task);
 		storage.save(tasks);
 	}
 	
+	/**
+	 * Perform an update of the task.
+	 * 
+	 * Note: Since the modifications made to the task object is reflected in the list by reference,
+	 * we can just directly save the list to save the changes
+	 * @param task The Task object that was updated
+	 * @throws Exception
+	 */
 	public void update(Task task) throws Exception {
 		// make sure we don't put in a new task
 
 		storage.save(tasks);
 	}
 	
+	/**
+	 * Fetch a specific task based on its index in the task list
+	 * @param index The index of the task in the list
+	 * @return Returns a Task object fetched if the index is valid.
+	 */
 	public Task get(int index) {
 		return tasks.get(index);
 	}
 	
+	/**
+	 * Fetch a list of all undone tasks from the past. blast from the past!
+	 * @return A list of tasks
+	 */
 	public List<Task> past() {
 		List<Task> pastList = tasks.stream()
-		    .filter(task -> !task.isDone() && !task.isArchived() && task.getEndDateTime() != null && task.getEndDateTime().isBeforeNow()).collect(Collectors.toList());
+		    .filter(task -> !task.isDone() && task.getEndDateTime() != null
+		    	&& task.getEndDateTime().isBeforeNow())
+		    .collect(Collectors.toList());
 
 		return pastList;
 	}
 
+	/**
+	 * Filters the list of task using a predicate
+	 * @param predicate The predicate / condition to filter the tasks
+	 * @return A list of tasks
+	 */
 	public List<Task> filter(Predicate<? super Task> predicate) {
 		List<Task> result = tasks.stream()
-		    .filter(predicate).collect(Collectors.toList());
+		    .filter(predicate)
+		    .collect(Collectors.toList());
 
 		return result;
 	}
 	
+	/**
+	 * Fetch a list of all upcoming tasks that are not done yet
+	 * @return A list of tasks
+	 */
 	public List<Task> upcoming() {
 		List<Task> upcomingList = tasks.stream()
-		    .filter(task -> !task.isDone() && !task.isArchived()).collect(Collectors.toList());
-		
-		Collections.sort(upcomingList, new Comparator<Task>() {
-		    @Override
-		    public int compare(Task t1, Task t2) {
-		    	if (t1.getStartDateTime() == null && t2.getStartDateTime() == null) {
-		    		return 0;
-		    	} else if (t1.getStartDateTime() == null) {
-		    		return -1;
-		    	} else if (t2.getStartDateTime() == null) {
-		    		return 1;
-		    	}
-		    	return t1.getStartDateTime().compareTo(t2.getStartDateTime());
-		    }
-		}); 
+		    .filter(task -> !task.isDone() && task.getStartDateTime() != null &&
+		    	task.getStartDateTime().isAfterNow())
+		    .collect(Collectors.toList());
 		
 		return upcomingList;
 	}
 	
+	/**
+	 * Deletes a task from the list. Point of no return, period.
+	 * @param task The task to be deleted.
+	 * @throws Exception
+	 */
 	public void delete(Task task) throws Exception {
 		tasks.remove(task);
 		storage.save(tasks);
 	}
 	
+	/**
+	 * Performs a search on all tasks
+	 * @param query The search query
+	 * @return A list of tasks
+	 */
 	public List<Task> search(String query) {
 		List<Task> resultList = tasks.stream()
-			    .filter(task -> !task.isArchived() && task.getDetails().indexOf(query) != -1).collect(Collectors.toList());
+		    .filter(task -> task.getDetails().indexOf(query) != -1)
+		    .collect(Collectors.toList());
 		
 		return resultList;
 	}
 
+	/**
+	 * Fetch a list of tasks that are not done yet 
+	 * @return A list of tasks
+	 */
 	public List<Task> notDone() {
-		List<Task> doneList = tasks.stream()
-			    .filter(task -> !task.isDone()).collect(Collectors.toList());
-		return doneList;
+		List<Task> nodoneList = tasks.stream()
+		    .filter(task -> !task.isDone())
+		    .collect(Collectors.toList());
+		return nodoneList;
 	}
 
+	/**
+	 * Fetch a list of tasks that are done already
+	 * @return A list of tasks
+	 */
 	public List<Task> done() {
 		List<Task> doneList = tasks.stream()
-			    .filter(task -> task.isDone() && !task.isArchived()).collect(Collectors.toList());
+		    .filter(task -> task.isDone())
+		    .collect(Collectors.toList());
 		return doneList;
 	}
 }
