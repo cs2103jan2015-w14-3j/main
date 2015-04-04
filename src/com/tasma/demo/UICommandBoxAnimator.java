@@ -26,12 +26,16 @@ public class UICommandBoxAnimator {
 	}
 	
 	public void animate(String text) {
+		animate(text, 0);
+	}
+	
+	public void animate(String text, int start) {
 		if (timer != null) {
 			timer.cancel();
 		}
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
-			int length = 0;
+			int length = start;
 			
 			@Override
 			public void run() {
