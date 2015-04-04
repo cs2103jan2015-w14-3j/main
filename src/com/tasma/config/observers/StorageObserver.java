@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763
 package com.tasma.config.observers;
 
 import java.io.File;
@@ -8,6 +12,11 @@ import com.tasma.Storage;
 import com.tasma.config.ChangeObserverInterface;
 import com.tasma.config.DefaultProviderInterface;
 
+/**
+ * Watches a change in the storage file path
+ * and moves the file when needed.
+ * @author Yong Shan Xian <ysx@u.nus.edu>
+ */
 public class StorageObserver implements ChangeObserverInterface, DefaultProviderInterface {
 
 	@Override
