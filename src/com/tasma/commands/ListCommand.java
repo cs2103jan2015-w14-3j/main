@@ -40,7 +40,7 @@ public class ListCommand extends AbstractCommand {
 				list = collection.done();
 				break;
 			default:
-				list = collection.upcoming();
+				list = collection.notDone();
 				break;
 		}
 		state.clear();
