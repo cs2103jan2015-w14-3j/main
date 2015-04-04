@@ -7,12 +7,16 @@ package com.tasma.commands;
 import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 
-public abstract class AbstractUndoableCommand extends AbstractCommand implements
-		UndoableCommandInterface {
+/**
+ * Provides abstraction of an undoable command
+ * @author Yong Shan Xian <ysx@u.nus.edu>
+ */
+public abstract class AbstractUndoableCommand
+	extends AbstractCommand
+	implements UndoableCommandInterface {
 
 	public AbstractUndoableCommand(TasmaUserInterface userInterface,
 			TaskCollection collection) {
 		super(userInterface, collection);
-		// TODO Auto-generated constructor stub
 	}
 }
