@@ -209,7 +209,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("edit 5 buy a cushion as birthday gift for hui qi");
+					commandBoxAnimator.animate("edit 5 buy a cushion as birthday gift for hui qi", 11);
 				}
 			});
 
