@@ -133,7 +133,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					commandBoxAnimator.animate("add return library book on next wednesday");
+					commandBoxAnimator.animate("add return library book on next wednesday", 4);
 				}
 			});
 			
@@ -157,7 +157,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("a buy birthday gift for hui qi");
+					commandBoxAnimator.animate("a buy birthday gift for hui qi", 2);
 				}
 			});
 			
@@ -180,7 +180,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("help add");
+					commandBoxAnimator.animate("help add", 5);
 				}
 			});
 
