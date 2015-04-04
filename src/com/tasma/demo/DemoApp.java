@@ -1,14 +1,19 @@
 package com.tasma.demo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 
 import com.tasma.Controller;
@@ -71,12 +76,36 @@ public class DemoApp implements Runnable {
 		private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
 		private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
 		private JFrame demoControl = new JFrame();
+		private JFrame keyPressFrame = new JFrame();
+		private JLabel labelKeyPress;
+		
 		public void initialize() {
-			prepareWindow();
+			prepareDemoControl();
+			prepareKeyPressFrame();
 			loadActions();
 		}
 		
-		protected void prepareWindow() {
+		private void prepareKeyPressFrame() {
+			keyPressFrame.setLayout(new BorderLayout());
+			keyPressFrame.setResizable(false);
+			keyPressFrame.setUndecorated(true);
+			keyPressFrame.setAlwaysOnTop(true);
+			keyPressFrame.setSize(200, 60);
+			keyPressFrame.setLocationRelativeTo(null);
+			keyPressFrame.setLocation(keyPressFrame.getLocation().x, (int)(1.75 * keyPressFrame.getLocation().y));
+			keyPressFrame.setVisible(false);
+			keyPressFrame.setShape(new RoundRectangle2D.Double(0, 0, 200, 60, 5, 5));
+			keyPressFrame.setOpacity(0.6f);
+			labelKeyPress = new JLabel("");
+			labelKeyPress.setForeground(Color.WHITE);
+			labelKeyPress.setBackground(Color.DARK_GRAY);
+			labelKeyPress.setHorizontalAlignment(JLabel.CENTER);
+			labelKeyPress.setFont(labelKeyPress.getFont().deriveFont(24.0f));
+			keyPressFrame.add(labelKeyPress, BorderLayout.CENTER);
+			labelKeyPress.setOpaque(true);
+		}
+
+		protected void prepareDemoControl() {
 			Actor thisActor = this;
 			demoControl.setLayout(new BorderLayout());
 			demoControl.setResizable(false);
@@ -104,6 +133,18 @@ public class DemoApp implements Runnable {
 			});
 
 			demoControl.setVisible(true);
+		}
+		
+		protected void showKeyPress(String key) {
+			keyPressFrame.setVisible(true);
+			labelKeyPress.setText(key);
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					keyPressFrame.setVisible(false);
+				}
+			}, 1000);
 		}
 		
 		public void loadActions() {
@@ -143,6 +184,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("add return library book on next wednesday");
 				}
@@ -167,6 +209,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("a buy birthday gift for hui qi");
 				}
@@ -182,6 +225,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("help");
 				}
@@ -198,6 +242,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("help add");
 				}
@@ -214,6 +259,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("edit 2");
 				}
@@ -230,6 +276,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("edit 2 buy a cushion as birthday gift for hui qi");
 				}
@@ -239,15 +286,16 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("mark 4");
+					commandBoxAnimator.animate("mark 3");
 				}
 			});
 
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
-					controller.executeInput("mark 4");
+					controller.executeInput("mark 3");
 				}
 			});
 
@@ -262,6 +310,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("undo");
 				}
@@ -271,15 +320,16 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("mark 5");
+					commandBoxAnimator.animate("mark 2");
 				}
 			});
 
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
-					controller.executeInput("mark 5");
+					controller.executeInput("mark 2");
 				}
 			});
 
@@ -318,6 +368,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("search dinner");
 				}
@@ -334,6 +385,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Enter");
 					frame.editCmdDisplay("");
 					controller.executeInput("delete 2");
 				}
@@ -342,6 +394,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Esc");
 					frame.editCmdDisplay("");
 					frame.hide();
 				}
@@ -350,6 +403,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					showKeyPress("Alt + Shift + X");
 					frame.show();
 				}
 			});
