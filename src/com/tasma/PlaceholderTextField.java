@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JTextField;
-import javax.swing.text.Document;
 
 /**
  * Provides placeholder text functionality - usability importance
