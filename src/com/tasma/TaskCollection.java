@@ -53,6 +53,13 @@ public class TaskCollection {
 
 		return pastList;
 	}
+
+	public List<Task> filter(Predicate<? super Task> predicate) {
+		List<Task> result = tasks.stream()
+		    .filter(predicate).collect(Collectors.toList());
+
+		return result;
+	}
 	
 	public List<Task> upcoming() {
 		List<Task> upcomingList = tasks.stream()
