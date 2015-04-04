@@ -123,6 +123,12 @@ public class DemoApp implements Runnable {
 					controller.executeInput("a bring dog to vet for check up");
 					controller.executeInput("list");
 					frame.displayMessage("");
+				}
+			});
+			
+			actionsAvailable.offer(new Runnable() {
+				@Override
+				public void run() {
 					commandBoxAnimator.animate("add");
 				}
 			});
@@ -176,8 +182,16 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
+					frame.editCmdDisplay("");
+					controller.executeInput("help");
+				}
+			});
+			
+			actionsAvailable.offer(new Runnable() {
+				@Override
+				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("help add", 5);
+					commandBoxAnimator.animate("help add");
 				}
 			});
 
