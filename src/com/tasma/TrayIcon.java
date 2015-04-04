@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763
 package com.tasma;
 
 import java.awt.Image;
@@ -10,6 +14,9 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Provides support for system tray icon
+ */
 public class TrayIcon {
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
@@ -24,6 +31,10 @@ public class TrayIcon {
 		this.userInterface = userInterface;
 	}
 	
+	/**
+	 * Set up the tray icon
+	 * @throws Exception Thrown when system tray is not supported.
+	 */
 	public void setup() throws Exception {
         if (!SystemTray.isSupported()) {
             throw new UnsupportedOperationException();
@@ -48,6 +59,9 @@ public class TrayIcon {
         tray.add(trayIcon);
 	}
 	
+	/**
+	 * Build the context menu of the tray icon
+	 */
 	protected void buildMenu() {
         MenuItem showItem = new MenuItem("Show Tasma");
         MenuItem exitItem = new MenuItem("Exit");
@@ -71,7 +85,12 @@ public class TrayIcon {
         });
 	}
 	
-    //Obtain the image URL
+    /**
+     * Obtain the image URL
+     * @param path Path to the image
+     * @param description a description
+     * @return Returns an Image resource
+     */
     protected static Image createImage(String path, String description) {
         URL imageURL = TrayIcon.class.getResource(path);
          
