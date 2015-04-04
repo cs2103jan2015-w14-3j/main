@@ -14,6 +14,7 @@ public class ListCommand extends AbstractCommand {
 
 	private static final String FILTER_DONE = "done";
 	private static final String FILTER_PAST = "past";
+	private static final String FILTER_OVERDUE = "overdue";
 	private static final String FILTER_UPCOMING = "upcoming";
 	
 	private String filter;
@@ -38,6 +39,7 @@ public class ListCommand extends AbstractCommand {
 			case FILTER_UPCOMING:
 				list = collection.upcoming();
 				break;
+			case FILTER_OVERDUE:
 			case FILTER_PAST:
 				list = collection.past();
 				break;
