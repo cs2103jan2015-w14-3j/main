@@ -36,6 +36,8 @@ import com.tulskiy.keymaster.common.Provider;
  */
 public class DemoApp implements Runnable {
 	
+	private static final String APP_HOTKEY = "alt shift X";
+	
 	private Controller controller;
 	private MockStorage storage;
 	private TaskCollection collection;
@@ -46,6 +48,9 @@ public class DemoApp implements Runnable {
 		EventQueue.invokeLater(new DemoApp());
 	}
 	
+	/**
+	 * Create the app and initialize
+	 */
 	public DemoApp() {
 		try {
 			frame = new TasmaGUI();
@@ -58,14 +63,20 @@ public class DemoApp implements Runnable {
 		}
 	}
 	
+	/**
+	 * Run the show!
+	 */
+	@Override
 	public void run() {
 		try {
 			frame.initialize(controller);
 			controller.initialize();
 			controller.executeInput("list");
 			
+			// we need the hot key to bring window back in case we accidentally close it
+			// the tray icon is not used in the demo that's why
 			Provider provider = Provider.getCurrentProvider(true);
-			provider.register(KeyStroke.getKeyStroke("alt shift X"), new HotKeyListener() {
+			provider.register(KeyStroke.getKeyStroke(APP_HOTKEY), new HotKeyListener() {
 
 				@Override
 				public void onHotKey(HotKey hotKey) {
@@ -82,20 +93,48 @@ public class DemoApp implements Runnable {
 
 	
 	protected class Actor {
+		/**
+		 * The key press frame default opacity
+		 */
 		private static final float DEFAULT_KEY_PRESS_FRAME_OPACITY = 0.6f;
 		
+		/**
+		 * The stack of actions that were completed
+		 */
 		private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
+		
+		/**
+		 * The queue of actions available to run for in the demo
+		 */
 		private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
+		
+		/**
+		 * The demo control frame
+		 */
 		private JFrame demoControl = new JFrame();
+		
+		/**
+		 * The key press label frame
+		 */
 		private JFrame keyPressFrame = new JFrame();
+		
+		/**
+		 * The key press label
+		 */
 		private JLabel labelKeyPress;
 		
+		/**
+		 * Initialize the actor
+		 */
 		public void initialize() {
 			prepareDemoControl();
 			prepareKeyPressFrame();
 			loadActions();
 		}
 		
+		/**
+		 * Prepare the key press frame
+		 */
 		private void prepareKeyPressFrame() {
 			keyPressFrame.setLayout(new BorderLayout());
 			keyPressFrame.setResizable(false);
@@ -116,6 +155,9 @@ public class DemoApp implements Runnable {
 			labelKeyPress.setOpaque(true);
 		}
 
+		/**
+		 * Prepare the demo control frame
+		 */
 		protected void prepareDemoControl() {
 			Actor thisActor = this;
 			demoControl.setLayout(new BorderLayout());
@@ -146,10 +188,16 @@ public class DemoApp implements Runnable {
 			demoControl.setVisible(true);
 		}
 		
+		/**
+		 * Show what key has been pressed on the screen
+		 * @param key The key that has been pressed
+		 */
 		protected void showKeyPress(String key) {
 			keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
 			keyPressFrame.setVisible(true);
 			labelKeyPress.setText(key);
+			
+			// the timer will perform fade out animation and hide away the frame
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
@@ -164,6 +212,9 @@ public class DemoApp implements Runnable {
 			}, 1200, 30);
 		}
 		
+		/**
+		 * Suit up all the actions for the demo
+		 */
 		public void loadActions() {
 			actionsAvailable.offer(new Runnable() {
 				@Override
@@ -426,6 +477,9 @@ public class DemoApp implements Runnable {
 			});
 		}
 		
+		/**
+		 * Execute the next action.
+		 */
 		public void next() {
 			if (actionsAvailable.size() > 0) {
 				Runnable action = actionsAvailable.poll();
