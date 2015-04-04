@@ -214,10 +214,15 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	@Override
 	public void displayMessage(String message, Color color) {
-		textDisplay.setText(message);
-		textDisplay.setForeground(color);
-		textDisplay.setVisible(true);
-		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT + textDisplay.getPreferredSize().height);
+		if (message.equals("")) {
+			textDisplay.setVisible(false);
+			setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
+		} else {
+			textDisplay.setText(message);
+			textDisplay.setForeground(color);
+			textDisplay.setVisible(true);
+			setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT + textDisplay.getPreferredSize().height);
+		}
 	}
 
 	public void editCmdDisplay (String task) {
