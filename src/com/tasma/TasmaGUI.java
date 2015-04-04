@@ -33,7 +33,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 
 	private static final int WINDOW_DEFAULT_WIDTH = 520;
-	private static final int WINDOW_DEFAULT_HEIGHT = 360;
+	private static final int WINDOW_DEFAULT_HEIGHT = 200;
 
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
@@ -118,7 +118,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
+		updateWindowHeight();
 
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
@@ -128,7 +128,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
                 textCommand.requestFocus();
 			}
 		});
@@ -209,7 +208,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			finalList.add(UIMessage.TASK_LIST_EMPTY);
 		}
 
+		list.setVisibleRowCount(Math.min(5, finalList.size()));;
 		list.setListData(finalList.toArray());
+		updateWindowHeight();
 	}
 
 	@Override
@@ -221,19 +222,27 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	public void displayMessage(String message, Color color) {
 		if (message.equals("")) {
 			textDisplay.setVisible(false);
-			setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 		} else {
 			textDisplay.setText(message);
 			textDisplay.setForeground(color);
 			textDisplay.setVisible(true);
-			setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT + textDisplay.getPreferredSize().height);
 		}
+		updateWindowHeight();
 	}
 
 	public void editCmdDisplay (String task) {
 		textCommand.setText(task);
 	}
 
+	protected void updateWindowHeight() {
+		int height = WINDOW_DEFAULT_HEIGHT;
+		height += list.getPreferredScrollableViewportSize().height;
+		if (textDisplay.isVisible()) {
+			height += textDisplay.getPreferredSize().height;
+		}
+		setSize(WINDOW_DEFAULT_WIDTH, height);
+	}
+	
 	 //Obtain the image URL
     protected static Image createImage(String path, String description) {
         URL imageURL = TrayIcon.class.getResource(path);
