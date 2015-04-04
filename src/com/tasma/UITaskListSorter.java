@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763
 package com.tasma;
 
 import java.util.AbstractMap;
@@ -6,8 +10,17 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.LocalDate;
 
+/**
+ * Provides support for sorting the task list state into various headings for UI presentation 
+ * @author Yong Shan Xian <ysx@u.nus.edu>
+ */
 public class UITaskListSorter {
 
+	/**
+	 * Sort the list of tasks into its headings
+	 * @param tasks The list of tasks to be sorted
+	 * @return Returns a list that is ready to be presented
+	 */
 	public static List<Object> sort(List<Task> tasks) {
 		LinkedList<Object> listFloating = new LinkedList<Object>();
 		LinkedList<Object> listOverdue = new LinkedList<Object>();
