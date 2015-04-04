@@ -26,6 +26,7 @@ public class DemoApp implements Runnable {
 	private MockStorage storage;
 	private TaskCollection collection;
 	private TasmaUserInterface frame; 
+	private UICommandBoxAnimator commandBoxAnimator;
 
 	public static void main(String[] main) {
 		EventQueue.invokeLater(new DemoApp());
@@ -37,6 +38,7 @@ public class DemoApp implements Runnable {
 			storage = new MockStorage();
 			collection = new TaskCollection(storage);
 			controller = new Controller(collection);
+			commandBoxAnimator = new UICommandBoxAnimator(frame);
 		} catch (Exception e) {
 			
 		}
@@ -124,14 +126,14 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					frame.editCmdDisplay("add");
+					commandBoxAnimator.animate("add");
 				}
 			});
 			
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					frame.editCmdDisplay("add return library book on next wednesday");
+					commandBoxAnimator.animate("add return library book on next wednesday");
 				}
 			});
 			
@@ -147,7 +149,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("a");
+					commandBoxAnimator.animate("a");
 				}
 			});
 			
@@ -155,7 +157,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("a buy birthday gift for hui qi");
+					commandBoxAnimator.animate("a buy birthday gift for hui qi");
 				}
 			});
 			
@@ -170,7 +172,7 @@ public class DemoApp implements Runnable {
 			actionsAvailable.offer(new Runnable() {
 				@Override
 				public void run() {
-					frame.editCmdDisplay("help");
+					commandBoxAnimator.animate("help");
 				}
 			});
 			
@@ -194,7 +196,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("edit 5");
+					commandBoxAnimator.animate("edit 5");
 				}
 			});
 
@@ -210,7 +212,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("edit 5 buy a cushion as birthday gift for hui qi");
+					commandBoxAnimator.animate("edit 5 buy a cushion as birthday gift for hui qi");
 				}
 			});
 
@@ -226,7 +228,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("mark 4");
+					commandBoxAnimator.animate("mark 4");
 				}
 			});
 
@@ -242,7 +244,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("undo");
+					commandBoxAnimator.animate("undo");
 				}
 			});
 
@@ -258,7 +260,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("mark 5");
+					commandBoxAnimator.animate("mark 5");
 				}
 			});
 
@@ -298,7 +300,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("search dinner");
+					commandBoxAnimator.animate("search dinner");
 				}
 			});
 
@@ -314,7 +316,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					frame.editCmdDisplay("delete 2");
+					commandBoxAnimator.animate("delete 2");
 				}
 			});
 
