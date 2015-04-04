@@ -12,7 +12,6 @@ public class Task implements Cloneable {
 	private DateTime startDateTime;
 	private DateTime endDateTime;
 	private boolean isDone;
-	private boolean isArchived;
 
 	public Task(String details) {
 		this.details = details;
@@ -121,14 +120,6 @@ public class Task implements Cloneable {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
-	}
-
-	public boolean isArchived() {
-		return isArchived;
-	}
-
-	public void setArchived(boolean isArchived) {
-		this.isArchived = isArchived;
 	}
 
 	@Override
