@@ -25,11 +25,11 @@ public final class HelpMessage {
 			+ "The 'edit' command allows you to modify details of a specific task. The [task number] parameter is the number corresponding to the task that you want to select. In the event that the new details of the task is not entered, the old details will be displayed in the command box for your convenience to edit.";
 
 	public static final String HELP_SET = "\tset <config key> <value>\n\n"
-			+ "The 'set' command sets configuration values that allows you to change the behaviour of Tasma. The <config key> is the configuration that you want to change and <value> is the new value.\n\n"
+			+ "The 'set' command sets configuration values that allows you to change the behaviour of TASMA. The <config key> is the configuration that you want to change and <value> is the new value.\n\n"
 			+ "\tstorage: The path to the folder where the tasks.json storage file will be stored.\n";
 
 	public static final String HELP_HELP = "\thelp <command>\n\n"
-			+ "The 'help' command provides you information on how to use the various commands in Tasma. The <command> is the command to show help for and can be any of the following:\n\n"
+			+ "The 'help' command provides you information on how to use the various commands in TASMA. The <command> is the command to show help for and can be any of the following:\n\n"
 			+ "\tadd:\t\tCreates a new task\n"
 			+ "\tsearch:\tSearches for tasks\n"
 			+ "\tlist:\t\tShows a list of upcoming tasks\n"
@@ -43,8 +43,8 @@ public final class HelpMessage {
 
 
 	public static final String HELP_TUTORIAL = "\ttutorial\n\n"
-			+ "The 'tutorial' command will launch the welcome tutorial that was shown when you first start Tasma.";
+			+ "The 'tutorial' command will launch the welcome tutorial that was shown when you first start TASMA.";
 
 	public static final String HELP_EXIT = "\texit\n\n"
-			+ "The 'exit' command will make Tasma quit its job and move to another city.";
+			+ "The 'exit' command will make TASMA quit its job and move to another city.";
 }
