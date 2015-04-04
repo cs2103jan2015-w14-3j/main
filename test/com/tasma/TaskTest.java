@@ -60,7 +60,7 @@ public class TaskTest {
 	
 	@Test
 	public void testToString() {
-		Task t = new Task("aabc", "buy snacks");
+		Task t = new Task("buy snacks");
 		t.setStartDateTime(new DateTime(2015, 5, 6, 11, 0));
 		t.setEndDateTime(new DateTime(2016, 11, 30, 23, 59));
 		String s = t.toString();
