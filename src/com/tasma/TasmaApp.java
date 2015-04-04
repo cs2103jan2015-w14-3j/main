@@ -22,22 +22,30 @@ public class TasmaApp implements Runnable {
 	
 	private Controller controller;
 	private Config config;
-	private TasmaUserInterface frame; 
+	private TasmaUserInterface userInterface; 
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new TasmaApp());
+		if (args.length == 1 && args[0].toLowerCase().equals("cli")) {
+			(new TasmaApp(new TasmaConsoleUI())).run();
+		} else {
+			EventQueue.invokeLater(new TasmaApp());
+		}
 	}
 	
 	public TasmaApp() {
+		this(new TasmaGUI());
+	}
+	
+	public TasmaApp(TasmaUserInterface userInterface) {
 		try {
-			frame = new TasmaGUI();
-			controller = new Controller();
-			config = Config.getInstance();
+			this.userInterface = userInterface;
+			this.controller = new Controller();
+			this.config = Config.getInstance();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -48,21 +56,21 @@ public class TasmaApp implements Runnable {
 	public void run() {
 		try {
 			logger.log(Level.FINE, "Initializing window & application");
-			frame.initialize(controller);
+			userInterface.initialize(controller);
 			controller.initialize();
 			controller.executeInput("list");
 			if (config.isFirstRun()) { // run the tutorial if this is the first time!
 				controller.executeInput("tutorial");
 			}
 			
-			frame.show();
+			userInterface.show();
 
 			Provider provider = Provider.getCurrentProvider(true);
 			provider.register(KeyStroke.getKeyStroke(APP_HOTKEY), new HotKeyListener() {
 
 				@Override
 				public void onHotKey(HotKey hotKey) {
-					frame.show();
+					userInterface.show();
 				}
 	        });
 			
@@ -73,7 +81,7 @@ public class TasmaApp implements Runnable {
 		
 		// set up tray icon now
 		try {
-			TrayIcon tray = new TrayIcon(frame);
+			TrayIcon tray = new TrayIcon(userInterface);
 			tray.setup();
 		} catch (Exception e) {
 			
