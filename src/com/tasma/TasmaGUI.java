@@ -123,6 +123,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
+		this.setLocation(this.getLocation().x, (int)(0.5*this.getLocation().y));
 	}
 
 	private void addWindowEvents() {
