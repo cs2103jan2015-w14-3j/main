@@ -21,7 +21,7 @@ public final class HelpMessage {
 			+ "The 'search' command finds tasks in your to-do list that matches the query string you have entered. After entering the command, the result of the search operation will be shown in the list.";
 
 	public static final String HELP_LIST = "\tlist [filters]\n\n"
-			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be: done or past.";
+			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be: upcoming, done, overdue or past.";
 
 	public static final String HELP_MARK = "\tmark <task number>\n\n"
 			+ "The 'mark' command marks a specified task as done. The [task number] parameter is the number corresponding to the task that you want to select.";
