@@ -7,6 +7,11 @@ package com.tasma.commands;
 import com.tasma.TasmaUserInterface;
 import com.tasma.TaskCollection;
 
+/**
+ * This is the abstract command where the constructor takes in the
+ * userInterface and task collection for usage
+ * @author Yong Shan Xian <ysx@u.nus.edu>
+ */
 public abstract class AbstractCommand implements CommandInterface {
 
 	protected TasmaUserInterface userInterface;
