@@ -34,6 +34,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final int WINDOW_DEFAULT_WIDTH = 520;
 	private static final int WINDOW_DEFAULT_HEIGHT = 200;
+	private static final int MAX_TASK_DISPLAY_COUNT = 6;
 
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
@@ -207,7 +208,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			finalList.add(UIMessage.TASK_LIST_EMPTY);
 		}
 
-		list.setVisibleRowCount(Math.min(5, finalList.size()));;
+		list.setVisibleRowCount(Math.min(MAX_TASK_DISPLAY_COUNT, finalList.size()));;
 		list.setListData(finalList.toArray());
 		updateWindowHeight();
 	}
