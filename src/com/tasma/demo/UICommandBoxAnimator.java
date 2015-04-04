@@ -11,7 +11,7 @@ import com.tasma.TasmaUserInterface;
 
 public class UICommandBoxAnimator {
 	
-	private final static float DEFAULT_SPEED = 20.0f;
+	private final static float DEFAULT_SPEED = 24.0f;
 	protected TasmaUserInterface userInterface;
 	protected float speed;
 	protected Timer timer;
