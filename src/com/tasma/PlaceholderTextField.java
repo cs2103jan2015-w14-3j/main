@@ -13,26 +13,6 @@ public class PlaceholderTextField extends JTextField {
     private String placeholder;
     private Color placeholderColor = getDisabledTextColor();
 
-    public PlaceholderTextField() {
-    }
-
-    public PlaceholderTextField(final String text) {
-        super(text);
-    }
-
-    public PlaceholderTextField(final int columns) {
-        super(columns);
-    }
-
-    public PlaceholderTextField(final Document doc, final String text, final int columns)
-    {
-        super(doc, text, columns);
-    }
-
-    public PlaceholderTextField(final String text, final int columns) {
-        super(text, columns);
-    }
-
     public String getPlaceholder() {
         return placeholder;
     }
