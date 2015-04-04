@@ -159,12 +159,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		LinkedList<Object> listTomorrow = new LinkedList<Object>();
 		LinkedList<Object> listRemaining = new LinkedList<Object>();
 
-		listFloating.add("Floating");
-		listOverdue.add("Overdue");
-		listToday.add("Today");
-		listTomorrow.add("Tomorrow");
-		listRemaining.add("Upcoming");
-
 		LocalDate dateNow = new LocalDate();
 		LocalDate dateTmr = dateNow.plusDays(1);
 		int taskIndex = 0;
@@ -185,21 +179,26 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		}
 
 		LinkedList<Object> finalList = new LinkedList<Object>();
-		if (listFloating.size() > 1) {
+		if (listFloating.size() > 0) {
+			listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING, listFloating.size()));
 			finalList.addAll(listFloating);
 		}
-		if (listOverdue.size() > 1) {
+		if (listOverdue.size() > 0) {
+			listOverdue.add(0, String.format(UIMessage.SECTION_HEADER_OVERDUE, listOverdue.size()));
 			finalList.addAll(listOverdue);
 		}
-		if (listToday.size() > 1) {
+		if (listToday.size() > 0) {
+			listToday.add(0, String.format(UIMessage.SECTION_HEADER_TODAY, listToday.size()));
 			finalList.addAll(listToday);
 		}
 
-		if (listToday.size() > 1) {
+		if (listTomorrow.size() > 0) {
+			listTomorrow.add(0, String.format(UIMessage.SECTION_HEADER_TOMORROW, listTomorrow.size()));
 			finalList.addAll(listTomorrow);
 		}
 
-		if (listRemaining.size() > 1) {
+		if (listRemaining.size() > 0) {
+			listRemaining.add(0, String.format(UIMessage.SECTION_HEADER_REMAINING, listRemaining.size()));
 			finalList.addAll(listRemaining);
 		}
 		
