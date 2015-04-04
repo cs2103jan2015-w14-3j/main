@@ -17,6 +17,10 @@ public class Task implements Cloneable {
 		this.details = details;
 	}
 
+	public Task() {
+		this("");
+	}
+
 	public String getDetails() {
 		return details;
 	}
