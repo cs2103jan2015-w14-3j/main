@@ -1,5 +1,8 @@
-package com.tasma;
+/**
+ * Tasma Task Manager
+ */
 //@author A0132763
+package com.tasma;
 
 import java.util.logging.FileHandler;
 import java.util.logging.Level;

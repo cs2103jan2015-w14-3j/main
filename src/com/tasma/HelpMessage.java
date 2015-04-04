@@ -1,5 +1,13 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763
 package com.tasma;
 
+/**
+ * Provides storage of help messages used by the help command
+ * @author Yong Shan Xian <ysx@u.nus.edu>
+ */
 public final class HelpMessage {
 	public static final String HELP_TEMPLATE = "Help information about '%s' command\n\n"
 			+ "%s\n\n"
