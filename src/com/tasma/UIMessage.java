@@ -38,4 +38,6 @@ public final class UIMessage {
 	
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. If you need help, enter the 'help' command and I will be glad to assist you.";
 	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
+	
+	public static final String TASK_LIST_EMPTY = "No tasks found (:";
 }
