@@ -193,7 +193,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("edit 5");
+					commandBoxAnimator.animate("edit 2");
 				}
 			});
 
@@ -201,7 +201,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.editCmdDisplay("");
-					controller.executeInput("edit 5");
+					controller.executeInput("edit 2");
 				}
 			});
 
@@ -209,7 +209,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.displayMessage("");
-					commandBoxAnimator.animate("edit 5 buy a cushion as birthday gift for hui qi", 11);
+					commandBoxAnimator.animate("edit 2 buy a cushion as birthday gift for hui qi", 11);
 				}
 			});
 
@@ -217,7 +217,7 @@ public class DemoApp implements Runnable {
 				@Override
 				public void run() {
 					frame.editCmdDisplay("");
-					controller.executeInput("edit 5 buy a cushion as birthday gift for hui qi");
+					controller.executeInput("edit 2 buy a cushion as birthday gift for hui qi");
 				}
 			});
 
