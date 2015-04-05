@@ -79,8 +79,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
+					commandHintFrame.close();
 					thisFrame.setVisible(false);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
+					commandHintFrame.close();
 					textMessage.setVisible(false);
 					thisFrame.setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
 					String command = textCommand.getText();
