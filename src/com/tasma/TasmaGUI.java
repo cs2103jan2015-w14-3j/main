@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
@@ -27,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -272,6 +274,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridx = 1;
 		        c.gridy = 1;
 		        panel.add(textDateTime, c);
+		        
+		        JCheckBox mkDone = new JCheckBox();
+		        if (task.isDone())
+		        	mkDone.setSelected(true);
+		        else mkDone.setSelected(false);
+		        c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 2;
+		        c.gridy = 0;
+		        panel.add(mkDone, c);
+		        
 			}
 	        return panel;
 	    }
