@@ -311,6 +311,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        panel.add(textDateTime, c);
 		        
 		        JCheckBox mkDone = new JCheckBox();
+		        mkDone.setVisible(task.isDone());
 		        mkDone.setSelected(task.isDone());
 		        mkDone.setBackground(null);
 		        c = new GridBagConstraints();
