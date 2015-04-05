@@ -315,8 +315,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        mkDone.setBackground(null);
 		        c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
-		        c.gridx = 0;
-		        c.gridy = 1;
+		        c.gridx = 2;
+		        c.gridy = 0;
 		        panel.add(mkDone, c);
 		        
 			}
