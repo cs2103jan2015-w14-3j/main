@@ -7,6 +7,10 @@ package com.tasma;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+/**
+ * The Task Model
+ * holds the details of a task that can be serialised.
+ */
 public class Task implements Cloneable {
 	private String details = "";
 	private DateTime startDateTime;
@@ -21,10 +25,18 @@ public class Task implements Cloneable {
 		this("");
 	}
 
+	/**
+	 * Get the details of the task
+	 * @return A string containing the details of the task
+	 */
 	public String getDetails() {
 		return details;
 	}
 
+	/**
+	 * Set the details of the task
+	 * @param details The new details of the task
+	 */
 	public void setDetails(String details) {
 		this.details = details;
 	}
@@ -118,14 +130,25 @@ public class Task implements Cloneable {
 		this.endDateTime = endDateTime;
 	}
 
+	/**
+	 * Check if this task is done
+	 * @return
+	 */
 	public boolean isDone() {
 		return isDone;
 	}
 
+	/**
+	 * Set the task to be done or undone
+	 * @param isDone True if the task is done, and false if it is not.
+	 */
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
 	}
 
+	/**
+	 * Performs a clone operation to get a copy of the task with the same values.
+	 */
 	@Override
 	public Task clone() throws CloneNotSupportedException {
 		return (Task) super.clone();
