@@ -46,4 +46,24 @@ public class Palette {
 	 * The message colour that shows information
 	 */
 	public static final Color MESSAGE_INFO = new Color(21, 118, 179);
+	
+	/**
+	 * Colour of task that is overdue
+	 */
+	public static final Color TASK_LIST_OVERDUE = Color.RED;
+	
+	/**
+	 * Color of task that is due today
+	 */
+	public static final Color TASK_LIST_TODAY = Color.ORANGE;
+	
+	/**
+	 * Color of floating tasks
+	 */
+	public static final Color TASK_LIST_FLOATING = Color.GREEN;
+	
+	/**
+	 * Default task colour
+	 */
+	public static final Color TASK_LIST_DEFAULT = Color.BLACK;
 }
