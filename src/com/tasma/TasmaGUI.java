@@ -288,9 +288,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        if (task.isDone())
 		        	mkDone.setSelected(true);
 		        else mkDone.setSelected(false);
-		        panel.add(mkDone);
-		        mkDone.setHorizontalAlignment(SwingConstants.EAST);
-		        
+		        c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 2;
+		        c.gridy = 0;
+		        panel.add(mkDone, c);
 		        
 			}
 	        return panel;
