@@ -115,7 +115,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setLineWrap(true);
 		textMessage.setVisible(false);
 		textMessage.setWrapStyleWord(true);
-		textMessage.setTabSize(2);
+		textMessage.setTabSize(3);
 		textMessage.setFont(textMessage.getFont().deriveFont(13.0f));
 		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
 		contentPane.add(textMessage, BorderLayout.PAGE_END);
