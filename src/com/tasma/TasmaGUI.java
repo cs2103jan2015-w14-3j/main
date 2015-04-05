@@ -28,7 +28,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -276,13 +275,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        panel.add(textDateTime, c);
 		        
 		        JCheckBox mkDone = new JCheckBox();
-		        if (task.isDone())
-		        	mkDone.setSelected(true);
-		        else mkDone.setSelected(false);
+		        mkDone.setSelected(task.isDone());
+		        mkDone.setBackground(null);
 		        c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
-		        c.gridx = 2;
-		        c.gridy = 0;
+		        c.gridx = 0;
+		        c.gridy = 1;
 		        panel.add(mkDone, c);
 		        
 			}
