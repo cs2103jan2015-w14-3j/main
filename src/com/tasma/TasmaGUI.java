@@ -249,9 +249,18 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    panel.setLayout(layout);
 
 			    GridBagConstraints c = new GridBagConstraints();
+			    
+			    LocalDate dateNow = new LocalDate();
+			    LocalDate dateTmr = dateNow.plusDays(1);
 
 			    JTextArea textIndex = new JTextArea();
 			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    if (task.getEndDateTime().equals(null))
+			    	textIndex.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textIndex.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textIndex.setForeground(Color.ORANGE);
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setBackground(null);
 			    c.fill = GridBagConstraints.HORIZONTAL;
