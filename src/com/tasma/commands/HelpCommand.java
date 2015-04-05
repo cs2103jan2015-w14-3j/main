@@ -52,6 +52,9 @@ public class HelpCommand extends AbstractCommand {
 			case SET:
 				message = HelpMessage.HELP_SET;
 				break;
+			case ALIAS:
+				message = HelpMessage.HELP_ALIAS;
+				break;
 			case HELP:
 				message = HelpMessage.HELP_HELP;
 				break;
