@@ -35,11 +35,11 @@ public class UITaskListSorter {
 			Map.Entry<Integer, Task> entry = new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
 			if (task.getStartDateTime() == null) {
 				listFloating.add(entry);
-			} else if (task.getEndDateTime().isBeforeNow()) {
+			} else if (task.getEndDateTime().toLocalDate().isBefore(dateNow)) {
 				listOverdue.add(entry);
-			} else if (task.getEndDateTime().equals(dateNow)) {
+			} else if (task.getEndDateTime().toLocalDate().equals(dateNow)) {
 				listToday.add(entry);
-			} else if (task.getEndDateTime().equals(dateTmr)) {
+			} else if (task.getEndDateTime().toLocalDate().equals(dateTmr)) {
 				listTomorrow.add(entry);
 			} else {
 				listRemaining.add(entry);
