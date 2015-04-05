@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
@@ -281,6 +282,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridx = 1;
 		        c.gridy = 1;
 		        panel.add(textDateTime, c);
+		        
+		        JCheckBox mkDone = new JCheckBox();
+		       
 			}
 	        return panel;
 	    }
