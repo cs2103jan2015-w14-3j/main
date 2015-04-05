@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.List;
+import org.joda.time.LocalDate;
 
 /**
  * Provides operations on the collection of the user's tasks.
@@ -79,9 +80,10 @@ public class TaskCollection {
 	 * @return A list of tasks
 	 */
 	public List<Task> past() {
+		LocalDate today = new LocalDate();
 		List<Task> pastList = tasks.stream()
 		    .filter(task -> !task.isDone() && task.getEndDateTime() != null
-		    	&& task.getEndDateTime().isBeforeNow())
+		    	&& task.getEndDateTime().toLocalDate().isBefore(today))
 		    .collect(Collectors.toList());
 
 		return pastList;
@@ -105,9 +107,10 @@ public class TaskCollection {
 	 * @return A list of tasks
 	 */
 	public List<Task> upcoming() {
+		LocalDate yesterday = (new LocalDate()).minusDays(1);
 		List<Task> upcomingList = tasks.stream()
 		    .filter(task -> !task.isDone() && task.getStartDateTime() != null &&
-		    	task.getStartDateTime().isAfterNow())
+		    	task.getStartDateTime().toLocalDate().isAfter(yesterday))
 		    .collect(Collectors.toList());
 		
 		return upcomingList;
