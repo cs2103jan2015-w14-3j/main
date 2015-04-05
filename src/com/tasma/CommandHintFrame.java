@@ -1,14 +1,11 @@
 package com.tasma;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.HashMap;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-
 import com.tasma.commands.AliasHandler;
 import com.tasma.commands.InputSplitter;
 import com.tasma.commands.CommandType;
