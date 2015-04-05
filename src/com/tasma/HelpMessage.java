@@ -70,5 +70,7 @@ public final class HelpMessage {
 	public static final String HINT_HELP = "help [command]\n[command] the command to get help for";
 	public static final String HINT_TUTORIAL = "tutorial\nYou can start a new tutorial again";
 	public static final String HINT_EXIT = "exit\nPress enter and we say goodbye";
+	public static final String HINT_UNDO = "undo\nUndo the previous change made";
+	public static final String HINT_REDO = "redo\nRedo the previous undo call";
 	
 }
