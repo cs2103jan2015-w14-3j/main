@@ -270,6 +270,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 			    JTextArea textDetails = new JTextArea();
 			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    if (task.getEndDateTime().equals(null))
+			    	textDetails.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textDetails.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textDetails.setForeground(Color.ORANGE);
 			    textDetails.setText(task.getDetails());
 			    textDetails.setLineWrap(true);
 			    textDetails.setBackground(null);
@@ -283,6 +289,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 		        JTextArea textDateTime = new JTextArea();
 		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        if (task.getEndDateTime().equals(null))
+		        	textDateTime.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textDateTime.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textDateTime.setForeground(Color.ORANGE);
 		        textDateTime.setText(task.getStringStartDateTime());
 		        textDateTime.setLineWrap(true);
 		        textDateTime.setBackground(null);
