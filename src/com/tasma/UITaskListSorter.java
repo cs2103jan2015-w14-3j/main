@@ -8,7 +8,6 @@ import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.LocalDate;
 
 /**
  * Provides support for sorting the task list state into various headings for UI presentation 
@@ -28,21 +27,25 @@ public class UITaskListSorter {
 		LinkedList<Object> listTomorrow = new LinkedList<Object>();
 		LinkedList<Object> listRemaining = new LinkedList<Object>();
 
-		LocalDate dateNow = new LocalDate();
-		LocalDate dateTmr = dateNow.plusDays(1);
 		int taskIndex = 0;
 		for (Task task: tasks) {
 			Map.Entry<Integer, Task> entry = new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
-			if (task.getStartDateTime() == null) {
-				listFloating.add(entry);
-			} else if (task.getEndDateTime().toLocalDate().isBefore(dateNow)) {
-				listOverdue.add(entry);
-			} else if (task.getEndDateTime().toLocalDate().equals(dateNow)) {
-				listToday.add(entry);
-			} else if (task.getEndDateTime().toLocalDate().equals(dateTmr)) {
-				listTomorrow.add(entry);
-			} else {
-				listRemaining.add(entry);
+			switch (task.getState()) {
+				case OVERDUE:
+					listOverdue.add(entry);
+					break;
+				case TODAY:
+					listToday.add(entry);
+					break;
+				case TOMORROW:
+					listTomorrow.add(entry);
+					break;
+				case UPCOMING:
+					listRemaining.add(entry);
+					break;
+				default:
+					listFloating.add(entry);
+					break;
 			}
 			++taskIndex;
 		}
