@@ -3,10 +3,12 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -17,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -37,11 +40,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final int WINDOW_DEFAULT_HEIGHT = 200;
 	private static final int MAX_TASK_DISPLAY_COUNT = 6;
 
+	private Controller controller;
+	
 	private JPanel contentPane;
 	private PlaceholderTextField textCommand;
 	private JTextArea textMessage = new JTextArea();
-
-	private Controller controller;
+	private CommandHintFrame commandHintFrame = new CommandHintFrame();
 	private ZebraJList listTasks = new ZebraJList();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
 
@@ -83,7 +87,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					textCommand.setText("");
 					controller.executeInput(command);
 				}
+				EventQueue.invokeLater(new Runnable() {
 
+					@Override
+					public void run() {
+						try {
+							commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+						} catch (InvalidInputException e1) {
+						}
+					}
+					
+				});
 			}
 
 			@Override
