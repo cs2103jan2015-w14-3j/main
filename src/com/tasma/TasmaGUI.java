@@ -3,7 +3,6 @@ package com.tasma;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,11 +15,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
-import java.util.AbstractMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -32,8 +28,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
-
-import org.joda.time.LocalDate;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
@@ -140,7 +134,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	private void addWindowEvents() {
-		JFrame thisFrame = this;
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
                 textCommand.requestFocus();
