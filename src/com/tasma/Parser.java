@@ -4,6 +4,8 @@
 //@author A0118888J
 package com.tasma;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -46,7 +48,23 @@ public class Parser {
 
 		return parsedTask;
 	}
+	
+	private Task parseInput(Task parsedTask, String taskDetails) {
+		String[] param = taskDetails.split("\\s");
+		final String[] keywords = {" on ", " at ", " from ", " by ", "tomorrow", "tmrw", "tmr", "today", "tdy"};
+		
+		for (int i = 0; i < param.length; i++) {
+			if(Arrays.asList(keywords).contains(param[i])) {
+				parseDateTime(Arrays.copyOfRange(param, i, param.length));
+			}
+		}
+		return parsedTask;
+	}
 
+	private DateTime parseDateTime(String[] dateAndTime) {
+		DateTime d = initializeDateTime();
+		return d;
+	}
 	/**
 	 * Parses the task's "what" details.
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
