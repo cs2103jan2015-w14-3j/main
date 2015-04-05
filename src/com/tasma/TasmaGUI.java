@@ -33,7 +33,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
 
-	private static final int WINDOW_DEFAULT_WIDTH = 520;
+	private static final int WINDOW_DEFAULT_WIDTH = 640;
 	private static final int WINDOW_DEFAULT_HEIGHT = 200;
 	private static final int MAX_TASK_DISPLAY_COUNT = 6;
 
@@ -98,8 +98,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setLineWrap(true);
 		textMessage.setVisible(false);
 		textMessage.setWrapStyleWord(true);
-		textMessage.setTabSize(3);
-		textMessage.setBorder(new EmptyBorder(5, 5, 5, 5));
+		textMessage.setTabSize(2);
+		textMessage.setFont(textMessage.getFont().deriveFont(13.0f));
+		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
 		contentPane.add(textMessage, BorderLayout.PAGE_END);
 
 		listTasks.setSelectionModel(new DisabledItemSelectionModel());
