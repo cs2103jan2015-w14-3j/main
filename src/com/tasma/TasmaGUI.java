@@ -81,6 +81,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
 					commandHintFrame.close();
 					thisFrame.setVisible(false);
+					return;
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
 					commandHintFrame.close();
 					textMessage.setVisible(false);
@@ -88,18 +89,18 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					String command = textCommand.getText();
 					textCommand.setText("");
 					controller.executeInput(command);
+				} else {
+					EventQueue.invokeLater(new Runnable() {
+	
+						@Override
+						public void run() {
+							try {
+								commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+							} catch (InvalidInputException e1) {
+							}
+						}	
+					});
 				}
-				EventQueue.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
-						} catch (InvalidInputException e1) {
-						}
-					}
-					
-				});
 			}
 
 			@Override
@@ -153,6 +154,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
                 textCommand.requestFocus();
+			}
+			public void windowDeactivated(WindowEvent e) {
+				commandHintFrame.close();
 			}
 		});
 	}
