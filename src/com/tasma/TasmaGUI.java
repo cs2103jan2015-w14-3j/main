@@ -239,9 +239,18 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    panel.setLayout(layout);
 
 			    GridBagConstraints c = new GridBagConstraints();
+			    
+			    LocalDate dateNow = new LocalDate();
+			    LocalDate dateTmr = dateNow.plusDays(1);
 
 			    JTextArea textIndex = new JTextArea();
 			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    if (task.getEndDateTime().equals(null))
+			    	textIndex.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textIndex.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textIndex.setForeground(Color.ORANGE);
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setBackground(null);
 			    c.fill = GridBagConstraints.HORIZONTAL;
@@ -251,6 +260,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 			    JTextArea textDetails = new JTextArea();
 			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    if (task.getEndDateTime().equals(null))
+			    	textDetails.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textDetails.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textDetails.setForeground(Color.ORANGE);
 			    textDetails.setText(task.getDetails());
 			    textDetails.setLineWrap(true);
 			    textDetails.setBackground(null);
@@ -264,6 +279,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 		        JTextArea textDateTime = new JTextArea();
 		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        if (task.getEndDateTime().equals(null))
+		        	textDateTime.setForeground(Color.GREEN);
+			    else if (task.getEndDateTime().equals(dateNow))
+			    	textDateTime.setForeground(Color.RED);
+			    else if (task.getEndDateTime().equals(dateTmr))
+			    	textDateTime.setForeground(Color.ORANGE);
 		        textDateTime.setText(task.getStringStartDateTime());
 		        textDateTime.setLineWrap(true);
 		        textDateTime.setBackground(null);
