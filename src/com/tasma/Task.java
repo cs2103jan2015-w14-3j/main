@@ -156,7 +156,7 @@ public class Task implements Cloneable {
 
 	//@author A0118888J
 	@Override
-	public String toString(){
+	public String toString() {
 		String result = "";
 		result += details;
 
@@ -167,5 +167,39 @@ public class Task implements Cloneable {
 		}
 		
 		return result; 
+	}
+	
+	//@author A0132763H
+	/**
+	 * Get the type of the task
+	 * @return Returns a value from the enum TaskType
+	 */
+	public TaskType getType() {
+		if (startDateTime == null) {
+			return TaskType.FLOATING;
+		} else if (startDateTime == endDateTime) {
+			return TaskType.DEADLINE;
+		}
+		return TaskType.TIMED;
+	}
+	
+	/**
+	 * Get the state of the task
+	 * @return Returns a value from the enum TaskState
+	 */
+	public TaskState getState() {
+		if (startDateTime == null) {
+			return TaskState.FLOATING;
+		}
+		LocalDate dateNow = new LocalDate();
+		LocalDate dateTmr = dateNow.plusDays(1);
+		if (endDateTime.toLocalDate().isBefore(dateNow)) {
+			return TaskState.OVERDUE;
+		} else if (endDateTime.toLocalDate().equals(dateNow)) {
+			return TaskState.TODAY;
+		} else if (endDateTime.toLocalDate().equals(dateTmr)) {
+			return TaskState.TOMORROW;
+		}
+		return TaskState.UPCOMING;
 	}
 }
