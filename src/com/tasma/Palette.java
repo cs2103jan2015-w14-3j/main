@@ -50,20 +50,20 @@ public class Palette {
 	/**
 	 * Colour of task that is overdue
 	 */
-	public static final Color TASK_LIST_OVERDUE = Color.RED;
+	public static final Color TASK_LIST_OVERDUE = new Color(252, 50, 50);
 	
 	/**
 	 * Color of task that is due today
 	 */
-	public static final Color TASK_LIST_TODAY = Color.ORANGE;
+	public static final Color TASK_LIST_TODAY = new Color(252, 145, 50);
 	
 	/**
 	 * Color of floating tasks
 	 */
-	public static final Color TASK_LIST_FLOATING = Color.GREEN;
+	public static final Color TASK_LIST_FLOATING = new Color(72, 201, 20);
 	
 	/**
 	 * Default task colour
 	 */
-	public static final Color TASK_LIST_DEFAULT = Color.BLACK;
+	public static final Color TASK_LIST_DEFAULT = new Color(40, 40, 40);
 }
