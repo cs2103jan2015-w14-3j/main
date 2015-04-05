@@ -33,6 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 
 import org.joda.time.LocalDate;
 
@@ -287,6 +288,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        if (task.isDone())
 		        	mkDone.setSelected(true);
 		        else mkDone.setSelected(false);
+		        mkDone.setHorizontalAlignment(SwingConstants.EAST);
 		        
 		        
 			}
