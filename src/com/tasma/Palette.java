@@ -66,4 +66,9 @@ public class Palette {
 	 * Default task colour
 	 */
 	public static final Color TASK_LIST_DEFAULT = new Color(40, 40, 40);
+	
+	/**
+	 * Hint frame background color
+	 */
+	public static final Color HINT_FRAME_BACKGROUND = new Color(252, 232, 104);
 }
