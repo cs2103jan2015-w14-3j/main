@@ -22,7 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -44,7 +43,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private Controller controller;
 	private ZebraJList listTasks = new ZebraJList();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
-	private JPopupMenu popupCmdHint;
 
 	/**
 	 * Create the frame.
