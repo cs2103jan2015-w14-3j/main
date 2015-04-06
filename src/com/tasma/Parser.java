@@ -26,7 +26,7 @@ public class Parser {
 	 * @return Instance of a Task which contains the parsed details.
 	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
 	 */
-	public Task parse(String taskDetails) throws InvalidInputException{
+	public Task parse(String taskDetails) {
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
 
@@ -47,6 +47,12 @@ public class Parser {
 		return parsedTask;
 	}
 
+	/**
+	 * Checks if date/time details exist in taskDetails. If so, calls parseDateTime().
+	 * @param parsedTask Instance of Task in which parsed details are to be stored.
+	 * @param taskDetails Task details to be parsed 
+	 * @returns Task object with parsed information.
+	 */
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = taskDetails.split("\\s");
@@ -62,6 +68,12 @@ public class Parser {
 		return parsedTask;
 	}
 
+	/**
+	 * Parses date and time in param[].
+	 * @param param[] Tokenized form of taskDetails. 
+	 * @param num index of keyword
+	 * @returns Task object with parsed information.
+	 */
 	private Task parseDateTime(String[] param, int num) {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
@@ -324,6 +336,12 @@ public class Parser {
 		}
 	}*/	
 
+	/**
+	 * Parses the day/date from word.
+	 * @param word String to be parsed.
+	 * @param d DateTime object in which date/day details are to be stored. 
+	 * @returns DateTime object with parsed information.
+	 */
 	private DateTime parseDATE(String word, DateTime d) {
 		if (word.equals("next")) {
 			d.plusWeeks(1);
@@ -344,6 +362,11 @@ public class Parser {
 		return d;
 	}
 
+	/**
+	 * Checks if passed string is a valid day or date.
+	 * @param word String to be checked.
+	 * @returns true if word is a valid day/date, false otherwise.
+	 */
 	private boolean isValidDayDate(String word) {
 		if (word.equals("next")) {
 			return true;
@@ -360,6 +383,11 @@ public class Parser {
 		return false;
 	}
 
+	/**
+	 * Checks if passed string is "today"
+	 * @param word String to be checked.
+	 * @returns true if word can be matched to a form of "today", false otherwise.
+	 */
 	private boolean isWordToday(String word) {
 		if (word.equals("today") || word.equals("tdy")) {
 			return true;
@@ -368,6 +396,11 @@ public class Parser {
 		return false;
 	}
 	
+	/**
+	 * Checks if passed string is "tomorrow"
+	 * @param word String to be checked.
+	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
+	 */
 	private boolean isWordTomorrow(String word) {
 		if (word.equals("tomorrow") || word.equals("tmr") || word.equals("tmrw")) {
 			return true;
