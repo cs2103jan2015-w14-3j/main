@@ -13,11 +13,8 @@ public class ParserTest {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
 
-		try {
 			parsedTask = caller.parse("do cs2105 on next mon");
-		} catch (InvalidInputException e) {
-			System.out.println(e.getMessage());
-		}
+	
 
 		Task temp = new Task();
 
@@ -37,11 +34,8 @@ public class ParserTest {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
 
-		try {
 			parsedTask = caller.parse("do cs2105 on mon");
-		} catch (InvalidInputException e) {
-			System.out.println(e.getMessage());
-		}
+	
 
 		Task temp = new Task();
 
@@ -65,11 +59,8 @@ public class ParserTest {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
 
-		try {
 			parsedTask = caller.parse("do cs2105 on next mon at ALL");
-		} catch (InvalidInputException e) {
-			System.out.println(e.getMessage());
-		}
+
 
 		Task temp = new Task();
 
@@ -104,11 +95,8 @@ public class ParserTest {
 		Parser caller = new Parser();
 		Task parsedTask = new Task();
 
-		try {
 			parsedTask = caller.parse("do cs2105 on 22-05-15 at -2pm at ALL");
-		} catch (InvalidInputException e) {
-			System.out.println(e.getMessage());
-		}
+
 		
 		Task temp = new Task();
 
