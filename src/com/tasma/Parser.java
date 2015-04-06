@@ -31,7 +31,7 @@ public class Parser {
 		Task parsedTask = new Task(taskDetails);
 
 		this.taskDetails = taskDetails; 
-	
+
 		parsedTask = parseInput(parsedTask, taskDetails);
 
 		return parsedTask;
@@ -46,7 +46,7 @@ public class Parser {
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = taskDetails.split("\\s");
-		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy"};
+		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next"};
 
 		for (int i = 0; i < param.length; i++) {
 			if(Arrays.asList(keywords).contains(param[i])) {
@@ -91,19 +91,19 @@ public class Parser {
 				endIndex++;
 			}*/
 		}
-		
+
 		parsedTask.setEndDateTime(d);
-		
+
 		if (parsedTask.getStartDateTime() == null) {
 			parsedTask.setStartDateTime(d);
 		}
-		
+
 		String str = "";
 		for (int i = 0; i < num; i++) {
 			str += param[i] + " "; 
 		}
 		parsedTask.setDetails(str.trim());
-		
+
 		return parsedTask;
 	}
 
@@ -163,10 +163,10 @@ public class Parser {
 		if (word.equals("today") || word.equals("tdy")) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Checks if passed string is "tomorrow"
 	 * @param word String to be checked.
@@ -176,7 +176,7 @@ public class Parser {
 		if (word.equals("tomorrow") || word.equals("tmr") || word.equals("tmrw")) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
