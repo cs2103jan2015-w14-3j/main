@@ -13,7 +13,7 @@ public class ParserMain {
 		Parser parser = new Parser();
 		
 		try {
-			System.out.println("do cs2105 on next mon");
+			/*System.out.println("do cs2105 on next mon");
 			parser.parse("do cs2105 on next mon");
 
 			System.out.println("do CS2105");
@@ -50,7 +50,10 @@ public class ParserMain {
 			parser.parse("do cs2105 on 22-05-15 at -2pm at ALL");
 			
 			System.out.println("");
-			parser.parse("");
+			parser.parse("");*/
+			
+			System.out.println("yay from tmr 2pm to 3pm");
+			parser.parse("yay from tmr 2pm to 3pm");
 		} catch (InvalidInputException e) {
 			System.out.println(e.getMessage());
 		}
