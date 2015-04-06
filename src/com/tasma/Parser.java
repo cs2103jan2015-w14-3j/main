@@ -4,7 +4,6 @@
 //@author A0118888J
 package com.tasma;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -17,8 +16,6 @@ public class Parser {
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 
-	/** Stores original taskDetails for logging */
-	private String str = null;
 
 	/** Stores taskDetails for parsing */
 	private String taskDetails;
@@ -30,11 +27,11 @@ public class Parser {
 	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
 	 */
 	public Task parse(String taskDetails) throws InvalidInputException{
+		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
 
 		this.taskDetails = taskDetails; 
-		str = taskDetails;
-
+	
 		parsedTask = parseInput(parsedTask, taskDetails);
 		/*try {			
 			getWhat(parsedTask);
@@ -51,48 +48,46 @@ public class Parser {
 	}
 
 	private Task parseInput(Task parsedTask, String taskDetails) {
+		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = taskDetails.split("\\s");
-		final String[] keywords = {" on ", " at ", " from ", " by ", "tomorrow", "tmrw", "tmr", "today", "tdy"};
+		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy"};
 
 		for (int i = 0; i < param.length; i++) {
 			if(Arrays.asList(keywords).contains(param[i])) {
 				parsedTask = parseDateTime(param, i);
+				break;
 			}
 		}
-		
 
-		System.out.println("details = "+parsedTask.getDetails());
-		System.out.println("start = "+parsedTask.getStringStartDateTime());
-		System.out.println("end = "+parsedTask.getStringEndDateTime());
-		
 		return parsedTask;
 	}
 
 	private Task parseDateTime(String[] param, int num) {
+		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
 		DateTime d = initializeDateTime();
-		int beginIndex = -1, endIndex = 0;
-		boolean parsed = false;
-		
+		//int beginIndex = -1, endIndex = 0;
+		//boolean parsed = false;
+
 		for (int i = num; i < param.length; i++) {
 			if (isValidDayDate(param[i])) {
 				d = parseDATE(param[i], d);
-				parsed = true;
+				//parsed = true;
 			} else if (isValidTime(param[i])) {
 				d = getTime(param[i], d);
-				parsed = true;
+				//parsed = true;
 			} else if (param[i].equals("to")) {
 				parsedTask.setStartDateTime(d);
 			} else {
-				parsed = false;	
+				//parsed = false;	
 			}
 
-			if (parsed == true && beginIndex == -1) {
-				beginIndex = i;
-				endIndex = i;
+			/*if (parsed == true && beginIndex == -1) {
+				beginIndex = i - 1;
+				endIndex = i - 1;
 			} else if (parsed == true && beginIndex != -1) {
 				endIndex++;
-			}
+			}*/
 		}
 		
 		parsedTask.setEndDateTime(d);
@@ -102,7 +97,7 @@ public class Parser {
 		}
 		
 		String str = "";
-		for (int i = beginIndex; i <= endIndex; i++) {
+		for (int i = 0; i < num; i++) {
 			str += param[i] + " "; 
 		}
 		parsedTask.setDetails(str.trim());
@@ -356,6 +351,10 @@ public class Parser {
 			return true;
 		} else if (isValidDate(word)) {
 			return true;		
+		} else if (isWordToday(word)) {
+			return true;
+		} else if (isWordTomorrow(word)) {
+			return true;
 		}
 
 		return false;
@@ -517,11 +516,11 @@ public class Parser {
 	 * @return true if "time" contains a valid time, false otherwise.
 	 */
 	private boolean isValidTime(String time) {
-		if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
+		/*if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
 			time = getWord(time, "at".length() + 1);
 		} else {
 			time = getFirstWord(time);
-		}
+		}*/
 		final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 		final Pattern pattern = Pattern.compile(regexTime);
 
