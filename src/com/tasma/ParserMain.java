@@ -11,8 +11,7 @@ package com.tasma;
 public class ParserMain {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		
-		try {
+
 			/*System.out.println("do cs2105 on next mon");
 			parser.parse("do cs2105 on next mon");
 
@@ -54,8 +53,5 @@ public class ParserMain {
 			
 			System.out.println("yay from tmr 2pm to 3pm");
 			parser.parse("yay from tmr 2pm to 3pm");
-		} catch (InvalidInputException e) {
-			System.out.println(e.getMessage());
-		}
 	}
 }
