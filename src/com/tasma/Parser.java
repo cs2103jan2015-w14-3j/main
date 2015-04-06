@@ -16,10 +16,10 @@ public class Parser {
 
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
-	
+
 	/** Stores original taskDetails for logging */
 	private String str = null;
-	
+
 	/** Stores taskDetails for parsing */
 	private String taskDetails;
 
@@ -35,7 +35,8 @@ public class Parser {
 		this.taskDetails = taskDetails; 
 		str = taskDetails;
 
-		try {
+		parsedTask = parseInput(parsedTask, taskDetails);
+		/*try {			
 			getWhat(parsedTask);
 
 			getWhen(parsedTask);
@@ -44,33 +45,77 @@ public class Parser {
 		} catch (InvalidInputException e) {
 			logger.log(Level.FINER, "InvalidInputException thrown: {0}", e.getMessage());
 			throw e;
-		}
+		}*/
 
 		return parsedTask;
 	}
-	
+
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		String[] param = taskDetails.split("\\s");
 		final String[] keywords = {" on ", " at ", " from ", " by ", "tomorrow", "tmrw", "tmr", "today", "tdy"};
-		
+
 		for (int i = 0; i < param.length; i++) {
 			if(Arrays.asList(keywords).contains(param[i])) {
-				parseDateTime(Arrays.copyOfRange(param, i, param.length));
+				parsedTask = parseDateTime(param, i);
 			}
 		}
+		
+
+		System.out.println("details = "+parsedTask.getDetails());
+		System.out.println("start = "+parsedTask.getStringStartDateTime());
+		System.out.println("end = "+parsedTask.getStringEndDateTime());
+		
 		return parsedTask;
 	}
 
-	private DateTime parseDateTime(String[] dateAndTime) {
+	private Task parseDateTime(String[] param, int num) {
+		Task parsedTask = new Task(taskDetails);
 		DateTime d = initializeDateTime();
-		return d;
+		int beginIndex = -1, endIndex = 0;
+		boolean parsed = false;
+		
+		for (int i = num; i < param.length; i++) {
+			if (isValidDayDate(param[i])) {
+				d = parseDATE(param[i], d);
+				parsed = true;
+			} else if (isValidTime(param[i])) {
+				d = getTime(param[i], d);
+				parsed = true;
+			} else if (param[i].equals("to")) {
+				parsedTask.setStartDateTime(d);
+			} else {
+				parsed = false;	
+			}
+
+			if (parsed == true && beginIndex == -1) {
+				beginIndex = i;
+				endIndex = i;
+			} else if (parsed == true && beginIndex != -1) {
+				endIndex++;
+			}
+		}
+		
+		parsedTask.setEndDateTime(d);
+		
+		if (parsedTask.getStartDateTime() == null) {
+			parsedTask.setStartDateTime(d);
+		}
+		
+		String str = "";
+		for (int i = beginIndex; i <= endIndex; i++) {
+			str += param[i] + " "; 
+		}
+		parsedTask.setDetails(str.trim());
+		
+		return parsedTask;
 	}
+
 	/**
 	 * Parses the task's "what" details.
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
 	 * @throws InvalidInputException Thrown when taskDetails is zero length.
 	 */
-	private void getWhat(Task parsedTask) throws InvalidInputException {
+	/*private void getWhat(Task parsedTask) throws InvalidInputException {
 		logger.log(Level.FINE, "Getting what details from \"{0}\"", str);
 		final String[] keywords = {" on ", " at ", " from ", " by ", "tomorrow", "tmrw", "tmr", "today", "tdy"};
 		int index = 0; 
@@ -95,14 +140,14 @@ public class Parser {
 		}
 
 		taskDetails = taskDetails.substring(index).trim(); 
-	}
+	}*/
 
 	/**
 	 * Parses the task's "when" details.
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
 	 * @throws InvalidInputException Thrown when called functions throw InvalidInputException.
 	 */
-	private void getWhen(Task parsedTask) throws InvalidInputException {
+	/*private void getWhen(Task parsedTask) throws InvalidInputException {
 		//assert taskDetails.length() != 0;  //add -ea in VM arguments when running to turn on assertions 
 
 		if (taskDetails.length() != 0) {
@@ -113,10 +158,10 @@ public class Parser {
 
 			if (taskDetails.toLowerCase().contains(keywords[0])) {  //date
 				d = parseDate(keywords[0]);
-		
+
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-				
+
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
@@ -132,25 +177,25 @@ public class Parser {
 				} else {
 					d = parseDate(keywords[1]);
 				}
-				
+
 				taskDetails = removeFirstWord(taskDetails);
 
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-				
+
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
 
 					taskDetails = removeFirstWord(taskDetails);
 				}
-				
+
 				parsedTask.setStartDateTime(d);
-				
-				d = initializeDateTime();
-				
+
+				//d = initializeDateTime();
+
 				day = getWord(taskDetails, keywords[9].length());
-				
+
 				if (day.equals(keywords[4]) || day.equals(keywords[5]) || day.equals(keywords[6])) {
 					d = parseDay(1);
 				} else if (day.equals(keywords[7]) || day.equals(keywords[8])) {
@@ -160,17 +205,17 @@ public class Parser {
 				}
 
 				taskDetails = removeFirstWord(taskDetails);
-				
+
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
-				
+
 					if (getFirstWord(taskDetails).compareToIgnoreCase(keywords[2]) == 0) {
 						taskDetails = taskDetails.substring(keywords[2].length() + 1);
 					}
 
 					taskDetails = removeFirstWord(taskDetails);
 				}
-				
+
 			} else if (taskDetails.toLowerCase().contains(keywords[2])) {
 				if (isValidTime(taskDetails)) {
 					d = getTime(taskDetails, d);
@@ -226,12 +271,12 @@ public class Parser {
 					taskDetails = removeFirstWord(taskDetails);
 				}
 			}
-			
+
 			if (parsedTask.getStartDateTime() == null) {
 				parsedTask.setStartDateTime(d);
 			}
 			parsedTask.setEndDateTime(d);
-		} 
+		} */
 		//}
 		/*if (taskDetails.toLowerCase().contains(keywords[1])) {
 					int indexFrom = taskDetails.toLowerCase().indexOf(keywords[1]);
@@ -267,7 +312,7 @@ public class Parser {
 
 			} else {
 			}*/
-	}
+	//}
 
 	/**
 	 * Parses the task's "where" details.
@@ -284,13 +329,60 @@ public class Parser {
 		}
 	}*/	
 
+	private DateTime parseDATE(String word, DateTime d) {
+		if (word.equals("next")) {
+			d.plusWeeks(1);
+		} else if (determineDay(word) != -1) {
+			d = d.withDayOfWeek(determineDay(word));
+		} else if (isValidDate(word)) {
+			d = getDate(word, d);		
+		} else if (isWordToday(word)) {
+			d = parseDay(d, 0);
+		} else if (isWordTomorrow(word)) {
+			d = parseDay(d, 1);
+		}
+
+		if (d.isBefore(new DateTime())) {
+			d = d.plusWeeks(1);
+		}
+
+		return d;
+	}
+
+	private boolean isValidDayDate(String word) {
+		if (word.equals("next")) {
+			return true;
+		} else if (determineDay(word) != -1) {
+			return true;
+		} else if (isValidDate(word)) {
+			return true;		
+		}
+
+		return false;
+	}
+
+	private boolean isWordToday(String word) {
+		if (word.equals("today") || word.equals("tdy")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean isWordTomorrow(String word) {
+		if (word.equals("tomorrow") || word.equals("tmr") || word.equals("tmrw")) {
+			return true;
+		}
+		
+		return false;
+	}
 	/**
 	 * Parses the task's date details.
 	 * @param keyword Keyword before the date in taskDetails.
 	 * @return DateTime object containing the parsed date.
 	 * @throws InvalidInputException Thrown when date is invalid
 	 */
-	private DateTime parseDate(String keyword) throws InvalidInputException {
+	/*private DateTime parseDate(String keyword) throws InvalidInputException {
 		int indexKeyword = taskDetails.toLowerCase().indexOf(keyword) + keyword.length();
 
 		int indexNext = indexKeyword;
@@ -327,15 +419,14 @@ public class Parser {
 		taskDetails = taskDetails.substring(indexNext + 1);
 		taskDetails = removeFirstWord(taskDetails);
 		return d;
-	}
+	}*/
 
 	/**
 	 * Parses the task's today/tomorrow details.
 	 * @param days No. of days to be added from today.
 	 * @return DateTime object containing the parsed day.
 	 */
-	private DateTime parseDay(int days) {
-		DateTime d = initializeDateTime();
+	private DateTime parseDay(DateTime d, int days) {
 		d = d.plusDays(days);
 
 		taskDetails = removeFirstWord(taskDetails);
