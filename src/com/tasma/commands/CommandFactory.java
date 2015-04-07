@@ -63,7 +63,7 @@ public class CommandFactory {
 				break;
 			default:
 				// probably an invalid command
-				result = new InvalidCommand(userInterface, collection);
+				result = new InvalidCommand(userInterface, collection, input);
 				break;
 		}
 		return result;
