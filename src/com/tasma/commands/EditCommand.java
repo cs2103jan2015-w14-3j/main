@@ -54,10 +54,10 @@ public class EditCommand extends AbstractUndoableCommand {
 				}
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
 			}
+			
+			ListCommand listCommand = new ListCommand(userInterface, collection, state);
+			listCommand.execute();
 		}
-		
-		ListCommand listCommand = new ListCommand(userInterface, collection, state);
-		listCommand.execute();
 	}
 
 	@Override
