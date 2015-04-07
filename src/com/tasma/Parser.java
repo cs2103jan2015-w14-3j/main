@@ -4,10 +4,13 @@
 //@author A0118888J
 package com.tasma;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
@@ -45,7 +48,7 @@ public class Parser {
 	 */
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
-		String[] param = taskDetails.split("\\s");
+		String[] param = tokenize(taskDetails);
 		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next"};
 
 		for (int i = 0; i < param.length; i++) {
@@ -332,6 +335,21 @@ public class Parser {
 		return d;
 	}
 
+	private String[] tokenize(String taskDetails) {
+		ArrayList<String> list = new ArrayList<String>();
+		final String regexSplit = "([^\"]\\S*|\".+?\")\\s*";
+		
+		Matcher m = Pattern.compile(regexSplit).matcher(taskDetails);
+		
+		while (m.find()) {
+		}
+
+		String[] param = new String[list.size()];
+		param = list.toArray(param);
+
+		return param;
+	}
+	
 	/**
 	 * Returns first word of passed string.
 	 * @param details String from which first word is to be extracted.
