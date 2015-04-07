@@ -1,7 +1,7 @@
 /**
  * Tasma Task Manager
  */
-//@author A0132763
+//@author A0132763H-unused
 package com.tasma.demo;
 
 import java.util.Timer;

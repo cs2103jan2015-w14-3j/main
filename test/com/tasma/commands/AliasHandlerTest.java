@@ -1,6 +1,7 @@
 /**
- * 
+ * Tasma Task Manager
  */
+//@author A0132763H
 package com.tasma.commands;
 
 import static org.junit.Assert.*;
@@ -11,8 +12,7 @@ import org.junit.Test;
 import com.tasma.InvalidInputException;
 
 /**
- * @author Sam Yong
- *
+ * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class AliasHandlerTest {
 

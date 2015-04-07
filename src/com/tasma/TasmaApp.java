@@ -1,7 +1,7 @@
 /**
  * Tasma Task Manager
  */
-//@author A0132763
+//@author 
 package com.tasma;
 
 import java.awt.EventQueue;
@@ -52,6 +52,7 @@ public class TasmaApp implements Runnable {
 	/**
 	 * Start running the app!
 	 */
+	//@author A0132763H
 	@Override
 	public void run() {
 		try {

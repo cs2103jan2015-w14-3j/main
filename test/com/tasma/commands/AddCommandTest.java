@@ -1,6 +1,7 @@
 /**
- * 
+ * Tasma Task Manager
  */
+//@author A0132763H
 package com.tasma.commands;
 
 import static org.junit.Assert.*;
@@ -16,8 +17,7 @@ import com.tasma.TaskCollection;
 import com.tasma.UIMessage;
 
 /**
- * @author sam
- *
+ * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class AddCommandTest {
 

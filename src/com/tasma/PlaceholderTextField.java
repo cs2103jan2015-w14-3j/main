@@ -1,7 +1,7 @@
 /**
  * Tasma Task Manager
  */
-//@author A0132763
+//@author A0132763H
 package com.tasma;
 
 import java.awt.Color;
@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 /**
  * Provides placeholder text functionality - usability importance
  * Otherwise the command box will be a sad empty lonely blue box.
- * @author Sam Yong
+ * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 @SuppressWarnings("serial")
 public class PlaceholderTextField extends JTextField {
