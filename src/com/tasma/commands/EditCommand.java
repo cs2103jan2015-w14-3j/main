@@ -41,15 +41,15 @@ public class EditCommand extends AbstractUndoableCommand {
 				// TODO handle when the parser cannot parse the details
 			} else {
 				oldTaskDetails = task.clone();
-				if (updatedTask.getDetails() != null) {
+				if (updatedTask.getDetails() != null && !updatedTask.getDetails().equals("")) {
 					task.setDetails(updatedTask.getDetails());
 				}
 	
-				if (updatedTask.getStartDateTime() != null) {
+				if (updatedTask.getStartDateTime() != null && !updatedTask.getStartDateTime().equals("")) {
 					task.setStartDateTime(updatedTask.getStartDateTime());
 				}
 	
-				if (updatedTask.getEndDateTime() != null) {
+				if (updatedTask.getEndDateTime() != null && !updatedTask.getEndDateTime().equals("")) {
 					task.setEndDateTime(updatedTask.getEndDateTime());
 				}
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
