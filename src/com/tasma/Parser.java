@@ -41,7 +41,7 @@ public class Parser {
 	}
 
 	/**
-	 * Checks if date/time details exist in taskDetails. If so, calls parseDateTime().
+	 * Checks if date/time details exist in passed string. If so, calls parseDateTime().
 	 * @param parsedTask Instance of Task in which parsed details are to be stored.
 	 * @param taskDetails Task details to be parsed 
 	 * @returns Task object with parsed information.
@@ -62,7 +62,7 @@ public class Parser {
 	}
 
 	/**
-	 * Parses date and time in param[].
+	 * Parses date and time from passed string array.
 	 * @param param[] Tokenized form of taskDetails. 
 	 * @param num index of keyword
 	 * @returns Task object with parsed information.
@@ -111,7 +111,7 @@ public class Parser {
 	}
 
 	/**
-	 * Parses the day/date from word.
+	 * Parses the day/date from passed string.
 	 * @param word String to be parsed.
 	 * @param d DateTime object in which date/day details are to be stored. 
 	 * @returns DateTime object with parsed information.
@@ -158,7 +158,7 @@ public class Parser {
 	}
 
 	/**
-	 * Checks if passed string is "today"
+	 * Checks if passed string is "today".
 	 * @param word String to be checked.
 	 * @returns true if word can be matched to a form of "today", false otherwise.
 	 */
@@ -171,7 +171,7 @@ public class Parser {
 	}
 
 	/**
-	 * Checks if passed string is "tomorrow"
+	 * Checks if passed string is "tomorrow".
 	 * @param word String to be checked.
 	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
 	 */
@@ -194,6 +194,7 @@ public class Parser {
 		taskDetails = removeFirstWord(taskDetails);
 		return d;
 	}
+	
 	/**
 	 * Initializes and returns a DateTime object.
 	 * @return Initialized DateTime object.
@@ -335,6 +336,11 @@ public class Parser {
 		return d;
 	}
 
+	/**
+	 * Splits passed string around spaces and ignores text in double quotes.
+	 * @param taskDetails String to be tokenized.
+	 * @return Tokenized string array.
+	 */
 	private String[] tokenize(String taskDetails) {
 		ArrayList<String> list = new ArrayList<String>();
 		final String regexSplit = "([^\"]\\S*|\".+?\")\\s*";
@@ -342,6 +348,7 @@ public class Parser {
 		Matcher m = Pattern.compile(regexSplit).matcher(taskDetails);
 		
 		while (m.find()) {
+		    list.add(m.group(1).replace("\"", "")); 
 		}
 
 		String[] param = new String[list.size()];
