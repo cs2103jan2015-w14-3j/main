@@ -7,6 +7,9 @@ package com.tasma;
 import java.awt.Color;
 import java.util.List;
 
+/**
+ * An interface of the User Interface API
+ */
 public interface TasmaUserInterface {
 	public void initialize(Controller controller) throws Exception;
 	

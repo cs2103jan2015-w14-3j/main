@@ -14,11 +14,21 @@ import com.tasma.commands.AliasHandler;
 import com.tasma.commands.InputSplitter;
 import com.tasma.commands.CommandType;
 
+/**
+ * The yellow hint frame that shows up for the user as they type.
+ * Used in TasmaGUI
+ */
 @SuppressWarnings("serial")
 public class CommandHintFrame extends JFrame {
 
+	/**
+	 * The output text area
+	 */
 	private JTextArea labelOutput = new JTextArea();
 	
+	/**
+	 * A mapping of a command to its hint message
+	 */
 	private HashMap<CommandType, String> hintMapping = new HashMap<CommandType, String>();
 	{
 		hintMapping.put(CommandType.ADD, HelpMessage.HINT_ADD);
@@ -38,6 +48,9 @@ public class CommandHintFrame extends JFrame {
 		decorate();
 	}
 	
+	/**
+	 * Decorate the frame
+	 */
 	protected void decorate() {
 		this.setTitle("");
 		this.setAlwaysOnTop(true);
@@ -55,6 +68,12 @@ public class CommandHintFrame extends JFrame {
 		this.add(labelOutput);
 	}
 	
+	/**
+	 * Show the window if the input has a command
+	 * @param input
+	 * @param component
+	 * @throws InvalidInputException
+	 */
 	public void checkHasHint(String input, JComponent component) throws InvalidInputException {
 		InputSplitter splitter = new InputSplitter(input);
 		String command = splitter.next();
@@ -72,6 +91,9 @@ public class CommandHintFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Close the window
+	 */
 	public void close() {
 		this.setVisible(false);
 	}

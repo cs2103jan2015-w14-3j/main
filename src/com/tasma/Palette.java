@@ -8,7 +8,6 @@ import java.awt.Color;
 
 /**
  * Provides the colours used by the user interface and commands to tell users (:
- * @author Sam Yong
  */
 public class Palette {
 	/**

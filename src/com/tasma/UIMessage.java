@@ -6,7 +6,6 @@ package com.tasma;
 
 /**
  * Provides UI messages
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public final class UIMessage {
 	public static final String COMMAND_ADD_SUCCESS = "Your task \"%s\" has been successfully created.";

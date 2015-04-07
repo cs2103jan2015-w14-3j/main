@@ -9,7 +9,6 @@ import java.util.LinkedList;
 /**
  * Provides abstraction for a config that can be observed using
  * the Observer Pattern
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public abstract class ObservableConfig {
 	

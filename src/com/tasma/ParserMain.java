@@ -6,7 +6,6 @@ package com.tasma;
 
 /**
  * Dummy class for testing parser 
- * @author Manika Agarwal
  */
 public class ParserMain {
 	public static void main(String[] args) {

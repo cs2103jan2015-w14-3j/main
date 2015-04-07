@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Provides support for sorting the task list state into various headings for UI presentation 
- * @author Yong Shan Xian <ysx@u.nus.edu>
+ * Provides support for sorting the task list state into various headings for UI presentation
  */
 public class UITaskListSorter {
 

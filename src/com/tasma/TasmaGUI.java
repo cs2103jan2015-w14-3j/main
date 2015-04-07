@@ -136,7 +136,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		listTasksScrollPane.setViewportView(listTasks);
 	}
 
-	//@author A0132763
 	private void decorateFrame() {
 		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
@@ -238,6 +237,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     	toFront();
     }
 
+	//@author A0132763H
 	public class CustomListRenderer implements ListCellRenderer<Object> {
 
 		@Override

@@ -5,7 +5,7 @@
 package com.tasma.commands;
 
 /**
- * @author Yong Shan Xian <ysx@u.nus.edu>
+ * The type of command
  */
 public enum CommandType {
 	ADD,

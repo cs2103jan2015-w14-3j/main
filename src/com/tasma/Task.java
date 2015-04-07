@@ -125,7 +125,7 @@ public class Task implements Cloneable {
 		}
 	}
 	
-	//@author A0132763
+	//@author A0132763H
 	public void setEndDateTime(DateTime endDateTime) {
 		this.endDateTime = endDateTime;
 	}

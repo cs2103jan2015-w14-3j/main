@@ -13,7 +13,6 @@ import com.tasma.commands.NotExecutedException;
 /**
  * The main controller logic
  * Tip: Good, cheap, fast - choose any two. (:
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class Controller {
 	private static final Logger logger = Log.getLogger( Controller.class.getName() );

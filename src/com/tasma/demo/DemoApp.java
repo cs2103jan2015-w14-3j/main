@@ -32,7 +32,6 @@ import com.tulskiy.keymaster.common.Provider;
 /**
  * The demo application that goes according to the script written for
  * CS2101 demo on 6 Apr 2015
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class DemoApp implements Runnable {
 	

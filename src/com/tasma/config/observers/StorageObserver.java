@@ -15,7 +15,6 @@ import com.tasma.config.DefaultProviderInterface;
 /**
  * Watches a change in the storage file path
  * and moves the file when needed.
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class StorageObserver implements ChangeObserverInterface, DefaultProviderInterface {
 

@@ -18,6 +18,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tasma.config.Config;
 
+/**
+ * Provides near-filesystem level abstraction of the task storage file
+ * plus serialisation and unserialisation
+ */
 public class Storage {
 	private static final Logger logger = Log.getLogger( Storage.class.getName() );
 	

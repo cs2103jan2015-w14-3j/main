@@ -9,6 +9,9 @@ import java.util.Stack;
 import com.tasma.commands.CommandInterface;
 import com.tasma.commands.UndoableCommandInterface;
 
+/**
+ * Provides history management (undo/redo) for Controller
+ */
 public class History {
 	protected Stack<UndoableCommandInterface> undoStack = new Stack<UndoableCommandInterface>();
 	protected Stack<UndoableCommandInterface> redoStack = new Stack<UndoableCommandInterface>();

@@ -12,7 +12,6 @@ import com.tasma.TasmaUserInterface;
 /**
  * Provides the visual animation that look as though the user types in text,
  * but is in fact animated in this class. What a liar.
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class UICommandBoxAnimator {
 	

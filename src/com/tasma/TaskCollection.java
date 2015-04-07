@@ -12,7 +12,6 @@ import org.joda.time.LocalDate;
 
 /**
  * Provides operations on the collection of the user's tasks.
- * @author Yong Shan Xian <ysx@u.nus.edu>
  */
 public class TaskCollection {
 	
