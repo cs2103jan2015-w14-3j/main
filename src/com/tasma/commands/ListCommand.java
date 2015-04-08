@@ -14,6 +14,7 @@ public class ListCommand extends AbstractCommand {
 
 	private static final String FILTER_FLOATING = "floating";
 	private static final String FILTER_DONE = "done";
+	private static final String FILTER_UNDONE = "undone";
 	private static final String FILTER_PAST = "past";
 	private static final String FILTER_OVERDUE = "overdue";
 	private static final String FILTER_UPCOMING = "upcoming";
@@ -50,6 +51,7 @@ public class ListCommand extends AbstractCommand {
 			case FILTER_DONE:
 				list = collection.done();
 				break;
+			case FILTER_UNDONE:
 			default:
 				list = collection.notDone();
 				break;
