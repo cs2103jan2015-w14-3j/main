@@ -40,7 +40,9 @@ public class EditCommand extends AbstractUndoableCommand {
 			if (updatedTask == null) {
 				// TODO handle when the parser cannot parse the details
 			} else {
+				// clone the details for undo later
 				oldTaskDetails = task.clone();
+				
 				if (updatedTask.getDetails() != null && !updatedTask.getDetails().equals("")) {
 					task.setDetails(updatedTask.getDetails());
 				}
