@@ -8,10 +8,8 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,12 +47,13 @@ public class Storage {
 		logger.log(Level.FINE, "Performing a save on {0} tasks to file", tasks.size());
 		final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
 		final String json = gson.toJson(tasks);
+		byte[] utf8JsonString = json.getBytes("UTF8");
     
 	    try {
 	    	File file = new File(path, FILENAME);
-		    FileWriter writer = new FileWriter(file);  
-		    writer.write(json);  
-		    writer.close();
+	    	FileOutputStream stream = new FileOutputStream(file);
+		    stream.write(utf8JsonString);  
+		    stream.close();
 	    } catch (IOException e) {  
 			throw e;
 	    }
@@ -72,10 +71,10 @@ public class Storage {
 		File file = new File(path, FILENAME);
 		if (file.exists()) {
 			try {
-				FileReader reader = new FileReader(file);
+				byte[] utf8JsonString = java.nio.file.Files.readAllBytes(file.toPath());
 				final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
-				tasks = gson.fromJson(reader, new TypeToken<LinkedList<Task>>() {}.getType());
-				reader.close();
+				String json = new String(utf8JsonString);
+				tasks = gson.fromJson(json, new TypeToken<LinkedList<Task>>() {}.getType());
 			}catch(IOException e) {
 				throw e;
 			} 
