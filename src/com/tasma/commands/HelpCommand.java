@@ -66,6 +66,9 @@ public class HelpCommand extends AbstractCommand {
 				break;
 			default:
 				// probably an invalid command
+				// since it is invalid, we show help directly
+				commandType = CommandType.HELP;
+				message = HelpMessage.HELP_HELP;
 				break;
 		}
 		String displayMessage = String.format(
