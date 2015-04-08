@@ -59,6 +59,7 @@ public class Config extends ObservableConfig {
 			loadMap(storage.defaults());
 			
 			this.addObserver(storage);
+			saveToFile();
 		}
 	}
 	
