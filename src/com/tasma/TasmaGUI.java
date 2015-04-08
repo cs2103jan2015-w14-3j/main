@@ -95,7 +95,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 						@Override
 						public void run() {
 							try {
-								commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+								if (textCommand.getText().equals("")) {
+									commandHintFrame.close();
+								} else {
+									commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+								}
 							} catch (InvalidInputException e1) {
 							}
 						}	
