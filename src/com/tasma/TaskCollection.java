@@ -25,6 +25,8 @@ public class TaskCollection {
 	 */
 	protected LinkedList<Task> tasks;
 	
+	protected BalloonNotification notification;
+	
 	public TaskCollection() throws Exception {
 		this.storage = new Storage();
 	}

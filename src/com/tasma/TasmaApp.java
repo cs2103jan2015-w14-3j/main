@@ -28,6 +28,7 @@ public class TasmaApp implements Runnable {
 	private Controller controller;
 	private Config config;
 	private TasmaUserInterface userInterface; 
+	private TaskCollection collection;
 	
 	/**
 	 * Launch the application.
@@ -47,8 +48,10 @@ public class TasmaApp implements Runnable {
 	public TasmaApp(TasmaUserInterface userInterface) {
 		try {
 			this.userInterface = userInterface;
-			this.controller = new Controller();
+			this.collection = new TaskCollection();
+			this.controller = new Controller(collection);
 			this.config = Config.getInstance();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,10 +88,12 @@ public class TasmaApp implements Runnable {
 			e.printStackTrace();
 		}
 		
-		// set up tray icon now
+		// set up tray icon and balloon notification
 		try {
-			TrayIcon tray = new TrayIcon(userInterface, controller);
-			tray.setup();
+			TrayIcon trayIcon = new TrayIcon(userInterface, controller);
+			trayIcon.setup();
+			BalloonNotification notification = new BalloonNotification(collection, trayIcon);
+			notification.setup();
 		} catch (Exception e) {
 			
 		}
