@@ -99,7 +99,7 @@ public class Parser {
 		}
 
 		parsedTask.setEndDateTime(d);
-
+		
 		if (parsedTask.getStartDateTime() == null) {
 			parsedTask.setStartDateTime(d);
 		}
@@ -132,10 +132,10 @@ public class Parser {
 			d = parseDay(d, 1);
 		}
 
-		if (d.isBefore(new DateTime())) {
+		if (d.isBefore(initializeDateTime())) {
 			d = d.plusWeeks(1);
 		}
-
+		
 		return d;
 	}
 
