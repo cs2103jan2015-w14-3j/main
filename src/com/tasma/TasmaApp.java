@@ -18,7 +18,12 @@ import com.tulskiy.keymaster.common.Provider;
  */
 public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
+	
+	private static final String APP_CLI_ARGUMENT = "cli";
 	private static final String APP_HOTKEY = "alt shift X";
+	
+	private static final String START_UP_DEFAULT_COMMAND = "list upcoming";
+	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
 	
 	private Controller controller;
 	private Config config;
@@ -28,7 +33,7 @@ public class TasmaApp implements Runnable {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		if (args.length == 1 && args[0].toLowerCase().equals("cli")) {
+		if (args.length == 1 && args[0].toLowerCase().equals(APP_CLI_ARGUMENT)) {
 			(new TasmaApp(new TasmaConsoleUI())).run();
 		} else {
 			EventQueue.invokeLater(new TasmaApp());
@@ -59,9 +64,9 @@ public class TasmaApp implements Runnable {
 			logger.log(Level.FINE, "Initializing window & application");
 			userInterface.initialize(controller);
 			controller.initialize();
-			controller.executeInput("list");
+			controller.executeInput(START_UP_DEFAULT_COMMAND);
 			if (config.isFirstRun()) { // run the tutorial if this is the first time!
-				controller.executeInput("tutorial");
+				controller.executeInput(START_UP_TUTORIAL_COMMAND);
 			}
 			
 			userInterface.show();
