@@ -27,11 +27,26 @@ public class Parser {
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
 	 * @return Instance of a Task which contains the parsed details.
-	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
 	 */
 	public Task parse(String taskDetails) {
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
+
+		this.taskDetails = taskDetails; 
+
+		parsedTask = parseInput(parsedTask, taskDetails);
+
+		return parsedTask;
+	}
+	
+	/**
+	 * Calls the relevant functions to parse the passed string.
+	 * @param taskDetails Details of the task to be parsed.
+	 * @param parsedTask Already existing 
+	 * @return Instance of a Task which contains the parsed details.
+	 */
+	public Task parse(Task parsedTask, String taskDetails) {
+		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 
 		this.taskDetails = taskDetails; 
 
@@ -54,7 +69,7 @@ public class Parser {
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
 				if(Arrays.asList(keywords).contains(param[i])) {
-					parsedTask = parseDateTime(param, i);
+					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
 			}
@@ -66,12 +81,20 @@ public class Parser {
 	/**
 	 * Parses date and time from passed string array.
 	 * @param param[] Tokenized form of taskDetails. 
+	 * @param num Index in param[] of keyword.
+	 * @param parsedTask Task object in which parsed details are to be stored.
 	 * @returns Task object with parsed information.
 	 */
-	private Task parseDateTime(String[] param, int num) {
+	private Task parseDateTime(String[] param, int num, Task parsedTask) {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
-		Task parsedTask = new Task(taskDetails);
-		DateTime d = initializeDateTime();
+		DateTime d;
+
+		if (parsedTask.getEndDateTime() == null) {
+			d = initializeDateTime();
+		} else {
+			d = parsedTask.getEndDateTime();
+		}
+		
 		//int beginIndex = -1, endIndex = 0;
 		//boolean parsed = false;
 
@@ -109,7 +132,7 @@ public class Parser {
 			str += param[i] + " "; 
 		}
 		parsedTask.setDetails(str.trim());
-
+		
 		return parsedTask;
 	}
 
@@ -194,7 +217,6 @@ public class Parser {
 	private DateTime parseDay(DateTime d, int days) {
 		d = d.plusDays(days);
 
-		taskDetails = removeFirstWord(taskDetails);
 		return d;
 	}
 
@@ -204,9 +226,9 @@ public class Parser {
 	 */
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
-		d = d.withHourOfDay(0);
-		d = d.withMinuteOfHour(0);
-		d = d.withMillisOfDay(0);
+		d = d.withHourOfDay(23);
+		d = d.withMinuteOfHour(59);
+
 		return d;
 	}
 
@@ -283,11 +305,6 @@ public class Parser {
 	 * @return true if "time" contains a valid time, false otherwise.
 	 */
 	private boolean isValidTime(String time) {
-		/*if (getFirstWord(time).compareToIgnoreCase("at") == 0) {
-			time = getWord(time, "at".length() + 1);
-		} else {
-			time = getFirstWord(time);
-		}*/
 		final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 		final Pattern pattern = Pattern.compile(regexTime);
 
@@ -300,31 +317,24 @@ public class Parser {
 
 	/**
 	 * Gets time from passed string.
-	 * @param taskDetails String containing date to be parsed.
+	 * @param word String containing date to be parsed.
 	 * @param d	   		  DateTime object to be modified with parsed details.
 	 * @return DateTime object containing the parsed time.
 	 */
-	private DateTime getTime(String taskDetails, DateTime d) {
-		String date;
-		if (getFirstWord(taskDetails).compareToIgnoreCase("at") == 0) {
-			date = getWord(taskDetails, "at".length() + 1);
-		} else {
-			date = getFirstWord(taskDetails);
-		}
-
+	private DateTime getTime(String word, DateTime d) {
 		int addHours = 0;
 
-		if (date.substring(date.length()-2).compareToIgnoreCase("pm") == 0) {
+		if (word.substring(word.length()-2).compareToIgnoreCase("pm") == 0) {
 			addHours = 12;
 		}
 
-		int indexColon = date.indexOf(":"), hours, minutes = 0;
+		int indexColon = word.indexOf(":"), hours, minutes = 0;
 
 		if (indexColon == -1 ) {
-			hours = Integer.parseInt(date.substring(0, date.length() - 2));
+			hours = Integer.parseInt(word.substring(0, word.length() - 2));
 		} else {
-			hours = Integer.parseInt(date.substring(0, indexColon));
-			minutes = Integer.parseInt(date.substring(indexColon+1, date.length() - 2));
+			hours = Integer.parseInt(word.substring(0, indexColon));
+			minutes = Integer.parseInt(word.substring(indexColon+1, word.length() - 2));
 		}
 
 		if (hours == 12 && addHours == 0) {
