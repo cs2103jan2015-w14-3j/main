@@ -12,6 +12,7 @@ import com.tasma.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
 
+	private static final String FILTER_FLOATING = "floating";
 	private static final String FILTER_DONE = "done";
 	private static final String FILTER_PAST = "past";
 	private static final String FILTER_OVERDUE = "overdue";
@@ -36,6 +37,9 @@ public class ListCommand extends AbstractCommand {
 	public void execute() throws Exception {
 		List<Task> list = null;
 		switch (filter.toLowerCase()) {
+			case FILTER_FLOATING:
+				list = collection.floating();
+				break;
 			case FILTER_UPCOMING:
 				list = collection.upcoming();
 				break;
