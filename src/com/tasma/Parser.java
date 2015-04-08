@@ -27,11 +27,26 @@ public class Parser {
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
 	 * @return Instance of a Task which contains the parsed details.
-	 * @throws InvalidInputException Thrown if the functions it calls throw an InvalidInputException.
 	 */
 	public Task parse(String taskDetails) {
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 		Task parsedTask = new Task(taskDetails);
+
+		this.taskDetails = taskDetails; 
+
+		parsedTask = parseInput(parsedTask, taskDetails);
+
+		return parsedTask;
+	}
+	
+	/**
+	 * Calls the relevant functions to parse the passed string.
+	 * @param taskDetails Details of the task to be parsed.
+	 * @param parsedTask Already existing 
+	 * @return Instance of a Task which contains the parsed details.
+	 */
+	public Task parse(Task parsedTask, String taskDetails) {
+		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 
 		this.taskDetails = taskDetails; 
 
@@ -54,7 +69,7 @@ public class Parser {
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
 				if(Arrays.asList(keywords).contains(param[i])) {
-					parsedTask = parseDateTime(param, i);
+					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
 			}
@@ -66,12 +81,19 @@ public class Parser {
 	/**
 	 * Parses date and time from passed string array.
 	 * @param param[] Tokenized form of taskDetails. 
+	 * @param num Index in param[] of keyword.
+	 * @param parsedTask Task object in which parsed details are to be stored.
 	 * @returns Task object with parsed information.
 	 */
-	private Task parseDateTime(String[] param, int num) {
+	private Task parseDateTime(String[] param, int num, Task parsedTask) {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
-		Task parsedTask = new Task(taskDetails);
-		DateTime d = initializeDateTime();
+		DateTime d;
+		
+		if (parsedTask.getEndDateTime() == null) {
+			d = initializeDateTime();
+		} else {
+			d = parsedTask.getEndDateTime();
+		}
 		//int beginIndex = -1, endIndex = 0;
 		//boolean parsed = false;
 
