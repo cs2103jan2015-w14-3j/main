@@ -52,9 +52,11 @@ public class Parser {
 		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next"};
 
 		for (int i = 0; i < param.length; i++) {
-			if(Arrays.asList(keywords).contains(param[i])) {
-				parsedTask = parseDateTime(param, i);
-				break;
+			if (param[i].charAt(0) != ' ') {
+				if(Arrays.asList(keywords).contains(param[i])) {
+					parsedTask = parseDateTime(param, i);
+					break;
+				}
 			}
 		}
 
@@ -64,7 +66,6 @@ public class Parser {
 	/**
 	 * Parses date and time from passed string array.
 	 * @param param[] Tokenized form of taskDetails. 
-	 * @param num index of keyword
 	 * @returns Task object with parsed information.
 	 */
 	private Task parseDateTime(String[] param, int num) {
@@ -75,16 +76,18 @@ public class Parser {
 		//boolean parsed = false;
 
 		for (int i = num; i < param.length; i++) {
-			if (isValidDayDate(param[i])) {
-				d = parseDATE(param[i], d);
-				//parsed = true;
-			} else if (isValidTime(param[i])) {
-				d = getTime(param[i], d);
-				//parsed = true;
-			} else if (param[i].equals("to")) {
-				parsedTask.setStartDateTime(d);
-			} else {
-				//parsed = false;	
+			if (param[i].charAt(0) != ' ') {
+				if (isValidDayDate(param[i])) {
+					d = parseDate(param[i], d);
+					//parsed = true;
+				} else if (isValidTime(param[i])) {
+					d = getTime(param[i], d);
+					//parsed = true;
+				} else if (param[i].equals("to")) {
+					parsedTask.setStartDateTime(d);
+				} else {
+					//parsed = false;	
+				}
 			}
 
 			/*if (parsed == true && beginIndex == -1) {
@@ -116,7 +119,7 @@ public class Parser {
 	 * @param d DateTime object in which date/day details are to be stored. 
 	 * @returns DateTime object with parsed information.
 	 */
-	private DateTime parseDATE(String word, DateTime d) {
+	private DateTime parseDate(String word, DateTime d) {
 		if (word.equals("next")) {
 			d.plusWeeks(1);
 		} else if (determineDay(word) != -1) {
@@ -194,7 +197,7 @@ public class Parser {
 		taskDetails = removeFirstWord(taskDetails);
 		return d;
 	}
-	
+
 	/**
 	 * Initializes and returns a DateTime object.
 	 * @return Initialized DateTime object.
@@ -344,11 +347,11 @@ public class Parser {
 	private String[] tokenize(String taskDetails) {
 		ArrayList<String> list = new ArrayList<String>();
 		final String regexSplit = "([^\"]\\S*|\".+?\")\\s*";
-		
+
 		Matcher m = Pattern.compile(regexSplit).matcher(taskDetails);
-		
+
 		while (m.find()) {
-		    list.add(m.group(1).replace("\"", "")); 
+			list.add(m.group(1).replace("\"", " ")); 
 		}
 
 		String[] param = new String[list.size()];
@@ -356,7 +359,7 @@ public class Parser {
 
 		return param;
 	}
-	
+
 	/**
 	 * Returns first word of passed string.
 	 * @param details String from which first word is to be extracted.
