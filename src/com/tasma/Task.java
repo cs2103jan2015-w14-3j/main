@@ -55,69 +55,42 @@ public class Task implements Cloneable {
 
 	//@author A0118888J
 	public String getStringStartDateTime() {
-		if (startDateTime == null) {
-			return ""; 
-		} else { 
-			String date;
-			
-			if (startDateTime.toLocalDate().equals(new LocalDate())) {
-				date = "today";
-			} else {
-				date = String.valueOf(String.format("%02d", startDateTime.getDayOfMonth())) + "-" + 
-						String.valueOf(String.format("%02d", startDateTime.getMonthOfYear())) + "-" + 
-						String.valueOf(startDateTime.getYear() % 100);
-			}
-			if (startDateTime.getHourOfDay() == 0 && startDateTime.getMinuteOfHour() == 0) {
-				return date;
-			} else { //has date and time
-				date += ", ";
-				if (startDateTime.getHourOfDay() == 0) { //for 12am, but currently cannot reach here
-					date += "12" + ":" + String.valueOf(String.format("%02d", startDateTime.getMinuteOfHour())) + "am";
-				} else if (startDateTime.getHourOfDay() > 0 && startDateTime.getHourOfDay() < 12) { 
-					date += String.valueOf(startDateTime.getHourOfDay()) + ":" + 
-							String.valueOf(String.format("%02d", startDateTime.getMinuteOfHour())) + "am";
-				} else if (startDateTime.getHourOfDay() == 12) {
-					date += String.valueOf(startDateTime.getHourOfDay()) + ":" + 
-							String.valueOf(String.format("%02d", startDateTime.getMinuteOfHour())) + "pm";
-				} else { //if (endDateTime.getHourOfDay() > 12)
-					date += String.valueOf(startDateTime.getHourOfDay() - 12) + ":" + 
-							String.valueOf(String.format("%02d", startDateTime.getMinuteOfHour())) + "pm";
-				}
-			} 
-
-			return date;
-		}
+		return getStringDateTime(startDateTime);
 	}
 
 	public String getStringEndDateTime() {
-		if (endDateTime == null) {
+		return getStringDateTime(endDateTime);
+	}
+	
+	public String getStringDateTime(DateTime d) {
+		if (d == null) {
 			return ""; 
 		} else { 
 			String date;
 			
-			if (endDateTime.toLocalDate().equals(new LocalDate())) {
+			if (d.toLocalDate().equals(new LocalDate())) {
 				date = "today";
 			} else {
-				date = String.valueOf(String.format("%02d", endDateTime.getDayOfMonth())) + "-" + 
-						String.valueOf(String.format("%02d", endDateTime.getMonthOfYear())) + "-" + 
-						String.valueOf(endDateTime.getYear() % 100);
+				date = String.valueOf(String.format("%02d", d.getDayOfMonth())) + "-" + 
+						String.valueOf(String.format("%02d", d.getMonthOfYear())) + "-" + 
+						String.valueOf(d.getYear() % 100);
 			}
 			
-			if (endDateTime.getHourOfDay() == 0 && endDateTime.getMinuteOfHour() == 0) {
+			if (d.getHourOfDay() == 0 && d.getMinuteOfHour() == 0) {
 				return date;
 			} else { //has date and time
 				date += ", ";
-				if (endDateTime.getHourOfDay() == 0) { //for 12am, but currently cannot reach here
-					date += "12" + ":" + String.valueOf(String.format("%02d", endDateTime.getMinuteOfHour())) + "am";
-				} else if (endDateTime.getHourOfDay() > 0 && endDateTime.getHourOfDay() < 12) { 
-					date += String.valueOf(endDateTime.getHourOfDay()) + ":" + 
-							String.valueOf(String.format("%02d", endDateTime.getMinuteOfHour())) + "am";
-				} else if (endDateTime.getHourOfDay() == 12) {
-					date += String.valueOf(endDateTime.getHourOfDay()) + ":" + 
-							String.valueOf(String.format("%02d", endDateTime.getMinuteOfHour())) + "pm";
+				if (d.getHourOfDay() == 0) { //for 12am, but currently cannot reach here
+					date += "12" + ":" + String.valueOf(String.format("%02d", d.getMinuteOfHour())) + "am";
+				} else if (d.getHourOfDay() > 0 && d.getHourOfDay() < 12) { 
+					date += String.valueOf(d.getHourOfDay()) + ":" + 
+							String.valueOf(String.format("%02d", d.getMinuteOfHour())) + "am";
+				} else if (d.getHourOfDay() == 12) {
+					date += String.valueOf(d.getHourOfDay()) + ":" + 
+							String.valueOf(String.format("%02d", d.getMinuteOfHour())) + "pm";
 				} else { //if (endDateTime.getHourOfDay() > 12)
 					date += String.valueOf(endDateTime.getHourOfDay() - 12) + ":" + 
-							String.valueOf(String.format("%02d", endDateTime.getMinuteOfHour())) + "pm";
+							String.valueOf(String.format("%02d", d.getMinuteOfHour())) + "pm";
 				}
 			} 
 
