@@ -164,13 +164,14 @@ public class Task implements Cloneable {
 		if (startDateTime == null) {
 			return TaskState.FLOATING;
 		}
-		LocalDate dateNow = new LocalDate();
-		LocalDate dateTmr = dateNow.plusDays(1);
-		if (endDateTime.toLocalDate().isBefore(dateNow)) {
+		DateTime dateTimeNow = new DateTime();
+		DateTime dateTimeTmrStart = dateTimeNow.plusDays(1).withTime(0, 0, 0, 0);
+		DateTime dateTimeTmrEnd = dateTimeNow.plusDays(2).withTime(0, 0, 0, 0);
+		if (endDateTime.isBefore(dateTimeNow)) {
 			return TaskState.OVERDUE;
-		} else if (endDateTime.toLocalDate().equals(dateNow)) {
+		} else if (endDateTime.isBefore(dateTimeTmrStart)) {
 			return TaskState.TODAY;
-		} else if (endDateTime.toLocalDate().equals(dateTmr)) {
+		} else if (endDateTime.isBefore(dateTimeTmrEnd)) {
 			return TaskState.TOMORROW;
 		}
 		return TaskState.UPCOMING;
