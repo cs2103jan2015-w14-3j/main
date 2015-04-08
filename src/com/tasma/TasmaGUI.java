@@ -32,6 +32,8 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 
+import com.tasma.config.Config;
+
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final long serialVersionUID = 7369112773183099080L;
@@ -90,20 +92,24 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					textCommand.setText("");
 					controller.executeInput(command);
 				} else {
-					EventQueue.invokeLater(new Runnable() {
-	
-						@Override
-						public void run() {
-							try {
-								if (textCommand.getText().equals("")) {
-									commandHintFrame.close();
-								} else {
-									commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
-								}
-							} catch (InvalidInputException e1) {
-							}
-						}	
-					});
+					try {
+						if (Config.getInstance().getProperty("showhint").toLowerCase().equals("yes")) {
+							EventQueue.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									try {
+										if (textCommand.getText().equals("")) {
+											commandHintFrame.close();
+										} else {
+											commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+										}
+									} catch (InvalidInputException e1) {
+									}
+								}	
+							});
+						}
+					} catch (Exception e1) {}
 				}
 			}
 
@@ -151,7 +157,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 		// sets the window to center of the screen
 		setLocationRelativeTo(null);
-		this.setLocation(this.getLocation().x, (int)(0.5*this.getLocation().y));
+		this.setLocation(this.getLocation().x, (int)(0.5 * this.getLocation().y));
 	}
 
 	private void addWindowEvents() {
