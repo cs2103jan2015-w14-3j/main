@@ -29,6 +29,8 @@ public class TrayIcon {
 	private Timer timer;
 	private TasmaUserInterface userInterface;
 	
+	private Controller controller;
+	
 	public TrayIcon(TasmaUserInterface userInterface) throws Exception {
 		if (userInterface == null) {
 			throw new Exception();
@@ -114,11 +116,27 @@ public class TrayIcon {
 		TimerTask notification = new TimerTask () {
 		    @Override
 		    public void run () {
-		    	trayIcon.displayMessage("Tester!",
-		    			                "Some action performed",
-		    			                java.awt.TrayIcon.MessageType.INFO);
+		    	if(hasOverdueTasks()){
+			    	trayIcon.displayMessage("Tester!",
+			    			                "Some action performed",
+			    			                java.awt.TrayIcon.MessageType.INFO);
+		    	} else if (hasTasksDueToday()){
+		    		trayIcon.displayMessage("Tester!",
+			                                "Some action performed",
+			                                java.awt.TrayIcon.MessageType.INFO);
+		    	}
 		    }
 		};
-		timer.schedule(notification, 1, NOTIFICATION_INTERVAL);
+		timer.schedule(notification, 0, NOTIFICATION_INTERVAL);
+	}
+
+	protected boolean hasTasksDueToday() {
+		// TODO
+		return false;
+	}
+
+	protected boolean hasOverdueTasks() {
+		// TODO
+		return false;
 	}
 }
