@@ -26,7 +26,7 @@ public class Config extends ObservableConfig {
 	private Properties properties;
 	private File configFile;
 	
-	private Config(String name) throws IOException {
+	private Config(String name) throws Exception {
 		this.name = name;
 		configFile = new File(name + CONFIG_FILE_EXTENSION);
 		properties = new Properties();
@@ -51,7 +51,7 @@ public class Config extends ObservableConfig {
 		return instances.get(name);
 	}
 	
-	private void loadDefaultsAndObservers() {
+	private void loadDefaultsAndObservers() throws Exception {
 		if (name.equals(CONFIG_DEFAULT_FILENAME)) {
 			properties.setProperty("showhint", "yes");
 			
