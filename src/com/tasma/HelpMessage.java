@@ -21,6 +21,8 @@ public final class HelpMessage {
 
 	public static final String HELP_LIST = "\tlist [filters]\n\n"
 			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be:\n"
+			+ "\ttmr:\t\tShows all tasks due / starting tomorrow\n"
+			+ "\ttoday:\t\tShows all tasks due / starting today\n"
 			+ "\tfloating:\t\tShows all floating tasks\n"
 			+ "\tdone:\t\tShows all tasks that were done\n"
 			+ "\tundone:\t\tShows all tasks that were not done yet\n"

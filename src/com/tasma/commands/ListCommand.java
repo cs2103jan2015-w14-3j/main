@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.tasma.Task;
 import com.tasma.TaskCollection;
+import com.tasma.TaskState;
 import com.tasma.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
@@ -15,6 +16,9 @@ public class ListCommand extends AbstractCommand {
 	private static final String FILTER_FLOATING = "floating";
 	private static final String FILTER_DONE = "done";
 	private static final String FILTER_UNDONE = "undone";
+	private static final String FILTER_TODAY = "today";
+	private static final String FILTER_TMR = "tmr";
+	private static final String FILTER_TOMORROW = "tomorrow";
 	private static final String FILTER_PAST = "past";
 	private static final String FILTER_OVERDUE = "overdue";
 	private static final String FILTER_UPCOMING = "upcoming";
@@ -38,6 +42,13 @@ public class ListCommand extends AbstractCommand {
 	public void execute() throws Exception {
 		List<Task> list = null;
 		switch (filter.toLowerCase()) {
+			case FILTER_TMR:
+			case FILTER_TOMORROW:
+				list = collection.filter(task -> task.getState() == TaskState.TOMORROW);
+				break;
+			case FILTER_TODAY:
+				list = collection.filter(task -> task.getState() == TaskState.TODAY);
+				break;
 			case FILTER_FLOATING:
 				list = collection.floating();
 				break;
