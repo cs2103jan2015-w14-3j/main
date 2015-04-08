@@ -21,7 +21,7 @@ import javax.swing.ImageIcon;
  */
 public class TrayIcon {
 	
-	private static final long NOTIFICATION_INTERVAL = 3*1000; // in milliseconds
+	private static final long NOTIFICATION_INTERVAL = 60*60*1000; // in milliseconds
 	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
@@ -31,11 +31,12 @@ public class TrayIcon {
 	
 	private Controller controller;
 	
-	public TrayIcon(TasmaUserInterface userInterface) throws Exception {
+	public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
 		if (userInterface == null) {
 			throw new Exception();
 		}
 		this.userInterface = userInterface;
+		this.controller = controller;
 	}
 	
 	/**
@@ -116,27 +117,21 @@ public class TrayIcon {
 		TimerTask notification = new TimerTask () {
 		    @Override
 		    public void run () {
-		    	if(hasOverdueTasks()){
-			    	trayIcon.displayMessage("Tester!",
-			    			                "Some action performed",
-			    			                java.awt.TrayIcon.MessageType.INFO);
-		    	} else if (hasTasksDueToday()){
-		    		trayIcon.displayMessage("Tester!",
-			                                "Some action performed",
-			                                java.awt.TrayIcon.MessageType.INFO);
+		    	int numTasksOverdue = controller.getNumOfUndoneTasksByState(TaskState.OVERDUE);
+		    	int numTasksToday = controller.getNumOfUndoneTasksByState(TaskState.TODAY);
+		    	String msg = "";
+		    	if(numTasksOverdue >= 1){
+			    	msg += "You have " + numTasksOverdue + " task(s) overdue. ";
 		    	}
+		    	if(numTasksToday>= 1){
+			    	msg += "You have " + numTasksToday + " task(s) to do today. ";
+		    	}
+		    	trayIcon.displayMessage("Tasma Notification",
+		                msg,
+		                java.awt.TrayIcon.MessageType.INFO);
 		    }
 		};
 		timer.schedule(notification, 0, NOTIFICATION_INTERVAL);
 	}
 
-	protected boolean hasTasksDueToday() {
-		// TODO
-		return false;
-	}
-
-	protected boolean hasOverdueTasks() {
-		// TODO
-		return false;
-	}
 }

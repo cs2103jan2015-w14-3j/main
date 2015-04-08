@@ -82,7 +82,7 @@ public class TasmaApp implements Runnable {
 		
 		// set up tray icon now
 		try {
-			TrayIcon tray = new TrayIcon(userInterface);
+			TrayIcon tray = new TrayIcon(userInterface, controller);
 			tray.setup();
 		} catch (Exception e) {
 			
