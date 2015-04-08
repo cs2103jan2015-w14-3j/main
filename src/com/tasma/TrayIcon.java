@@ -21,7 +21,7 @@ import javax.swing.ImageIcon;
  */
 public class TrayIcon {
 	
-	private static final long NOTIFICATION_INTERVAL = 60*60*1000; // in milliseconds
+	private static final long NOTIFICATION_INTERVAL = 3*1000; // in milliseconds
 	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
@@ -114,6 +114,9 @@ public class TrayIcon {
     
     private void setupNotification() {
 		timer = new Timer();
+		
+		// not used
+		/* 
 		TimerTask notification = new TimerTask () {
 		    @Override
 		    public void run () {
@@ -126,12 +129,17 @@ public class TrayIcon {
 		    	if(numTasksToday>= 1){
 			    	msg += "You have " + numTasksToday + " task(s) to do today. ";
 		    	}
-		    	trayIcon.displayMessage("Tasma Notification",
-		                msg,
-		                java.awt.TrayIcon.MessageType.INFO);
+		    	if(!msg.equals("")){
+			    	trayIcon.displayMessage("Tasma Notification",
+			                msg,
+			                java.awt.TrayIcon.MessageType.INFO);
+		    	}
 		    }
 		};
 		timer.schedule(notification, 0, NOTIFICATION_INTERVAL);
+		*/
+		
+		
 	}
 
 }
