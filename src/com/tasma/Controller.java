@@ -106,13 +106,13 @@ public class Controller {
 	
 	public int getNumOfUndoneTasksByState(TaskState state){
 		List<Task> tasksNotDone = collection.notDone();
-		int numOverdue = 0;
+		int numTasks = 0;
 		for (Task task : tasksNotDone) {
 			if (task.getState() == state){
-				numOverdue++;
+				numTasks++;
 			}
 		}
-		return numOverdue;
+		return numTasks;
 	}
 
 	/**
