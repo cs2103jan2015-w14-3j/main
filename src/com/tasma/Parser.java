@@ -121,7 +121,7 @@ public class Parser {
 	 */
 	private DateTime parseDate(String word, DateTime d) {
 		if (word.equals("next")) {
-			d.plusWeeks(1);
+			d = d.plusWeeks(1);
 		} else if (determineDay(word) != -1) {
 			d = d.withDayOfWeek(determineDay(word));
 		} else if (isValidDate(word)) {
@@ -131,11 +131,11 @@ public class Parser {
 		} else if (isWordTomorrow(word)) {
 			d = parseDay(d, 1);
 		}
-
+		
 		if (d.isBefore(initializeDateTime())) {
 			d = d.plusWeeks(1);
 		}
-		
+
 		return d;
 	}
 
