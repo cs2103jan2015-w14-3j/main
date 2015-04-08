@@ -11,6 +11,8 @@ import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
@@ -18,10 +20,13 @@ import javax.swing.ImageIcon;
  * Provides support for system tray icon
  */
 public class TrayIcon {
+	
+	private static final long NOTIFICATION_INTERVAL = 3*1000; // in milliseconds
+	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
 	private SystemTray tray;
-	
+	private Timer timer;
 	private TasmaUserInterface userInterface;
 	
 	public TrayIcon(TasmaUserInterface userInterface) throws Exception {
@@ -45,6 +50,7 @@ public class TrayIcon {
         tray = SystemTray.getSystemTray();
         buildMenu();
         trayIcon.setPopupMenu(popupMenu);
+        setupNotification();
         trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
 
             @Override
@@ -59,6 +65,7 @@ public class TrayIcon {
         tray.add(trayIcon);
 	}
 	
+
 	/**
 	 * Build the context menu of the tray icon
 	 */
@@ -101,4 +108,17 @@ public class TrayIcon {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
+    
+    private void setupNotification() {
+		timer = new Timer();
+		TimerTask notification = new TimerTask () {
+		    @Override
+		    public void run () {
+		    	trayIcon.displayMessage("Tester!",
+		    			                "Some action performed",
+		    			                java.awt.TrayIcon.MessageType.INFO);
+		    }
+		};
+		timer.schedule(notification, 1, NOTIFICATION_INTERVAL);
+	}
 }
