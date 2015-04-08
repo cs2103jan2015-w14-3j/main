@@ -103,4 +103,9 @@ public class TrayIcon {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
+    
+    //@author A0119434H
+    public void displayInfo(String caption, String text) {
+    	trayIcon.displayMessage(caption, text, java.awt.TrayIcon.MessageType.INFO);
+    }
 }
