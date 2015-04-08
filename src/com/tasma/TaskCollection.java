@@ -159,4 +159,11 @@ public class TaskCollection {
 		    .collect(Collectors.toList());
 		return doneList;
 	}
+
+	public List<Task> floating() {
+		List<Task> doneList = tasks.stream()
+			    .filter(task -> !task.isDone() && task.getStartDateTime() == null && task.getEndDateTime() == null)
+			    .collect(Collectors.toList());
+			return doneList;
+	}
 }
