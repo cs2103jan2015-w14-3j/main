@@ -174,6 +174,6 @@ public class TaskCollection {
 	
 	//@author A0119434H
 	private void updateNotification() {
-		notification.sheduleNotifications(notDone());
+		notification.scheduleNotifications(notDone());
 	}
 }

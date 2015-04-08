@@ -31,17 +31,17 @@ public class BalloonNotification {
 		collection.notification = this;
 	}
 	
-	public void sheduleNotifications(List<Task> undoneTasks){
+	public void scheduleNotifications(List<Task> undoneTasks){
 		timer.cancel();
 		timer = new Timer();
 		for(Task task : undoneTasks){
 			TaskType type = task.getType();
 			switch(type){
 			case DEADLINE:
-				sheduleDeadlineNotification(task);
+				scheduleDeadlineNotification(task);
 				break;
 			case TIMED:
-				sheduleTimedTaskNotification(task);
+				scheduleTimedTaskNotification(task);
 				break;
 			case FLOATING:
 			default:
@@ -50,7 +50,7 @@ public class BalloonNotification {
 		}
 	}
 	
-	private void sheduleDeadlineNotification(Task task) {
+	private void scheduleDeadlineNotification(Task task) {
 		
 		String taskDetail = task.getDetails();
 		DateTime startDateTime = task.getStartDateTime();
@@ -65,10 +65,10 @@ public class BalloonNotification {
 			}
 		};
 		timer.schedule(timertask, reminderTime);
-		System.out.println("deadline reminder sheduled at " + reminderTime.toString());
+		System.out.println("deadline reminder scheduled at " + reminderTime.toString());
 	}
 	
-	private void sheduleTimedTaskNotification(Task task) {
+	private void scheduleTimedTaskNotification(Task task) {
 		String taskDetail = task.getDetails();
 		DateTime startDateTime = task.getStartDateTime();
 		
@@ -82,7 +82,7 @@ public class BalloonNotification {
 			}
 		};
 		timer.schedule(timertask, reminderTime);
-		System.out.println("timed task reminder sheduled at " + reminderTime.toString());
+		System.out.println("timed task reminder scheduled at " + reminderTime.toString());
 	}
 
 }
