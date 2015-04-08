@@ -4,8 +4,10 @@
 //@author A0132763H
 package com.tasma;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import com.tasma.commands.CommandFactory;
 import com.tasma.commands.CommandInterface;
 import com.tasma.commands.NotExecutedException;
@@ -102,6 +104,17 @@ public class Controller {
 		}
 	}
 	
+	public int getNumOfUndoneTasksByState(TaskState state){
+		List<Task> tasksNotDone = collection.notDone();
+		int numOverdue = 0;
+		for (Task task : tasksNotDone) {
+			if (task.getState() == state){
+				numOverdue++;
+			}
+		}
+		return numOverdue;
+	}
+
 	/**
 	 * Displays an exception message to the user
 	 * @param exception The exception to show
