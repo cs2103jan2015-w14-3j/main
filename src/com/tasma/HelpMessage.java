@@ -20,7 +20,12 @@ public final class HelpMessage {
 			+ "The 'search' command finds tasks in your to-do list that matches the query string you have entered. After entering the command, the result of the search operation will be shown in the list.";
 
 	public static final String HELP_LIST = "\tlist [filters]\n\n"
-			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be: upcoming, done, overdue or past.";
+			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be:\n"
+			+ "\tfloating:\t\tShows all floating tasks\n"
+			+ "\tdone:\t\tShows all tasks that were done\n"
+			+ "\tundone:\t\tShows all tasks that were not done yet\n"
+			+ "\tpast:\t\tShows all tasks that were not done and overdue\n"
+			+ "\toverdue:\t\tShows all tasks that were not done and overdue, same as past\n";
 
 	public static final String HELP_MARK = "\tmark <task number>\n\n"
 			+ "The 'mark' command marks a specified task as done. The <task number> parameter is the number corresponding to the task that you want to select.";
@@ -60,7 +65,7 @@ public final class HelpMessage {
 	
 	public static final String HINT_ADD = "add <task details>\n<task details> the details of your task to be added";
 	public static final String HINT_SEARCH = "search <query>\n<query> the keywords to match your tasks";
-	public static final String HINT_LIST= "list [filters]\n[filters] filters can be either upcoming, done, undone or past";
+	public static final String HINT_LIST= "list [filters]\n[filters] an optional keyword to shorten the list of tasks for your convenience";
 	public static final String HINT_MARK = "mark <task number>\n<task number> the number shown next to the task in the list above";
 	public static final String HINT_DELETE = "delete <task number>\n<task number> the number shown next to the task in the list above";
 	public static final String HINT_EDIT = "edit <task number> [task details]\n<task number> the number shown next to the task in the list above\n[task details] the new details of the task";
