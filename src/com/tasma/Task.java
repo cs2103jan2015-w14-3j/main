@@ -177,7 +177,7 @@ public class Task implements Cloneable {
 	public TaskType getType() {
 		if (startDateTime == null) {
 			return TaskType.FLOATING;
-		} else if (startDateTime == endDateTime) {
+		} else if (startDateTime.equals(endDateTime)) {
 			return TaskType.DEADLINE;
 		}
 		return TaskType.TIMED;
