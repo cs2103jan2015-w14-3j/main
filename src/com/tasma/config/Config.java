@@ -53,7 +53,7 @@ public class Config extends ObservableConfig {
 	
 	private void loadDefaultsAndObservers() {
 		if (name.equals(CONFIG_DEFAULT_FILENAME)) {
-			properties.setProperty("showhint", "1");
+			properties.setProperty("showhint", "yes");
 			
 			StorageObserver storage = new StorageObserver();
 			loadMap(storage.defaults());
