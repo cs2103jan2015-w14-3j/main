@@ -226,8 +226,8 @@ public class Parser {
 	 */
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
-		d = d.withHourOfDay(0);
-		d = d.withMinuteOfHour(0);
+		d = d.withHourOfDay(23);
+		d = d.withMinuteOfHour(59);
 		d = d.withMillisOfDay(0);
 		return d;
 	}
