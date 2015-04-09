@@ -38,8 +38,8 @@ public class History {
 	 * @param command The command to be placed in the history stack
 	 */
 	public void offer(String input, CommandInterface command) {
+		inputStack.push(input);
 		if (command instanceof UndoableCommandInterface) {
-			inputStack.push(input);
 			undoStack.push((UndoableCommandInterface) command);
 			redoStack.clear();
 		}
