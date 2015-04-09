@@ -54,7 +54,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public TasmaGUI() {
 		decorateFrame();
 		addWindowEvents();
@@ -108,25 +107,11 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			@Override
 			public void keyReleased(KeyEvent e) {}
 		});
-		textMessage.setEditable(false);
-		textMessage.setBackground(Color.WHITE);
-		textMessage.setRows(1);
-		textMessage.setLineWrap(true);
-		textMessage.setVisible(false);
-		textMessage.setWrapStyleWord(true);
-		textMessage.setTabSize(3);
-		textMessage.setFont(textMessage.getFont().deriveFont(13.0f));
-		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
+		initTxtMsg();
 		contentPane.add(textMessage, BorderLayout.PAGE_END);
 
-		listTasks.setFocusable(false);
-		listTasks.setSelectionModel(new DisabledItemSelectionModel());
-		listTasks.setCellRenderer(new CustomListRenderer());
-		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
-		listTasksScrollPane.setBorder(new EmptyBorder(2, 2, 2, 2));
-		listTasksScrollPane.setPreferredSize(new Dimension(480, 220));
-		listTasksScrollPane.setFocusable(false);
+		initTaskLists();
+		initScrollPane();
 		
 		// provide scrolling support for list scroll pane's scroll bar
 		JScrollBar vertical = listTasksScrollPane.getVerticalScrollBar();
@@ -175,6 +160,33 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setDocument(new JTextFieldLimit(70));
 		contentPane.add(textCommand, BorderLayout.PAGE_START);
 		textCommand.setColumns(10);
+	}
+	
+	private void initTxtMsg() {
+		textMessage.setEditable(false);
+		textMessage.setBackground(Color.WHITE);
+		textMessage.setRows(1);
+		textMessage.setLineWrap(true);
+		textMessage.setVisible(false);
+		textMessage.setWrapStyleWord(true);
+		textMessage.setTabSize(3);
+		textMessage.setFont(textMessage.getFont().deriveFont(13.0f));
+		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void initTaskLists() {
+		listTasks.setFocusable(false);
+		listTasks.setSelectionModel(new DisabledItemSelectionModel());
+		listTasks.setCellRenderer(new CustomListRenderer());
+	}
+	
+	private void initScrollPane() {
+		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
+		listTasksScrollPane.setBorder(new EmptyBorder(2, 2, 2, 2));
+		listTasksScrollPane.setPreferredSize(new Dimension(480, 220));
+		listTasksScrollPane.setFocusable(false);
 	}
 
 	@Override
