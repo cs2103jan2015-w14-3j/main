@@ -35,6 +35,9 @@ import javax.swing.ListCellRenderer;
 import com.tasma.config.Config;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
+	
+	private static final String SHOW_HINT_CONFIG_KEY = "showhint";
+	private static final String SHOW_HINT_CONFIG_YES_VALUE = "yes";
 
 	private static final long serialVersionUID = 7369112773183099080L;
 
@@ -93,7 +96,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					controller.executeInput(command);
 				} else {
 					try {
-						if (Config.getInstance().getProperty("showhint").toLowerCase().equals("yes")) {
+						if (Config.getInstance().getProperty(SHOW_HINT_CONFIG_KEY)
+								.toLowerCase().equals(SHOW_HINT_CONFIG_YES_VALUE)) {
 							EventQueue.invokeLater(new Runnable() {
 
 								@Override
