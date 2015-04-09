@@ -278,7 +278,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		    JPanel panel = new JPanel();
+		    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 			if (value instanceof String) {
+				panel.setLayout(new BorderLayout());
 				JTextArea textSectionHeader = new JTextArea();
 				textSectionHeader.setText(value.toString());
 				textSectionHeader.setFont(textSectionHeader.getFont().deriveFont(20.0f));
@@ -292,7 +294,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 			    GridBagLayout layout = new GridBagLayout();
 			    panel.setLayout(layout);
-			    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 			    GridBagConstraints c = new GridBagConstraints();
 
