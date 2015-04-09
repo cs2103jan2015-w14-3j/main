@@ -7,8 +7,11 @@ package com.tasma;
 import java.awt.EventQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.KeyStroke;
+
 import com.tasma.config.Config;
+import com.tasma.TasmaGUI;
 import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;
