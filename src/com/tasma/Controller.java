@@ -94,7 +94,7 @@ public class Controller {
 			} else {
 				CommandInterface command = commandFactory.getCommand(input);
 				command.execute();
-				history.offer(command);
+				history.offer(input, command);
 			}
 		} catch (NotExecutedException nee) {
 			

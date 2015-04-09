@@ -26,14 +26,20 @@ public class History {
 	protected Stack<UndoableCommandInterface> redoStack = new Stack<UndoableCommandInterface>();
 	
 	/**
+	 * The input command stack
+	 */
+	protected Stack<String> inputStack = new Stack<String>();
+	
+	/**
 	 * Offers a command to the history stack. If the command is an instance of UndoableCommandInterface,
 	 * it will be stored into the history stack.
 	 * 
 	 * When offered with a new Undoable Command, the redo stack commands will be cleared
 	 * @param command The command to be placed in the history stack
 	 */
-	public void offer(CommandInterface command) {
+	public void offer(String input, CommandInterface command) {
 		if (command instanceof UndoableCommandInterface) {
+			inputStack.push(input);
 			undoStack.push((UndoableCommandInterface) command);
 			redoStack.clear();
 		}
