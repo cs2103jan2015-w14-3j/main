@@ -157,7 +157,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	private void decorateFrame() {
-		setUIFont (new javax.swing.plaf.FontUIResource(new Font("Arial",Font.PLAIN, 12)));
+		setUIFont (new javax.swing.plaf.FontUIResource(Palette.UI_FONT_DEFAULT));
 		
 		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
@@ -282,7 +282,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				textSectionHeader.setText(value.toString());
 				textSectionHeader.setFont(textSectionHeader.getFont().deriveFont(20.0f));
 				textSectionHeader.setBackground(null);
-				panel.add(textSectionHeader);
+				panel.add(textSectionHeader, BorderLayout.LINE_START);
 			} else if (value instanceof Map.Entry) {
 				@SuppressWarnings("unchecked")
 				Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;

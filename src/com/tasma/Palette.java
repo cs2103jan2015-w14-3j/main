@@ -5,6 +5,7 @@
 package com.tasma;
 
 import java.awt.Color;
+import java.awt.Font;
 
 /**
  * Provides the colours used by the user interface and commands to tell users (:
@@ -68,6 +69,11 @@ public class Palette {
 	 * Default task colour
 	 */
 	public static final Color TASK_LIST_DEFAULT = new Color(40, 40, 40);
+	
+	/**
+	 * The default UI tasks
+	 */
+	public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
 	
 	/**
 	 * Hint frame background color
