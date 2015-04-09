@@ -47,7 +47,7 @@ public class CommandFactory {
 				result = new EditCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());
 				break;
 			case DELETE:
-				result = new DeleteCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
+				result = new DeleteCommand(userInterface, collection, currentState, normalizeInputRange(splitter.remainder()));
 				break;
 			case SET:
 				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
@@ -68,6 +68,33 @@ public class CommandFactory {
 				// probably an invalid command
 				result = new InvalidCommand(userInterface, collection, input);
 				break;
+		}
+		return result;
+	}
+	
+	protected LinkedList<Integer> normalizeInputRange(String condition) throws InvalidInputException {
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		try {
+			String[] parts = condition.split("\\s*(,|\\s)\\s*");
+			for (String s : parts) {
+				if (s.indexOf("-") == -1) {
+					int index = Integer.parseInt(s) - 1;
+					result.add(index);
+				} else {
+					// has a range in it
+					String[] range = s.split("-");
+					if (range.length != 2) {
+						throw new InvalidInputException();
+					}
+					int lowerBound = Integer.parseInt(range[0]);
+					int upperBound = Integer.parseInt(range[1]);
+					for (int j = lowerBound - 1; j < upperBound; ++j) {
+						result.add(j);
+					}
+				}
+			}
+		} catch (NumberFormatException ex) {
+			throw new InvalidInputException();
 		}
 		return result;
 	}

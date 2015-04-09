@@ -6,6 +6,7 @@ package com.tasma.commands;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.junit.After;
@@ -44,7 +45,7 @@ public class DeleteCommandTest {
 	public void testExecute() throws Exception {
 		LinkedList<Task> state = new LinkedList<Task>();
 		state.add(storage.getTasks().get(0));
-		command = new DeleteCommand(userInterface, collection, state, 0);
+		command = new DeleteCommand(userInterface, collection, state, new LinkedList<Integer>(Arrays.asList(0)));
 		command.execute();
 		assertEquals(0, state.size());
 		assertEquals(0, storage.getTasks().size());
@@ -55,7 +56,7 @@ public class DeleteCommandTest {
 		LinkedList<Task> state = new LinkedList<Task>();
 		Task task = storage.getTasks().get(0);
 		state.add(task);
-		command = new DeleteCommand(userInterface, collection, state, 0);
+		command = new DeleteCommand(userInterface, collection, state, new LinkedList<Integer>(Arrays.asList(0)));
 		command.execute();
 		assertEquals(0, state.size());
 		assertEquals(0, storage.getTasks().size());
