@@ -12,14 +12,16 @@ public final class UIMessage {
 	public static final String COMMAND_ADD_ARG_EMPTY = "The 'add' command requires the details of the task you wish to add. Try:\n\tadd <details>\nIf you need help, you can type `help add` to get help on the command.";
 	public static final String COMMAND_ADD_UNDO = "Your task \"%s\" has been undone.";
 	
-	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as %s.";
-	public static final String COMMAND_MARK_NOTFOUND = "The task you were looking to mark %s was not found.";
-	public static final String COMMAND_MARK_ARG_EMPTY = "The 'mark' command requires the task ID of the task you wish to mark %s. Try:\n\tmark <number>\nIf you need help, you can type `help mark` to get help on the command.";
-	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as %s.";
+	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as done.";
+	public static final String COMMAND_MARK_NOTFOUND = "The task you were looking to mark done was not found.";
+	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
+	
+	public static final String COMMAND_UNMARK_SUCCESS = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_UNMARK_NOTFOUND = "The task you were looking to mark undone was not found.";
+	public static final String COMMAND_UNMARK_UNDO = "Your task \"%s\" has been marked as done.";
 
 	public static final String COMMAND_DELETE_SUCCESS = "Your task \"%s\" has been deleted.";
 	public static final String COMMAND_DELETE_NOTFOUND = "The task you were looking to delete was not found.";
-	public static final String COMMAND_DELETE_ARG_EMPTY = "The 'delete' command requires the task ID of the task you wish to remove. Try:\n\tdelete <number>\nIf you need help, you can type `help delete` to get help on the command.";
 	public static final String COMMAND_DELETE_UNDO = "Your task \"%s\" has been undeleted.";
 
 	public static final String COMMAND_EDIT_SUCCESS = "Your task \"%s\" has been successfully updated.";
@@ -38,12 +40,14 @@ public final class UIMessage {
 	public static final String COMMAND_ALIAS_UPDATED = "Alias command %s has been updated.";
 	public static final String COMMAND_ALIAS_RESTORE = "Alias command %s has been restored.";
 	public static final String COMMAND_ALIAS_REMOVE = "Alias command %s has been removed.";
-	
+
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. If you need help, enter the 'help' command and I will be glad to assist you.";
 	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
-	
+
 	public static final String TASK_LIST_EMPTY = "No tasks found (:";
 	
+	public static final String COMMAND_BOX_PLACEHOLDER = "What would you like to do?";
+
 	public static final String SECTION_HEADER_FLOATING = "%d Floating";
 	public static final String SECTION_HEADER_OVERDUE = "%d Overdue";
 	public static final String SECTION_HEADER_TODAY = "%d Today";

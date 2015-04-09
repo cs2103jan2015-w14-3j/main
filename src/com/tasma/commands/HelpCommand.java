@@ -43,6 +43,9 @@ public class HelpCommand extends AbstractCommand {
 			case MARK:
 				message = HelpMessage.HELP_MARK;
 				break;
+			case UNMARK:
+				message = HelpMessage.HELP_UNMARK;
+				break;
 			case EDIT:
 				message = HelpMessage.HELP_EDIT;
 				break;

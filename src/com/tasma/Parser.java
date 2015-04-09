@@ -155,10 +155,10 @@ public class Parser {
 			d = parseDay(d, 1);
 		}
 		
-		if (d.isBefore(initializeDateTime())) {
+		if (d.isBefore(initializeDateTime().minusDays(1))) {
 			d = d.plusWeeks(1);
 		}
-
+		
 		return d;
 	}
 
@@ -215,13 +215,17 @@ public class Parser {
 	 * @return DateTime object containing the parsed day.
 	 */
 	private DateTime parseDay(DateTime d, int days) {
+		d = d.withDayOfWeek(new DateTime().getDayOfWeek());
+		d = d.withMonthOfYear(new DateTime().getMonthOfYear());
+		d = d.withYear(new DateTime().getYear());
+		
 		d = d.plusDays(days);
 
 		return d;
 	}
 
 	/**
-	 * Initializes and returns a DateTime object.
+	 * Initializes a DateTime object to current day and time 2359 and returns it.
 	 * @return Initialized DateTime object.
 	 */
 	private DateTime initializeDateTime() {
@@ -288,14 +292,14 @@ public class Parser {
 
 	/**
 	 * Gets date from passed string.
-	 * @param date String containing date to be parsed.
+	 * @param word String containing date to be parsed.
 	 * @param d	   DateTime object to be modified with parsed details.
 	 * @return DateTime object containing the parsed date.
 	 */
-	private DateTime getDate(String date, DateTime d) {
-		d = d.withDayOfMonth(Integer.parseInt(date.substring(0, 2)));
-		d = d.withMonthOfYear(Integer.parseInt(date.substring(3, 5)));
-		d = d.withYear(2000 + Integer.parseInt(date.substring(6, 8)));
+	private DateTime getDate(String word, DateTime d) {
+		d = d.withDayOfMonth(Integer.parseInt(word.substring(0, 2)));
+		d = d.withMonthOfYear(Integer.parseInt(word.substring(3, 5)));
+		d = d.withYear(2000 + Integer.parseInt(word.substring(6, 8)));
 		return d;
 	}
 
