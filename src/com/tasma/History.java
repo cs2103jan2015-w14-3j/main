@@ -13,7 +13,16 @@ import com.tasma.commands.UndoableCommandInterface;
  * Provides history management (undo/redo) for Controller
  */
 public class History {
+	
+	/**
+	 * The undo stack that contains all undoable commands that were executed
+	 */
 	protected Stack<UndoableCommandInterface> undoStack = new Stack<UndoableCommandInterface>();
+	
+	/**
+	 * The redo stack that contains all commands that were undone.
+	 * The stack is reset whenever there is a new command added to the undo stack
+	 */
 	protected Stack<UndoableCommandInterface> redoStack = new Stack<UndoableCommandInterface>();
 	
 	/**
