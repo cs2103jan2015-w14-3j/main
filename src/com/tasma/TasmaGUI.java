@@ -292,6 +292,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 			    GridBagLayout layout = new GridBagLayout();
 			    panel.setLayout(layout);
+			    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 			    GridBagConstraints c = new GridBagConstraints();
 
@@ -312,7 +313,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    }
 
 			    JTextArea textIndex = new JTextArea();
-			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textIndex.setBorder(new EmptyBorder(0, 0, 5, 5));
 			    textIndex.setFont(Palette.UI_TASK_TITLE);
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setForeground(taskIndicativeColor);
@@ -323,7 +324,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    panel.add(textIndex, c);
 
 			    JTextArea textDetails = new JTextArea();
-			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textDetails.setBorder(new EmptyBorder(0, 5, 5, 0));
 			    textDetails.setForeground(taskIndicativeColor);
 			    textDetails.setText(task.getDetails());
 			    textDetails.setLineWrap(true);
