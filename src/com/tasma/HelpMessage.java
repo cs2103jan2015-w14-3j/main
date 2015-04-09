@@ -47,17 +47,10 @@ public final class HelpMessage {
 
 	public static final String HELP_HELP = "\thelp [command]\n\n"
 			+ "The 'help' command provides you information on how to use the various commands in TASMA. The [command] is the command to show help for and can be any of the following:\n\n"
-			+ "\tadd:\t\tCreates a new task\n"
-			+ "\tsearch:\tSearches for tasks\n"
-			+ "\tlist:\t\tShows a list of upcoming tasks\n"
-			+ "\tmark:\tMarks a task as done\n"
-			+ "\tdelete:\tPermanently deletes a task\n"
-			+ "\tedit:\t\tUpdates the details of a task\n"
-			+ "\tset:\t\tSets values to application configuration\n"
-			+ "\talias:\t\tCreates or removes custom command shortcuts\n"
-			+ "\thelp:\t\tProvides help information like this one\n"
-			+ "\ttutorial:\tShows the welcome tutorial again\n"
-			+ "\texit:\t\tQuits the application\n";
+			+ "\tadd\t\tedit\t\tdelete\n"
+			+ "\tlist\t\tsearch\tmark\n"
+			+ "\tunmark\tset\t\talias\n"
+			+ "\thelp\t\ttutorial\texit";
 
 	public static final String HELP_ALIAS = "\talias <new alias> <built in command>\n\n"
 			+ "The 'alias' command allows you to set new commands that function the same as other built in commands. The <new alias> can be the new custom alias that you want to add and the <built in command> will be the existing command to that the new alias will function as.\n\nIf you enter in the format of 'alias remove <new alias>', it will remove the custom shortcut.";
