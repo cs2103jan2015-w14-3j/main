@@ -15,6 +15,10 @@ public final class UIMessage {
 	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as done.";
 	public static final String COMMAND_MARK_NOTFOUND = "The task you were looking to mark done was not found.";
 	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
+	
+	public static final String COMMAND_UNMARK_SUCCESS = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_UNMARK_NOTFOUND = "The task you were looking to mark undone was not found.";
+	public static final String COMMAND_UNMARK_UNDO = "Your task \"%s\" has been marked as done.";
 
 	public static final String COMMAND_DELETE_SUCCESS = "Your task \"%s\" has been deleted.";
 	public static final String COMMAND_DELETE_NOTFOUND = "The task you were looking to delete was not found.";
