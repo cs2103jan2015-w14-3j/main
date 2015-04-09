@@ -68,7 +68,7 @@ public class Palette {
 	/**
 	 * Default task colour
 	 */
-	public static final Color TASK_LIST_DEFAULT = new Color(40, 40, 40);
+	public static final Color TASK_LIST_DEFAULT = new Color(80, 80, 80);
 	
 	/**
 	 * The default UI tasks
@@ -93,5 +93,5 @@ public class Palette {
 	/**
 	 * Zebra list background 2
 	 */
-	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(220, 220, 220);
+	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(230, 230, 230);
 }
