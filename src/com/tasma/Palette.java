@@ -75,10 +75,23 @@ public class Palette {
 	 */
 	public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
 	
+	/**
+	 * Tasks title font
+	 */
 	public static final Font UI_TASK_TITLE = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 16.0f);
 	
 	/**
 	 * Hint frame background color
 	 */
 	public static final Color HINT_FRAME_BACKGROUND = new Color(252, 232, 104);
+	
+	/**
+	 * Zebra list background 1
+	 */
+	public static final Color ZEBRA_LIST_BACKGROUND_ONE = Color.WHITE;
+	
+	/**
+	 * Zebra list background 2
+	 */
+	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(220, 220, 220);
 }

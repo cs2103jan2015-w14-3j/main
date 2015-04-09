@@ -25,7 +25,7 @@ public class ZebraJList extends javax.swing.JList{
     /** Add zebra stripes to the background. */
     public void paintComponent(java.awt.Graphics g)
     {
-        drawStripes = (getLayoutOrientation()==VERTICAL) && isOpaque();
+        drawStripes = (getLayoutOrientation() == VERTICAL) && isOpaque();
         if (!drawStripes) {
             super.paintComponent(g);
             return;
@@ -47,9 +47,9 @@ public class ZebraJList extends javax.swing.JList{
             // Paint non-uniform height rows first
             final int nItems = getModel().getSize( );
             rowHeight = 17; // A default for empty lists
-            for ( int i = 0; i < nItems; i++, y+=rowHeight ) {
+            for (int i = 0; i < nItems; i++, y += rowHeight) {
                 rowHeight = getCellBounds( i, i ).height;
-                g.setColor( rowColors[i&1] );
+                g.setColor( rowColors[i & 1] );
                 g.fillRect( x, y, w, rowHeight );
             }
             // Use last row height for remainder of list area
@@ -63,7 +63,7 @@ public class ZebraJList extends javax.swing.JList{
         }
         final int remainder = insets.top + h - y;
         if (remainder > 0) {
-            g.setColor(rowColors[nRows&1]);
+            g.setColor(rowColors[nRows & 1]);
             g.fillRect(x, y, w, remainder);
         }
  
@@ -106,10 +106,10 @@ public class ZebraJList extends javax.swing.JList{
     /** Compute zebra background stripe colors. */
     private void updateZebraColors( ) {
         if ( (rowColors[0] = getBackground( )) == null ) {
-            rowColors[0] = rowColors[1] = java.awt.Color.white;
+            rowColors[0] = rowColors[1] = Palette.ZEBRA_LIST_BACKGROUND_ONE;
             return;
         }
-        final java.awt.Color sel = getSelectionBackground( );
+        final java.awt.Color sel = Palette.ZEBRA_LIST_BACKGROUND_TWO;
         if ( sel == null ) {
             rowColors[1] = rowColors[0];
             return;
