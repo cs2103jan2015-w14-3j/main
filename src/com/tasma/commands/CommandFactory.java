@@ -40,6 +40,9 @@ public class CommandFactory {
 			case MARK:
 				result = new MarkCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
 				break;
+			case UNMARK:
+				result = new UnmarkCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
+				break;
 			case EDIT:
 				result = new EditCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());
 				break;
