@@ -338,7 +338,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        panel.add(textDetails, c);
 
 		        JTextArea textDateTime = new JTextArea();
-		        textDateTime.setBorder(new EmptyBorder(0, 0, 0, 0));
+		        textDateTime.setBorder(new EmptyBorder(0, 5, 0, 0));
 		        textDateTime.setForeground(taskIndicativeColor);
 		        if (task.getType() == TaskType.TIMED) {
 		        	textDateTime.setText(task.getStringStartDateTime() + " - " + task.getStringEndDateTime());
