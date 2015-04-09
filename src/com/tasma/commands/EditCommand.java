@@ -27,7 +27,14 @@ public class EditCommand extends AbstractUndoableCommand {
 		this.state = state;
 		this.details = details;
 		this.index = index;
-		this.task = state.get(index);
+		try {
+			this.task = state.get(index);
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (this.task == null) {
+			userInterface.displayMessage(UIMessage.COMMAND_EDIT_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
 	}
 
 	@Override
