@@ -14,57 +14,31 @@ import com.tasma.UIMessage;
 
 public class MarkCommand extends AbstractUndoableCommand {
 	
-	private static final String MARK_AS_UNDONE = "undone";
-	private static final String MARK_AS_DONE = "done";
-	
-	private String markAs = MARK_AS_DONE;
 	private List<Task> state;
-	private boolean lastState;
 	private Task task;
 	
 	public MarkCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, List<Task> state, int index, String markAs) {
+			TaskCollection collection, List<Task> state, int index) {
 		super(userInterface, collection);
 		this.state = state;
-		try {
-			if (markAs.toLowerCase().equals(MARK_AS_UNDONE)) {
-				this.markAs = MARK_AS_UNDONE;
-			}
-			this.task = state.get(index);
-		} catch(Exception ex) {
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_ARG_EMPTY, this.markAs), Palette.MESSAGE_WARNING);
-		}
+		this.task = state.get(index);
 	}
 
 	@Override
 	public void execute() throws Exception {
-		if (task == null) {
-			// prevent from being added to the History stack
-			throw new NotExecutedException();
-		} else {
-			lastState = task.isDone();
-			switch (markAs) {
-				case MARK_AS_UNDONE:
-					task.setDone(false);
-					break;
-				case MARK_AS_DONE:
-				default:
-					task.setDone(true);
-					break;
-			}
-			collection.update(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails(), markAs), Palette.MESSAGE_SUCCESS);
-			
-			ListCommand listCommand = new ListCommand(userInterface, collection, state);
-			listCommand.execute();
-		}
+		task.setDone(true);
+		collection.update(task);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+		
+		ListCommand listCommand = new ListCommand(userInterface, collection, state);
+		listCommand.execute();
 	}
 
 	@Override
 	public void undo() throws Exception {
-		task.setDone(lastState);
+		task.setDone(false);
 		collection.update(task);
 
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails(), (task.isDone() ? MARK_AS_DONE : MARK_AS_UNDONE)), Palette.MESSAGE_SUCCESS);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
 	}
 }
