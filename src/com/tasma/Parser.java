@@ -52,6 +52,9 @@ public class Parser {
 	
 	/** Regular expressions */
 	private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
+	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
+	private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
+	
 	/**
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
@@ -300,8 +303,7 @@ public class Parser {
 	 * @return true if "date" contains a valid date, false otherwise.
 	 */
 	private boolean isValidDate(String date) {
-		final String regexDate = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
-		final Pattern pattern = Pattern.compile(regexDate);
+		final Pattern pattern = Pattern.compile(REGEX_DATE);
 		if (!pattern.matcher(date).matches()) {
 			return false;
 		}
@@ -338,8 +340,7 @@ public class Parser {
 	 * @return true if "time" contains a valid time, false otherwise.
 	 */
 	private boolean isValidTime(String time) {
-		final String regexTime = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
-		final Pattern pattern = Pattern.compile(regexTime);
+		final Pattern pattern = Pattern.compile(REGEX_TIME);
 
 		if (!pattern.matcher(time).matches()) {
 			return false;
