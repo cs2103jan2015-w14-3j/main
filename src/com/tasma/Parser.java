@@ -16,13 +16,42 @@ import org.joda.time.DateTimeConstants;
 
 public class Parser {
 
+	
+
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 
-
 	/** Stores taskDetails for parsing */
 	private String taskDetails;
-
+	
+	/** Keywords for parsing */
+	final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
+	private static final String KEYWORD_ON = "on";
+	private static final String KEYWORD_AT = "at";
+	private static final String KEYWORD_FROM = "from";
+	private static final String KEYWORD_BY = "by";
+	private static final String KEYWORD_TOMORROW = "tomorrow";
+	private static final String KEYWORD_TMRW = "tmrw";
+	private static final String KEYWORD_TMR = "tmr";
+	private static final String KEYWORD_TODAY = "today";
+	private static final String KEYWORD_TDY = "tdy";
+	private static final String KEYWORD_NEXT = "next";
+	private static final String KEYWORD_THIS = "this";
+	private static final String KEYWORD_TO = "to";
+	private static final String KEYWORD_WEEK = "week";
+	private static final String KEYWORD_PM = "pm";
+	
+	/** Days of Week*/
+	private static final String DAY_MONDAY = "mon";
+	private static final String DAY_TUESDAY = "tue";
+	private static final String DAY_WEDNESDAY = "wed";
+	private static final String DAY_THURSDAY = "thu";
+	private static final String DAY_FRIDAY = "fri";
+	private static final String DAY_SATURDAY = "sat";
+	private static final String DAY_SUNDAY = "sun";
+	
+	/** Regular expressions */
+	private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
 	/**
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
@@ -64,7 +93,7 @@ public class Parser {
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = tokenize(taskDetails);
-		final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next"};
+		
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
@@ -106,7 +135,7 @@ public class Parser {
 				} else if (isValidTime(param[i])) {
 					d = getTime(param[i], d);
 					//parsed = true;
-				} else if (param[i].equals("to")) {
+				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
 				} else {
 					//parsed = false;	
@@ -143,7 +172,7 @@ public class Parser {
 	 * @returns DateTime object with parsed information.
 	 */
 	private DateTime parseDate(String word, DateTime d) {
-		if (word.equals("next")) {
+		if (word.equals(KEYWORD_NEXT)) {
 			d = d.plusWeeks(1);
 		} else if (determineDay(word) != -1) {
 			d = d.withDayOfWeek(determineDay(word));
@@ -168,7 +197,7 @@ public class Parser {
 	 * @returns true if word is a valid day/date, false otherwise.
 	 */
 	private boolean isValidDayDate(String word) {
-		if (word.equals("next")) {
+		if (word.equals(KEYWORD_NEXT)) {
 			return true;
 		} else if (determineDay(word) != -1) {
 			return true;
@@ -189,7 +218,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "today", false otherwise.
 	 */
 	private boolean isWordToday(String word) {
-		if (word.equals("today") || word.equals("tdy")) {
+		if (word.equals(KEYWORD_TODAY) || word.equals(KEYWORD_TDY)) {
 			return true;
 		}
 
@@ -202,7 +231,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
 	 */
 	private boolean isWordTomorrow(String word) {
-		if (word.equals("tomorrow") || word.equals("tmr") || word.equals("tmrw")) {
+		if (word.equals(KEYWORD_TOMORROW) || word.equals(KEYWORD_TMR) || word.equals(KEYWORD_TMRW)) {
 			return true;
 		}
 
@@ -242,25 +271,25 @@ public class Parser {
 	 * @return Relevant DateTimeConstants if "day" is a valid day/week, -1 otherwise
 	 */
 	private int determineDay(String day) {
-		final String[] daysOfWeek = {"mon", "tue", "wed", "thu", "fri", "sat", "sun", "week"};
+		
 
-		if (day.toLowerCase().contains(daysOfWeek[0])) {
+		if (day.toLowerCase().contains(DAY_MONDAY)) {
 			return DateTimeConstants.MONDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[1])) {
+		} else if (day.toLowerCase().contains(DAY_TUESDAY)) {
 			return DateTimeConstants.TUESDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[2])) {
+		} else if (day.toLowerCase().contains(DAY_WEDNESDAY)) {
 			return DateTimeConstants.WEDNESDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[3])) {
+		} else if (day.toLowerCase().contains(DAY_THURSDAY)) {
 			return DateTimeConstants.THURSDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[4])) {
+		} else if (day.toLowerCase().contains(DAY_FRIDAY)) {
 			return DateTimeConstants.FRIDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[5])) {
+		} else if (day.toLowerCase().contains(DAY_SATURDAY)) {
 			return DateTimeConstants.SATURDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[6])) {
+		} else if (day.toLowerCase().contains(DAY_SUNDAY)) {
 			return DateTimeConstants.SUNDAY;
-		} else if (day.toLowerCase().contains(daysOfWeek[7])) {
+		} else if (day.toLowerCase().contains(KEYWORD_WEEK)) {
 			return new DateTime().getDayOfWeek();
-		}else {
+		} else {
 			return -1;
 		}
 	}
@@ -328,7 +357,7 @@ public class Parser {
 	private DateTime getTime(String word, DateTime d) {
 		int addHours = 0;
 
-		if (word.substring(word.length()-2).compareToIgnoreCase("pm") == 0) {
+		if (word.substring(word.length()-2).compareToIgnoreCase(KEYWORD_PM) == 0) {
 			addHours = 12;
 		}
 
@@ -360,9 +389,8 @@ public class Parser {
 	 */
 	private String[] tokenize(String taskDetails) {
 		ArrayList<String> list = new ArrayList<String>();
-		final String regexSplit = "([^\"]\\S*|\".+?\")\\s*";
 
-		Matcher m = Pattern.compile(regexSplit).matcher(taskDetails);
+		Matcher m = Pattern.compile(REGEX_SPLIT).matcher(taskDetails);
 
 		while (m.find()) {
 			list.add(m.group(1).replace("\"", " ")); 
