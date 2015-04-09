@@ -43,6 +43,8 @@ public class CommandHintFrame extends JFrame {
 		hintMapping.put(CommandType.HELP, HelpMessage.HINT_HELP);
 		hintMapping.put(CommandType.TUTORIAL, HelpMessage.HINT_TUTORIAL);
 		hintMapping.put(CommandType.EXIT, HelpMessage.HINT_EXIT);
+		hintMapping.put(CommandType.UNDO, HelpMessage.HINT_UNDO);
+		hintMapping.put(CommandType.REDO, HelpMessage.HINT_REDO);
 	}
 	
 	public CommandHintFrame() {
