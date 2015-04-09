@@ -106,9 +106,6 @@ public class CommandFactory {
 		} catch (NumberFormatException ex) {
 		}
 
-		if (result < 0 || result > currentState.size() - 1) {
-			throw new InvalidInputException();
-		}
 		return result;
 	}
 }
