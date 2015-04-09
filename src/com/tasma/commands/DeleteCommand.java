@@ -26,6 +26,9 @@ public class DeleteCommand extends AbstractUndoableCommand  {
 		for (int index: indices) {
 			tasks.add(state.get(index));
 		}
+		if (tasks.size() == 0) {
+			userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
 	}
 
 	@Override
