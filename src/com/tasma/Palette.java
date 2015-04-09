@@ -75,6 +75,8 @@ public class Palette {
 	 */
 	public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
 	
+	public static final Font UI_TASK_TITLE = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 16.0f);
+	
 	/**
 	 * Hint frame background color
 	 */

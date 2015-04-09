@@ -167,6 +167,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		updateWindowHeight();
 
 		// sets the window to center of the screen
+		// then move it up a little
 		setLocationRelativeTo(null);
 		this.setLocation(this.getLocation().x, (int)(0.5 * this.getLocation().y));
 	}
@@ -312,7 +313,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 			    JTextArea textIndex = new JTextArea();
 			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
-			    textIndex.setFont(textIndex.getFont().deriveFont(Font.BOLD, 16.0f));
+			    textIndex.setFont(Palette.UI_TASK_TITLE);
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setForeground(taskIndicativeColor);
 			    textIndex.setBackground(null);
@@ -327,7 +328,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    textDetails.setText(task.getDetails());
 			    textDetails.setLineWrap(true);
 			    textDetails.setBackground(null);
-			    textDetails.setFont(textDetails.getFont().deriveFont(Font.BOLD, 16.0f));
+			    textDetails.setFont(Palette.UI_TASK_TITLE);
 			    c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
 		        c.gridx = 1;
@@ -336,7 +337,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        panel.add(textDetails, c);
 
 		        JTextArea textDateTime = new JTextArea();
-		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        textDateTime.setBorder(new EmptyBorder(0, 0, 0, 0));
 		        textDateTime.setForeground(taskIndicativeColor);
 		        if (task.getType() == TaskType.TIMED) {
 		        	textDateTime.setText(task.getStringStartDateTime() + " - " + task.getStringEndDateTime());
@@ -345,7 +346,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        }
 		        textDateTime.setLineWrap(true);
 		        textDateTime.setBackground(null);
-		        textDateTime.setFont(textDateTime.getFont().deriveFont(12.0f));
 		        c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
 		        c.gridx = 1;
