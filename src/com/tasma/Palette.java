@@ -35,7 +35,7 @@ public class Palette {
 	/**
 	 * The message colour that shows a warning
 	 */
-	public static final Color MESSAGE_WARNING = new Color(230, 195, 41);
+	public static final Color MESSAGE_WARNING = new Color(255, 145, 0);
 	
 	/**
 	 * The message colour that shows danger
