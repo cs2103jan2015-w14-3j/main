@@ -403,33 +403,4 @@ public class Parser {
 		return param;
 	}
 
-	/**
-	 * Returns first word of passed string.
-	 * @param details String from which first word is to be extracted.
-	 * @return First word of passed string.
-	 */
-	private String getFirstWord(String details) {
-		String commandTypeString = details.trim().split("\\s+")[0];
-		return commandTypeString;
-	}
-
-	/**
-	 * Returns word at passed index in passed string.
-	 * @param details String from which word is to be extracted.
-	 * @param index   Starting index in details from which word is to be extracted.
-	 * @return Relevant word of passed string.
-	 */
-	private String getWord(String details, int index) {
-		String commandTypeString = details.substring(index).trim().split("\\s+")[0];
-		return commandTypeString;
-	}
-
-	/**
-	 * Removes first word of passed string and returns the rest of the string.
-	 * @param details String from which first word is to be removed.
-	 * @return Passed string without first word.
-	 */
-	private String removeFirstWord(String details) {
-		return details.replace(getFirstWord(details), "").trim();
-	}
 }
