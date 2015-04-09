@@ -283,7 +283,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				panel.setLayout(new BorderLayout());
 				JTextArea textSectionHeader = new JTextArea();
 				textSectionHeader.setText(value.toString());
-				textSectionHeader.setFont(textSectionHeader.getFont().deriveFont(20.0f));
+				textSectionHeader.setFont(Palette.UI_TASK_SECTION_HEADER);
 				textSectionHeader.setBackground(null);
 				panel.add(textSectionHeader, BorderLayout.LINE_START);
 			} else if (value instanceof Map.Entry) {

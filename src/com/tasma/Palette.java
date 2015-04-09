@@ -78,7 +78,12 @@ public class Palette {
 	/**
 	 * Tasks title font
 	 */
-	public static final Font UI_TASK_TITLE = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 16.0f);
+	public static final Font UI_TASK_TITLE = UI_FONT_DEFAULT.deriveFont(Font.PLAIN, 16.0f);
+	
+	/**
+	 * Section header fonts
+	 */
+	public static final Font UI_TASK_SECTION_HEADER = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 20.0f);
 	
 	/**
 	 * Hint frame background color
