@@ -32,6 +32,9 @@ public final class HelpMessage {
 	public static final String HELP_MARK = "\tmark <task number>\n\n"
 			+ "The 'mark' command marks a specified task as done. The <task number> parameter is the number corresponding to the task that you want to select.";
 
+	public static final String HELP_UNMARK = "\tunmark <task number>\n\n"
+			+ "The 'unmark' command marks a specified task as not done. The <task number> parameter is the number corresponding to the task that you want to select.";
+	
 	public static final String HELP_DELETE = "\tdelete <task number>\n\n"
 			+ "The 'delete' command deletes a specified task from the list of tasks. The <task number> parameter is the number corresponding to the task that you want to select.";
 
@@ -69,6 +72,7 @@ public final class HelpMessage {
 	public static final String HINT_SEARCH = "search <query>\n<query> the keywords to match your tasks";
 	public static final String HINT_LIST= "list [filters]\n[filters] an optional keyword to shorten the list of tasks for your convenience";
 	public static final String HINT_MARK = "mark <task number>\n<task number> the number shown next to the task in the list above";
+	public static final String HINT_UNMARK = "unmark <task number>\n<task number> the number shown next to the task in the list above";
 	public static final String HINT_DELETE = "delete <task number>\n<task number> the number shown next to the task in the list above";
 	public static final String HINT_EDIT = "edit <task number> [task details]\n<task number> the number shown next to the task in the list above\n[task details] the new details of the task";
 	public static final String HINT_SET = "set <config key> <value>\n<config key> the configuration key to set new value to\n<value> the new value to set";

@@ -38,7 +38,10 @@ public class CommandFactory {
 				result = new ListCommand(userInterface, collection, currentState, splitter.remainder());
 				break;
 			case MARK:
-				result = new MarkCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());
+				result = new MarkCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
+				break;
+			case UNMARK:
+				result = new UnmarkCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.remainder()));
 				break;
 			case EDIT:
 				result = new EditCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());

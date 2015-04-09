@@ -42,7 +42,6 @@ public class AliasHandler {
     	
     	builtInMapping.put("l", CommandType.LIST);
     	builtInMapping.put("list", CommandType.LIST);
-    	builtInMapping.put("u", CommandType.LIST);
     	builtInMapping.put("up", CommandType.LIST);
     	builtInMapping.put("upcoming", CommandType.LIST);
    
@@ -53,6 +52,8 @@ public class AliasHandler {
     	builtInMapping.put("mark", CommandType.MARK);
     	builtInMapping.put("do", CommandType.MARK);
     	builtInMapping.put("done", CommandType.MARK);
+    	
+    	builtInMapping.put("unmark", CommandType.UNMARK);
 
     	builtInMapping.put("del", CommandType.DELETE);
     	builtInMapping.put("delete", CommandType.DELETE);
