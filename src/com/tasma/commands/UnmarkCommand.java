@@ -25,7 +25,7 @@ public class UnmarkCommand extends AbstractUndoableCommand {
 			}
 		}
 		if (tasks.size() == 0) {
-			userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, Palette.MESSAGE_WARNING);
+			userInterface.displayMessage(UIMessage.COMMAND_UNMARK_NOTFOUND, Palette.MESSAGE_WARNING);
 		}
 	}
 
