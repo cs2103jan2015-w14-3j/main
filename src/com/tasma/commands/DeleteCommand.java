@@ -12,7 +12,6 @@ import com.tasma.TaskCollection;
 import com.tasma.TasmaUserInterface;
 import com.tasma.UIMessage;
 
-
 public class DeleteCommand extends AbstractUndoableCommand  {
 
 	private List<Task> state;
@@ -23,10 +22,14 @@ public class DeleteCommand extends AbstractUndoableCommand  {
 		super(userInterface, collection);
 		this.state = state;
 		tasks = new LinkedList<Task>();
-		for (int index: indices) {
-			if (state.get(index) != null) {
-				tasks.add(state.get(index));
+		try {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
 			}
+		} catch (IndexOutOfBoundsException ex) {
+			
 		}
 		if (tasks.size() == 0) {
 			userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, Palette.MESSAGE_WARNING);

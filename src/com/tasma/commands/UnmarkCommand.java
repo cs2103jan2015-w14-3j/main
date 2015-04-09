@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0132763H
 package com.tasma.commands;
 
 import java.util.LinkedList;
@@ -19,10 +23,14 @@ public class UnmarkCommand extends AbstractUndoableCommand {
 		super(userInterface, collection);
 		this.state = state;
 		tasks = new LinkedList<Task>();
-		for (int index: indices) {
-			if (state.get(index) != null) {
-				tasks.add(state.get(index));
+		try {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
 			}
+		} catch (IndexOutOfBoundsException ex) {
+			
 		}
 		if (tasks.size() == 0) {
 			userInterface.displayMessage(UIMessage.COMMAND_UNMARK_NOTFOUND, Palette.MESSAGE_WARNING);
