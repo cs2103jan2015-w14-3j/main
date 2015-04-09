@@ -22,7 +22,7 @@ public class TasmaApp implements Runnable {
 	private static final String APP_CLI_ARGUMENT = "cli";
 	private static final String APP_HOTKEY = "alt shift X";
 	
-	private static final String START_UP_DEFAULT_COMMAND = "list upcoming";
+	private static final String START_UP_DEFAULT_COMMAND = "list";
 	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
 	
 	private Controller controller;
