@@ -35,6 +35,7 @@ public class History {
 	 * it will be stored into the history stack.
 	 * 
 	 * When offered with a new Undoable Command, the redo stack commands will be cleared
+	 * @param input The input string entered by the user
 	 * @param command The command to be placed in the history stack
 	 */
 	public void offer(String input, CommandInterface command) {
@@ -68,5 +69,16 @@ public class History {
 			undoStack.push(command);
 		}
 	}
-	
+
+	/**
+	 * Get the last input entered by the user
+	 * @return Returns the last input
+	 */
+	public String popLastInput() {
+		String result = "";
+		if (inputStack.size() > 0) {
+			result = inputStack.pop();
+		}
+		return result;
+	}
 }
