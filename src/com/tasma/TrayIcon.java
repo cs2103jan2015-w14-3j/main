@@ -11,8 +11,6 @@ import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
@@ -21,22 +19,17 @@ import javax.swing.ImageIcon;
  */
 public class TrayIcon {
 	
-	private static final long NOTIFICATION_INTERVAL = 60*60*1000; // in milliseconds
-	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
 	private SystemTray tray;
-	private Timer timer;
-	private TasmaUserInterface userInterface;
 	
-	private Controller controller;
+	private TasmaUserInterface userInterface;
 	
 	public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
 		if (userInterface == null) {
 			throw new Exception();
 		}
 		this.userInterface = userInterface;
-		this.controller = controller;
 	}
 	
 	/**
@@ -53,7 +46,6 @@ public class TrayIcon {
         tray = SystemTray.getSystemTray();
         buildMenu();
         trayIcon.setPopupMenu(popupMenu);
-        setupNotification();
         trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
 
             @Override
@@ -112,26 +104,8 @@ public class TrayIcon {
         }
     }
     
-    private void setupNotification() {
-		timer = new Timer();
-		TimerTask notification = new TimerTask () {
-		    @Override
-		    public void run () {
-		    	int numTasksOverdue = controller.getNumOfUndoneTasksByState(TaskState.OVERDUE);
-		    	int numTasksToday = controller.getNumOfUndoneTasksByState(TaskState.TODAY);
-		    	String msg = "";
-		    	if(numTasksOverdue >= 1){
-			    	msg += "You have " + numTasksOverdue + " task(s) overdue. ";
-		    	}
-		    	if(numTasksToday>= 1){
-			    	msg += "You have " + numTasksToday + " task(s) to do today. ";
-		    	}
-		    	trayIcon.displayMessage("Tasma Notification",
-		                msg,
-		                java.awt.TrayIcon.MessageType.INFO);
-		    }
-		};
-		timer.schedule(notification, 0, NOTIFICATION_INTERVAL);
-	}
-
+    //@author A0119434H
+    public void displayInfo(String caption, String text) {
+    	trayIcon.displayMessage(caption, text, java.awt.TrayIcon.MessageType.INFO);
+    }
 }

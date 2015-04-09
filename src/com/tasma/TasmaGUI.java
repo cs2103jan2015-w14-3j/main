@@ -134,12 +134,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
 		contentPane.add(textMessage, BorderLayout.PAGE_END);
 
+		listTasks.setFocusable(false);
 		listTasks.setSelectionModel(new DisabledItemSelectionModel());
 		listTasks.setCellRenderer(new CustomListRenderer());
 		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
 		listTasksScrollPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		listTasksScrollPane.setPreferredSize(new Dimension(480, 220));
+		listTasksScrollPane.setFocusable(false);
 		
 		// provide scrolling support for list scroll pane's scroll bar
 		JScrollBar vertical = listTasksScrollPane.getVerticalScrollBar();

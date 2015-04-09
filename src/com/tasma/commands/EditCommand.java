@@ -55,6 +55,7 @@ public class EditCommand extends AbstractUndoableCommand {
 					task.setEndDateTime(updatedTask.getEndDateTime());
 				}
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+				collection.update(task);
 			}
 			
 			ListCommand listCommand = new ListCommand(userInterface, collection, state);

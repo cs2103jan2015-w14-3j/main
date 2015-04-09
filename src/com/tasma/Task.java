@@ -76,7 +76,7 @@ public class Task implements Cloneable {
 						String.valueOf(d.getYear() % 100);
 			}
 			
-			if (d.getHourOfDay() == 0 && d.getMinuteOfHour() == 0) {
+			if (d.getHourOfDay() == 23 && d.getMinuteOfHour() == 59) {
 				return date;
 			} else { //has date and time
 				date += ", ";
