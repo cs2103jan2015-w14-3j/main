@@ -4,6 +4,7 @@
 //@author A0132763H
 package com.tasma.commands;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.tasma.Palette;
@@ -15,28 +16,44 @@ import com.tasma.UIMessage;
 public class MarkCommand extends AbstractUndoableCommand {
 	
 	private List<Task> state;
-	private Task task;
+	private List<Task> tasks;
 	
 	public MarkCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, List<Task> state, int index) {
+			TaskCollection collection, List<Task> state, List<Integer> indices) {
 		super(userInterface, collection);
+		this.state = state;
+		tasks = new LinkedList<Task>();
 		try {
-			this.state = state;
-			this.task = state.get(index);
-		} catch (NullPointerException ex) {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
+			}
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (tasks.size() == 0) {
 			userInterface.displayMessage(UIMessage.COMMAND_MARK_NOTFOUND, Palette.MESSAGE_WARNING);
 		}
 	}
 
 	@Override
 	public void execute() throws Exception {
-		if (task == null) {
+		if (tasks.size() == 0) {
 			throw new NotExecutedException();
 		} else {
-			task.setDone(true);
-			collection.update(task);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
-			
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(true);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(true);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
 			ListCommand listCommand = new ListCommand(userInterface, collection, state);
 			listCommand.execute();
 		}
@@ -44,13 +61,21 @@ public class MarkCommand extends AbstractUndoableCommand {
 
 	@Override
 	public void undo() throws Exception {
-		if (task == null) {
+		if (tasks.size() == 0) {
 			throw new NotExecutedException();
 		} else {
-			task.setDone(false);
-			collection.update(task);
-	
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(false);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(false);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_MULTIPLE_UNDO, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
 		}
 	}
 }

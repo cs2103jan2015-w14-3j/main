@@ -13,8 +13,10 @@ public final class UIMessage {
 	public static final String COMMAND_ADD_UNDO = "Your task \"%s\" has been undone.";
 	
 	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as done.";
+	public static final String COMMAND_MARK_MULTIPLE_SUCCESS = "%d of your tasks have been marked as done.";
 	public static final String COMMAND_MARK_NOTFOUND = "The task(s) you were looking to mark done was not found.";
 	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_MARK_MULTIPLE_UNDO = "%d of your tasks been marked as undone.";
 	
 	public static final String COMMAND_UNMARK_SUCCESS = "Your task \"%s\" has been marked as undone.";
 	public static final String COMMAND_UNMARK_MULTIPLE_SUCCESS = "%d of your tasks have been marked as undone.";
