@@ -215,6 +215,10 @@ public class Parser {
 	 * @return DateTime object containing the parsed day.
 	 */
 	private DateTime parseDay(DateTime d, int days) {
+		d = d.withDayOfWeek(new DateTime().getDayOfWeek());
+		d = d.withMonthOfYear(new DateTime().getMonthOfYear());
+		d = d.withYear(new DateTime().getYear());
+		
 		d = d.plusDays(days);
 
 		return d;
