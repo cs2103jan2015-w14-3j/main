@@ -12,10 +12,10 @@ public final class UIMessage {
 	public static final String COMMAND_ADD_ARG_EMPTY = "The 'add' command requires the details of the task you wish to add. Try:\n\tadd <details>\nIf you need help, you can type `help add` to get help on the command.";
 	public static final String COMMAND_ADD_UNDO = "Your task \"%s\" has been undone.";
 	
-	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as done.";
-	public static final String COMMAND_MARK_NOTFOUND = "The task you were looking to mark done was not found.";
-	public static final String COMMAND_MARK_ARG_EMPTY = "The 'mark' command requires the task ID of the task you wish to mark done. Try:\n\tmark <number>\nIf you need help, you can type `help mark` to get help on the command.";
-	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as %s.";
+	public static final String COMMAND_MARK_NOTFOUND = "The task you were looking to mark %s was not found.";
+	public static final String COMMAND_MARK_ARG_EMPTY = "The 'mark' command requires the task ID of the task you wish to mark %s. Try:\n\tmark <number>\nIf you need help, you can type `help mark` to get help on the command.";
+	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as %s.";
 
 	public static final String COMMAND_DELETE_SUCCESS = "Your task \"%s\" has been deleted.";
 	public static final String COMMAND_DELETE_NOTFOUND = "The task you were looking to delete was not found.";
