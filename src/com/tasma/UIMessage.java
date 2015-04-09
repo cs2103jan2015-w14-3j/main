@@ -44,6 +44,8 @@ public final class UIMessage {
 	
 	public static final String TASK_LIST_EMPTY = "No tasks found (:";
 	
+	public static final String COMMAND_BOX_PLACEHOLDER = "What would you like to do?";
+	
 	public static final String SECTION_HEADER_FLOATING = "%d Floating Tasks";
 	public static final String SECTION_HEADER_OVERDUE = "%d Overdue";
 	public static final String SECTION_HEADER_TODAY = "%d Today";

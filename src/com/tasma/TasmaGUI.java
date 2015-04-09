@@ -69,7 +69,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 
 		textCommand = new PlaceholderTextField();
-		textCommand.setPlaceholder("What would you like to do?");
+		textCommand.setPlaceholder(UIMessage.COMMAND_BOX_PLACEHOLDER);
 		textCommand.setPlaceholderColor(Palette.PLACEHOLDER_TEXT);
 		textCommand.setBorder(new EmptyBorder(10, 10, 10, 10));
 		textCommand.setSize(new Dimension(480, 40));
