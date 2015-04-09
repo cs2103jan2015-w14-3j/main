@@ -15,7 +15,7 @@ import java.util.Map;
 public class UITaskListSorter {
 
 	/**
-	 * Sort the list of tasks into its headings
+	 * Sort the list of tasks into their respective headings
 	 * @param tasks The list of tasks to be sorted
 	 * @return Returns a list that is ready to be presented
 	 */
@@ -49,15 +49,17 @@ public class UITaskListSorter {
 			++taskIndex;
 		}
 
+		// construct the final list for our beloved JList
+		// the order in which all the various baskets of tasks get added
+		// to the final list affects the order in which they are
+		// shown on the screen.
 		LinkedList<Object> finalList = new LinkedList<Object>();
-		if (listFloating.size() > 0) {
-			listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING, listFloating.size()));
-			finalList.addAll(listFloating);
-		}
+		
 		if (listOverdue.size() > 0) {
 			listOverdue.add(0, String.format(UIMessage.SECTION_HEADER_OVERDUE, listOverdue.size()));
 			finalList.addAll(listOverdue);
 		}
+		
 		if (listToday.size() > 0) {
 			listToday.add(0, String.format(UIMessage.SECTION_HEADER_TODAY, listToday.size()));
 			finalList.addAll(listToday);
@@ -66,6 +68,11 @@ public class UITaskListSorter {
 		if (listTomorrow.size() > 0) {
 			listTomorrow.add(0, String.format(UIMessage.SECTION_HEADER_TOMORROW, listTomorrow.size()));
 			finalList.addAll(listTomorrow);
+		}
+		
+		if (listFloating.size() > 0) {
+			listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING, listFloating.size()));
+			finalList.addAll(listFloating);
 		}
 
 		if (listRemaining.size() > 0) {
