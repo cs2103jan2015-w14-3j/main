@@ -24,7 +24,7 @@ public class MarkCommand extends AbstractUndoableCommand {
 			this.state = state;
 			this.task = state.get(index);
 		} catch (NullPointerException ex) {
-			userInterface.displayMessage(UIMessage.COMMAND_MARK_ARG_EMPTY, Palette.MESSAGE_WARNING);
+			userInterface.displayMessage(UIMessage.COMMAND_MARK_NOTFOUND, Palette.MESSAGE_WARNING);
 		}
 	}
 
