@@ -71,6 +71,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setContentPane(contentPane);
 
 		initTxtCmd();
+
 		JFrame thisFrame = this;
 		textCommand.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
