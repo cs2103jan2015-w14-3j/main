@@ -25,12 +25,16 @@ public class Parser {
 	private String taskDetails;
 	
 	/** Keywords for parsing */
-		"by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
-	
+	final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
 	private static final String KEYWORD_ON = "on";
 	private static final String KEYWORD_AT = "at";
 	private static final String KEYWORD_FROM = "from";
 	private static final String KEYWORD_BY = "by";
+	private static final String KEYWORD_TOMORROW = "tomorrow";
+	private static final String KEYWORD_TMRW = "tmrw";
+	private static final String KEYWORD_TMR = "tmr";
+	private static final String KEYWORD_TODAY = "today";
+	private static final String KEYWORD_TDY = "tdy";
 	private static final String KEYWORD_NEXT = "next";
 	private static final String KEYWORD_THIS = "this";
 	private static final String KEYWORD_TO = "to";
@@ -96,6 +100,7 @@ public class Parser {
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
+				if(Arrays.asList(keywords).contains(param[i])) {
 					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
@@ -216,6 +221,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "today", false otherwise.
 	 */
 	private boolean isWordToday(String word) {
+		if (word.equals(KEYWORD_TODAY) || word.equals(KEYWORD_TDY)) {
 			return true;
 		}
 
@@ -228,6 +234,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
 	 */
 	private boolean isWordTomorrow(String word) {
+		if (word.equals(KEYWORD_TOMORROW) || word.equals(KEYWORD_TMR) || word.equals(KEYWORD_TMRW)) {
 			return true;
 		}
 
