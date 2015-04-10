@@ -21,6 +21,8 @@ import com.tasma.Controller;
  */
 public class TrayIcon {
 	
+	private static final String LOGO_PATH = "../res/logo16.png";
+	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;
 	private SystemTray tray;
@@ -44,7 +46,7 @@ public class TrayIcon {
         }
         
         popupMenu = new PopupMenu();
-        trayIcon = new java.awt.TrayIcon(createImage("res/logo16.png", "tray icon"));
+        trayIcon = new java.awt.TrayIcon(createImage(LOGO_PATH, "tray icon"));
         tray = SystemTray.getSystemTray();
         buildMenu();
         trayIcon.setPopupMenu(popupMenu);
