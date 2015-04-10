@@ -30,7 +30,6 @@ public class BalloonNotification {
 	}
 
 	public void setup() {
-		collection.notification = this;
 	}
 
 	public void updateNotifications(List<Task> undoneTasks) {
