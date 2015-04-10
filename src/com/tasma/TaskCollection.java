@@ -25,8 +25,6 @@ public class TaskCollection {
 	 */
 	protected LinkedList<Task> tasks;
 	
-	protected BalloonNotification notification;
-	
 	public TaskCollection() throws Exception {
 		this.storage = new Storage();
 	}
@@ -51,7 +49,6 @@ public class TaskCollection {
 	public void create(Task task) throws Exception {
 		tasks.add(task);
 		storage.save(tasks);
-		updateNotification();
 	}
 	
 	/**
@@ -66,7 +63,6 @@ public class TaskCollection {
 		// make sure we don't put in a new task
 
 		storage.save(tasks);
-		updateNotification();
 	}
 	
 	/**
@@ -127,7 +123,6 @@ public class TaskCollection {
 	public void delete(Task task) throws Exception {
 		tasks.remove(task);
 		storage.save(tasks);
-		updateNotification();
 	}
 	
 	/**
@@ -170,10 +165,5 @@ public class TaskCollection {
 			    .filter(task -> !task.isDone() && task.getStartDateTime() == null && task.getEndDateTime() == null)
 			    .collect(Collectors.toList());
 			return doneList;
-	}
-	
-	//@author A0119434H
-	private void updateNotification() {
-		notification.updateNotifications(notDone());
 	}
 }
