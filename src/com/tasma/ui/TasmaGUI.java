@@ -58,7 +58,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private PlaceholderTextField textCommand;
 	private JTextArea textMessage = new JTextArea();
 	private CommandHintFrame commandHintFrame = new CommandHintFrame();
-	private ZebraJList listTasks = new ZebraJList();
+	private JList<Object> listTasks = new JList<Object>();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
 
 	/**
@@ -293,11 +293,17 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	//@author A0132763H
 	public class CustomListRenderer implements ListCellRenderer<Object> {
+		
+		private final Color[] ZEBRA_COLORS = {
+			Palette.ZEBRA_LIST_BACKGROUND_ONE,
+			Palette.ZEBRA_LIST_BACKGROUND_TWO
+		};
 
 		@Override
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		    JPanel panel = new JPanel();
+		    panel.setBackground(ZEBRA_COLORS[index & 1]);
 		    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 			if (value instanceof String) {
 				panel.setLayout(new BorderLayout());
