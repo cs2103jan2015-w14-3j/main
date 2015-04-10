@@ -20,7 +20,7 @@ public class BalloonNotification {
 	private static final String REMINDER_TIMED = "The task \"%s\" starts in 1 hour";
 
 	private static final int TIME_AHEAD_REMINDER = 60;    // in minutes
-	private static final int TIME_AHEAD_SCHEDULING = 120; // in minutes
+	private static final int TIME_AHEAD_SCHEDULING = 125; // in minutes, should be > 2*TIME_AHEAD_REMINDER
 	
 	private Timer timer;
 	private TaskCollection collection;
@@ -33,6 +33,7 @@ public class BalloonNotification {
 	}
 
 	public void setup() {
+		updateNotifications();
 	}
 
 	public void updateNotifications() {
