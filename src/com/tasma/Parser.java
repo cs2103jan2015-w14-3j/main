@@ -16,8 +16,6 @@ import org.joda.time.DateTimeConstants;
 
 public class Parser {
 
-	
-
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 
