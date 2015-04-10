@@ -7,6 +7,8 @@ package com.tasma;
 import java.awt.Color;
 import java.util.List;
 
+import com.tasma.ui.TasmaUserInterface;
+
 public class MockUserInterface implements TasmaUserInterface {
 	
 	private List<Task> lastDisplayedTasks;

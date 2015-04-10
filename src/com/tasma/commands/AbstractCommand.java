@@ -4,8 +4,8 @@
 //@author A0132763H
 package com.tasma.commands;
 
-import com.tasma.TasmaUserInterface;
 import com.tasma.TaskCollection;
+import com.tasma.ui.TasmaUserInterface;
 
 /**
  * This is the abstract command where the constructor takes in the

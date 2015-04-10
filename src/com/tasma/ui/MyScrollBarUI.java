@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;

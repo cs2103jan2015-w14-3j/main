@@ -11,7 +11,10 @@ import java.util.logging.Logger;
 import javax.swing.KeyStroke;
 
 import com.tasma.config.Config;
-import com.tasma.TasmaGUI;
+import com.tasma.ui.TasmaConsoleUI;
+import com.tasma.ui.TasmaGUI;
+import com.tasma.ui.TasmaUserInterface;
+import com.tasma.ui.TrayIcon;
 import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;

@@ -2,10 +2,13 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Color;
 import java.util.List;
+
+import com.tasma.Controller;
+import com.tasma.Task;
 
 /**
  * An interface of the User Interface API

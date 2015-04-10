@@ -2,14 +2,19 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Point;
 import java.util.HashMap;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import com.tasma.HelpMessage;
+import com.tasma.InvalidInputException;
+import com.tasma.Palette;
 import com.tasma.commands.AliasHandler;
 import com.tasma.commands.InputSplitter;
 import com.tasma.commands.CommandType;

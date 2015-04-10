@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.ui;
 
 @SuppressWarnings("rawtypes")
 public class ZebraJList extends javax.swing.JList{

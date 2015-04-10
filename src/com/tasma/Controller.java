@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import com.tasma.commands.CommandFactory;
 import com.tasma.commands.CommandInterface;
 import com.tasma.commands.NotExecutedException;
+import com.tasma.ui.TasmaUserInterface;
 
 /**
  * The main controller logic

@@ -5,10 +5,11 @@
 package com.tasma.commands;
 
 import java.util.LinkedList;
+
 import com.tasma.InvalidInputException;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 public class CommandFactory {
 

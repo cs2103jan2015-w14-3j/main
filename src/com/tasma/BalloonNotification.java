@@ -11,6 +11,8 @@ import java.util.TimerTask;
 
 import org.joda.time.DateTime;
 
+import com.tasma.ui.TrayIcon;
+
 public class BalloonNotification {
 
 	private static final String REMINDER_CAPTION = "Reminder";

@@ -9,7 +9,7 @@ import java.util.List;
 import com.tasma.HelpMessage;
 import com.tasma.Palette;
 import com.tasma.TaskCollection;
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 public class HelpCommand extends AbstractCommand {
 

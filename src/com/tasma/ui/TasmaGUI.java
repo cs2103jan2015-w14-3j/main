@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.ui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -35,6 +34,11 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
+import com.tasma.Controller;
+import com.tasma.InvalidInputException;
+import com.tasma.Palette;
+import com.tasma.Task;
+import com.tasma.TaskType;
 import com.tasma.config.Config;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {

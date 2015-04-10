@@ -5,7 +5,7 @@
 package com.tasma.commands;
 
 import com.tasma.TaskCollection;
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 /**
  * Provides abstraction of an undoable command

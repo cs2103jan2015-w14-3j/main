@@ -2,12 +2,15 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.tasma.Task;
+import com.tasma.UIMessage;
 
 /**
  * Provides support for sorting the task list state into various headings for UI presentation

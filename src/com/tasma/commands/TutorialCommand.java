@@ -6,7 +6,7 @@ package com.tasma.commands;
 
 import com.tasma.Palette;
 import com.tasma.TaskCollection;
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 public class TutorialCommand extends AbstractCommand {
 
