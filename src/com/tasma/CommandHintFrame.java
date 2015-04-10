@@ -20,6 +20,11 @@ import com.tasma.commands.CommandType;
  */
 @SuppressWarnings("serial")
 public class CommandHintFrame extends JFrame {
+	
+	/**
+	 * The frame's opacity
+	 */
+	private static final float FRAME_OPACITY = 0.75f;
 
 	/**
 	 * The output text area
@@ -45,22 +50,28 @@ public class CommandHintFrame extends JFrame {
 	}
 	
 	public CommandHintFrame() {
-		decorate();
+		decorateFrame();
+		buildLabel();
 	}
 	
 	/**
-	 * Decorate the frame
+	 * Decorate everything!
 	 */
-	protected void decorate() {
+	protected void decorateFrame() {
 		this.setTitle("");
 		this.setAlwaysOnTop(true);
 		this.setAutoRequestFocus(false);
 		this.setUndecorated(true);
-		this.setOpacity(0.8f);
+		this.setOpacity(FRAME_OPACITY);
 		this.setSize(400, 22);
         setFocusable(false);
         setFocusableWindowState(false);
-		
+	}
+	
+	/**
+	 * Decorate and build the label
+	 */
+	protected void buildLabel() {
 		labelOutput.setEditable(false);
 		labelOutput.setOpaque(true);
 		labelOutput.setBackground(Palette.HINT_FRAME_BACKGROUND);
@@ -70,8 +81,8 @@ public class CommandHintFrame extends JFrame {
 	
 	/**
 	 * Show the window if the input has a command
-	 * @param input
-	 * @param component
+	 * @param input The input string to parse
+	 * @param component The text box to attach the frame next to
 	 * @throws InvalidInputException
 	 */
 	public void checkHasHint(String input, JComponent component) throws InvalidInputException {
@@ -81,6 +92,8 @@ public class CommandHintFrame extends JFrame {
 		String hint = hintMapping.get(type);
 		if (hint != null) {
 			labelOutput.setText(hint);
+			// resize the frame according to the label's preferred size so that
+			// it fits
 			this.setSize(labelOutput.getPreferredSize());
 			Point location = component.getLocationOnScreen();
 			location.move(location.x + 20, location.y + component.getHeight());
