@@ -16,8 +16,6 @@ import org.joda.time.DateTimeConstants;
 
 public class Parser {
 
-	
-
 	/** For logging for Parser */
 	private static final Logger logger = Log.getLogger(Parser.class.getName());
 
@@ -25,16 +23,15 @@ public class Parser {
 	private String taskDetails;
 	
 	/** Keywords for parsing */
-	final String[] keywords = {"on", "at", "from", "by", "tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
+	private static final String[] KEYWORD_ARRAY_ALL = {"on", "at", "from", "by", 
+		"tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
+	private static final String[] KEYWORD_ARRAY_TOMORROW = {"tomorrow", "tmr", "tmrw"};
+	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy"};
+	
 	private static final String KEYWORD_ON = "on";
 	private static final String KEYWORD_AT = "at";
 	private static final String KEYWORD_FROM = "from";
 	private static final String KEYWORD_BY = "by";
-	private static final String KEYWORD_TOMORROW = "tomorrow";
-	private static final String KEYWORD_TMRW = "tmrw";
-	private static final String KEYWORD_TMR = "tmr";
-	private static final String KEYWORD_TODAY = "today";
-	private static final String KEYWORD_TDY = "tdy";
 	private static final String KEYWORD_NEXT = "next";
 	private static final String KEYWORD_THIS = "this";
 	private static final String KEYWORD_TO = "to";
@@ -100,7 +97,7 @@ public class Parser {
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
-				if(Arrays.asList(keywords).contains(param[i])) {
+				if(Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i])) {
 					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
@@ -221,7 +218,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "today", false otherwise.
 	 */
 	private boolean isWordToday(String word) {
-		if (word.equals(KEYWORD_TODAY) || word.equals(KEYWORD_TDY)) {
+		if (Arrays.asList(KEYWORD_ARRAY_TODAY).contains(word)) {
 			return true;
 		}
 
@@ -234,7 +231,7 @@ public class Parser {
 	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
 	 */
 	private boolean isWordTomorrow(String word) {
-		if (word.equals(KEYWORD_TOMORROW) || word.equals(KEYWORD_TMR) || word.equals(KEYWORD_TMRW)) {
+		if (Arrays.asList(KEYWORD_ARRAY_TOMORROW).contains(word)) {
 			return true;
 		}
 
