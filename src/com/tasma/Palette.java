@@ -98,5 +98,5 @@ public class Palette {
 	/**
 	 * Zebra list background 2
 	 */
-	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(230, 230, 230);
+	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(245, 245, 245);
 }
