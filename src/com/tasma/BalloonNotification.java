@@ -19,6 +19,9 @@ public class BalloonNotification {
 	private static final String REMINDER_DEADLINE = "The task \"%s\" is due in 1 hour";
 	private static final String REMINDER_TIMED = "The task \"%s\" starts in 1 hour";
 
+	private static final int TIME_AHEAD_REMINDER = 60;    // in minutes
+	private static final int TIME_AHEAD_SCHEDULING = 120; // in minutes
+	
 	private Timer timer;
 	private TaskCollection collection;
 	private TrayIcon trayIcon;
@@ -32,6 +35,33 @@ public class BalloonNotification {
 	public void setup() {
 	}
 
+	public void updateNotifications() {
+		List<Task> undoneTasks = collection.notDone();
+		timer.cancel();
+		timer = new Timer();
+		for (Task task : undoneTasks) {
+			if(isDueSoon(task)){
+				TaskType type = task.getType();
+				switch (type) {
+				case DEADLINE:
+				case TIMED:
+					scheduleNotification(task, type);
+					break;
+				case FLOATING:
+				default:
+					break;
+				}
+			}
+		}
+	}
+	
+	
+	private boolean isDueSoon(Task task) {
+		DateTime startDateTime = task.getStartDateTime();
+		return startDateTime.minusMinutes(TIME_AHEAD_SCHEDULING).isBeforeNow();
+	}
+
+	/*
 	public void updateNotifications(List<Task> undoneTasks) {
 		timer.cancel();
 		timer = new Timer();
@@ -48,6 +78,7 @@ public class BalloonNotification {
 			}
 		}
 	}
+	*/
 
 	private class Reminder extends TimerTask {
 
@@ -60,24 +91,31 @@ public class BalloonNotification {
 		@Override
 		public void run() {
 			trayIcon.displayInfo(REMINDER_CAPTION, reminderMessage);
+			updateNotifications();
 		}
 	}
 
+	/**
+	 * Schedules a notification for the specified task according to its type
+	 */
 	private void scheduleNotification(Task task, TaskType type) {
 
 		String taskDetail = task.getDetails();
 		DateTime startDateTime = task.getStartDateTime();
-		Date reminderTime = startDateTime.minusHours(1).toDate();
-		String reminderMessage = "";
-
-		if (type == TaskType.DEADLINE) {
-			reminderMessage = String.format(REMINDER_DEADLINE, taskDetail);
-		} else if (type == TaskType.TIMED) {
-			reminderMessage = String.format(REMINDER_TIMED, taskDetail);
+		
+		if (startDateTime.minusMinutes(TIME_AHEAD_REMINDER).isAfterNow()) {
+			
+			Date reminderTime = startDateTime.minusMinutes(TIME_AHEAD_REMINDER).toDate();
+			String reminderMessage = "";
+	
+			if (type == TaskType.DEADLINE) {
+				reminderMessage = String.format(REMINDER_DEADLINE, taskDetail);
+			} else if (type == TaskType.TIMED) {
+				reminderMessage = String.format(REMINDER_TIMED, taskDetail);
+			}
+	
+			TimerTask reminder = new Reminder(reminderMessage);
+			timer.schedule(reminder, reminderTime);
 		}
-
-		TimerTask reminder = new Reminder(reminderMessage);
-		timer.schedule(reminder, reminderTime);
-
 	}
 }
