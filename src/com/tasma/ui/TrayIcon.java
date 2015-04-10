@@ -2,7 +2,7 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+
+import com.tasma.Controller;
 
 /**
  * Provides support for system tray icon

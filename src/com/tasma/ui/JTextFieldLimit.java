@@ -1,4 +1,4 @@
-package com.tasma;
+package com.tasma.ui;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

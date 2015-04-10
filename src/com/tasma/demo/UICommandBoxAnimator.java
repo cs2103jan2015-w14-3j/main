@@ -7,7 +7,7 @@ package com.tasma.demo;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 /**
  * Provides the visual animation that look as though the user types in text,

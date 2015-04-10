@@ -17,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -31,12 +32,19 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 
-import com.tasma.MyScrollBarUI;
-import com.tasma.ZebraJList;
+import com.tasma.Controller;
+import com.tasma.InvalidInputException;
+import com.tasma.Palette;
+import com.tasma.Task;
+import com.tasma.TaskType;
 import com.tasma.config.Config;
 
 public class TasmaGUI extends JFrame implements TasmaUserInterface {
+	
+	private static final String SHOW_HINT_CONFIG_KEY = "showhint";
+	private static final String SHOW_HINT_CONFIG_YES_VALUE = "yes";
 
 	private static final long serialVersionUID = 7369112773183099080L;
 
@@ -83,7 +91,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					controller.executeInput(command);
 				} else {
 					try {
-						if (Config.getInstance().getProperty("showhint").toLowerCase().equals("yes")) {
+						if (Config.getInstance().getProperty(SHOW_HINT_CONFIG_KEY)
+								.toLowerCase().equals(SHOW_HINT_CONFIG_YES_VALUE)) {
 							EventQueue.invokeLater(new Runnable() {
 
 								@Override
@@ -126,6 +135,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	private void decorateFrame() {
+		setUIFont (new javax.swing.plaf.FontUIResource(Palette.UI_FONT_DEFAULT));
+		
 		setTitle("TASMA");
 		setIconImage(createImage("res/logo.png", "icon"));
 		setAlwaysOnTop(true);
@@ -134,10 +145,22 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		updateWindowHeight();
 
 		// sets the window to center of the screen
+		// then move it up a little
 		setLocationRelativeTo(null);
 		this.setLocation(this.getLocation().x, (int)(0.5 * this.getLocation().y));
 	}
 
+	private static void setUIFont(javax.swing.plaf.FontUIResource f) {
+	    Enumeration<Object> keys = UIManager.getDefaults().keys();
+	    while (keys.hasMoreElements()) {
+	        Object key = keys.nextElement();
+	        Object value = UIManager.get(key);
+	        if (value instanceof javax.swing.plaf.FontUIResource) {
+	            UIManager.put(key, f);
+	        }
+	    }
+	}
+	
 	private void addWindowEvents() {
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
@@ -275,12 +298,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		    JPanel panel = new JPanel();
+		    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 			if (value instanceof String) {
+				panel.setLayout(new BorderLayout());
 				JTextArea textSectionHeader = new JTextArea();
 				textSectionHeader.setText(value.toString());
-				textSectionHeader.setFont(textSectionHeader.getFont().deriveFont(20.0f));
+				textSectionHeader.setFont(Palette.UI_TASK_SECTION_HEADER);
 				textSectionHeader.setBackground(null);
-				panel.add(textSectionHeader);
+				panel.add(textSectionHeader, BorderLayout.LINE_START);
 			} else if (value instanceof Map.Entry) {
 				@SuppressWarnings("unchecked")
 				Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
@@ -309,7 +334,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    }
 
 			    JTextArea textIndex = new JTextArea();
-			    textIndex.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textIndex.setBorder(new EmptyBorder(0, 0, 5, 5));
+			    textIndex.setFont(Palette.UI_TASK_TITLE);
 			    textIndex.setText(Integer.toString(taskIndex + 1));
 			    textIndex.setForeground(taskIndicativeColor);
 			    textIndex.setBackground(null);
@@ -319,12 +345,12 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			    panel.add(textIndex, c);
 
 			    JTextArea textDetails = new JTextArea();
-			    textDetails.setBorder(new EmptyBorder(5, 5, 5, 5));
+			    textDetails.setBorder(new EmptyBorder(0, 5, 5, 0));
 			    textDetails.setForeground(taskIndicativeColor);
 			    textDetails.setText(task.getDetails());
 			    textDetails.setLineWrap(true);
 			    textDetails.setBackground(null);
-			    textDetails.setFont(textDetails.getFont().deriveFont(16.0f));
+			    textDetails.setFont(Palette.UI_TASK_TITLE);
 			    c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
 		        c.gridx = 1;
@@ -333,7 +359,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        panel.add(textDetails, c);
 
 		        JTextArea textDateTime = new JTextArea();
-		        textDateTime.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        textDateTime.setBorder(new EmptyBorder(0, 5, 0, 0));
 		        textDateTime.setForeground(taskIndicativeColor);
 		        if (task.getType() == TaskType.TIMED) {
 		        	textDateTime.setText(task.getStringStartDateTime() + " - " + task.getStringEndDateTime());
@@ -342,7 +368,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        }
 		        textDateTime.setLineWrap(true);
 		        textDateTime.setBackground(null);
-		        textDateTime.setFont(textDateTime.getFont().deriveFont(12.0f));
 		        c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
 		        c.gridx = 1;

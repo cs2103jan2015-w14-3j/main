@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
+import com.tasma.ui.TasmaGUI;
+
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 

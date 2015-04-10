@@ -42,7 +42,6 @@ public class AliasHandler {
     	
     	builtInMapping.put("l", CommandType.LIST);
     	builtInMapping.put("list", CommandType.LIST);
-    	builtInMapping.put("u", CommandType.LIST);
     	builtInMapping.put("up", CommandType.LIST);
     	builtInMapping.put("upcoming", CommandType.LIST);
    

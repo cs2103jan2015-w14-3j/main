@@ -2,12 +2,15 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import com.tasma.Controller;
+import com.tasma.Task;
 
 /**
  * This is an alternative UI for testing non-GUI stuff.

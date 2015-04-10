@@ -9,7 +9,7 @@ import java.util.List;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TaskState;
-import com.tasma.TasmaUserInterface;
+import com.tasma.ui.TasmaUserInterface;
 
 public class ListCommand extends AbstractCommand {
 
