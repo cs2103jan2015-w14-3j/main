@@ -6,15 +6,18 @@ package com.tasma.commands;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+
 import java.util.LinkedList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import com.tasma.MockStorage;
-import com.tasma.MockUserInterface;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.UIMessage;
+import com.tasma.ui.MockUserInterface;
 
 /**
  * @author Yong Shan Xian <ysx@u.nus.edu>

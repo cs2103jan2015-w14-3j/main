@@ -6,12 +6,14 @@ package com.tasma.commands;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import com.tasma.MockStorage;
 import com.tasma.TaskCollection;
-import com.tasma.MockUserInterface;
+import com.tasma.ui.MockUserInterface;
 
 public class CommandFactoryTest {
 

@@ -14,9 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tasma.MockStorage;
-import com.tasma.MockUserInterface;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
+import com.tasma.ui.MockUserInterface;
 
 public class DeleteCommandTest {
 
