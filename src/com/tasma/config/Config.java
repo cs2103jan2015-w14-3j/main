@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.tasma.config.observers.HotKeyObserver;
 import com.tasma.config.observers.StorageObserver;
 
 public class Config extends ObservableConfig {
@@ -30,12 +31,12 @@ public class Config extends ObservableConfig {
 		this.name = name;
 		configFile = new File(name + CONFIG_FILE_EXTENSION);
 		properties = new Properties();
-		loadDefaultsAndObservers();
 	    if(configFile.exists()) {
 		    FileInputStream in = new FileInputStream(configFile);
 		    properties.load(in);
 		    in.close();
 	    } else {
+			loadDefaultsAndObservers();
 	    	isFirstRun = true;
 	    }
 	}
@@ -55,12 +56,15 @@ public class Config extends ObservableConfig {
 		if (name.equals(CONFIG_DEFAULT_FILENAME)) {
 			properties.setProperty("showhint", "yes");
 			
+			HotKeyObserver hotkey = new HotKeyObserver();
+			loadMap(hotkey.defaults());
+			
 			StorageObserver storage = new StorageObserver();
 			loadMap(storage.defaults());
 			
 			this.addObserver(storage);
-			saveToFile();
 		}
+		saveToFile();
 	}
 	
 	private void loadMap(Map<String, String> map) {
