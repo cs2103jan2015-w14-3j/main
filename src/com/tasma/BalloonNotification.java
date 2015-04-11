@@ -18,8 +18,8 @@ import com.tasma.ui.TrayIcon;
 public class BalloonNotification implements Observer {
 
 	private static final String REMINDER_CAPTION = "Reminder";
-	private static final String REMINDER_DEADLINE = "The task \"%s\" is due in 1 hour";
-	private static final String REMINDER_TIMED = "The task \"%s\" starts in 1 hour";
+	private static final String REMINDER_DEADLINE = "%s is due in 1 hour";
+	private static final String REMINDER_TIMED = "%s starts in 1 hour";
 
 	private static final int TIME_AHEAD_REMINDER = 60;    // in minutes
 	private static final int TIME_AHEAD_SCHEDULING = 125; // in minutes, should be > 2*TIME_AHEAD_REMINDER
