@@ -150,7 +150,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		// sets the window to center of the screen
 		// then move it up a little
 		setLocationRelativeTo(null);
-		this.setLocation(this.getLocation().x, (int)(0.5 * this.getLocation().y));
+		this.setLocation(this.getLocation().x, (int)(0 * this.getLocation().y));
 	}
 
 	private static void setUIFont(javax.swing.plaf.FontUIResource f) {
