@@ -29,8 +29,6 @@ public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	private static final String APP_CLI_ARGUMENT = "cli";
-	private static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().startsWith("windows");
-	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_A, IS_WINDOWS ? KeyEvent.MODIFIER_WINDOWS : KeyEvent.MODIFIER_FUNCTION + KeyEvent.MODIFIER_SHIFT);
 	
 	private static final String START_UP_DEFAULT_COMMAND = "list";
 	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
@@ -119,7 +117,8 @@ public class TasmaApp implements Runnable {
 	
 	protected void registerHotKey() throws Exception {
 		Provider provider = Provider.getCurrentProvider(true);
-		provider.register(APP_HOTKEY, new HotKeyListener() {
+		Config config = Config.getInstance();
+		provider.register(KeyStroke.getKeyStroke(config.getProperty("hotkey")), new HotKeyListener() {
 
 			@Override
 			public void onHotKey(HotKey hotKey) {
