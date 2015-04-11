@@ -125,7 +125,7 @@ public class Parser {
 
 		d = setInitialEndTime(parsedTask);
 
-		//int beginIndex = -1, endIndex = 0;
+		//int beginIndex = num, endIndex = 0;
 		//boolean parsed = false;
 
 		for (int i = num; i < param.length; i++) {
@@ -139,9 +139,7 @@ public class Parser {
 				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
 					isStartSet = true;
-				} else {
-					//parsed = false;	
-				}
+				} 
 			}
 
 
@@ -152,7 +150,7 @@ public class Parser {
 				endIndex++;
 			}*/
 		}
-		
+
 		parsedTask.setEndDateTime(d);
 
 		setStartTime(parsedTask, d, isStartSet);
@@ -169,6 +167,7 @@ public class Parser {
 	 */
 	private DateTime setInitialEndTime(Task parsedTask) {
 		DateTime d;
+
 		if (parsedTask.getEndDateTime() == null) {
 			d = initializeDateTime();
 		} else {
@@ -203,11 +202,11 @@ public class Parser {
 	 */
 	private void setTaskDetails(String[] param, int num, Task parsedTask) {
 		String str = "";
-		
+
 		for (int i = 0; i < num; i++) {
 			str += param[i] + " "; 
 		}
-		
+
 		parsedTask.setDetails(str.trim());
 	}
 
@@ -228,6 +227,7 @@ public class Parser {
 			d = parseDay(d, 0);
 		} else if (isWordTomorrow(word)) {
 			d = parseDay(d, 1);
+
 		}
 
 		if (d.isBefore(initializeDateTime().minusDays(1))) {
@@ -290,7 +290,7 @@ public class Parser {
 	 * @return DateTime object containing the parsed day.
 	 */
 	private DateTime parseDay(DateTime d, int days) {
-		d = d.withDayOfWeek(new DateTime().getDayOfWeek());
+		d = d.withDayOfMonth(new DateTime().getDayOfMonth());
 		d = d.withMonthOfYear(new DateTime().getMonthOfYear());
 		d = d.withYear(new DateTime().getYear());
 
