@@ -49,8 +49,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
-	private static final int WINDOW_DEFAULT_HEIGHT = 200;
-	private static final int MAX_TASK_DISPLAY_COUNT = 6;
+	private static final int WINDOW_DEFAULT_HEIGHT = 72;
+	private static final int MAX_TASK_DISPLAY_COUNT = 8;
 	private static final String DONE_IMG_PATH = "../res/done.png";
 
 	private Controller controller;
@@ -237,8 +237,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	@Override
 	public void displayTasks(List<Task> tasks) {
 		List<Object> finalList = UITaskListSorter.sort(tasks);
-
-		listTasks.setVisibleRowCount(Math.min(MAX_TASK_DISPLAY_COUNT, finalList.size()));;
 		listTasks.setListData(finalList.toArray());
 		updateWindowHeight();
 	}
@@ -266,6 +264,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	protected void updateWindowHeight() {
 		int height = WINDOW_DEFAULT_HEIGHT;
+		listTasks.setVisibleRowCount(Math.min(listTasks.getModel().getSize(), MAX_TASK_DISPLAY_COUNT));
 		height += listTasks.getPreferredScrollableViewportSize().height;
 		if (textMessage.isVisible()) {
 			height += textMessage.getPreferredSize().height;
