@@ -118,7 +118,7 @@ public class Parser {
 	private Task parseDateTime(String[] param, int num, Task parsedTask) {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
 		DateTime d;
-		boolean isSetStart = false;
+		boolean isStartSet = false;
 		
 		if (parsedTask.getEndDateTime() == null) {
 			d = initializeDateTime();
@@ -139,7 +139,7 @@ public class Parser {
 					//parsed = true;
 				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
-					isSetStart = true;
+					isStartSet = true;
 				} else {
 					//parsed = false;	
 				}
@@ -155,8 +155,12 @@ public class Parser {
 
 		parsedTask.setEndDateTime(d);
 		
-		if (!isSetStart) {
+		if (!isStartSet) {
 			parsedTask.setStartDateTime(d);
+		} else if (parsedTask.getStartDateTime().isAfter(d)) {
+			DateTime temp = d;
+			parsedTask.setEndDateTime(parsedTask.getStartDateTime());
+			parsedTask.setStartDateTime(temp);
 		}
 
 		String str = "";
@@ -274,8 +278,6 @@ public class Parser {
 	 * @return Relevant DateTimeConstants if "day" is a valid day/week, -1 otherwise
 	 */
 	private int determineDay(String day) {
-		
-
 		if (day.toLowerCase().contains(DAY_MONDAY)) {
 			return DateTimeConstants.MONDAY;
 		} else if (day.toLowerCase().contains(DAY_TUESDAY)) {
@@ -299,17 +301,17 @@ public class Parser {
 
 	/**
 	 * Checks if the passed string contains a valid date in dd/-.mm/-.yy form.
-	 * @param date String to be checked.
+	 * @param word String to be checked.
 	 * @return true if "date" contains a valid date, false otherwise.
 	 */
-	private boolean isValidDate(String date) {
+	private boolean isValidDate(String word) {
 		final Pattern pattern = Pattern.compile(REGEX_DATE);
-		if (!pattern.matcher(date).matches()) {
+		if (!pattern.matcher(word).matches()) {
 			return false;
 		}
 
-		final int day = Integer.parseInt(date.substring(0, 2)), month = Integer.parseInt(date.substring(3, 5)),
-				year = Integer.parseInt(date.substring(6, 8));
+		final int day = Integer.parseInt(word.substring(0, 2)), month = Integer.parseInt(word.substring(3, 5)),
+				year = Integer.parseInt(word.substring(6, 8));
 		if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 			return false; // 31st of a month with 30 days
 		} else if (day >= 30 && month == 2) {
