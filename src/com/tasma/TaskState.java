@@ -6,11 +6,12 @@ package com.tasma;
 
 /**
  * The state of the task
+ * the order of the state matters as how it shows on screen
  */
 public enum TaskState {
-	FLOATING,
 	OVERDUE,
 	TODAY,
 	TOMORROW,
+	FLOATING,
 	UPCOMING
 }
