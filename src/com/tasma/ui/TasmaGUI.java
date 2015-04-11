@@ -1,6 +1,5 @@
 package com.tasma.ui;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,9 +16,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,7 +24,6 @@ import java.util.Map;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -88,6 +83,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					commandHintFrame.close();
 					thisFrame.setVisible(false);
 					return;
+				} else if (e.getKeyCode() == KeyEvent.VK_TAB) {
+					textCommand.setText(controller.getLastInput());
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
 					commandHintFrame.close();
 					textMessage.setVisible(false);
@@ -191,6 +188,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setDocument(new JTextFieldLimit(70));
 		contentPane.add(textCommand, BorderLayout.PAGE_START);
 		textCommand.setColumns(10);
+		textCommand.setFocusTraversalKeysEnabled(false);
 	}
 	
 	private void initTxtMsg() {
@@ -205,7 +203,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void initTaskLists() {
 		listTasks.setFocusable(false);
 		listTasks.setSelectionModel(new DisabledItemSelectionModel());
@@ -237,7 +234,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void displayTasks(List<Task> tasks) {
 		List<Object> finalList = UITaskListSorter.sort(tasks);

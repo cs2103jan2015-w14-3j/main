@@ -104,17 +104,6 @@ public class Controller {
 			userInterface.editCmdDisplay(input);
 		}
 	}
-	
-	public int getNumOfUndoneTasksByState(TaskState state){
-		List<Task> tasksNotDone = collection.notDone();
-		int numTasks = 0;
-		for (Task task : tasksNotDone) {
-			if (task.getState() == state){
-				numTasks++;
-			}
-		}
-		return numTasks;
-	}
 
 	/**
 	 * Displays an exception message to the user
@@ -125,5 +114,9 @@ public class Controller {
 		
 		logger.log(Level.FINE, exception.toString(), exception);
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
+	}
+	
+	public String getLastInput() {
+		return history.popLastInput();
 	}
 }
