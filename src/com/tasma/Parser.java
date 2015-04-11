@@ -162,6 +162,11 @@ public class Parser {
 		return parsedTask;
 	}
 
+	/**
+	 * Sets initial end date/time of passed Task object.
+	 * @param parsedTask 	Task object in whose details are to be modified. 
+	 * @returns Initialised DateTime object.
+	 */
 	private DateTime setInitialEndTime(Task parsedTask) {
 		DateTime d;
 		if (parsedTask.getEndDateTime() == null) {
@@ -198,9 +203,11 @@ public class Parser {
 	 */
 	private void setTaskDetails(String[] param, int num, Task parsedTask) {
 		String str = "";
+		
 		for (int i = 0; i < num; i++) {
 			str += param[i] + " "; 
 		}
+		
 		parsedTask.setDetails(str.trim());
 	}
 
