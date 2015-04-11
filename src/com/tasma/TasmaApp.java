@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
+import com.tasma.AppInstanceManager.AppActivateListener;
 import com.tasma.config.Config;
 import com.tasma.ui.TasmaConsoleUI;
 import com.tasma.ui.TasmaGUI;
@@ -28,7 +29,8 @@ public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	private static final String APP_CLI_ARGUMENT = "cli";
-	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.MODIFIER_WINDOWS + KeyEvent.MODIFIER_FUNCTION);
+	private static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().startsWith("windows");
+	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_A, IS_WINDOWS ? KeyEvent.MODIFIER_WINDOWS : KeyEvent.MODIFIER_FUNCTION + KeyEvent.MODIFIER_SHIFT);
 	
 	private static final String START_UP_DEFAULT_COMMAND = "list";
 	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
@@ -42,11 +44,23 @@ public class TasmaApp implements Runnable {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		TasmaUserInterface userInterface;
 		if (args.length == 1 && args[0].toLowerCase().equals(APP_CLI_ARGUMENT)) {
-			(new TasmaApp(new TasmaConsoleUI())).run();
+			userInterface = new TasmaConsoleUI();
 		} else {
-			EventQueue.invokeLater(new TasmaApp());
+			userInterface = new TasmaGUI();
 		}
+		
+		AppInstanceManager manager = new AppInstanceManager();
+		manager.register(new TasmaApp(userInterface));
+		manager.setAppActivateListener(new AppActivateListener() {
+
+			@Override
+			public void activate() {
+				userInterface.show();
+			}
+			
+		});
 	}
 	
 	public TasmaApp() {
