@@ -4,23 +4,16 @@
 //@author A0132763H
 package com.tasma;
 
-import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.KeyStroke;
-
-import com.sun.glass.events.KeyEvent;
 import com.tasma.AppInstanceManager.AppActivateListener;
 import com.tasma.config.Config;
+import com.tasma.ui.HotKeyHandler;
 import com.tasma.ui.TasmaConsoleUI;
 import com.tasma.ui.TasmaGUI;
 import com.tasma.ui.TasmaUserInterface;
 import com.tasma.ui.TrayIcon;
-import com.tulskiy.keymaster.common.HotKey;
-import com.tulskiy.keymaster.common.HotKeyListener;
-import com.tulskiy.keymaster.common.Provider;
 
 /**
  * The main application class
@@ -116,14 +109,7 @@ public class TasmaApp implements Runnable {
 	}
 	
 	protected void registerHotKey() throws Exception {
-		Provider provider = Provider.getCurrentProvider(true);
-		Config config = Config.getInstance();
-		provider.register(KeyStroke.getKeyStroke(config.getProperty("hotkey")), new HotKeyListener() {
-
-			@Override
-			public void onHotKey(HotKey hotKey) {
-				userInterface.show();
-			}
-        });
+		HotKeyHandler handler = new HotKeyHandler(userInterface);
+		handler.setHotKey();
 	}
 }

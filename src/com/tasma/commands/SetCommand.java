@@ -8,6 +8,7 @@ import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.UIMessage;
 import com.tasma.config.Config;
+import com.tasma.ui.HotKeyHandler;
 import com.tasma.ui.TasmaUserInterface;
 
 public class SetCommand extends AbstractUndoableCommand {
@@ -34,6 +35,9 @@ public class SetCommand extends AbstractUndoableCommand {
 				userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
 			} else {
 				config.setProperty(key, newValue);
+
+				HotKeyHandler handler = new HotKeyHandler(userInterface);
+				handler.setHotKey();
 				userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
 			}
 		}

@@ -5,8 +5,9 @@ import java.util.Map;
 
 import com.tasma.config.ChangeObserverInterface;
 import com.tasma.config.DefaultProviderInterface;
+import com.tasma.ui.HotKeyHandler;
 
-public class HotKeyObserver implements ChangeObserverInterface, DefaultProviderInterface {
+public class HotKeyObserver implements DefaultProviderInterface {
 	
 	public static final String DEFAULT_HOTKEY = "alt shift A";
 
@@ -16,11 +17,5 @@ public class HotKeyObserver implements ChangeObserverInterface, DefaultProviderI
 		map.put("hotkey", DEFAULT_HOTKEY);
 		return map;
 	}
-
-	@Override
-	public void notify(String key, String oldValue, String newValue) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }
