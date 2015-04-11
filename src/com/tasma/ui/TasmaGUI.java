@@ -268,7 +268,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		if (textMessage.isVisible()) {
 			height += textMessage.getPreferredSize().height;
 		}
-		setSize(WINDOW_DEFAULT_WIDTH, height);
+		this.getContentPane().setPreferredSize(new Dimension(WINDOW_DEFAULT_WIDTH, height));
+		this.pack();
 	}
 	
 	 //Obtain the image URL
