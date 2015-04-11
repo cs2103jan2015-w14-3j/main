@@ -372,6 +372,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        	textDateTime.setText(task.getStringStartDateTime() + " - " + task.getStringEndDateTime());
 		        }	else if	(task.getType() == TaskType.DEADLINE)	{
 		        	textDateTime.setText(task.getStringEndDateTime());
+		        } else {
+		        	textDateTime.setVisible(false);
 		        }
 		        textDateTime.setLineWrap(true);
 		        textDateTime.setBackground(null);
