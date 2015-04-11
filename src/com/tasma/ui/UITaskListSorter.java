@@ -28,6 +28,8 @@ public class UITaskListSorter {
 		LinkedList<Object> listToday = new LinkedList<Object>();
 		LinkedList<Object> listTomorrow = new LinkedList<Object>();
 		LinkedList<Object> listRemaining = new LinkedList<Object>();
+		LinkedList<Object> listDone = new LinkedList<Object>();
+
 
 		int taskIndex = 0;
 		for (Task task: tasks) {
@@ -44,6 +46,9 @@ public class UITaskListSorter {
 					break;
 				case UPCOMING:
 					listRemaining.add(entry);
+					break;
+				case DONE:
+					listDone.add(entry);
 					break;
 				default:
 					listFloating.add(entry);
@@ -81,6 +86,11 @@ public class UITaskListSorter {
 		if (listRemaining.size() > 0) {
 			listRemaining.add(0, String.format(UIMessage.SECTION_HEADER_REMAINING, listRemaining.size()));
 			finalList.addAll(listRemaining);
+		}
+
+		if (listDone.size() > 0) {
+			listDone.add(0, String.format(UIMessage.SECTION_HEADER_DONE, listDone.size()));
+			finalList.addAll(listDone);
 		}
 		
 		// since the list is empty, we should show some message to indicate

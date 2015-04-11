@@ -13,5 +13,6 @@ public enum TaskState {
 	TODAY,
 	TOMORROW,
 	FLOATING,
-	UPCOMING
+	UPCOMING,
+	DONE
 }

@@ -194,6 +194,9 @@ public class Task implements Cloneable {
 	 * @return Returns a value from the enum TaskState
 	 */
 	public TaskState getState() {
+		if (isDone) {
+			return TaskState.DONE;
+		}
 		if (startDateTime == null) {
 			return TaskState.FLOATING;
 		}

@@ -59,4 +59,5 @@ public final class UIMessage {
 	public static final String SECTION_HEADER_TODAY = "%d Today";
 	public static final String SECTION_HEADER_TOMORROW = "%d Tomorrow";
 	public static final String SECTION_HEADER_REMAINING = "%d Upcoming";
+	public static final String SECTION_HEADER_DONE = "%d Done";
 }
