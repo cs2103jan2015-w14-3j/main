@@ -388,10 +388,10 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        
 		        ImageIcon donePic = new ImageIcon(getClass().getResource(DONE_IMG_PATH));
 		        Image img = donePic.getImage();
-		        Image newImg = img.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		        Image newImg = img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		        donePic = new ImageIcon(newImg);
 		        JLabel mkDone = new JLabel(donePic);
-		        Dimension prefSize = new Dimension(20,20);
+		        Dimension prefSize = new Dimension(30,30);
 		        mkDone.setPreferredSize(prefSize);
 		        mkDone.setVisible(task.isDone());
 		        mkDone.setBackground(null);
