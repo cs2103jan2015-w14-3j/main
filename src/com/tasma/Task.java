@@ -100,6 +100,14 @@ public class Task implements Cloneable {
 	private String getFormattedDateTime(DateTime d) {
 		String date = "";
 
+		date = getFormattedDate(d, date);
+		
+		date = getStringTime(d, date);
+		
+		return date;
+	}
+
+	private String getFormattedDate(DateTime d, String date) {
 		if (d.toLocalDate().equals(new LocalDate())) {
 			date = "today";
 		} else {
@@ -147,9 +155,6 @@ public class Task implements Cloneable {
 				date += " " + String.valueOf(d.getYear() % 100);
 			}
 		}
-		
-		date = getStringTime(d, date);
-		
 		return date;
 	}
 
