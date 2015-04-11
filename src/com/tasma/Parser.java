@@ -97,7 +97,8 @@ public class Parser {
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
-				if(Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i])) {
+				if(Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i]) || 
+						isValidDayDate(param[i]) || isValidTime(param[i])) {
 					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
