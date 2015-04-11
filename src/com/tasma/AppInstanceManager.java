@@ -12,11 +12,15 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Provides instance management to prevent multiple applications from running
  */
 public class AppInstanceManager {
+
+	private static final Logger logger = Log.getLogger( AppInstanceManager.class.getName() );
 	
 	/**
 	 * A randomly picked and agreed port number
@@ -36,6 +40,7 @@ public class AppInstanceManager {
      */
 	@SuppressWarnings("resource")
 	public void register(Runnable application) {
+		logger.log(Level.FINE, "Registering application presence with AppInstanceManager");
 		try {
 			final ServerSocket socket = new ServerSocket(PORT_NUMBER, 5, InetAddress.getLocalHost());
 
@@ -51,6 +56,7 @@ public class AppInstanceManager {
                                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                                 String message = in.readLine();
                                 if (SINGLE_INSTANCE_SHARED_KEY.trim().equals(message.trim())) {
+                            		logger.log(Level.FINE, "Notification received. showing screen.");
                                 	fireAppActivateListener();
                                 }
                                 in.close();
@@ -63,11 +69,13 @@ public class AppInstanceManager {
                 }
             });
             instanceListenerThread.start();
+    		logger.log(Level.FINE, "Running First-Instance of application");
             application.run();
         } catch (UnknownHostException e) {
         } catch (IOException e) {
         	// port taken, app probably running. let's give a fistbump
 
+    		logger.log(Level.FINE, "Port taken, notifying first-instance app");
 			try {
 				Socket clientSocket = new Socket(InetAddress.getLocalHost(), PORT_NUMBER);
 	            OutputStream out = clientSocket.getOutputStream();
