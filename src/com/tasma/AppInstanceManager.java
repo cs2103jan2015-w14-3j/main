@@ -84,6 +84,7 @@ public class AppInstanceManager {
 	            clientSocket.close();
 			} catch (Exception ex) {
 			}
+			System.exit(0);
         }
 	}
 	
