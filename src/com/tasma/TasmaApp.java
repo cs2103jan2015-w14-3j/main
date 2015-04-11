@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
+import com.tasma.AppInstanceManager.AppActivateListener;
 import com.tasma.config.Config;
 import com.tasma.ui.TasmaConsoleUI;
 import com.tasma.ui.TasmaGUI;
@@ -42,11 +43,23 @@ public class TasmaApp implements Runnable {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		TasmaUserInterface userInterface;
 		if (args.length == 1 && args[0].toLowerCase().equals(APP_CLI_ARGUMENT)) {
-			(new TasmaApp(new TasmaConsoleUI())).run();
+			userInterface = new TasmaConsoleUI();
 		} else {
-			EventQueue.invokeLater(new TasmaApp());
+			userInterface = new TasmaGUI();
 		}
+		
+		AppInstanceManager manager = new AppInstanceManager();
+		manager.register(new TasmaApp(userInterface));
+		manager.setAppActivateListener(new AppActivateListener() {
+
+			@Override
+			public void activate() {
+				userInterface.show();
+			}
+			
+		});
 	}
 	
 	public TasmaApp() {
