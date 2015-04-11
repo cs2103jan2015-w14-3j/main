@@ -1,5 +1,6 @@
 package com.tasma.ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +17,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
@@ -26,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
@@ -51,6 +56,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
 	private static final int WINDOW_DEFAULT_HEIGHT = 200;
 	private static final int MAX_TASK_DISPLAY_COUNT = 6;
+	private static final String DONE_IMG_PATH = "../res/done.png";
 
 	private Controller controller;
 	
@@ -380,9 +386,14 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridy = 1;
 		        panel.add(textDateTime, c);
 		        
-		        JCheckBox mkDone = new JCheckBox();
+		        ImageIcon donePic = new ImageIcon(getClass().getResource(DONE_IMG_PATH));
+		        Image img = donePic.getImage();
+		        Image newImg = img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		        donePic = new ImageIcon(newImg);
+		        JLabel mkDone = new JLabel(donePic);
+		        Dimension prefSize = new Dimension(30,30);
+		        mkDone.setPreferredSize(prefSize);
 		        mkDone.setVisible(task.isDone());
-		        mkDone.setSelected(task.isDone());
 		        mkDone.setBackground(null);
 		        c = new GridBagConstraints();
 		        c.fill = GridBagConstraints.HORIZONTAL;
