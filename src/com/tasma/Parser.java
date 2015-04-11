@@ -49,7 +49,7 @@ public class Parser {
 	
 	/** Regular expressions */
 	private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
-	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d$";
+	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d";
 	private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 	
 	/**
