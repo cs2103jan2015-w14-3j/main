@@ -87,23 +87,10 @@ public class TasmaApp implements Runnable {
 	public void run() {
 		try {
 			logger.log(Level.FINE, "Initializing window & application");
-			userInterface.initialize(controller);
-			controller.initialize();
-			controller.executeInput(START_UP_DEFAULT_COMMAND);
-			if (config.isFirstRun()) { // run the tutorial if this is the first time!
-				controller.executeInput(START_UP_TUTORIAL_COMMAND);
-			}
-			
+			initialize();
 			userInterface.show();
 
-			Provider provider = Provider.getCurrentProvider(true);
-			provider.register(APP_HOTKEY, new HotKeyListener() {
-
-				@Override
-				public void onHotKey(HotKey hotKey) {
-					userInterface.show();
-				}
-	        });
+			registerHotKey();
 			
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.toString(), e);
@@ -119,5 +106,25 @@ public class TasmaApp implements Runnable {
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	protected void initialize() throws Exception {
+		userInterface.initialize(controller);
+		controller.initialize();
+		controller.executeInput(START_UP_DEFAULT_COMMAND);
+		if (config.isFirstRun()) { // run the tutorial if this is the first time!
+			controller.executeInput(START_UP_TUTORIAL_COMMAND);
+		}
+	}
+	
+	protected void registerHotKey() throws Exception {
+		Provider provider = Provider.getCurrentProvider(true);
+		provider.register(APP_HOTKEY, new HotKeyListener() {
+
+			@Override
+			public void onHotKey(HotKey hotKey) {
+				userInterface.show();
+			}
+        });
 	}
 }
