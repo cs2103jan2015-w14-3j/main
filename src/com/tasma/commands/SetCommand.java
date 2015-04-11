@@ -25,21 +25,29 @@ public class SetCommand extends AbstractUndoableCommand {
 
 	@Override
 	public void execute() throws Exception {
-		Config config = Config.getInstance();
-		previousValue = config.getProperty(key);
-		if (newValue.equals("")) {
-			userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
+		if (key.equals("")) {
+			throw new NotExecutedException();
 		} else {
-			config.setProperty(key, newValue);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
+			Config config = Config.getInstance();
+			previousValue = config.getProperty(key);
+			if (newValue.equals("")) {
+				userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
+			} else {
+				config.setProperty(key, newValue);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
+			}
 		}
 	}
 
 	@Override
 	public void undo() throws Exception {
-		Config config = Config.getInstance();
-		config.setProperty(key, previousValue);
-		userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key), Palette.MESSAGE_SUCCESS);
+		if (key.equals("")) {
+			throw new NotExecutedException();
+		} else {
+			Config config = Config.getInstance();
+			config.setProperty(key, previousValue);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key), Palette.MESSAGE_SUCCESS);
+		}
 	}
 
 }
