@@ -6,6 +6,8 @@ package com.tasma;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +15,7 @@ import org.joda.time.DateTime;
 
 import com.tasma.ui.TrayIcon;
 
-public class BalloonNotification {
+public class BalloonNotification implements Observer {
 
 	private static final String REMINDER_CAPTION = "Reminder";
 	private static final String REMINDER_DEADLINE = "The task \"%s\" is due in 1 hour";
@@ -118,5 +120,10 @@ public class BalloonNotification {
 			TimerTask reminder = new Reminder(reminderMessage);
 			timer.schedule(reminder, reminderTime);
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		updateNotifications();
 	}
 }

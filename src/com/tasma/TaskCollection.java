@@ -5,15 +5,17 @@
 package com.tasma;
 
 import java.util.LinkedList;
+import java.util.Observable;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.List;
+
 import org.joda.time.LocalDate;
 
 /**
  * Provides operations on the collection of the user's tasks.
  */
-public class TaskCollection {
+public class TaskCollection extends Observable {
 	
 	/**
 	 * The storage component to save / load tasks to / from
