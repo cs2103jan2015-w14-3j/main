@@ -65,9 +65,6 @@ public class Parser {
 
 		parsedTask = parseInput(parsedTask, taskDetails);
 
-		System.out.println(parsedTask.getDetails());
-		System.out.println(parsedTask.getStartDateTime());
-		System.out.println(parsedTask.getEndDateTime());
 		return parsedTask;
 	}
 
@@ -191,6 +188,7 @@ public class Parser {
 			parsedTask.setEndDateTime(parsedTask.getStartDateTime());
 			parsedTask.setStartDateTime(temp);
 		}
+
 	}
 
 	/**
@@ -201,13 +199,15 @@ public class Parser {
 	 * @returns DateTime object with parsed information.
 	 */
 	private void setTaskDetails(String[] param, int num, Task parsedTask) {
-		String str = "";
+		if (num != 0) {
+			String str = "";
 
-		for (int i = 0; i < num; i++) {
-			str += param[i] + " "; 
+			for (int i = 0; i < num; i++) {
+				str += param[i] + " "; 
+			}
+
+			parsedTask.setDetails(str.trim());
 		}
-
-		parsedTask.setDetails(str.trim());
 	}
 
 	/**
