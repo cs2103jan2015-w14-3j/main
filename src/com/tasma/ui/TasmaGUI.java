@@ -49,7 +49,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
-	private static final int WINDOW_DEFAULT_HEIGHT = 100;
+	private static final int WINDOW_DEFAULT_HEIGHT = 42;
 	private static final int MAX_TASK_DISPLAY_COUNT = 8;
 	private static final String DONE_IMG_PATH = "../res/done.png";
 
