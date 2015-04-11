@@ -51,6 +51,8 @@ public class TaskCollection extends Observable {
 	public void create(Task task) throws Exception {
 		tasks.add(task);
 		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
 	}
 	
 	/**
@@ -65,6 +67,8 @@ public class TaskCollection extends Observable {
 		// make sure we don't put in a new task
 
 		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
 	}
 	
 	/**
@@ -125,6 +129,8 @@ public class TaskCollection extends Observable {
 	public void delete(Task task) throws Exception {
 		tasks.remove(task);
 		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
 	}
 	
 	/**

@@ -36,6 +36,7 @@ public class BalloonNotification implements Observer {
 
 	public void setup() {
 		updateNotifications();
+		collection.addObserver(this);
 	}
 
 	public void updateNotifications() {
@@ -43,17 +44,18 @@ public class BalloonNotification implements Observer {
 		timer.cancel();
 		timer = new Timer();
 		for (Task task : undoneTasks) {
-			if(isDueSoon(task)){
-				TaskType type = task.getType();
-				switch (type) {
-				case DEADLINE:
-				case TIMED:
+			
+			TaskType type = task.getType();
+			switch (type) {
+			case DEADLINE:
+			case TIMED:
+				if(isDueSoon(task)){
 					scheduleNotification(task, type);
-					break;
-				case FLOATING:
-				default:
-					break;
 				}
+				break;
+			case FLOATING:
+			default:
+				break;
 			}
 		}
 	}
@@ -64,24 +66,6 @@ public class BalloonNotification implements Observer {
 		return startDateTime.minusMinutes(TIME_AHEAD_SCHEDULING).isBeforeNow();
 	}
 
-	/*
-	public void updateNotifications(List<Task> undoneTasks) {
-		timer.cancel();
-		timer = new Timer();
-		for (Task task : undoneTasks) {
-			TaskType type = task.getType();
-			switch (type) {
-			case DEADLINE:
-			case TIMED:
-				scheduleNotification(task, type);
-				break;
-			case FLOATING:
-			default:
-				break;
-			}
-		}
-	}
-	*/
 
 	private class Reminder extends TimerTask {
 
@@ -119,6 +103,7 @@ public class BalloonNotification implements Observer {
 	
 			TimerTask reminder = new Reminder(reminderMessage);
 			timer.schedule(reminder, reminderTime);
+
 		}
 	}
 
