@@ -35,7 +35,7 @@ public final class UIMessage {
 	public static final String COMMAND_EDIT_ARG_EMPTY = "The 'edit' command requires the task ID and details of the task you wish to update with. Try:\n\tedit <number> <details>\nIf you need help, you can type `help edit` to get help on the command.";
 	public static final String COMMAND_EDIT_UNDO = "Changes to your task \"%s\" has been undone.";
 
-	public static final String COMMAND_SEARCH_EMPTY_QUERY = "The 'search' command requires a query to find tasks for you. Enter the `help search` command for more information on 'search'.\nIf you need help, you can type `help search` to get help on the command.";
+	public static final String COMMAND_SEARCH_EMPTY_QUERY = "The 'search' command needs a query to find tasks for you. Enter the `help search` command for more information on 'search'.\nIf you need help, you can type `help search` to get help on the command.";
 	public static final String COMMAND_SEARCH_RESULT = "%d result(s) found for \"%s\".";
 
 	public static final String COMMAND_LIST_RESULT = "%d task(s) upcoming.";
@@ -47,7 +47,7 @@ public final class UIMessage {
 	public static final String COMMAND_ALIAS_RESTORE = "Alias command %s has been restored.";
 	public static final String COMMAND_ALIAS_REMOVE = "Alias command %s has been removed.";
 
-	public static final String COMMAND_INVALID = "The command you have entered is invalid. If you need help, enter the 'help' command and I will be glad to assist you.";
+	public static final String COMMAND_INVALID = "TASMA could not understand what you said. If you need help, enter the 'help' command and I will be glad to assist you.";
 	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
 
 	public static final String TASK_LIST_EMPTY = "No tasks!";
