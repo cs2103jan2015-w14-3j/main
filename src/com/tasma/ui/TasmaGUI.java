@@ -88,6 +88,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 					commandHintFrame.close();
 					thisFrame.setVisible(false);
 					return;
+				} else if (e.getKeyCode() == KeyEvent.VK_TAB) {
+					textCommand.setText(controller.getLastInput());
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
 					commandHintFrame.close();
 					textMessage.setVisible(false);
@@ -191,6 +193,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setDocument(new JTextFieldLimit(70));
 		contentPane.add(textCommand, BorderLayout.PAGE_START);
 		textCommand.setColumns(10);
+		textCommand.setFocusTraversalKeysEnabled(false);
 	}
 	
 	private void initTxtMsg() {

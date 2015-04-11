@@ -126,4 +126,8 @@ public class Controller {
 		logger.log(Level.FINE, exception.toString(), exception);
 		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
 	}
+	
+	public String getLastInput() {
+		return history.popLastInput();
+	}
 }
