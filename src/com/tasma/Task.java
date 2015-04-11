@@ -6,6 +6,8 @@ package com.tasma;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * The Task Model
@@ -90,63 +92,9 @@ public class Task implements Cloneable {
 	}
 
 	private String getFormattedDateTime(DateTime d) {
-		String date = "";
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("d MMM, yyyy, hh:mma");
+		String date = d.toString(fmt);
 
-		date = getFormattedDate(d, date);
-
-		date = getStringTime(d, date);
-
-		return date;
-	}
-
-	private String getFormattedDate(DateTime d, String date) {
-		if (d.toLocalDate().equals(new LocalDate())) {
-			date = "today";
-		} else {
-			date += String.valueOf(d.getDayOfMonth()) + " ";
-
-			switch (d.getMonthOfYear()) {
-			case 1:
-				date += "Jan";
-				break;
-			case 2:
-				date += "Feb";
-				break;
-			case 3:
-				date += "Mar";
-				break;
-			case 4:
-				date += "Apr";
-				break;
-			case 5:
-				date += "May";
-				break;
-			case 6:
-				date += "Jun";
-				break;
-			case 7:
-				date += "Jul";
-				break;
-			case 8:
-				date += "Aug";
-				break;
-			case 9:
-				date += "Sep";
-				break;
-			case 10:
-				date += "Oct";
-				break;
-			case 11:
-				date += "Nov";
-				break;
-			case 12:
-				date += "Dec";
-			}
-
-			if (d.getYear() != new DateTime().getYear()) { //not current year
-				date += " " + String.valueOf(d.getYear() % 100);
-			}
-		}
 		return date;
 	}
 
