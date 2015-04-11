@@ -13,6 +13,9 @@ import java.util.logging.SimpleFormatter;
  * This is a singleton service for all the classes to write to a common log file.
  */
 public class Log {
+	
+	private static final String LOG_FILE = "tasma.log";
+	
 	private Level level;
 	private FileHandler logFile;
 	
@@ -21,10 +24,14 @@ public class Log {
 	private Log() throws Exception {
 		level = Level.ALL;
 		
-		logFile = new FileHandler("tasma.log");
+		logFile = new FileHandler(LOG_FILE);
 		logFile.setFormatter(new SimpleFormatter());
 	}
 	
+	/**
+	 * Get the singleton instance of Log
+	 * @return Log
+	 */
 	protected static Log getInstance() {
 		if (instance == null) {
 			try {
@@ -36,6 +43,11 @@ public class Log {
 		return instance;
 	}
 	
+	/**
+	 * Get the logger for the class name
+	 * @param name The class name
+	 * @return Logger
+	 */
 	public static Logger getLogger(String name) {
 		Log log = Log.getInstance();
 		Logger logger = Logger.getLogger(name);
