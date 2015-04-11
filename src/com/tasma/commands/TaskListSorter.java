@@ -25,6 +25,12 @@ public class TaskListSorter {
 		Collections.sort(tasks, new Comparator<Task>() {
 		    @Override
 		    public int compare(Task t1, Task t2) {
+		    	if (t1.getState() == t2.getState()) {
+		    		if (t1.getStartDateTime() != null) {
+		    			return t1.getStartDateTime().compareTo(t2.getStartDateTime());
+		    		}
+		    		return 0;
+		    	}
 		    	return t1.getState().compareTo(t2.getState());
 		    }
 		}); 
