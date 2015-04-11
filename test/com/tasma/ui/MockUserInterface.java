@@ -15,6 +15,7 @@ public class MockUserInterface implements TasmaUserInterface {
 	
 	private List<Task> lastDisplayedTasks;
 	private String lastDisplayedMessage;
+	private String headerText;
 
 	@Override
 	public void initialize(Controller controller) throws Exception {
@@ -63,6 +64,15 @@ public class MockUserInterface implements TasmaUserInterface {
 	@Override
 	public boolean isVisible() {
 		return false;
+	}
+
+	@Override
+	public void setHeader(String header) {
+		this.headerText = header;
+	}
+	
+	public String getHeader() {
+		return headerText;
 	}
 
 }

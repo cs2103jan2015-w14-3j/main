@@ -22,6 +22,11 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	 */
 	private Controller controller;
 	
+	/**
+	 * The task list header
+	 */
+	protected String headerText;
+	
 	public void initialize(Controller controller) throws Exception {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
@@ -29,8 +34,8 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	
 	protected void outputRow(Object value) {
 		if (value instanceof String) {
-			String header = value.toString();
-			System.out.println("\n== " + header + " " + padding(header, 80, '='));
+			String sectionHeader = value.toString();
+			System.out.println("\n-- " + sectionHeader + " " + padding(sectionHeader, 80, '-'));
 		} else if (value instanceof Map.Entry) {
 			@SuppressWarnings("unchecked")
 			Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
@@ -56,6 +61,9 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	
 	@Override
 	public void displayTasks(List<Task> tasks) {
+		if (headerText != null) {
+			System.out.println("== " + headerText + " ==");
+		}
 		List<Object> finalList = UITaskListSorter.sort(tasks);
 		for(Object value: finalList) {
 			outputRow(value);
@@ -98,5 +106,10 @@ public class TasmaConsoleUI implements TasmaUserInterface {
 	
 	private static String padding( String text, int n, char ch ) {
 		return new String(new char[n - text.length()]).replace('\0', ch);
+	}
+
+	@Override
+	public void setHeader(String header) {
+		this.headerText = header;
 	}
 }

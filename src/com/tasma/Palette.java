@@ -13,6 +13,7 @@ import java.awt.Font;
 public class Palette {
 	/**
 	 * The default theme blue colour of TASMA
+	 * #29ABE2
 	 */
 	public static final Color THEME_BLUE = new Color(41, 171, 226);
 	
@@ -71,9 +72,24 @@ public class Palette {
 	public static final Color TASK_LIST_DEFAULT = new Color(80, 80, 80);
 	
 	/**
+	 * Foreground colour of task list header
+	 */
+	public static final Color TASK_LIST_HEADER_FOREGROUND = new Color (255, 255, 255);
+	
+	/**
+	 * Background colour of task list header
+	 */
+	public static final Color TASK_LIST_HEADER_BACKGROUND = new Color (8, 155, 218);
+	
+	/**
 	 * The default UI tasks
 	 */
 	public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
+	
+	/**
+	 * Tasks list header font
+	 */
+	public static final Font UI_LIST_HEADER = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 14.0f);
 	
 	/**
 	 * Tasks title font

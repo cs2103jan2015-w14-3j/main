@@ -24,6 +24,8 @@ public interface TasmaUserInterface {
 	
 	public void editCmdDisplay(String task);
 	
+	public void setHeader(String header);
+	
 	public void show();
 	
 	public void hide();

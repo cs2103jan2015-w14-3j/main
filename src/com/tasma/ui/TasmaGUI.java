@@ -49,15 +49,16 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
-	private static final int WINDOW_DEFAULT_HEIGHT = 0;
 	private static final int MAX_TASK_DISPLAY_COUNT = 8;
 	private static final String DONE_IMG_PATH = "../res/done.png";
 
 	private Controller controller;
 	
 	private JPanel contentPane;
+	private JPanel headerPanel;
 	private PlaceholderTextField textCommand;
 	private JTextArea textMessage = new JTextArea();
+	private JLabel textHeader = new JLabel();
 	private CommandHintFrame commandHintFrame = new CommandHintFrame();
 	private JList<Object> listTasks = new JList<Object>();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
@@ -75,65 +76,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		contentPane.setLayout(contentPaneLayout);
 		setContentPane(contentPane);
 
+		initTextHeader();
 		initTxtCmd();
-		JFrame thisFrame = this;
-		textCommand.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
-					commandHintFrame.close();
-					thisFrame.setVisible(false);
-					return;
-				} else if (e.getKeyCode() == KeyEvent.VK_TAB) {
-					textCommand.setText(controller.getLastInput());
-				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
-					commandHintFrame.close();
-					textMessage.setVisible(false);
-					String command = textCommand.getText();
-					textCommand.setText("");
-					controller.executeInput(command);
-				} else {
-					try {
-						if (Config.getInstance().getProperty(SHOW_HINT_CONFIG_KEY)
-								.toLowerCase().equals(SHOW_HINT_CONFIG_YES_VALUE)) {
-							EventQueue.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									try {
-										if (textCommand.getText().equals("")) {
-											commandHintFrame.close();
-										} else {
-											commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
-										}
-									} catch (InvalidInputException e1) {
-									}
-								}	
-							});
-						}
-					} catch (Exception e1) {}
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {}
-
-			@Override
-			public void keyReleased(KeyEvent e) {}
-		});
 		initTxtMsg();
-		contentPane.add(textMessage, BorderLayout.PAGE_END);
 
 		initTaskLists();
 		initScrollPane();
 		
-		// provide scrolling support for list scroll pane's scroll bar
-		JScrollBar vertical = listTasksScrollPane.getVerticalScrollBar();
-		InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
-		im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
-
-		contentPane.add(listTasksScrollPane, BorderLayout.CENTER);
-		listTasksScrollPane.setViewportView(listTasks);
 		updateWindowHeight();
 	}
 
@@ -185,9 +134,53 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textCommand.setCaretColor(Color.WHITE);
 		textCommand.setFont(textCommand.getFont().deriveFont(14.0f));
 		textCommand.setDocument(new JTextFieldLimit(70));
-		contentPane.add(textCommand, BorderLayout.PAGE_START);
 		textCommand.setColumns(10);
 		textCommand.setFocusTraversalKeysEnabled(false);
+		JFrame thisFrame = this;
+		textCommand.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Pressing the ESC key
+					commandHintFrame.close();
+					thisFrame.setVisible(false);
+					return;
+				} else if (e.getKeyCode() == KeyEvent.VK_TAB) {
+					textCommand.setText(controller.getLastInput());
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
+					commandHintFrame.close();
+					textMessage.setVisible(false);
+					String command = textCommand.getText();
+					textCommand.setText("");
+					controller.executeInput(command);
+				} else {
+					try {
+						if (Config.getInstance().getProperty(SHOW_HINT_CONFIG_KEY)
+								.toLowerCase().equals(SHOW_HINT_CONFIG_YES_VALUE)) {
+							EventQueue.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									try {
+										if (textCommand.getText().equals("")) {
+											commandHintFrame.close();
+										} else {
+											commandHintFrame.checkHasHint(textCommand.getText(), textCommand);
+										}
+									} catch (InvalidInputException e1) {
+									}
+								}	
+							});
+						}
+					} catch (Exception e1) {}
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {}
+
+			@Override
+			public void keyReleased(KeyEvent e) {}
+		});
+		headerPanel.add(textCommand, BorderLayout.PAGE_START);
 	}
 	
 	private void initTxtMsg() {
@@ -200,6 +193,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setTabSize(3);
 		textMessage.setFont(textMessage.getFont().deriveFont(13.0f));
 		textMessage.setBorder(new EmptyBorder(10, 10, 10, 10));
+		textMessage.setFocusTraversalKeysEnabled(false);
+		contentPane.add(textMessage, BorderLayout.PAGE_END);
 	}
 	
 	private void initTaskLists() {
@@ -210,10 +205,40 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	
 	private void initScrollPane() {
 		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
-		listTasksScrollPane.setBorder(new EmptyBorder(2, 2, 2, 2));
+		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(12, 0));
+		listTasksScrollPane.getVerticalScrollBar().setBackground(Color.WHITE);
+		listTasksScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		listTasksScrollPane.setBackground(Color.WHITE);
 		listTasksScrollPane.setPreferredSize(new Dimension(480, 220));
 		listTasksScrollPane.setFocusable(false);
+		
+		// provide scrolling support for list scroll pane's scroll bar
+		JScrollBar vertical = listTasksScrollPane.getVerticalScrollBar();
+		InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+		im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
+
+		contentPane.add(listTasksScrollPane, BorderLayout.CENTER);
+		listTasksScrollPane.setViewportView(listTasks);
+	}
+	
+	//@author A0132763H
+	public void initTextHeader() {
+		headerPanel = new JPanel();
+		headerPanel.setLayout(new BorderLayout());
+		textHeader.setText("Hello there!");
+		textHeader.setFont(Palette.UI_LIST_HEADER);
+		textHeader.setOpaque(true);
+		textHeader.setBorder(new EmptyBorder(5, 10, 5, 10));
+		textHeader.setForeground(Palette.TASK_LIST_HEADER_FOREGROUND);
+		textHeader.setBackground(Palette.TASK_LIST_HEADER_BACKGROUND);
+		headerPanel.add(textHeader, BorderLayout.PAGE_END);
+		contentPane.add(headerPanel, BorderLayout.NORTH);
+	}
+
+	@Override
+	public void setHeader(String header) {
+		textHeader.setText(header);
 	}
 
 	@Override
@@ -262,7 +287,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	protected void updateWindowHeight() {
-		int height = textCommand.getSize().height;
+		int height = headerPanel.getSize().height;
 		listTasks.setVisibleRowCount(Math.min(listTasks.getModel().getSize(), MAX_TASK_DISPLAY_COUNT));
 		height += listTasks.getPreferredScrollableViewportSize().height;
 		if (textMessage.isVisible()) {
