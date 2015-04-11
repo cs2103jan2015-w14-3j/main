@@ -28,7 +28,7 @@ public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	private static final String APP_CLI_ARGUMENT = "cli";
-	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.MODIFIER_WINDOWS + KeyEvent.MODIFIER_CONTROL + KeyEvent.MODIFIER_SHIFT);
+	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.MODIFIER_WINDOWS + KeyEvent.MODIFIER_FUNCTION);
 	
 	private static final String START_UP_DEFAULT_COMMAND = "list";
 	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
