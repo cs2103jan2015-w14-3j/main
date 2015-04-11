@@ -5,11 +5,13 @@
 package com.tasma;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.KeyStroke;
 
+import com.sun.glass.events.KeyEvent;
 import com.tasma.config.Config;
 import com.tasma.ui.TasmaConsoleUI;
 import com.tasma.ui.TasmaGUI;
@@ -26,7 +28,7 @@ public class TasmaApp implements Runnable {
 	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
 	
 	private static final String APP_CLI_ARGUMENT = "cli";
-	private static final String APP_HOTKEY = "alt shift X";
+	private static final KeyStroke APP_HOTKEY = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.MODIFIER_WINDOWS + KeyEvent.MODIFIER_CONTROL + KeyEvent.MODIFIER_SHIFT);
 	
 	private static final String START_UP_DEFAULT_COMMAND = "list";
 	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
@@ -81,7 +83,7 @@ public class TasmaApp implements Runnable {
 			userInterface.show();
 
 			Provider provider = Provider.getCurrentProvider(true);
-			provider.register(KeyStroke.getKeyStroke(APP_HOTKEY), new HotKeyListener() {
+			provider.register(APP_HOTKEY, new HotKeyListener() {
 
 				@Override
 				public void onHotKey(HotKey hotKey) {
