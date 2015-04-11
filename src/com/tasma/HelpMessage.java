@@ -65,10 +65,10 @@ public final class HelpMessage {
 	public static final String HINT_ADD = "add <task details>\n<task details> the details of your task to be added";
 	public static final String HINT_SEARCH = "search <query>\n<query> the keywords to match your tasks";
 	public static final String HINT_LIST= "list [filters]\n[filters] an optional keyword to shorten the list of tasks for your convenience";
-	public static final String HINT_MARK = "mark <task number>\n<task number> the number shown next to the task in the list above";
-	public static final String HINT_UNMARK = "unmark <task number>\n<task number> the number shown next to the task in the list above";
-	public static final String HINT_DELETE = "delete <task number>\n<task number> the number shown next to the task in the list above";
-	public static final String HINT_EDIT = "edit <task number> [task details]\n<task number> the number shown next to the task in the list above\n[task details] the new details of the task";
+	public static final String HINT_MARK = "mark <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_UNMARK = "unmark <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_DELETE = "delete <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_EDIT = "edit <task number> [task details]\n<task number> the number shown next to the task in the list\n[task details] the new details of the task";
 	public static final String HINT_SET = "set <config key> <value>\n<config key> the configuration key to set new value to\n<value> the new value to set";
 	public static final String HINT_ALIAS = "alias <new alias> <built in command>\n<new alias> the new shortcut to add in\n<built in command> the existing command to use";
 	public static final String HINT_HELP = "help [command]\n[command] the command to get help for";
