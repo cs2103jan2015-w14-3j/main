@@ -75,9 +75,9 @@ public class CommandFactory {
 	
 	protected LinkedList<Integer> normalizeInputRange(String condition) throws InvalidInputException {
 		LinkedList<Integer> result = new LinkedList<Integer>();
-		try {
-			String[] parts = condition.split("\\s*(,|\\s)\\s*");
-			for (String s : parts) {
+		String[] parts = condition.split("\\s*(,|\\s)\\s*");
+		for (String s : parts) {
+			try {
 				if (s.indexOf("-") == -1) {
 					int index = Integer.parseInt(s) - 1;
 					result.add(index);
@@ -93,9 +93,8 @@ public class CommandFactory {
 						result.add(j);
 					}
 				}
+			} catch (NumberFormatException ex) {
 			}
-		} catch (NumberFormatException ex) {
-			throw new InvalidInputException();
 		}
 		return result;
 	}
