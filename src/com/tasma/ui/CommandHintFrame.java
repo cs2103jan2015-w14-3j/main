@@ -29,7 +29,7 @@ public class CommandHintFrame extends JFrame {
 	/**
 	 * The frame's opacity
 	 */
-	private static final float FRAME_OPACITY = 0.75f;
+	//private static final float FRAME_OPACITY = 0.75f;
 
 	/**
 	 * The output text area
@@ -67,7 +67,7 @@ public class CommandHintFrame extends JFrame {
 		this.setAlwaysOnTop(true);
 		this.setAutoRequestFocus(false);
 		this.setUndecorated(true);
-		this.setOpacity(FRAME_OPACITY);
+		//this.setOpacity(FRAME_OPACITY);
 		this.setSize(400, 22);
         setFocusable(false);
         setFocusableWindowState(false);
