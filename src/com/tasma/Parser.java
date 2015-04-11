@@ -21,13 +21,13 @@ public class Parser {
 
 	/** Stores taskDetails for parsing */
 	private String taskDetails;
-	
+
 	/** Keywords for parsing */
 	private static final String[] KEYWORD_ARRAY_ALL = {"on", "at", "from", "by", 
 		"tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
 	private static final String[] KEYWORD_ARRAY_TOMORROW = {"tomorrow", "tmr", "tmrw"};
 	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy"};
-	
+
 	private static final String KEYWORD_ON = "on";
 	private static final String KEYWORD_AT = "at";
 	private static final String KEYWORD_FROM = "from";
@@ -37,7 +37,7 @@ public class Parser {
 	private static final String KEYWORD_TO = "to";
 	private static final String KEYWORD_WEEK = "week";
 	private static final String KEYWORD_PM = "pm";
-	
+
 	/** Days of Week*/
 	private static final String DAY_MONDAY = "mon";
 	private static final String DAY_TUESDAY = "tue";
@@ -46,12 +46,12 @@ public class Parser {
 	private static final String DAY_FRIDAY = "fri";
 	private static final String DAY_SATURDAY = "sat";
 	private static final String DAY_SUNDAY = "sun";
-	
+
 	/** Regular expressions */
 	private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
 	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d";
 	private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
-	
+
 	/**
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
@@ -70,7 +70,7 @@ public class Parser {
 		System.out.println(parsedTask.getEndDateTime());
 		return parsedTask;
 	}
-	
+
 	/**
 	 * Calls the relevant functions to parse the passed string.
 	 * @param taskDetails Details of the task to be parsed.
@@ -96,7 +96,7 @@ public class Parser {
 	private Task parseInput(Task parsedTask, String taskDetails) {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = tokenize(taskDetails);
-		
+
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
@@ -122,13 +122,9 @@ public class Parser {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
 		DateTime d;
 		boolean isStartSet = false;
-		
-		if (parsedTask.getEndDateTime() == null) {
-			d = initializeDateTime();
-		} else {
-			d = parsedTask.getEndDateTime();
-		}
-		
+
+		d = setInitialEndTime(parsedTask);
+
 		//int beginIndex = -1, endIndex = 0;
 		//boolean parsed = false;
 
@@ -148,6 +144,7 @@ public class Parser {
 				}
 			}
 
+
 			/*if (parsed == true && beginIndex == -1) {
 				beginIndex = i - 1;
 				endIndex = i - 1;
@@ -155,9 +152,34 @@ public class Parser {
 				endIndex++;
 			}*/
 		}
-
-		parsedTask.setEndDateTime(d);
 		
+		parsedTask.setEndDateTime(d);
+
+		setStartTime(parsedTask, d, isStartSet);
+
+		setTaskDetails(param, num, parsedTask);
+
+		return parsedTask;
+	}
+
+	private DateTime setInitialEndTime(Task parsedTask) {
+		DateTime d;
+		if (parsedTask.getEndDateTime() == null) {
+			d = initializeDateTime();
+		} else {
+			d = parsedTask.getEndDateTime();
+		}
+		return d;
+	}
+
+	/**
+	 * Sets start date/time of passed Task object.
+	 * @param parsedTask 	Task object in whose details are to be modified. 
+	 * @param d 			DateTime object to be assigned.
+	 * @param boolean		Whether start date/time of parsedTask has been set. 
+	 * @returns DateTime object with parsed information.
+	 */
+	private void setStartTime(Task parsedTask, DateTime d, boolean isStartSet) {
 		if (!isStartSet) {
 			parsedTask.setStartDateTime(d);
 		} else if (parsedTask.getStartDateTime().isAfter(d)) {
@@ -165,10 +187,6 @@ public class Parser {
 			parsedTask.setEndDateTime(parsedTask.getStartDateTime());
 			parsedTask.setStartDateTime(temp);
 		}
-
-		setTaskDetails(param, num, parsedTask);
-		
-		return parsedTask;
 	}
 
 	/**
@@ -204,11 +222,11 @@ public class Parser {
 		} else if (isWordTomorrow(word)) {
 			d = parseDay(d, 1);
 		}
-		
+
 		if (d.isBefore(initializeDateTime().minusDays(1))) {
 			d = d.plusWeeks(1);
 		}
-		
+
 		return d;
 	}
 
@@ -268,7 +286,7 @@ public class Parser {
 		d = d.withDayOfWeek(new DateTime().getDayOfWeek());
 		d = d.withMonthOfYear(new DateTime().getMonthOfYear());
 		d = d.withYear(new DateTime().getYear());
-		
+
 		d = d.plusDays(days);
 
 		return d;

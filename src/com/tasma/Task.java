@@ -77,7 +77,6 @@ public class Task implements Cloneable {
 
 			date = getStringTime(d, date);
 
-
 			return date;
 		}
 	}
