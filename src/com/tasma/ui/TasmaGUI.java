@@ -49,7 +49,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private static final long serialVersionUID = 7369112773183099080L;
 
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
-	private static final int WINDOW_DEFAULT_HEIGHT = 42;
+	private static final int WINDOW_DEFAULT_HEIGHT = 0;
 	private static final int MAX_TASK_DISPLAY_COUNT = 8;
 	private static final String DONE_IMG_PATH = "../res/done.png";
 
@@ -134,6 +134,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 		contentPane.add(listTasksScrollPane, BorderLayout.CENTER);
 		listTasksScrollPane.setViewportView(listTasks);
+		updateWindowHeight();
 	}
 
 	private void decorateFrame() {
@@ -144,7 +145,6 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		updateWindowHeight();
 
 		// sets the window to center of the screen
 		// then move it up a little
@@ -262,7 +262,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	}
 
 	protected void updateWindowHeight() {
-		int height = WINDOW_DEFAULT_HEIGHT;
+		int height = textCommand.getSize().height;
 		listTasks.setVisibleRowCount(Math.min(listTasks.getModel().getSize(), MAX_TASK_DISPLAY_COUNT));
 		height += listTasks.getPreferredScrollableViewportSize().height;
 		if (textMessage.isVisible()) {
