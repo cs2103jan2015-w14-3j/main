@@ -50,7 +50,7 @@ public final class UIMessage {
 	public static final String COMMAND_INVALID = "The command you have entered is invalid. If you need help, enter the 'help' command and I will be glad to assist you.";
 	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
 
-	public static final String TASK_LIST_EMPTY = "No tasks found (:";
+	public static final String TASK_LIST_EMPTY = "No tasks!";
 	
 	public static final String COMMAND_BOX_PLACEHOLDER = "What would you like to do?";
 
@@ -60,4 +60,13 @@ public final class UIMessage {
 	public static final String SECTION_HEADER_TOMORROW = "%d Tomorrow";
 	public static final String SECTION_HEADER_REMAINING = "%d Upcoming";
 	public static final String SECTION_HEADER_DONE = "%d Done";
+	
+	public static final String HEADER_TASK_TOMORROW = "Tasks due Tomorrow";
+	public static final String HEADER_TASK_TODAY = "Tasks due Today";
+	public static final String HEADER_TASK_OVERDUE = "Tasks Overdue";
+	public static final String HEADER_TASK_DONE = "Tasks Completed";
+	public static final String HEADER_TASK_UNDONE = "Tasks List";
+	public static final String HEADER_TASK_UPCOMING = "Tasks Upcoming";
+	public static final String HEADER_TASK_FLOATING = "Floating Tasks";
+	public static final String HEADER_TASK_SEARCH = "Tasks matching \"%s\"";
 }

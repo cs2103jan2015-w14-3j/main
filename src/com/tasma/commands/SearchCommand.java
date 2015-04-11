@@ -34,6 +34,7 @@ public class SearchCommand extends AbstractCommand {
 
 			state.clear();
 			state.addAll(resultList);
+			userInterface.setHeader(String.format(UIMessage.HEADER_TASK_SEARCH, query));
 			userInterface.displayTasks(resultList);
 			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query), Palette.MESSAGE_INFO);
 		}
