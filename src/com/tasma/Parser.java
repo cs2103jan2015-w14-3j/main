@@ -118,7 +118,8 @@ public class Parser {
 	private Task parseDateTime(String[] param, int num, Task parsedTask) {
 		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
 		DateTime d;
-
+		boolean isSetStart = false;
+		
 		if (parsedTask.getEndDateTime() == null) {
 			d = initializeDateTime();
 		} else {
@@ -138,6 +139,7 @@ public class Parser {
 					//parsed = true;
 				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
+					isSetStart = true;
 				} else {
 					//parsed = false;	
 				}
@@ -153,7 +155,7 @@ public class Parser {
 
 		parsedTask.setEndDateTime(d);
 		
-		if (parsedTask.getStartDateTime() == null) {
+		if (!isSetStart) {
 			parsedTask.setStartDateTime(d);
 		}
 
