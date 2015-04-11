@@ -43,7 +43,8 @@ public final class HelpMessage {
 
 	public static final String HELP_SET = "\tset <config key> <value>\n\n"
 			+ "The 'set' command sets configuration values that allows you to change the behaviour of TASMA. The <config key> is the configuration that you want to change and <value> is the new value.\n\n"
-			+ "\tstorage: The path to the folder where the tasks.json storage file will be stored.\n";
+			+ "\tstorage:\tThe path to the folder where the tasks.json storage file will be stored.\n"
+			+ "\tshowhint:\tWhether you want to get hints for commands (yes/no).";
 
 	public static final String HELP_HELP = "\thelp [command]\n\n"
 			+ "The 'help' command provides you information on how to use the various commands in TASMA. The [command] is the command to show help for and can be any of the following:\n\n"
