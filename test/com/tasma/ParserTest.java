@@ -13,8 +13,6 @@ import org.joda.time.DateTimeFieldType;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tasma.ui.MockUserInterface;
-
 public class ParserTest {
 
 	Parser caller;
