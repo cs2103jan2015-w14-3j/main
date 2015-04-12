@@ -93,23 +93,19 @@ public class ParserTest {
 	}
 
 	//Negative time - currently cannot detect, stores as place
+	//from to
+	//edit
 	@Test
-	public void test5() {
-		parsedTask = caller.parse("do cs2105 on 22-05-15 at -2pm at ALL");
+	public void testInvalidTime() {
+		parsedTask = caller.parse("sign up for stan chart marathon 22-05-15 at -2pm");
 
-
-		Task temp = new Task();
-
-		temp.setDetails("do cs2105");
-
-		DateTime d = initializeDateTime();
 		d = d.withDayOfMonth(22);
 		d = d.withMonthOfYear(5);
 		d = d.withYear(2015);
-		temp.setEndDateTime(d);
 
-		assertEquals(temp.getDetails(), parsedTask.getDetails());
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals("sign up for stan chart marathon", parsedTask.getDetails());
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
 	}
 
 	private DateTime initializeDateTime() {
@@ -118,6 +114,5 @@ public class ParserTest {
 		d = d.withMinuteOfHour(59);
 		return d;
 	}
-
 
 }
