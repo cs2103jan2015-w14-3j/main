@@ -192,7 +192,7 @@ public class Task implements Cloneable {
 	//@author A0118888J
 	public String editString() {
 		String result = "";
-		result += details;
+		result += "\"" + details + "\"";
 
 		if (startDateTime != endDateTime) {
 			result += " from " + getStringStartDateTime() + " to " + getStringEndDateTime();
