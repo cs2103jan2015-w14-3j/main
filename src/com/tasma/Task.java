@@ -185,6 +185,21 @@ public class Task implements Cloneable {
 	public Task clone() throws CloneNotSupportedException {
 		return (Task) super.clone();
 	}
+	
+	//@author A0118888J
+	@Override
+	public String toString() {
+		String result = "";
+		result += details;
+
+		if (startDateTime != endDateTime) {
+			result += " from " + getStringStartDateTime() + " to " + getStringEndDateTime();
+		} else if (startDateTime != null) {
+			result += " on " + getStringStartDateTime();
+		}
+
+		return result; 
+	}
 
 	//@author A0132763H
 	/**
