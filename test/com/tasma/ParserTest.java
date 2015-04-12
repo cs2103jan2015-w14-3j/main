@@ -1,66 +1,66 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0118888J
 package com.tasma;
 
 import static org.junit.Assert.*;
 
+import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeFieldType;
+import org.junit.Before;
 import org.junit.Test;
+
+import com.tasma.ui.MockUserInterface;
 
 public class ParserTest {
 
-	@Test
-	public void test1() {
-		Parser caller = new Parser();
-		Task parsedTask = new Task();
+	Parser caller;
+	Task parsedTask;
+	DateTimeComparator comparator;
+	DateTime d;
 
-			parsedTask = caller.parse("do cs2105 on next mon");
-	
-
-		Task temp = new Task();
-
-		temp.setDetails("do cs2105");
-
-		DateTime d = initializeDateTime();
-		d = d.plusWeeks(1);
-		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
-		temp.setEndDateTime(d);
-
-		assertEquals(temp.getDetails(), parsedTask.getDetails());
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+	@Before
+	public void setUp() {
+		caller = new Parser();
+		parsedTask = new Task();
+		d = initializeDateTime();
+		comparator = DateTimeComparator.getInstance(DateTimeFieldType.minuteOfHour());	
 	}
 
 	@Test
-	public void test2() {
-		Parser caller = new Parser();
-		Task parsedTask = new Task();
+	public void testWithIndicators() {
+		parsedTask = caller.parse("do cs2105 on next mon at 2pm");
 
-			parsedTask = caller.parse("do cs2105 on mon");
-	
+		d = d.plusWeeks(1);
+		d = d.withDayOfWeek(DateTimeConstants.MONDAY);
+		d = d.withHourOfDay(14);
+		d = d.withMinuteOfHour(0);
 
-		Task temp = new Task();
+		assertEquals("do cs2105", parsedTask.getDetails());
+		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
+		assertEquals(comparator.compare(d, parsedTask.getStartDateTime()), 0);
+	}
 
-		temp.setDetails("do cs2105");
+	@Test
+	public void testWithoutIndicators() {
+		parsedTask = caller.parse("go to meeting next wed 2pm");
 
-		DateTime d = initializeDateTime();
-		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
+		d = d.plusWeeks(1);
+		d = d.withDayOfWeek(DateTimeConstants.WEDNESDAY);
+		d = d.withHourOfDay(14);
+		d = d.withMinuteOfHour(0);
 
-		if (d.isBefore(new DateTime())) {
-			d = d.plusWeeks(1);
-		}
-
-		temp.setEndDateTime(d);
-
-		assertEquals(temp.getDetails(), parsedTask.getDetails());
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals("go to meeting", parsedTask.getDetails());
+		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
+		assertEquals(comparator.compare(d, parsedTask.getStartDateTime()), 0);
 	}
 
 	@Test
 	public void test3() {
-		Parser caller = new Parser();
-		Task parsedTask = new Task();
-
-			parsedTask = caller.parse("do cs2105 on next mon at ALL");
-
+		parsedTask = caller.parse("do cs2105 on next mon at ALL");
 
 		Task temp = new Task();
 
@@ -77,27 +77,27 @@ public class ParserTest {
 
 	//Invalid case for date parsing
 	@Test
-	public void test4() {
-		Parser caller = new Parser();
-		Task parsedTask = new Task();
+	public void testInvalidDate() {
+		parsedTask = caller.parse("\"work on garden\" 22-15-15 12pm");
+			
+		d = d.withHourOfDay(12);
+		d = d.withMinuteOfHour(0);
+		System.out.println(parsedTask.getDetails());
+		System.out.println(d);
+		System.out.println(parsedTask.getEndDateTime());
+		System.out.println(parsedTask.getStartDateTime());
+		assertEquals("work on garden 22-15-15", parsedTask.getDetails());
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
 
-		try {
-			parsedTask = caller.parse("do cs2105 on 22-15-15 at 2pm at ALL");
-		} catch (Exception e) {
-			assertTrue(e instanceof InvalidInputException);
-			assertEquals("Invalid date", e.getMessage()); 
-		}
 	}
-	
+
 	//Negative time - currently cannot detect, stores as place
 	@Test
 	public void test5() {
-		Parser caller = new Parser();
-		Task parsedTask = new Task();
+		parsedTask = caller.parse("do cs2105 on 22-05-15 at -2pm at ALL");
 
-			parsedTask = caller.parse("do cs2105 on 22-05-15 at -2pm at ALL");
 
-		
 		Task temp = new Task();
 
 		temp.setDetails("do cs2105");
@@ -114,9 +114,8 @@ public class ParserTest {
 
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
-		d = d.withHourOfDay(0);
-		d = d.withMinuteOfHour(0);
-		d = d.withMillisOfDay(0);
+		d = d.withHourOfDay(23);
+		d = d.withMinuteOfHour(59);
 		return d;
 	}
 
