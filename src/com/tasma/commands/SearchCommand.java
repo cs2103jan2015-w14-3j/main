@@ -40,4 +40,52 @@ public class SearchCommand extends AbstractCommand {
 		}
 	}
 
+	protected class SearchProcessor {
+		protected String query;
+		public SearchProcessor(String query) {
+			buildConditions(query);
+		}
+		
+		private void buildConditions(String query) {
+			InputSplitter splitter = new InputSplitter(query);
+			String wordMatch = "";
+			boolean inQuote = false;
+			while (splitter.hasNext()) {
+				String word = splitter.next();
+				if (word.startsWith("\"")) {
+					inQuote = true;
+				}
+				if (inQuote) {
+					wordMatch += ".+" + word;
+				} else {
+					switch (word) {
+						case "today":
+							break;
+						case "tomorrow":
+							break;
+						case "done":
+							break;
+						case "undone":
+							break;
+						case "overdue":
+							break;
+						case "upcoming":
+							break;
+					}
+				}
+				if (inQuote && word.endsWith("\"")){
+					inQuote = false;
+				}
+			}
+			wordMatch += ".+";
+		}
+		
+		private String extractQuotedQuery(String word, InputSplitter splitter) {
+			String result = word + "";
+			while (splitter.hasNext()) {
+				splitter.
+			}
+			return result.trim();
+		}
+	}
 }
