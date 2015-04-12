@@ -33,7 +33,7 @@ public class Parser {
 	private static final String KEYWORD_WEEK = "week";
 	private static final String KEYWORD_PM = "pm";
 
-	/** Days of Week*/
+	/** Days of week*/
 	private static final String DAY_MONDAY = "mon";
 	private static final String DAY_TUESDAY = "tue";
 	private static final String DAY_WEDNESDAY = "wed";

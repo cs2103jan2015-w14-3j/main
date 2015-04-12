@@ -40,8 +40,8 @@ public class ParserTest {
 		d = d.withMinuteOfHour(0);
 
 		assertEquals("do cs2105", parsedTask.getDetails());
-		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
 		assertEquals(comparator.compare(d, parsedTask.getStartDateTime()), 0);
+		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
 	}
 
 	@Test
@@ -54,25 +54,8 @@ public class ParserTest {
 		d = d.withMinuteOfHour(0);
 
 		assertEquals("go to meeting", parsedTask.getDetails());
-		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
 		assertEquals(comparator.compare(d, parsedTask.getStartDateTime()), 0);
-	}
-
-	@Test
-	public void test3() {
-		parsedTask = caller.parse("do cs2105 on next mon at ALL");
-
-		Task temp = new Task();
-
-		temp.setDetails("do cs2105");
-
-		DateTime d = initializeDateTime();
-		d = d.plusWeeks(1);
-		d = d.withDayOfWeek(DateTimeConstants.MONDAY);	
-		temp.setEndDateTime(d);
-
-		assertEquals(temp.getDetails(), parsedTask.getDetails());
-		assertEquals(temp.getEndDateTime(), parsedTask.getEndDateTime());
+		assertEquals(comparator.compare(d, parsedTask.getEndDateTime()), 0);
 	}
 
 	//Invalid case for date parsing
@@ -82,19 +65,18 @@ public class ParserTest {
 			
 		d = d.withHourOfDay(12);
 		d = d.withMinuteOfHour(0);
-		System.out.println(parsedTask.getDetails());
-		System.out.println(d);
-		System.out.println(parsedTask.getEndDateTime());
-		System.out.println(parsedTask.getStartDateTime());
+	
 		assertEquals("work on garden 22-15-15", parsedTask.getDetails());
-		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
 		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+		
 
 	}
 
 	//Negative time - currently cannot detect, stores as place
 	//from to
 	//edit
+	//search?
 	@Test
 	public void testInvalidTime() {
 		parsedTask = caller.parse("sign up for stan chart marathon 22-05-15 at -2pm");
@@ -104,10 +86,57 @@ public class ParserTest {
 		d = d.withYear(2015);
 
 		assertEquals("sign up for stan chart marathon", parsedTask.getDetails());
-		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
 		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+		
 	}
 
+	@Test
+	public void testFromTo() {
+		parsedTask = caller.parse("meeting with boss 22.05.15 from 2pm to 3:30pm");
+
+		d = new DateTime(2015, 5, 22, 14, 0); 
+
+		assertEquals("meeting with boss", parsedTask.getDetails());
+		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
+		
+		d = d.withHourOfDay(15);
+		d = d.withMinuteOfHour(30);
+		
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+	}
+	
+	@Test
+	public void testEdit() {
+		parsedTask = caller.parse("meeting with boss 22-05-15 from 2pm to 3:30pm");
+		parsedTask = caller.parse(parsedTask, "tmr");
+		
+		d = d.plusDays(1);
+		d = d.withHourOfDay(15);
+		d = d.withMinuteOfHour(30);
+
+		assertEquals("meeting with boss", parsedTask.getDetails());
+		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+	}
+
+	@Test
+	public void testDateSwap() {
+		parsedTask = caller.parse("meet classmates for lunch next week 4pm to 3pm");
+		
+		d = d.plusWeeks(1);
+		d = d.withHourOfDay(15);
+		d = d.withMinuteOfHour(0);
+		
+		assertEquals("meet classmates for lunch", parsedTask.getDetails());
+		assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
+		
+		d = d.withHourOfDay(16);
+		d = d.withMinuteOfHour(0);
+		
+		assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
+	}
+	
 	private DateTime initializeDateTime() {
 		DateTime d = new DateTime();
 		d = d.withHourOfDay(23);
