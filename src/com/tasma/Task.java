@@ -21,8 +21,6 @@ public class Task implements Cloneable {
 
 	private static final int DEFAULT_HOURS = 23;
 	private static final int DEFAULT_MINUTES = 59;
-	private static final String STRING_PM = "pm";
-	private static final String STRING_AM = "am";
 
 	public Task(String details) {
 		this.details = details;
@@ -125,30 +123,6 @@ public class Task implements Cloneable {
 		}
 		return date;
 	}
-
-
-	/*private String getStringDate(DateTime d, String date) {
-		if (d.toLocalDate().equals(new LocalDate())) {
-			date = "today";
-		} else {
-			date += String.valueOf(String.format("%02d", d.getDayOfMonth())) + "-" + 
-					String.valueOf(String.format("%02d", d.getMonthOfYear())) + "-" + 
-					String.valueOf(d.getYear() % 100);
-		}
-		return date;
-	}*/
-
-	/*private String getStringTime(DateTime d, String date) {
-		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
-			return date;
-		} else { //has date and time
-			date += ", ";
-			DateTimeFormatter fmt = DateTimeFormat.forPattern("h:mma");
-			date += d.toString(fmt);
-
-			return date;
-		}
-	}*/
 
 	//@author A0132763H
 	public void setEndDateTime(DateTime endDateTime) {
