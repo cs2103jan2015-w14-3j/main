@@ -63,10 +63,10 @@ public final class UIMessage {
 	
 	public static final String HEADER_TASK_TOMORROW = "Tasks due Tomorrow";
 	public static final String HEADER_TASK_TODAY = "Tasks due Today";
-	public static final String HEADER_TASK_OVERDUE = "Tasks Overdue";
-	public static final String HEADER_TASK_DONE = "Tasks Completed";
-	public static final String HEADER_TASK_UNDONE = "Tasks List";
-	public static final String HEADER_TASK_UPCOMING = "Tasks Upcoming";
+	public static final String HEADER_TASK_OVERDUE = "Overdue Tasks";
+	public static final String HEADER_TASK_DONE = "Completed Tasks";
+	public static final String HEADER_TASK_UNDONE = "Task List";
+	public static final String HEADER_TASK_UPCOMING = "Upcoming Tasks";
 	public static final String HEADER_TASK_FLOATING = "Floating Tasks";
 	public static final String HEADER_TASK_SEARCH = "Tasks matching \"%s\"";
 }
