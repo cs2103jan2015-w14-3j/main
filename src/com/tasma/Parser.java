@@ -89,7 +89,6 @@ public class Parser {
 		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
 		String[] param = tokenize(taskDetails);
 
-
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
 				if(Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i]) || 
@@ -197,7 +196,7 @@ public class Parser {
 			String str = "";
 
 			for (int i = 0; i < num; i++) {
-				str += param[i] + " "; 
+				str += param[i].trim() + " "; 
 			}
 
 			parsedTask.setDetails(str.trim());
