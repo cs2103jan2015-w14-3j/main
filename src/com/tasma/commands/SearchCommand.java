@@ -7,8 +7,6 @@ package com.tasma.commands;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
