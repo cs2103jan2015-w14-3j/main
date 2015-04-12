@@ -108,8 +108,13 @@ public class Task implements Cloneable {
 		if (d.toLocalDate().equals(new LocalDate())) {
 			date = "today";
 		} else {
-			fmt = DateTimeFormat.forPattern("d MMM, yyyy");
+			fmt = DateTimeFormat.forPattern("d MMM");
 			date = d.toString(fmt);
+			
+			if (d.getYear() != new DateTime().getYear()) {
+				fmt = DateTimeFormat.forPattern(", yyyy");
+				date += d.toString(fmt);
+			}
 		}
 
 		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
