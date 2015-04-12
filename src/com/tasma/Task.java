@@ -70,25 +70,40 @@ public class Task implements Cloneable {
 	public String getStringDateTime(DateTime d) {
 		if (d == null) {
 			return ""; 
-		} else { 
-			String date;
-			DateTimeFormatter fmt;
+		} else {
+			String date = "";
+			date += getStringDate(d);
 
-			if (d.toLocalDate().equals(new LocalDate())) {
-				date = "today";
-			} else {
-				fmt = DateTimeFormat.forPattern("dd-MM-yy");
-				date = d.toString(fmt);
-			}
+			date += getStringTime(d);
 
-			if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
-				return date;
-			} else {
-				fmt = DateTimeFormat.forPattern(", h:mma");
-				date += d.toString(fmt);
-			}
 			return date;
 		}
+	}
+
+	private String getStringDate(DateTime d) {
+		String date;
+		DateTimeFormatter fmt;
+
+		if (d.toLocalDate().equals(new LocalDate())) {
+			date = "today";
+		} else {
+			fmt = DateTimeFormat.forPattern("dd-MM-yy");
+			date = d.toString(fmt);
+		}
+		return date;
+	}
+
+	private String getStringTime(DateTime d) {
+		String time = "";
+		DateTimeFormatter fmt;
+
+		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
+			return time;
+		} else {
+			fmt = DateTimeFormat.forPattern(", h:mma");
+			time += d.toString(fmt);
+		}
+		return time;
 	}
 
 	public String getFormattedStartDateTime() {
@@ -100,28 +115,46 @@ public class Task implements Cloneable {
 	}
 
 	private String getFormattedDateTime(DateTime d) {
+		if (d == null) {
+			return ""; 
+		} else {
+			String date = "";
+			date += getFormattedDate(d);
+
+			date += getFormattedTime(d);
+
+			return date;
+		}
+	}
+
+	private String getFormattedDate(DateTime d) {
 		String date;
 		DateTimeFormatter fmt;
-
 		if (d.toLocalDate().equals(new LocalDate())) {
 			date = "today";
 		} else {
 			fmt = DateTimeFormat.forPattern("d MMM");
 			date = d.toString(fmt);
-			
+
 			if (d.getYear() != new DateTime().getYear()) {
 				fmt = DateTimeFormat.forPattern(", yyyy");
 				date += d.toString(fmt);
 			}
 		}
+		return date;
+	}
+
+	private String getFormattedTime(DateTime d) {
+		String time = "";
+		DateTimeFormatter fmt;
 
 		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
-			return date;
+			return time;
 		} else {
 			fmt = DateTimeFormat.forPattern(", h:mma");
-			date += d.toString(fmt);
+			time += d.toString(fmt);
+			return time;
 		}
-		return date;
 	}
 
 	//@author A0132763H
@@ -151,21 +184,6 @@ public class Task implements Cloneable {
 	@Override
 	public Task clone() throws CloneNotSupportedException {
 		return (Task) super.clone();
-	}
-
-	//@author A0118888J
-	@Override
-	public String toString() {
-		String result = "";
-		result += details;
-
-		if (startDateTime != endDateTime) {
-			result += " from " + getStringStartDateTime() + " to " + getStringEndDateTime();
-		} else if (startDateTime != null) {
-			result += " on " + getStringStartDateTime();
-		}
-
-		return result; 
 	}
 
 	//@author A0132763H
