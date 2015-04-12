@@ -42,6 +42,14 @@ public class InputSplitter {
 	}
 	
 	/**
+	 * Check if there are more to split out
+	 * @return Returns true if there are more content, false otherwise.
+	 */
+	public boolean hasNext() {
+		return !input.equals("");
+	}
+	
+	/**
 	 * Get all remaining text in the splitter
 	 * @return Returns the remaining string in the splitter
 	 */
