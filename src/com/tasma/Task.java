@@ -186,9 +186,11 @@ public class Task implements Cloneable {
 		return (Task) super.clone();
 	}
 	
+	/**
+	 * Needed by edit command to show task details for editing
+	 */
 	//@author A0118888J
-	@Override
-	public String toString() {
+	public String editString() {
 		String result = "";
 		result += details;
 

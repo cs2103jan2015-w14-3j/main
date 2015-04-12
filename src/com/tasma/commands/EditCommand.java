@@ -43,7 +43,7 @@ public class EditCommand extends AbstractUndoableCommand {
 			throw new NotExecutedException();
 		} else {
 			if (details.equals("")) {
-				userInterface.editCmdDisplay(String.format("edit %d %s", index + 1, task.toString()));
+				userInterface.editCmdDisplay(String.format("edit %d %s", index + 1, task.editString()));
 			} else {
 				oldTaskDetails = task.clone();
 				
