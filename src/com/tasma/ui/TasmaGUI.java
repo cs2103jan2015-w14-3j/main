@@ -290,6 +290,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		int height = headerPanel.getSize().height;
 		listTasks.setVisibleRowCount(Math.min(listTasks.getModel().getSize(), MAX_TASK_DISPLAY_COUNT));
 		height += listTasks.getPreferredScrollableViewportSize().height;
+		height += 20;
 		if (textMessage.isVisible()) {
 			height += textMessage.getPreferredSize().height;
 		}
@@ -312,6 +313,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
     @SuppressWarnings("deprecation")
 	@Override
     public void show() {
+
+		setLocationRelativeTo(null);
+		this.setLocation(this.getLocation().x, 0);
     	super.show();
     	setState(NORMAL);
     	toFront();
