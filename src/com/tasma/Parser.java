@@ -53,7 +53,9 @@ public class Parser {
 	 * @return Instance of a Task which contains the parsed details.
 	 */
 	public Task parse(String taskDetails) {
+		assert taskDetails.length() != 0;
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
+		
 		Task parsedTask = new Task(taskDetails);
 
 		this.taskDetails = taskDetails; 
@@ -70,6 +72,7 @@ public class Parser {
 	 * @return Instance of a Task which contains the parsed details.
 	 */
 	public Task parse(Task parsedTask, String taskDetails) {
+		assert taskDetails.length() != 0;
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 
 		this.taskDetails = taskDetails; 
@@ -86,7 +89,8 @@ public class Parser {
 	 * @returns Task object with parsed information.
 	 */
 	private Task parseInput(Task parsedTask, String taskDetails) {
-		logger.log(Level.FINE, "Searching for time in \"{0}\"", taskDetails);
+		logger.log(Level.FINE, "Searching for date/time in \"{0}\"", taskDetails);
+		
 		String[] param = tokenize(taskDetails);
 
 		for (int i = 0; i < param.length; i++) {
@@ -110,35 +114,24 @@ public class Parser {
 	 * @returns Task object with parsed information.
 	 */
 	private Task parseDateTime(String[] param, int num, Task parsedTask) {
-		logger.log(Level.FINE, "Parsing date and time in \"{0}\"", taskDetails);
+		logger.log(Level.FINE, "Parsing date and time from \"{0}\"", taskDetails);
+		
 		DateTime d;
 		boolean isStartSet = false;
 
 		d = setInitialEndTime(parsedTask);
 
-		//int beginIndex = num, endIndex = 0;
-		//boolean parsed = false;
-
 		for (int i = num; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
 				if (isValidDayDate(param[i])) {
 					d = parseDate(param[i], d);
-					//parsed = true;
 				} else if (isValidTime(param[i])) {
 					d = getTime(param[i], d);
-					//parsed = true;
 				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
 					isStartSet = true;
 				} 
 			}
-
-			/*if (parsed == true && beginIndex == -1) {
-				beginIndex = i - 1;
-				endIndex = i - 1;
-			} else if (parsed == true && beginIndex != -1) {
-				endIndex++;
-			}*/
 		}
 
 		parsedTask.setEndDateTime(d);
@@ -161,6 +154,7 @@ public class Parser {
 		if (parsedTask.getEndDateTime() == null) {
 			d = initializeDateTime();
 		} else {
+			assert parsedTask.getEndDateTime() != null;
 			d = parsedTask.getEndDateTime();
 		}
 		return d;
@@ -192,6 +186,8 @@ public class Parser {
 	 * @returns DateTime object with parsed information.
 	 */
 	private void setTaskDetails(String[] param, int num, Task parsedTask) {
+		logger.log(Level.FINE, "Setting task details extracted from input: \"{0}\"", taskDetails);
+		
 		if (num != 0) {
 			String str = "";
 
@@ -220,7 +216,6 @@ public class Parser {
 			d = parseDay(d, 0);
 		} else if (isWordTomorrow(word)) {
 			d = parseDay(d, 1);
-
 		}
 
 		if (d.isBefore(initializeDateTime().minusDays(1))) {
@@ -379,14 +374,15 @@ public class Parser {
 		if (!pattern.matcher(time).matches()) {
 			return false;
 		} else {
+			assert pattern.matcher(time).matches();
 			return true;
 		}
 	}
 
 	/**
 	 * Gets time from passed string.
-	 * @param word String containing date to be parsed.
-	 * @param d	   		  DateTime object to be modified with parsed details.
+	 * @param word 	String containing date to be parsed.
+	 * @param d	   	DateTime object to be modified with parsed details.
 	 * @return DateTime object containing the parsed time.
 	 */
 	private DateTime getTime(String word, DateTime d) {
