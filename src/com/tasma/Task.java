@@ -73,12 +73,22 @@ public class Task implements Cloneable {
 		if (d == null) {
 			return ""; 
 		} else { 
-			String date = "";
+			String date;
+			DateTimeFormatter fmt;
 
-			date = getStringDate(d, date);
+			if (d.toLocalDate().equals(new LocalDate())) {
+				date = "today";
+			} else {
+				fmt = DateTimeFormat.forPattern("dd-MM-yy");
+				date = d.toString(fmt);
+			}
 
-			date = getStringTime(d, date);
-
+			if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
+				return date;
+			} else {
+				fmt = DateTimeFormat.forPattern(", h:mma");
+				date += d.toString(fmt);
+			}
 			return date;
 		}
 	}
@@ -92,13 +102,27 @@ public class Task implements Cloneable {
 	}
 
 	private String getFormattedDateTime(DateTime d) {
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("d MMM, yyyy, hh:mma");
-		String date = d.toString(fmt);
+		String date;
+		DateTimeFormatter fmt;
 
+		if (d.toLocalDate().equals(new LocalDate())) {
+			date = "today";
+		} else {
+			fmt = DateTimeFormat.forPattern("d MMM, yyyy");
+			date = d.toString(fmt);
+		}
+
+		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
+			return date;
+		} else {
+			fmt = DateTimeFormat.forPattern(", h:mma");
+			date += d.toString(fmt);
+		}
 		return date;
 	}
 
-	private String getStringDate(DateTime d, String date) {
+
+	/*private String getStringDate(DateTime d, String date) {
 		if (d.toLocalDate().equals(new LocalDate())) {
 			date = "today";
 		} else {
@@ -107,29 +131,19 @@ public class Task implements Cloneable {
 					String.valueOf(d.getYear() % 100);
 		}
 		return date;
-	}
+	}*/
 
-	private String getStringTime(DateTime d, String date) {
+	/*private String getStringTime(DateTime d, String date) {
 		if (d.getHourOfDay() == DEFAULT_HOURS && d.getMinuteOfHour() == DEFAULT_MINUTES) {
 			return date;
 		} else { //has date and time
 			date += ", ";
+			DateTimeFormatter fmt = DateTimeFormat.forPattern("h:mma");
+			date += d.toString(fmt);
 
-			if (d.getHourOfDay() == 0) { //for 12am, but currently cannot reach here
-				date += "12" + ":" + String.valueOf(String.format("%02d", d.getMinuteOfHour())) + STRING_AM;
-			} else if (d.getHourOfDay() > 0 && d.getHourOfDay() < 12) { 
-				date += String.valueOf(d.getHourOfDay()) + ":" + 
-						String.valueOf(String.format("%02d", d.getMinuteOfHour())) + STRING_AM;
-			} else if (d.getHourOfDay() == 12) {
-				date += String.valueOf(d.getHourOfDay()) + ":" + 
-						String.valueOf(String.format("%02d", d.getMinuteOfHour())) + STRING_PM;
-			} else { //if (endDateTime.getHourOfDay() > 12)
-				date += String.valueOf(endDateTime.getHourOfDay() - 12) + ":" + 
-						String.valueOf(String.format("%02d", d.getMinuteOfHour())) + STRING_PM;
-			}
 			return date;
 		}
-	}
+	}*/
 
 	//@author A0132763H
 	public void setEndDateTime(DateTime endDateTime) {
