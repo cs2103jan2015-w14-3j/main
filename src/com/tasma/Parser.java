@@ -28,12 +28,7 @@ public class Parser {
 	private static final String[] KEYWORD_ARRAY_TOMORROW = {"tomorrow", "tmr", "tmrw"};
 	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy"};
 
-	private static final String KEYWORD_ON = "on";
-	private static final String KEYWORD_AT = "at";
-	private static final String KEYWORD_FROM = "from";
-	private static final String KEYWORD_BY = "by";
 	private static final String KEYWORD_NEXT = "next";
-	private static final String KEYWORD_THIS = "this";
 	private static final String KEYWORD_TO = "to";
 	private static final String KEYWORD_WEEK = "week";
 	private static final String KEYWORD_PM = "pm";
@@ -138,7 +133,6 @@ public class Parser {
 					isStartSet = true;
 				} 
 			}
-
 
 			/*if (parsed == true && beginIndex == -1) {
 				beginIndex = i - 1;
