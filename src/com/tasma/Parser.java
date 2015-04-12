@@ -24,9 +24,9 @@ public class Parser {
 
 	/** Keywords for parsing */
 	private static final String[] KEYWORD_ARRAY_ALL = {"on", "at", "from", "by", 
-		"tomorrow", "tmrw", "tmr", "today", "tdy", "next", "this"};
+		"tomorrow", "tmrw", "tmr", "today", "tdy", "tonight", "next", "this"};
 	private static final String[] KEYWORD_ARRAY_TOMORROW = {"tomorrow", "tmr", "tmrw"};
-	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy"};
+	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy", "tonight"};
 
 	private static final String KEYWORD_NEXT = "next";
 	private static final String KEYWORD_TO = "to";
