@@ -4,11 +4,16 @@
 //@author A0132763H
 package com.tasma.commands;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
+import com.tasma.TaskState;
+import com.tasma.TaskType;
 import com.tasma.UIMessage;
 import com.tasma.ui.TasmaUserInterface;
 
@@ -29,7 +34,8 @@ public class SearchCommand extends AbstractCommand {
 		if (query.equals("")) {
 			userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY, Palette.MESSAGE_WARNING);
 		} else {
-			List<Task> resultList = collection.search(query);
+			SearchProcessor processor = new SearchProcessor(query);
+			List<Task> resultList = processor.filter(collection);
 			TaskListSorter.sort(resultList);
 
 			state.clear();
@@ -41,12 +47,19 @@ public class SearchCommand extends AbstractCommand {
 	}
 
 	protected class SearchProcessor {
-		protected String query;
+		Predicate<Task> predicate;
 		public SearchProcessor(String query) {
-			buildConditions(query);
+			predicate = buildConditions(query);
 		}
 		
-		private void buildConditions(String query) {
+		public List<Task> filter(TaskCollection collection) {
+			return collection.filter(predicate);
+		}
+		
+		private Predicate<Task> buildConditions(String query) {
+			Predicate<Task> conditions;
+			LinkedList<Predicate<Task>> subConditions = new LinkedList<Predicate<Task>>();
+			
 			InputSplitter splitter = new InputSplitter(query);
 			String wordMatch = "";
 			boolean inQuote = false;
@@ -60,16 +73,34 @@ public class SearchCommand extends AbstractCommand {
 				} else {
 					switch (word) {
 						case "today":
+							subConditions.add(task -> task.getState() == TaskState.TODAY);
 							break;
 						case "tomorrow":
+							subConditions.add(task -> task.getState() == TaskState.TOMORROW);
 							break;
 						case "done":
+							subConditions.add(task -> task.isDone());
 							break;
 						case "undone":
+							subConditions.add(task -> !task.isDone());
 							break;
 						case "overdue":
+							subConditions.add(task -> task.getState() == TaskState.OVERDUE);
 							break;
 						case "upcoming":
+							subConditions.add(task -> task.getState() == TaskState.UPCOMING);
+							break;
+						case "floating":
+							subConditions.add(task -> task.getType() == TaskType.FLOATING);
+							break;
+						case "timed":
+							subConditions.add(task -> task.getType() == TaskType.TIMED);
+							break;
+						case "deadline":
+							subConditions.add(task -> task.getType() == TaskType.DEADLINE);
+							break;
+						default:
+							wordMatch += ".*" + word;
 							break;
 					}
 				}
@@ -77,15 +108,22 @@ public class SearchCommand extends AbstractCommand {
 					inQuote = false;
 				}
 			}
-			wordMatch += ".+";
-		}
-		
-		private String extractQuotedQuery(String word, InputSplitter splitter) {
-			String result = word + "";
-			while (splitter.hasNext()) {
-				splitter.
+			conditions = subConditions.poll();
+			if (subConditions.size() > 0) {
+				for (Predicate<Task> condition: subConditions) {
+					conditions = conditions.or(condition);
+				}
 			}
-			return result.trim();
+			
+			wordMatch += ".*";
+			final String regex = wordMatch;
+			Predicate<Task> detailsMatcher = task -> task.getDetails().matches(regex);
+			if (conditions == null) {
+				conditions = detailsMatcher;
+			} else {
+				conditions = conditions.and(detailsMatcher);
+			}
+			return conditions;
 		}
 	}
 }
