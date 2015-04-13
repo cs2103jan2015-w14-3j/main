@@ -57,459 +57,459 @@ import com.tulskiy.keymaster.common.Provider;
  * CS2101 demo on 6 Apr 2015
  */
 public class DemoApp implements Runnable {
-	
-	private static final String APP_HOTKEY = "alt shift X";
-	
-	private Controller controller;
-	private MockStorage storage;
-	private TaskCollection collection;
-	private TasmaUserInterface frame; 
-	private UICommandBoxAnimator commandBoxAnimator;
+    
+    private static final String APP_HOTKEY = "alt shift X";
+    
+    private Controller controller;
+    private MockStorage storage;
+    private TaskCollection collection;
+    private TasmaUserInterface frame; 
+    private UICommandBoxAnimator commandBoxAnimator;
 
-	public static void main(String[] main) {
-		EventQueue.invokeLater(new DemoApp());
-	}
-	
-	/**
-	 * Create the app and initialize
-	 */
-	public DemoApp() {
-		try {
-			frame = new TasmaGUI();
-			storage = new MockStorage();
-			collection = new TaskCollection(storage);
-			controller = new Controller(collection);
-			commandBoxAnimator = new UICommandBoxAnimator(frame);
-		} catch (Exception e) {
-			
-		}
-	}
-	
-	/**
-	 * Run the show!
-	 */
-	@Override
-	public void run() {
-		try {
-			frame.initialize(controller);
-			controller.initialize();
-			controller.executeInput("list");
-			
-			// we need the hot key to bring window back in case we accidentally close it
-			// the tray icon is not used in the demo that's why
-			Provider provider = Provider.getCurrentProvider(true);
-			provider.register(KeyStroke.getKeyStroke(APP_HOTKEY), new HotKeyListener() {
+    public static void main(String[] main) {
+        EventQueue.invokeLater(new DemoApp());
+    }
+    
+    /**
+     * Create the app and initialize
+     */
+    public DemoApp() {
+        try {
+            frame = new TasmaGUI();
+            storage = new MockStorage();
+            collection = new TaskCollection(storage);
+            controller = new Controller(collection);
+            commandBoxAnimator = new UICommandBoxAnimator(frame);
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    /**
+     * Run the show!
+     */
+    @Override
+    public void run() {
+        try {
+            frame.initialize(controller);
+            controller.initialize();
+            controller.executeInput("list");
+            
+            // we need the hot key to bring window back in case we accidentally close it
+            // the tray icon is not used in the demo that's why
+            Provider provider = Provider.getCurrentProvider(true);
+            provider.register(KeyStroke.getKeyStroke(APP_HOTKEY), new HotKeyListener() {
 
-				@Override
-				public void onHotKey(HotKey hotKey) {
-					frame.show();
-				}
-	        });
-			
-			Actor actor = new Actor();
-			actor.initialize();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+                @Override
+                public void onHotKey(HotKey hotKey) {
+                    frame.show();
+                }
+            });
+            
+            Actor actor = new Actor();
+            actor.initialize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	
-	protected class Actor {
-		/**
-		 * The key press frame default opacity
-		 */
-		private static final float DEFAULT_KEY_PRESS_FRAME_OPACITY = 0.6f;
-		
-		/**
-		 * The stack of actions that were completed
-		 */
-		private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
-		
-		/**
-		 * The queue of actions available to run for in the demo
-		 */
-		private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
-		
-		/**
-		 * The demo control frame
-		 */
-		private JFrame demoControl = new JFrame();
-		
-		/**
-		 * The key press label frame
-		 */
-		private JFrame keyPressFrame = new JFrame();
-		
-		/**
-		 * The key press label
-		 */
-		private JLabel labelKeyPress;
-		
-		/**
-		 * Initialize the actor
-		 */
-		public void initialize() {
-			prepareDemoControl();
-			prepareKeyPressFrame();
-			loadActions();
-		}
-		
-		/**
-		 * Prepare the key press frame
-		 */
-		private void prepareKeyPressFrame() {
-			keyPressFrame.setLayout(new BorderLayout());
-			keyPressFrame.setResizable(false);
-			keyPressFrame.setUndecorated(true);
-			keyPressFrame.setAlwaysOnTop(true);
-			keyPressFrame.setSize(200, 60);
-			keyPressFrame.setLocationRelativeTo(null);
-			keyPressFrame.setLocation(keyPressFrame.getLocation().x, (int)(1.75 * keyPressFrame.getLocation().y));
-			keyPressFrame.setVisible(false);
-			keyPressFrame.setShape(new RoundRectangle2D.Double(0, 0, 200, 60, 5, 5));
-			keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
-			labelKeyPress = new JLabel("");
-			labelKeyPress.setForeground(Color.WHITE);
-			labelKeyPress.setBackground(Color.DARK_GRAY);
-			labelKeyPress.setHorizontalAlignment(JLabel.CENTER);
-			labelKeyPress.setFont(labelKeyPress.getFont().deriveFont(24.0f));
-			keyPressFrame.add(labelKeyPress, BorderLayout.CENTER);
-			labelKeyPress.setOpaque(true);
-		}
+    
+    protected class Actor {
+        /**
+         * The key press frame default opacity
+         */
+        private static final float DEFAULT_KEY_PRESS_FRAME_OPACITY = 0.6f;
+        
+        /**
+         * The stack of actions that were completed
+         */
+        private Stack<Runnable> actionsCompleted = new Stack<Runnable>();
+        
+        /**
+         * The queue of actions available to run for in the demo
+         */
+        private LinkedList<Runnable> actionsAvailable = new LinkedList<Runnable>();
+        
+        /**
+         * The demo control frame
+         */
+        private JFrame demoControl = new JFrame();
+        
+        /**
+         * The key press label frame
+         */
+        private JFrame keyPressFrame = new JFrame();
+        
+        /**
+         * The key press label
+         */
+        private JLabel labelKeyPress;
+        
+        /**
+         * Initialize the actor
+         */
+        public void initialize() {
+            prepareDemoControl();
+            prepareKeyPressFrame();
+            loadActions();
+        }
+        
+        /**
+         * Prepare the key press frame
+         */
+        private void prepareKeyPressFrame() {
+            keyPressFrame.setLayout(new BorderLayout());
+            keyPressFrame.setResizable(false);
+            keyPressFrame.setUndecorated(true);
+            keyPressFrame.setAlwaysOnTop(true);
+            keyPressFrame.setSize(200, 60);
+            keyPressFrame.setLocationRelativeTo(null);
+            keyPressFrame.setLocation(keyPressFrame.getLocation().x, (int)(1.75 * keyPressFrame.getLocation().y));
+            keyPressFrame.setVisible(false);
+            keyPressFrame.setShape(new RoundRectangle2D.Double(0, 0, 200, 60, 5, 5));
+            keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
+            labelKeyPress = new JLabel("");
+            labelKeyPress.setForeground(Color.WHITE);
+            labelKeyPress.setBackground(Color.DARK_GRAY);
+            labelKeyPress.setHorizontalAlignment(JLabel.CENTER);
+            labelKeyPress.setFont(labelKeyPress.getFont().deriveFont(24.0f));
+            keyPressFrame.add(labelKeyPress, BorderLayout.CENTER);
+            labelKeyPress.setOpaque(true);
+        }
 
-		/**
-		 * Prepare the demo control frame
-		 */
-		protected void prepareDemoControl() {
-			Actor thisActor = this;
-			demoControl.setLayout(new BorderLayout());
-			demoControl.setResizable(false);
-			demoControl.setUndecorated(true);
-			demoControl.setSize(60, 60);
-			demoControl.setAlwaysOnTop(true);
-			JButton exitButton = new JButton("X");
-			exitButton.setSize(40, 20);
-			demoControl.getContentPane().add(exitButton, BorderLayout.PAGE_START);
-			exitButton.addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-			
-			JButton nextButton = new JButton(">");
-			exitButton.setSize(40, 20);
-			demoControl.getContentPane().add(nextButton, BorderLayout.PAGE_END);
-			nextButton.addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					thisActor.next();
-				}
-			});
+        /**
+         * Prepare the demo control frame
+         */
+        protected void prepareDemoControl() {
+            Actor thisActor = this;
+            demoControl.setLayout(new BorderLayout());
+            demoControl.setResizable(false);
+            demoControl.setUndecorated(true);
+            demoControl.setSize(60, 60);
+            demoControl.setAlwaysOnTop(true);
+            JButton exitButton = new JButton("X");
+            exitButton.setSize(40, 20);
+            demoControl.getContentPane().add(exitButton, BorderLayout.PAGE_START);
+            exitButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
+            
+            JButton nextButton = new JButton(">");
+            exitButton.setSize(40, 20);
+            demoControl.getContentPane().add(nextButton, BorderLayout.PAGE_END);
+            nextButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    thisActor.next();
+                }
+            });
 
-			demoControl.setVisible(true);
-		}
-		
-		/**
-		 * Show what key has been pressed on the screen
-		 * @param key The key that has been pressed
-		 */
-		protected void showKeyPress(String key) {
-			keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
-			keyPressFrame.setVisible(true);
-			labelKeyPress.setText(key);
-			
-			// the timer will perform fade out animation and hide away the frame
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					if (keyPressFrame.getOpacity() > 0) {
-						keyPressFrame.setOpacity(Math.max(0, keyPressFrame.getOpacity() - 0.05f));
-					} else {
-						timer.cancel();
-						keyPressFrame.setVisible(false);
-					}
-				}
-			}, 1200, 30);
-		}
-		
-		/**
-		 * Suit up all the actions for the demo
-		 */
-		public void loadActions() {
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					controller.executeInput("tutorial");
-					frame.show();
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					controller.executeInput("a bring mom to visit doctor on next monday");
-					controller.executeInput("a settle bank account matters tomorrow");
-					controller.executeInput("a bring dog to vet for check up");
-					controller.executeInput("list");
-					frame.displayMessage("");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					commandBoxAnimator.animate("add");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					commandBoxAnimator.animate("add return library book on next wednesday", 4);
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("add return library book on next wednesday");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("a");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("a buy birthday gift for hui qi", 2);
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("a buy birthday gift for hui qi");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					commandBoxAnimator.animate("help");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("help");
-				}
-			});
-			
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("help add");
-				}
-			});
+            demoControl.setVisible(true);
+        }
+        
+        /**
+         * Show what key has been pressed on the screen
+         * @param key The key that has been pressed
+         */
+        protected void showKeyPress(String key) {
+            keyPressFrame.setOpacity(DEFAULT_KEY_PRESS_FRAME_OPACITY);
+            keyPressFrame.setVisible(true);
+            labelKeyPress.setText(key);
+            
+            // the timer will perform fade out animation and hide away the frame
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (keyPressFrame.getOpacity() > 0) {
+                        keyPressFrame.setOpacity(Math.max(0, keyPressFrame.getOpacity() - 0.05f));
+                    } else {
+                        timer.cancel();
+                        keyPressFrame.setVisible(false);
+                    }
+                }
+            }, 1200, 30);
+        }
+        
+        /**
+         * Suit up all the actions for the demo
+         */
+        public void loadActions() {
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    controller.executeInput("tutorial");
+                    frame.show();
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    controller.executeInput("a bring mom to visit doctor on next monday");
+                    controller.executeInput("a settle bank account matters tomorrow");
+                    controller.executeInput("a bring dog to vet for check up");
+                    controller.executeInput("list");
+                    frame.displayMessage("");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    commandBoxAnimator.animate("add");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    commandBoxAnimator.animate("add return library book on next wednesday", 4);
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("add return library book on next wednesday");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("a");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("a buy birthday gift for hui qi", 2);
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("a buy birthday gift for hui qi");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    commandBoxAnimator.animate("help");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("help");
+                }
+            });
+            
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("help add");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("help add");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("help add");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("edit 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("edit 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("edit 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("edit 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("edit 2 buy a cushion as birthday gift for hui qi", 11);
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("edit 2 buy a cushion as birthday gift for hui qi", 11);
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("edit 2 buy a cushion as birthday gift for hui qi");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("edit 2 buy a cushion as birthday gift for hui qi");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("mark 3");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("mark 3");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("mark 3");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("mark 3");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("undo");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("undo");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("undo");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("undo");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("mark 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("mark 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("mark 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("mark 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					controller.executeInput("add do spring cleaning on Saturday");
-					controller.executeInput("add plan a short trip to batam");
-					controller.executeInput("add sign up for standard chartered marathon by next monday");
-					controller.executeInput("add send camera for repairs");
-					controller.executeInput("add get curry chicken from aunt for mum");
-					controller.executeInput("add take IPPT at Maju Camp");
-					controller.executeInput("add find cheap flights to Taiwan");
-					controller.executeInput("add get pants tailored for wedding dinner");
-					controller.executeInput("add try make DIY photo frames");
-					controller.executeInput("add buy contact lens solution");
-					controller.executeInput("add bring cousins out to dinner on sunday");
-					controller.executeInput("add pay for mobile bills");
-					controller.executeInput("add hire gardener to tidy up the lawn");
-					controller.executeInput("done 8");
-					
-					controller.executeInput("list");
-					frame.displayMessage("");
-					frame.editCmdDisplay("");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    controller.executeInput("add do spring cleaning on Saturday");
+                    controller.executeInput("add plan a short trip to batam");
+                    controller.executeInput("add sign up for standard chartered marathon by next monday");
+                    controller.executeInput("add send camera for repairs");
+                    controller.executeInput("add get curry chicken from aunt for mum");
+                    controller.executeInput("add take IPPT at Maju Camp");
+                    controller.executeInput("add find cheap flights to Taiwan");
+                    controller.executeInput("add get pants tailored for wedding dinner");
+                    controller.executeInput("add try make DIY photo frames");
+                    controller.executeInput("add buy contact lens solution");
+                    controller.executeInput("add bring cousins out to dinner on sunday");
+                    controller.executeInput("add pay for mobile bills");
+                    controller.executeInput("add hire gardener to tidy up the lawn");
+                    controller.executeInput("done 8");
+                    
+                    controller.executeInput("list");
+                    frame.displayMessage("");
+                    frame.editCmdDisplay("");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("search dinner");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("search dinner");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("search dinner");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("search dinner");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					frame.displayMessage("");
-					commandBoxAnimator.animate("delete 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    frame.displayMessage("");
+                    commandBoxAnimator.animate("delete 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Enter");
-					frame.editCmdDisplay("");
-					controller.executeInput("delete 2");
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Enter");
+                    frame.editCmdDisplay("");
+                    controller.executeInput("delete 2");
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Esc");
-					frame.editCmdDisplay("");
-					frame.hide();
-				}
-			});
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Esc");
+                    frame.editCmdDisplay("");
+                    frame.hide();
+                }
+            });
 
-			actionsAvailable.offer(new Runnable() {
-				@Override
-				public void run() {
-					showKeyPress("Alt + Shift + X");
-					frame.show();
-				}
-			});
-		}
-		
-		/**
-		 * Execute the next action.
-		 */
-		public void next() {
-			if (actionsAvailable.size() > 0) {
-				Runnable action = actionsAvailable.poll();
-				actionsCompleted.push(action);
-				action.run();
-			}
-		}
-	}
+            actionsAvailable.offer(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyPress("Alt + Shift + X");
+                    frame.show();
+                }
+            });
+        }
+        
+        /**
+         * Execute the next action.
+         */
+        public void next() {
+            if (actionsAvailable.size() > 0) {
+                Runnable action = actionsAvailable.poll();
+                actionsCompleted.push(action);
+                action.run();
+            }
+        }
+    }
 }
 
 	// End of segment: src\com\tasma\demo\DemoApp.java
@@ -534,58 +534,58 @@ import com.tasma.ui.TasmaUserInterface;
  * but is in fact animated in this class. What a liar.
  */
 public class UICommandBoxAnimator {
-	
-	/**
-	 * The default typing speed in characters per second
-	 */
-	private final static float DEFAULT_SPEED = 24.0f;
-	
-	/**
-	 * The user interface to act out the typing on
-	 */
-	protected TasmaUserInterface userInterface;
-	
-	/**
-	 * The speed of typing in characters per second
-	 */
-	protected float speed;
-	
-	/**
-	 * You need a timer to carry out animation right?
-	 */
-	protected Timer timer;
-	
-	public UICommandBoxAnimator(TasmaUserInterface userInterface) {
-		this(userInterface, DEFAULT_SPEED);
-	}
-	
-	public UICommandBoxAnimator(TasmaUserInterface userInterface, float speed) {
-		this.userInterface = userInterface;
-		this.speed = speed;
-	}
-	
-	public void animate(String text) {
-		animate(text, 0);
-	}
-	
-	public void animate(String text, int start) {
-		if (timer != null) {
-			timer.cancel();
-		}
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			int length = start;
-			
-			@Override
-			public void run() {
-				++length;
-				userInterface.editCmdDisplay(text.substring(0, length));
-				if (length >= text.length()) {
-					this.cancel();
-				}
-			}
-		}, 0, (long)(1 / speed * 1000));
-	}
+    
+    /**
+     * The default typing speed in characters per second
+     */
+    private final static float DEFAULT_SPEED = 24.0f;
+    
+    /**
+     * The user interface to act out the typing on
+     */
+    protected TasmaUserInterface userInterface;
+    
+    /**
+     * The speed of typing in characters per second
+     */
+    protected float speed;
+    
+    /**
+     * You need a timer to carry out animation right?
+     */
+    protected Timer timer;
+    
+    public UICommandBoxAnimator(TasmaUserInterface userInterface) {
+        this(userInterface, DEFAULT_SPEED);
+    }
+    
+    public UICommandBoxAnimator(TasmaUserInterface userInterface, float speed) {
+        this.userInterface = userInterface;
+        this.speed = speed;
+    }
+    
+    public void animate(String text) {
+        animate(text, 0);
+    }
+    
+    public void animate(String text, int start) {
+        if (timer != null) {
+            timer.cancel();
+        }
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int length = start;
+            
+            @Override
+            public void run() {
+                ++length;
+                userInterface.editCmdDisplay(text.substring(0, length));
+                if (length >= text.length()) {
+                    this.cancel();
+                }
+            }
+        }, 0, (long)(1 / speed * 1000));
+    }
 }
 
 	// End of segment: src\com\tasma\demo\UICommandBoxAnimator.java

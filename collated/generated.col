@@ -6,7 +6,7 @@
 	 * origin: src\com\tasma\commands\UndoNotSupportedException.java
 	 */
 
-	private static final long serialVersionUID = 8267692072568234883L;
+    private static final long serialVersionUID = 8267692072568234883L;
 
 }
 
