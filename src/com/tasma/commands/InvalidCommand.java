@@ -4,9 +4,9 @@
 //@author A0132763H
 package com.tasma.commands;
 
-import com.tasma.Palette;
 import com.tasma.TaskCollection;
 import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
 import com.tasma.ui.TasmaUserInterface;
 
 public class InvalidCommand extends AbstractCommand {

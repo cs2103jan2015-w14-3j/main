@@ -6,11 +6,11 @@ package com.tasma.commands;
 
 import java.util.List;
 
-import com.tasma.Palette;
 import com.tasma.Parser;
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
 import com.tasma.ui.TasmaUserInterface;
 
 public class EditCommand extends AbstractUndoableCommand {

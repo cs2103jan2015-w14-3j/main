@@ -36,7 +36,6 @@ import javax.swing.UIManager;
 
 import com.tasma.Controller;
 import com.tasma.InvalidInputException;
-import com.tasma.Palette;
 import com.tasma.Task;
 import com.tasma.TaskType;
 import com.tasma.config.Config;

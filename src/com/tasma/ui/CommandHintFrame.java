@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.tasma.HelpMessage;
 import com.tasma.InvalidInputException;
-import com.tasma.Palette;
 import com.tasma.commands.AliasHandler;
 import com.tasma.commands.InputSplitter;
 import com.tasma.commands.CommandType;

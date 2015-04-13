@@ -7,12 +7,13 @@ package com.tasma.commands;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
-import com.tasma.Palette;
+
 import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.TaskState;
 import com.tasma.TaskType;
 import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
 import com.tasma.ui.TasmaUserInterface;
 
 public class SearchCommand extends AbstractCommand {

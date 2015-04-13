@@ -2,7 +2,7 @@
  * Tasma Task Manager
  */
 //@author A0132763H
-package com.tasma;
+package com.tasma.ui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -65,6 +65,12 @@ public class Palette {
 	 * Color: Green
 	 */
 	public static final Color TASK_LIST_FLOATING = new Color(42, 212, 0);
+	
+	/**
+	 * Color of done tasks
+	 * Color: Green
+	 */
+	public static final Color TASK_LIST_DONE = new Color(42, 212, 0);
 	
 	/**
 	 * Default task colour
