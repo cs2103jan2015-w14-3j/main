@@ -23,20 +23,17 @@ public class Parser {
 	private String taskDetails;
 
 	/** Keywords for parsing */
-	private static final String[] KEYWORD_ARRAY_ALL = { "on", "at", "from",
-		"by", "tomorrow", "tmrw", "tmr", "today", "tdy", "tonight", "next",
-	    "this" };
-	private static final String[] KEYWORD_ARRAY_TOMORROW = { "tomorrow", "tmr",
-	    "tmrw" };
-	private static final String[] KEYWORD_ARRAY_TODAY = { "today", "tdy",
-	    "tonight" };
+	private static final String[] KEYWORD_ARRAY_ALL = {"on", "at", "from", "by", 
+		"tomorrow", "tmrw", "tmr", "today", "tdy", "tonight", "next", "this"};
+	private static final String[] KEYWORD_ARRAY_TOMORROW = {"tomorrow", "tmr", "tmrw"};
+	private static final String[] KEYWORD_ARRAY_TODAY = {"today", "tdy", "tonight"};
 
 	private static final String KEYWORD_NEXT = "next";
 	private static final String KEYWORD_TO = "to";
 	private static final String KEYWORD_WEEK = "week";
 	private static final String KEYWORD_PM = "pm";
 
-	/** Days of week */
+	/** Days of week*/
 	private static final String DAY_MONDAY = "mon";
 	private static final String DAY_TUESDAY = "tue";
 	private static final String DAY_WEDNESDAY = "wed";
@@ -47,25 +44,21 @@ public class Parser {
 
 	/** Regular expressions */
 	private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
-	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.]"
-			+ "(0[1-9]|1[012])[- /.]\\d\\d";
-	private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5]"
-			+ "[\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
+	private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d";
+	private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 
 	/**
 	 * Calls the relevant functions to parse the passed string.
-	 * 
-	 * @param taskDetails
-	 *            Details of the task to be parsed.
+	 * @param taskDetails Details of the task to be parsed.
 	 * @return Instance of a Task which contains the parsed details.
 	 */
 	public Task parse(String taskDetails) {
 		assert taskDetails.length() != 0;
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
-
+		
 		Task parsedTask = new Task(taskDetails);
 
-		this.taskDetails = taskDetails;
+		this.taskDetails = taskDetails; 
 
 		parsedTask = parseInput(parsedTask, taskDetails);
 
@@ -74,18 +67,15 @@ public class Parser {
 
 	/**
 	 * Calls the relevant functions to parse the passed string.
-	 * 
-	 * @param taskDetails
-	 *            Details of the task to be parsed.
-	 * @param parsedTask
-	 *            Already existing
+	 * @param taskDetails Details of the task to be parsed.
+	 * @param parsedTask Already existing 
 	 * @return Instance of a Task which contains the parsed details.
 	 */
 	public Task parse(Task parsedTask, String taskDetails) {
 		assert taskDetails.length() != 0;
 		logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
 
-		this.taskDetails = taskDetails;
+		this.taskDetails = taskDetails; 
 
 		parsedTask = parseInput(parsedTask, taskDetails);
 
@@ -93,25 +83,20 @@ public class Parser {
 	}
 
 	/**
-	 * Checks if date/time details exist in passed string. If so, calls
-	 * parseDateTime().
-	 * 
-	 * @param parsedTask
-	 *            Instance of Task in which parsed details are to be stored.
-	 * @param taskDetails
-	 *            Task details to be parsed
+	 * Checks if date/time details exist in passed string. If so, calls parseDateTime().
+	 * @param parsedTask Instance of Task in which parsed details are to be stored.
+	 * @param taskDetails Task details to be parsed 
 	 * @returns Task object with parsed information.
 	 */
 	private Task parseInput(Task parsedTask, String taskDetails) {
-		logger.log(Level.FINE, "Searching for date/time in \"{0}\"",
-				taskDetails);
-
+		logger.log(Level.FINE, "Searching for date/time in \"{0}\"", taskDetails);
+		
 		String[] param = tokenize(taskDetails);
 
 		for (int i = 0; i < param.length; i++) {
 			if (param[i].charAt(0) != ' ') {
-				if (Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i])
-						|| isValidDayDate(param[i]) || isValidTime(param[i])) {
+				if(Arrays.asList(KEYWORD_ARRAY_ALL).contains(param[i]) || 
+						isValidDayDate(param[i]) || isValidTime(param[i])) {
 					parsedTask = parseDateTime(param, i, parsedTask);
 					break;
 				}
@@ -123,19 +108,14 @@ public class Parser {
 
 	/**
 	 * Parses date and time from passed string array.
-	 * 
-	 * @param param
-	 *            [] Tokenized form of taskDetails.
-	 * @param num
-	 *            Index in param[] of keyword.
-	 * @param parsedTask
-	 *            Task object in which parsed details are to be stored.
+	 * @param param[] Tokenized form of taskDetails. 
+	 * @param num Index in param[] of keyword.
+	 * @param parsedTask Task object in which parsed details are to be stored.
 	 * @returns Task object with parsed information.
 	 */
 	private Task parseDateTime(String[] param, int num, Task parsedTask) {
-		logger.log(Level.FINE, "Parsing date and time from \"{0}\"",
-				taskDetails);
-
+		logger.log(Level.FINE, "Parsing date and time from \"{0}\"", taskDetails);
+		
 		DateTime d;
 		boolean isStartSet = false;
 
@@ -150,7 +130,7 @@ public class Parser {
 				} else if (param[i].equals(KEYWORD_TO)) {
 					parsedTask.setStartDateTime(d);
 					isStartSet = true;
-				}
+				} 
 			}
 		}
 
@@ -165,9 +145,7 @@ public class Parser {
 
 	/**
 	 * Sets initial end date/time of passed Task object.
-	 * 
-	 * @param parsedTask
-	 *            Task object in whose details are to be modified.
+	 * @param parsedTask 	Task object in whose details are to be modified. 
 	 * @returns Initialised DateTime object.
 	 */
 	private DateTime setInitialEndTime(Task parsedTask) {
@@ -184,12 +162,9 @@ public class Parser {
 
 	/**
 	 * Sets start date/time of passed Task object.
-	 * 
-	 * @param parsedTask
-	 *            Task object in whose details are to be modified.
-	 * @param d
-	 *            DateTime object to be assigned.
-	 * @param boolean Whether start date/time of parsedTask has been set.
+	 * @param parsedTask 	Task object in whose details are to be modified. 
+	 * @param d 			DateTime object to be assigned.
+	 * @param boolean		Whether start date/time of parsedTask has been set. 
 	 * @returns DateTime object with parsed information.
 	 */
 	private void setStartTime(Task parsedTask, DateTime d, boolean isStartSet) {
@@ -205,25 +180,19 @@ public class Parser {
 
 	/**
 	 * Sets task details of passed Task object.
-	 * 
-	 * @param param
-	 *            [] String array from which details are to be extracted.
-	 * @param num
-	 *            Index of first keyword in param[].
-	 * @param parsedTask
-	 *            Task object in whose details are to be modified.
+	 * @param param[] 		String array from which details are to be extracted.
+	 * @param num     		Index of first keyword in param[]. 
+	 * @param parsedTask 	Task object in whose details are to be modified. 
 	 * @returns DateTime object with parsed information.
 	 */
 	private void setTaskDetails(String[] param, int num, Task parsedTask) {
-		logger.log(Level.FINE,
-				"Setting task details extracted from input: \"{0}\"",
-				taskDetails);
-
+		logger.log(Level.FINE, "Setting task details extracted from input: \"{0}\"", taskDetails);
+		
 		if (num != 0) {
 			String str = "";
 
 			for (int i = 0; i < num; i++) {
-				str += param[i].trim() + " ";
+				str += param[i].trim() + " "; 
 			}
 
 			parsedTask.setDetails(str.trim());
@@ -232,11 +201,8 @@ public class Parser {
 
 	/**
 	 * Parses the day/date from passed string.
-	 * 
-	 * @param word
-	 *            String to be parsed.
-	 * @param d
-	 *            DateTime object in which date/day details are to be stored.
+	 * @param word String to be parsed.
+	 * @param d DateTime object in which date/day details are to be stored. 
 	 * @returns DateTime object with parsed information.
 	 */
 	private DateTime parseDate(String word, DateTime d) {
@@ -245,7 +211,7 @@ public class Parser {
 		} else if (determineDay(word) != -1) {
 			d = d.withDayOfWeek(determineDay(word));
 		} else if (isValidDate(word)) {
-			d = getDate(word, d);
+			d = getDate(word, d);		
 		} else if (isWordToday(word)) {
 			d = parseDay(d, 0);
 		} else if (isWordTomorrow(word)) {
@@ -261,9 +227,7 @@ public class Parser {
 
 	/**
 	 * Checks if passed string is a valid day or date.
-	 * 
-	 * @param word
-	 *            String to be checked.
+	 * @param word String to be checked.
 	 * @returns true if word is a valid day/date, false otherwise.
 	 */
 	private boolean isValidDayDate(String word) {
@@ -272,7 +236,7 @@ public class Parser {
 		} else if (determineDay(word) != -1) {
 			return true;
 		} else if (isValidDate(word)) {
-			return true;
+			return true;		
 		} else if (isWordToday(word)) {
 			return true;
 		} else if (isWordTomorrow(word)) {
@@ -284,11 +248,8 @@ public class Parser {
 
 	/**
 	 * Checks if passed string is "today".
-	 * 
-	 * @param word
-	 *            String to be checked.
-	 * @returns true if word can be matched to a form of "today", false
-	 *          otherwise.
+	 * @param word String to be checked.
+	 * @returns true if word can be matched to a form of "today", false otherwise.
 	 */
 	private boolean isWordToday(String word) {
 		if (Arrays.asList(KEYWORD_ARRAY_TODAY).contains(word)) {
@@ -300,11 +261,8 @@ public class Parser {
 
 	/**
 	 * Checks if passed string is "tomorrow".
-	 * 
-	 * @param word
-	 *            String to be checked.
-	 * @returns true if word can be matched to a form of "tomorrow", false
-	 *          otherwise.
+	 * @param word String to be checked.
+	 * @returns true if word can be matched to a form of "tomorrow", false otherwise.
 	 */
 	private boolean isWordTomorrow(String word) {
 		if (Arrays.asList(KEYWORD_ARRAY_TOMORROW).contains(word)) {
@@ -316,9 +274,7 @@ public class Parser {
 
 	/**
 	 * Parses the task's today/tomorrow details.
-	 * 
-	 * @param days
-	 *            No. of days to be added from today.
+	 * @param days No. of days to be added from today.
 	 * @return DateTime object containing the parsed day.
 	 */
 	private DateTime parseDay(DateTime d, int days) {
@@ -332,9 +288,7 @@ public class Parser {
 	}
 
 	/**
-	 * Initializes a DateTime object to current day and time 2359 and returns
-	 * it.
-	 * 
+	 * Initializes a DateTime object to current day and time 2359 and returns it.
 	 * @return Initialized DateTime object.
 	 */
 	private DateTime initializeDateTime() {
@@ -347,11 +301,8 @@ public class Parser {
 
 	/**
 	 * Determines which day of the week the passed string is.
-	 * 
-	 * @param day
-	 *            String containing day to be parsed.
-	 * @return Relevant DateTimeConstants if "day" is a valid day/week, -1
-	 *         otherwise
+	 * @param day String containing day to be parsed.
+	 * @return Relevant DateTimeConstants if "day" is a valid day/week, -1 otherwise
 	 */
 	private int determineDay(String day) {
 		if (day.toLowerCase().contains(DAY_MONDAY)) {
@@ -377,9 +328,7 @@ public class Parser {
 
 	/**
 	 * Checks if the passed string contains a valid date in dd/-.mm/-.yy form.
-	 * 
-	 * @param word
-	 *            String to be checked.
+	 * @param word String to be checked.
 	 * @return true if "date" contains a valid date, false otherwise.
 	 */
 	private boolean isValidDate(String word) {
@@ -388,29 +337,23 @@ public class Parser {
 			return false;
 		}
 
-		final int day = Integer.parseInt(word.substring(0, 2)), month = Integer
-				.parseInt(word.substring(3, 5)), year = Integer.parseInt(word
-						.substring(6, 8));
-		if (day == 31
-				&& (month == 4 || month == 6 || month == 9 || month == 11)) {
+		final int day = Integer.parseInt(word.substring(0, 2)), month = Integer.parseInt(word.substring(3, 5)),
+				year = Integer.parseInt(word.substring(6, 8));
+		if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 			return false; // 31st of a month with 30 days
 		} else if (day >= 30 && month == 2) {
 			return false; // February 30th or 31st
-		} else if (month == 2 && day == 29
-				&& !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
-			return false; // February 29th outside a leap year
+		} else if (month == 2 && day == 29 && !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
+			return false; //February 29th outside a leap year
 		} else {
-			return true; // Valid date
+			return true; //Valid date
 		}
 	}
 
 	/**
 	 * Gets date from passed string.
-	 * 
-	 * @param word
-	 *            String containing date to be parsed.
-	 * @param d
-	 *            DateTime object to be modified with parsed details.
+	 * @param word String containing date to be parsed.
+	 * @param d	   DateTime object to be modified with parsed details.
 	 * @return DateTime object containing the parsed date.
 	 */
 	private DateTime getDate(String word, DateTime d) {
@@ -422,9 +365,7 @@ public class Parser {
 
 	/**
 	 * Checks if the passed string contains a valid time in 12 hour format.
-	 * 
-	 * @param time
-	 *            String to be checked.
+	 * @param time String to be checked.
 	 * @return true if "time" contains a valid time, false otherwise.
 	 */
 	private boolean isValidTime(String time) {
@@ -440,34 +381,30 @@ public class Parser {
 
 	/**
 	 * Gets time from passed string.
-	 * 
-	 * @param word
-	 *            String containing date to be parsed.
-	 * @param d
-	 *            DateTime object to be modified with parsed details.
+	 * @param word 	String containing date to be parsed.
+	 * @param d	   	DateTime object to be modified with parsed details.
 	 * @return DateTime object containing the parsed time.
 	 */
 	private DateTime getTime(String word, DateTime d) {
 		int addHours = 0;
 
-		if (word.substring(word.length() - 2).compareToIgnoreCase(KEYWORD_PM) == 0) {
+		if (word.substring(word.length()-2).compareToIgnoreCase(KEYWORD_PM) == 0) {
 			addHours = 12;
 		}
 
 		int indexColon = word.indexOf(":"), hours, minutes = 0;
 
-		if (indexColon == -1) {
+		if (indexColon == -1 ) {
 			hours = Integer.parseInt(word.substring(0, word.length() - 2));
 		} else {
 			hours = Integer.parseInt(word.substring(0, indexColon));
-			minutes = Integer.parseInt(word.substring(indexColon + 1,
-					word.length() - 2));
+			minutes = Integer.parseInt(word.substring(indexColon+1, word.length() - 2));
 		}
 
 		if (hours == 12 && addHours == 0) {
-			hours = 0; // 12am
+			hours = 0;  //12am
 		} else if (hours == 12 & addHours == 12) {
-			addHours = 0; // 12pm
+			addHours = 0;  //12pm
 		}
 
 		d = d.withHourOfDay(hours + addHours);
@@ -478,9 +415,7 @@ public class Parser {
 
 	/**
 	 * Splits passed string around spaces and ignores text in double quotes.
-	 * 
-	 * @param taskDetails
-	 *            String to be tokenized.
+	 * @param taskDetails String to be tokenized.
 	 * @return Tokenized string array.
 	 */
 	private String[] tokenize(String taskDetails) {
@@ -489,7 +424,7 @@ public class Parser {
 		Matcher m = Pattern.compile(REGEX_SPLIT).matcher(taskDetails);
 
 		while (m.find()) {
-			list.add(m.group(1).replace("\"", " "));
+			list.add(m.group(1).replace("\"", " ")); 
 		}
 
 		String[] param = new String[list.size()];
