@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
+//@author A0116390L
 public class MyScrollBarUI extends BasicScrollBarUI{
 	
 	private static final int SCROLL_BAR_ALPHA_ROLLOVER = 150;

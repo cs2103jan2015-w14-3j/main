@@ -61,7 +61,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private CommandHintFrame commandHintFrame = new CommandHintFrame();
 	private JList<Object> listTasks = new JList<Object>();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
-
+//@author A0116390L
 	/**
 	 * Create the frame.
 	 */
@@ -121,7 +121,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 			}
 		});
 	}
-	
+
 	private void initTxtCmd() {
 		textCommand = new PlaceholderTextField();
 		textCommand.setPlaceholder("What would you like to do?");
@@ -181,7 +181,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		});
 		headerPanel.add(textCommand, BorderLayout.PAGE_START);
 	}
-	
+
 	private void initTxtMsg() {
 		textMessage.setEditable(false);
 		textMessage.setBackground(Color.WHITE);
@@ -195,13 +195,13 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		textMessage.setFocusTraversalKeysEnabled(false);
 		contentPane.add(textMessage, BorderLayout.PAGE_END);
 	}
-	
+
 	private void initTaskLists() {
 		listTasks.setFocusable(false);
 		listTasks.setSelectionModel(new DisabledItemSelectionModel());
 		listTasks.setCellRenderer(new CustomListRenderer());
 	}
-	
+
 	private void initScrollPane() {
 		listTasksScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		listTasksScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(12, 0));
@@ -245,7 +245,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		this.controller = controller;
 		this.controller.setUserInterface(this);
 	}
-
+//@author A0116390L
 	//For disabling the selection capability of the list
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
 
@@ -413,7 +413,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridx = 1;
 		        c.gridy = 1;
 		        panel.add(textDateTime, c);
-		        
+		        //@author A0116390L
 		        ImageIcon donePic = new ImageIcon(getClass().getResource(DONE_IMG_PATH));
 		        Image img = donePic.getImage();
 		        Image newImg = img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
