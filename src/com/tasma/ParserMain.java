@@ -12,67 +12,67 @@ package com.tasma;
  * Dummy class for testing parser 
  */
 public class ParserMain {
-	public static void main(String[] args) {
-		Parser parser = new Parser();
+    public static void main(String[] args) {
+        Parser parser = new Parser();
 
-		System.out.println("do cs2105 on next mon");
-		parser.parse("do cs2105 on next mon");
+        System.out.println("do cs2105 on next mon");
+        parser.parse("do cs2105 on next mon");
 
-		System.out.println("do CS2105");
-		parser.parse("do CS2105");
+        System.out.println("do CS2105");
+        parser.parse("do CS2105");
 
-		System.out.println("add yay by tues");
-		parser.parse("add yay by tues");
+        System.out.println("add yay by tues");
+        parser.parse("add yay by tues");
 
-		System.out.println("DO CS2105 ON NEXT MON");
-		parser.parse("DO CS2105 ON NEXT MON");
+        System.out.println("DO CS2105 ON NEXT MON");
+        parser.parse("DO CS2105 ON NEXT MON");
 
-		System.out.println("do cs2105 on mon");
-		parser.parse("do cs2105 on mon");
+        System.out.println("do cs2105 on mon");
+        parser.parse("do cs2105 on mon");
 
-		System.out.println("do cs2105 on next mon at ALL");
-		parser.parse("do cs2105 on next mon at ALL");
+        System.out.println("do cs2105 on next mon at ALL");
+        parser.parse("do cs2105 on next mon at ALL");
 
-		System.out.println("do cs2105 on mon at ALL");
-		parser.parse("do cs2105 on mon at ALL");
+        System.out.println("do cs2105 on mon at ALL");
+        parser.parse("do cs2105 on mon at ALL");
 
-		System.out.println("do cs2105 on next friday at ALL");
-		parser.parse("do cs2105 on next friday at ALL");
+        System.out.println("do cs2105 on next friday at ALL");
+        parser.parse("do cs2105 on next friday at ALL");
 
-		System.out.println("do cs2105 on monday at ALL");
-		parser.parse("do cs2105 on monday at ALL");
+        System.out.println("do cs2105 on monday at ALL");
+        parser.parse("do cs2105 on monday at ALL");
 
-		System.out.println("do cs2105 on 24/05/15 at ALL");
-		parser.parse("do cs2105 on 24/05/15 at ALL");
+        System.out.println("do cs2105 on 24/05/15 at ALL");
+        parser.parse("do cs2105 on 24/05/15 at ALL");
 
-		System.out.println("do cs2105 on 22.05.15 at ALL");
-		parser.parse("do cs2105 on 22.05.15 at ALL");
+        System.out.println("do cs2105 on 22.05.15 at ALL");
+        parser.parse("do cs2105 on 22.05.15 at ALL");
 
-		System.out.println("do cs2105 on 22-05-15 at -2pm at ALL");
-		parser.parse("do cs2105 on 22-05-15 at -2pm at ALL");
+        System.out.println("do cs2105 on 22-05-15 at -2pm at ALL");
+        parser.parse("do cs2105 on 22-05-15 at -2pm at ALL");
 
-		System.out.println("");
-		parser.parse("");
+        System.out.println("");
+        parser.parse("");
 
-		System.out.println("yay thur 10am to 3pm");
-		Task t = parser.parse("yay thur 10am to 3pm");
+        System.out.println("yay thur 10am to 3pm");
+        Task t = parser.parse("yay thur 10am to 3pm");
 
-		System.out.println(t.getDetails());
-		System.out.println(t.getFormattedStartDateTime());
-		System.out.println(t.getFormattedEndDateTime());
+        System.out.println(t.getDetails());
+        System.out.println(t.getFormattedStartDateTime());
+        System.out.println(t.getFormattedEndDateTime());
 
-		t = parser.parse(t, "tmr");
+        t = parser.parse(t, "tmr");
 
-		System.out.println(t.getDetails());
-		System.out.println(t.getStringStartDateTime());
-		System.out.println(t.getStringEndDateTime());	
+        System.out.println(t.getDetails());
+        System.out.println(t.getStringStartDateTime());
+        System.out.println(t.getStringEndDateTime());    
 
-		//System.out.println("yes");
-		System.out.println(t.getDetails());
-		System.out.println(t.getStartDateTime());
-		System.out.println(t.getEndDateTime());
+        //System.out.println("yes");
+        System.out.println(t.getDetails());
+        System.out.println(t.getStartDateTime());
+        System.out.println(t.getEndDateTime());
 
-		System.out.println("\"work on garden\" 22 2pm");
-		parser.parse("\"work on garden\" 22 2pm");
-	}
+        System.out.println("\"work on garden\" 22 2pm");
+        parser.parse("\"work on garden\" 22 2pm");
+    }
 }

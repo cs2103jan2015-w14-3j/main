@@ -20,27 +20,27 @@ import com.tasma.Controller;
  * Provides support for system tray icon
  */
 public class TrayIcon {
-	
-	private static final String LOGO_PATH = "/com/tasma/res/logo16.png";
-	
-	private PopupMenu popupMenu;
-	private java.awt.TrayIcon trayIcon;
-	private SystemTray tray;
-	
-	private TasmaUserInterface userInterface;
-	
-	public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
-		if (userInterface == null) {
-			throw new Exception();
-		}
-		this.userInterface = userInterface;
-	}
-	
-	/**
-	 * Set up the tray icon
-	 * @throws Exception Thrown when system tray is not supported.
-	 */
-	public void setup() throws Exception {
+    
+    private static final String LOGO_PATH = "/com/tasma/res/logo16.png";
+    
+    private PopupMenu popupMenu;
+    private java.awt.TrayIcon trayIcon;
+    private SystemTray tray;
+    
+    private TasmaUserInterface userInterface;
+    
+    public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
+        if (userInterface == null) {
+            throw new Exception();
+        }
+        this.userInterface = userInterface;
+    }
+    
+    /**
+     * Set up the tray icon
+     * @throws Exception Thrown when system tray is not supported.
+     */
+    public void setup() throws Exception {
         if (!SystemTray.isSupported()) {
             throw new UnsupportedOperationException();
         }
@@ -55,20 +55,20 @@ public class TrayIcon {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                	userInterface.show();
+                    userInterface.show();
                 }
             }
 
         });
 
         tray.add(trayIcon);
-	}
-	
+    }
+    
 
-	/**
-	 * Build the context menu of the tray icon
-	 */
-	protected void buildMenu() {
+    /**
+     * Build the context menu of the tray icon
+     */
+    protected void buildMenu() {
         MenuItem showItem = new MenuItem("Show Tasma");
         MenuItem exitItem = new MenuItem("Exit");
          
@@ -89,8 +89,8 @@ public class TrayIcon {
                 System.exit(0);
             }
         });
-	}
-	
+    }
+    
     /**
      * Obtain the image URL
      * @param path Path to the image
@@ -110,6 +110,6 @@ public class TrayIcon {
     
     //@author A0119434H
     public void displayInfo(String caption, String text) {
-    	trayIcon.displayMessage(caption, text, java.awt.TrayIcon.MessageType.INFO);
+        trayIcon.displayMessage(caption, text, java.awt.TrayIcon.MessageType.INFO);
     }
 }

@@ -5,10 +5,10 @@
 package com.tasma;
 
 public class InvalidInputException extends Exception{
-	 
-	private static final long serialVersionUID = -2968409273587420542L;
+     
+    private static final long serialVersionUID = -2968409273587420542L;
 
-	public InvalidInputException() {}
+    public InvalidInputException() {}
 
     //Constructor that accepts a message
     public InvalidInputException(String message) {

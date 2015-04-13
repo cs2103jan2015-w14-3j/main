@@ -11,7 +11,7 @@ package com.tasma.commands;
  */
 public class UndoNotSupportedException extends Exception {
 
-	//@author generated
-	private static final long serialVersionUID = 8267692072568234883L;
+    //@author generated
+    private static final long serialVersionUID = 8267692072568234883L;
 
 }
