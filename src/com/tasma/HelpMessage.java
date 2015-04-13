@@ -21,12 +21,12 @@ public final class HelpMessage {
 
 	public static final String HELP_LIST = "\tlist [filters]\n\n"
 			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be:\n"
-			+ "\ttmr:\t\tShows all tasks due / starting tomorrow\n"
+			+ "\ttmr:\t\t\tShows all tasks due / starting tomorrow\n"
 			+ "\ttoday:\t\tShows all tasks due / starting today\n"
 			+ "\tfloating:\t\tShows all floating tasks\n"
-			+ "\tdone:\t\tShows all tasks that were done\n"
+			+ "\tdone:\t\t\tShows all tasks that were done\n"
 			+ "\tundone:\t\tShows all tasks that were not done yet\n"
-			+ "\tpast:\t\tShows all tasks that were not done and overdue\n"
+			+ "\tpast:\t\t\tShows all tasks that were not done and overdue\n"
 			+ "\toverdue:\t\tShows all tasks that were not done and overdue, same as past\n";
 
 	public static final String HELP_MARK = "\tmark <task number>\n\n"
