@@ -15,7 +15,8 @@ public abstract class ObservableConfig {
     /**
      * The list of observers to notify later
      */
-    private LinkedList<ChangeObserverInterface> observers = new LinkedList<ChangeObserverInterface>();
+    private LinkedList<ChangeObserverInterface> observers =
+    		new LinkedList<ChangeObserverInterface>();
 
     /**
      * Add an observer to the list of observers to keep updated

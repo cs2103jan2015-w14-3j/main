@@ -31,7 +31,8 @@ public class SearchCommand extends AbstractCommand {
     @Override
     public void execute() throws Exception {
         if (query.equals("")) {
-            userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY, Palette.MESSAGE_WARNING);
+            userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY,
+            		Palette.MESSAGE_WARNING);
         } else {
             SearchProcessor processor = new SearchProcessor(query);
             List<Task> resultList = processor.filter(collection);
@@ -41,7 +42,9 @@ public class SearchCommand extends AbstractCommand {
             state.addAll(resultList);
             userInterface.setHeader(String.format(UIMessage.HEADER_TASK_SEARCH, query));
             userInterface.displayTasks(resultList);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query), Palette.MESSAGE_INFO);
+            userInterface.displayMessage(
+            		String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query),
+            		Palette.MESSAGE_INFO);
         }
     }
 

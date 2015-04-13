@@ -19,7 +19,8 @@ public class Palette {
     
     /**
      * The placeholder text's colour of blue. 
-     * The background of the command box is THEME_BLUE, so we have to use a very light shade of blue
+     * The background of the command box is THEME_BLUE, so we have to
+     * use a very light shade of blue
      */
     public static final Color PLACEHOLDER_TEXT = new Color(162, 216, 232);
     

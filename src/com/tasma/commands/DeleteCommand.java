@@ -33,7 +33,8 @@ public class DeleteCommand extends AbstractUndoableCommand  {
             
         }
         if (tasks.size() == 0) {
-            userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, Palette.MESSAGE_WARNING);
+            userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, 
+            		Palette.MESSAGE_WARNING);
         }
     }
 
@@ -46,12 +47,16 @@ public class DeleteCommand extends AbstractUndoableCommand  {
                 Task task = tasks.get(0);
                 collection.delete(task);
 
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()),
+                		Palette.MESSAGE_SUCCESS);
             } else {
                 for (Task task : tasks) {
                     collection.delete(task);
                 }
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_DELETE_MULTIPLE_SUCCESS, tasks.size()),
+                		Palette.MESSAGE_SUCCESS);
             }
             
             ListCommand listCommand = new ListCommand(userInterface, collection, state);

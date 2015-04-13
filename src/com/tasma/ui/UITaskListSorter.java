@@ -13,7 +13,8 @@ import com.tasma.Task;
 import com.tasma.UIMessage;
 
 /**
- * Provides support for sorting the task list state into various headings for UI presentation
+ * Provides support for sorting the task list state into various headings for
+ * UI presentation
  */
 public class UITaskListSorter {
 
@@ -33,7 +34,8 @@ public class UITaskListSorter {
 
         int taskIndex = 0;
         for (Task task: tasks) {
-            Map.Entry<Integer, Task> entry = new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
+            Map.Entry<Integer, Task> entry =
+            		new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
             switch (task.getState()) {
                 case OVERDUE:
                     listOverdue.add(entry);
@@ -64,32 +66,38 @@ public class UITaskListSorter {
         LinkedList<Object> finalList = new LinkedList<Object>();
         
         if (listOverdue.size() > 0) {
-            listOverdue.add(0, String.format(UIMessage.SECTION_HEADER_OVERDUE, listOverdue.size()));
+            listOverdue.add(0, String.format(UIMessage.SECTION_HEADER_OVERDUE,
+            		listOverdue.size()));
             finalList.addAll(listOverdue);
         }
         
         if (listToday.size() > 0) {
-            listToday.add(0, String.format(UIMessage.SECTION_HEADER_TODAY, listToday.size()));
+            listToday.add(0, String.format(UIMessage.SECTION_HEADER_TODAY,
+            		listToday.size()));
             finalList.addAll(listToday);
         }
 
         if (listTomorrow.size() > 0) {
-            listTomorrow.add(0, String.format(UIMessage.SECTION_HEADER_TOMORROW, listTomorrow.size()));
+            listTomorrow.add(0, String.format(UIMessage.SECTION_HEADER_TOMORROW,
+            		listTomorrow.size()));
             finalList.addAll(listTomorrow);
         }
         
         if (listFloating.size() > 0) {
-            listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING, listFloating.size()));
+            listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING,
+            		listFloating.size()));
             finalList.addAll(listFloating);
         }
 
         if (listRemaining.size() > 0) {
-            listRemaining.add(0, String.format(UIMessage.SECTION_HEADER_REMAINING, listRemaining.size()));
+            listRemaining.add(0, String.format(UIMessage.SECTION_HEADER_REMAINING,
+            		listRemaining.size()));
             finalList.addAll(listRemaining);
         }
 
         if (listDone.size() > 0) {
-            listDone.add(0, String.format(UIMessage.SECTION_HEADER_DONE, listDone.size()));
+            listDone.add(0, String.format(UIMessage.SECTION_HEADER_DONE,
+            		listDone.size()));
             finalList.addAll(listDone);
         }
         

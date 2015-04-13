@@ -29,7 +29,8 @@ public class TrayIcon {
     
     private TasmaUserInterface userInterface;
     
-    public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
+    public TrayIcon(TasmaUserInterface userInterface, Controller controller)
+    		throws Exception {
         if (userInterface == null) {
             throw new Exception();
         }
