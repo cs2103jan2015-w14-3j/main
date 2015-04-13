@@ -10,5 +10,5 @@ import java.util.Map;
  * Provides an interface for a default value provider
  */
 public interface DefaultProviderInterface {
-	public Map<String, String> defaults(); 
+    public Map<String, String> defaults(); 
 }

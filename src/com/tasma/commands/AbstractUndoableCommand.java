@@ -11,11 +11,11 @@ import com.tasma.ui.TasmaUserInterface;
  * Provides abstraction of an undoable command
  */
 public abstract class AbstractUndoableCommand
-	extends AbstractCommand
-	implements UndoableCommandInterface {
+    extends AbstractCommand
+    implements UndoableCommandInterface {
 
-	public AbstractUndoableCommand(TasmaUserInterface userInterface,
-			TaskCollection collection) {
-		super(userInterface, collection);
-	}
+    public AbstractUndoableCommand(TasmaUserInterface userInterface,
+            TaskCollection collection) {
+        super(userInterface, collection);
+    }
 }
