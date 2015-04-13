@@ -91,7 +91,7 @@ public class Palette {
     /**
      * The default UI tasks
      */
-    public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
+    public static final Font UI_FONT_DEFAULT = new Font("Arial Unicode MS", Font.PLAIN, 12);
     
     /**
      * Tasks list header font
