@@ -53,8 +53,10 @@ public class Controller {
     
     /**
      * Performs initialization of the controller.
-     * The user interface (i.e. TasmaUserInterface implementation) must have been set via the setUserInterface method prior to calling this method.
-     * @throws Exception Thrown when the user interface for the controller is not set before initializing.
+     * The user interface (i.e. TasmaUserInterface implementation) must have
+     * been set via the setUserInterface method prior to calling this method.
+     * @throws Exception Thrown when the user interface for the controller is
+     *                      not set before initializing.
      */
     public void initialize() throws Exception {
         if (userInterface == null) {
@@ -74,7 +76,8 @@ public class Controller {
     public void setUserInterface(TasmaUserInterface ui) {
         assert ui != null;
         userInterface = ui;
-        logger.log(Level.FINE, "Using {0} as the user interface now.", ui.getClass().getName());
+        logger.log(Level.FINE, "Using {0} as the user interface now.",
+                ui.getClass().getName());
     }
     
     /**
@@ -112,7 +115,8 @@ public class Controller {
         assert exception != null;
         
         logger.log(Level.FINE, exception.toString(), exception);
-        userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
+        userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION,
+                exception.getMessage()));
     }
     
     public String getLastInput() {

@@ -71,9 +71,11 @@ public class AliasHandler {
     }
     
     /**
-     * Normalizes variation of a command into a specific CommandType for processing later
+     * Normalizes variation of a command into a specific CommandType
+     * for processing later
      * @param command The command to be interpreted.
-     * @return Returns the command type if the command is valid, otherwise returns the CommandType.INVALID value.
+     * @return Returns the command type if the command is valid, otherwise
+     *                    returns the CommandType.INVALID value.
      * @throws InvalidInputException 
      */
     public static CommandType normalize(String command) throws InvalidInputException {

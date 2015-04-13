@@ -32,13 +32,16 @@ public class SetCommand extends AbstractUndoableCommand {
             Config config = Config.getInstance();
             previousValue = config.getProperty(key);
             if (newValue.equals("")) {
-                userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
+                userInterface.editCmdDisplay(
+                		String.format("set %s %s", key, previousValue));
             } else {
                 config.setProperty(key, newValue);
 
                 HotKeyHandler handler = new HotKeyHandler(userInterface);
                 handler.setHotKey();
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_SET_SUCCESS, key),
+                		Palette.MESSAGE_SUCCESS);
             }
         }
     }
@@ -50,7 +53,9 @@ public class SetCommand extends AbstractUndoableCommand {
         } else {
             Config config = Config.getInstance();
             config.setProperty(key, previousValue);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key), Palette.MESSAGE_SUCCESS);
+            userInterface.displayMessage(
+            		String.format(UIMessage.COMMAND_SET_UNDO, key),
+            		Palette.MESSAGE_SUCCESS);
         }
     }
 

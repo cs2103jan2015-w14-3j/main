@@ -11,13 +11,17 @@ import com.tasma.Task;
 import com.tasma.TaskCollection;
 import com.tasma.ui.TasmaUserInterface;
 
+/**
+ * Provides building of commands for execution
+ */
 public class CommandFactory {
 
     protected TasmaUserInterface userInterface;
     protected TaskCollection collection;
     protected LinkedList<Task> currentState = new LinkedList<Task>();
     
-    public CommandFactory(TasmaUserInterface userInterface, TaskCollection collection) {
+    public CommandFactory(TasmaUserInterface userInterface,
+    		TaskCollection collection) {
         this.userInterface = userInterface;
         this.collection = collection;
     }
@@ -73,7 +77,8 @@ public class CommandFactory {
         return result;
     }
     
-    protected LinkedList<Integer> normalizeInputRange(String condition) throws InvalidInputException {
+    protected LinkedList<Integer> normalizeInputRange(String condition)
+    		throws InvalidInputException {
         LinkedList<Integer> result = new LinkedList<Integer>();
         String[] parts = condition.split("\\s*(,|\\s)\\s*");
         for (String s : parts) {

@@ -19,7 +19,8 @@ public class AddCommand extends AbstractUndoableCommand {
     protected Task resultTask;
     protected List<Task> state;
     
-    public AddCommand(TasmaUserInterface userInterface, TaskCollection tasks, List<Task> state, String details) {
+    public AddCommand(TasmaUserInterface userInterface,
+            TaskCollection tasks, List<Task> state, String details) {
         super(userInterface, tasks);
         this.details = details;
         this.state = state;
@@ -28,7 +29,8 @@ public class AddCommand extends AbstractUndoableCommand {
     @Override
     public void execute() throws Exception {
         if (details.equals("")) {
-            userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY, Palette.MESSAGE_WARNING);
+            userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY,
+                    Palette.MESSAGE_WARNING);
         } else {
             assert !details.equals("");
             
@@ -38,7 +40,9 @@ public class AddCommand extends AbstractUndoableCommand {
                 
             } else {
                 collection.create(task);
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                        String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()),
+                        Palette.MESSAGE_SUCCESS);
                 resultTask = task;
             }
         }
@@ -52,7 +56,9 @@ public class AddCommand extends AbstractUndoableCommand {
         assert resultTask != null;
         
         collection.delete(resultTask);
-        userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getDetails()), Palette.MESSAGE_SUCCESS);
+        userInterface.displayMessage(
+                String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getDetails()),
+                Palette.MESSAGE_SUCCESS);
     }
 
 }

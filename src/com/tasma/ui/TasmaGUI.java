@@ -149,7 +149,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
                     return;
                 } else if (e.getKeyCode() == KeyEvent.VK_TAB) {
                     textCommand.setText(controller.getLastInput());
-                } else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER &&
+                		!textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
                     commandHintFrame.close();
                     textMessage.setVisible(false);
                     String command = textCommand.getText().trim();
@@ -405,7 +406,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
                 textDateTime.setBorder(new EmptyBorder(0, 5, 0, 0));
                 textDateTime.setForeground(taskIndicativeColor);
                 if (task.getType() == TaskType.TIMED) {
-                    textDateTime.setText(task.getFormattedStartDateTime() + " - " + task.getFormattedEndDateTime());
+                    textDateTime.setText(task.getFormattedStartDateTime() +
+                    		" - " + task.getFormattedEndDateTime());
                 }    else if    (task.getType() == TaskType.DEADLINE)    {
                     textDateTime.setText(task.getFormattedEndDateTime());
                 } else {

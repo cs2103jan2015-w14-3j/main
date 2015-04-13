@@ -58,8 +58,8 @@ public class TaskCollection extends Observable {
     /**
      * Perform an update of the task.
      * 
-     * Note: Since the modifications made to the task object is reflected in the list by reference,
-     * we can just directly save the list to save the changes
+     * Note: Since the modifications made to the task object is reflected in
+     * the list by reference, we can just directly save the list to save the changes
      * @param task The Task object that was updated
      * @throws Exception
      */
@@ -170,7 +170,9 @@ public class TaskCollection extends Observable {
 
     public List<Task> floating() {
         List<Task> doneList = tasks.stream()
-                .filter(task -> !task.isDone() && task.getStartDateTime() == null && task.getEndDateTime() == null)
+                .filter(task -> !task.isDone() &&
+                        task.getStartDateTime() == null &&
+                        task.getEndDateTime() == null)
                 .collect(Collectors.toList());
             return doneList;
     }

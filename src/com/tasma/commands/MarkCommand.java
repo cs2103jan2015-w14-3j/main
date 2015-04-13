@@ -19,7 +19,8 @@ public class MarkCommand extends AbstractUndoableCommand {
     private List<Task> tasks;
     
     public MarkCommand(TasmaUserInterface userInterface,
-            TaskCollection collection, List<Task> state, List<Integer> indices) {
+            TaskCollection collection, List<Task> state,
+            List<Integer> indices) {
         super(userInterface, collection);
         this.state = state;
         tasks = new LinkedList<Task>();
@@ -33,7 +34,8 @@ public class MarkCommand extends AbstractUndoableCommand {
             
         }
         if (tasks.size() == 0) {
-            userInterface.displayMessage(UIMessage.COMMAND_MARK_NOTFOUND, Palette.MESSAGE_WARNING);
+            userInterface.displayMessage(UIMessage.COMMAND_MARK_NOTFOUND,
+            		Palette.MESSAGE_WARNING);
         }
     }
 
@@ -46,13 +48,17 @@ public class MarkCommand extends AbstractUndoableCommand {
                 Task task = tasks.get(0);
                 task.setDone(true);
                 collection.update(task);
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()),
+                		Palette.MESSAGE_SUCCESS);
             } else {
                 for (Task task : tasks) {
                     task.setDone(true);
                     collection.update(task);
                 }
-                userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_MARK_MULTIPLE_SUCCESS, tasks.size()),
+                		Palette.MESSAGE_SUCCESS);
             }
             ListCommand listCommand = new ListCommand(userInterface, collection, state);
             listCommand.execute();

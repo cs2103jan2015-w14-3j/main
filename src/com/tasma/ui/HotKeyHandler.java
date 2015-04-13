@@ -11,6 +11,9 @@ import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;
 
+/**
+ * Handles the hot key registration
+ */
 public class HotKeyHandler {
     private TasmaUserInterface userInterface;
     private static Provider provider = Provider.getCurrentProvider(true);
