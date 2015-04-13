@@ -21,7 +21,7 @@ import com.tasma.Controller;
  */
 public class TrayIcon {
 	
-	private static final String LOGO_PATH = "../res/logo16.png";
+	private static final String LOGO_PATH = "/com/tasma/res/logo16.png";
 	
 	private PopupMenu popupMenu;
 	private java.awt.TrayIcon trayIcon;

@@ -53,7 +53,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 
 	private static final int WINDOW_DEFAULT_WIDTH = 640;
 	private static final int MAX_TASK_DISPLAY_COUNT = 8;
-	private static final String DONE_IMG_PATH = "../res/done.png";
+	private static final String DONE_IMG_PATH = "/com/tasma/res/done.png";
+	private static final String FRAME_ICON_PATH = "/com/tasma/res/logo.png";
 
 	private Controller controller;
 	
@@ -93,7 +94,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		setUIFont (new javax.swing.plaf.FontUIResource(Palette.UI_FONT_DEFAULT));
 		
 		setTitle("TASMA");
-		setIconImage(createImage("../res/logo.png", "icon"));
+		setIconImage(createImage(FRAME_ICON_PATH, ""));
 		setAlwaysOnTop(true);
 		// must use HIDE on CLOSE for the TrayIcon to work properly
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -418,10 +419,8 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 		        c.gridy = 1;
 		        panel.add(textDateTime, c);
 		        //@author A0116390L
-		        ImageIcon donePic = new ImageIcon(getClass().getResource(DONE_IMG_PATH));
-		        Image img = donePic.getImage();
-		        Image newImg = img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		        donePic = new ImageIcon(newImg);
+		        Image img = createImage(DONE_IMG_PATH, "");
+		        ImageIcon donePic = new ImageIcon(img);
 		        JLabel mkDone = new JLabel(donePic);
 		        Dimension prefSize = new Dimension(30,30);
 		        mkDone.setPreferredSize(prefSize);
