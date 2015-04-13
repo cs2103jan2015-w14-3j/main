@@ -35,7 +35,8 @@ public class TasmaConsoleUI implements TasmaUserInterface {
     protected void outputRow(Object value) {
         if (value instanceof String) {
             String sectionHeader = value.toString();
-            System.out.println("\n-- " + sectionHeader + " " + padding(sectionHeader, 80, '-'));
+            System.out.println("\n-- " + sectionHeader + " " +
+            padding(sectionHeader, 80, '-'));
         } else if (value instanceof Map.Entry) {
             @SuppressWarnings("unchecked")
             Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
