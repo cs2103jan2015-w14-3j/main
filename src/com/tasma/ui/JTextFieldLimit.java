@@ -1,9 +1,13 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0116390L
 package com.tasma.ui;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-//@author A0116390L
+
 public class JTextFieldLimit extends PlainDocument {
 
 	private static final long serialVersionUID = -2574407077586712950L;

@@ -1,3 +1,7 @@
+/**
+ * Tasma Task Manager
+ */
+//@author A0116390L
 package com.tasma.ui;
 
 import javax.swing.JFrame;
@@ -61,7 +65,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 	private CommandHintFrame commandHintFrame = new CommandHintFrame();
 	private JList<Object> listTasks = new JList<Object>();
 	private JScrollPane listTasksScrollPane = new JScrollPane();
-//@author A0116390L
+	
 	/**
 	 * Create the frame.
 	 */

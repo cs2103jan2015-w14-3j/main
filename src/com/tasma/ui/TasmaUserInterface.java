@@ -3,7 +3,7 @@
  */
 //@author A0132763H
 package com.tasma.ui;
-//@author A0116390L
+
 import java.awt.Color;
 import java.util.List;
 

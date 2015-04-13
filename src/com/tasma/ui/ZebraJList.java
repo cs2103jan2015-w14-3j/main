@@ -1,5 +1,9 @@
-package com.tasma.ui;
+/**
+ * Tasma Task Manager
+ */
 //@author A0116390L
+package com.tasma.ui;
+
 @SuppressWarnings("rawtypes")
 public class ZebraJList extends javax.swing.JList{
 	
