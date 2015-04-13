@@ -148,7 +148,7 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !textCommand.getText().trim().equals(""))  { // Pressing the ENTER key
 					commandHintFrame.close();
 					textMessage.setVisible(false);
-					String command = textCommand.getText();
+					String command = textCommand.getText().trim();
 					textCommand.setText("");
 					controller.executeInput(command);
 				} else {
