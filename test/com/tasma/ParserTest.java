@@ -60,14 +60,14 @@ public class ParserTest {
     @Test
     public void testInvalidDate() {
         parsedTask = caller.parse("\"work on garden\" 22-15-15 12pm");
-            
+
         d = d.withHourOfDay(12);
         d = d.withMinuteOfHour(0);
-    
+
         assertEquals("work on garden 22-15-15", parsedTask.getDetails());
         assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
         assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
-        
+
 
     }
 
@@ -86,7 +86,7 @@ public class ParserTest {
         assertEquals("sign up for stan chart marathon", parsedTask.getDetails());
         assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
         assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
-        
+
     }
 
     @Test
@@ -97,18 +97,18 @@ public class ParserTest {
 
         assertEquals("meeting with boss", parsedTask.getDetails());
         assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
-        
+
         d = d.withHourOfDay(15);
         d = d.withMinuteOfHour(30);
-        
+
         assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
     }
-    
+
     @Test
     public void testEdit() {
         parsedTask = caller.parse("meeting with boss 22-05-15 from 2pm to 3:30pm");
         parsedTask = caller.parse(parsedTask, "tmr");
-        
+
         d = d.plusDays(1);
         d = d.withHourOfDay(15);
         d = d.withMinuteOfHour(30);
@@ -121,20 +121,20 @@ public class ParserTest {
     @Test
     public void testDateSwap() {
         parsedTask = caller.parse("meet classmates for lunch next week 4pm to 3pm");
-        
+
         d = d.plusWeeks(1);
         d = d.withHourOfDay(15);
         d = d.withMinuteOfHour(0);
-        
+
         assertEquals("meet classmates for lunch", parsedTask.getDetails());
         assertEquals(0, comparator.compare(d, parsedTask.getStartDateTime()));
-        
+
         d = d.withHourOfDay(16);
         d = d.withMinuteOfHour(0);
-        
+
         assertEquals(0, comparator.compare(d, parsedTask.getEndDateTime()));
     }
-    
+
     private DateTime initializeDateTime() {
         DateTime d = new DateTime();
         d = d.withHourOfDay(23);

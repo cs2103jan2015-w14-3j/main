@@ -240,7 +240,7 @@ public class Task implements Cloneable {
     public Task clone() throws CloneNotSupportedException {
         return (Task) super.clone();
     }
-    
+
     /**
      * Needed by edit command to show task details for editing
      */

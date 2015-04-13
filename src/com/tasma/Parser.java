@@ -58,7 +58,7 @@ public class Parser {
     public Task parse(String taskDetails) {
         assert taskDetails.length() != 0;
         logger.log(Level.FINE, "Parsing \"{0}\"", taskDetails);
-        
+
         Task parsedTask = new Task(taskDetails);
 
         this.taskDetails = taskDetails; 
@@ -93,7 +93,7 @@ public class Parser {
      */
     private Task parseInput(Task parsedTask, String taskDetails) {
         logger.log(Level.FINE, "Searching for date/time in \"{0}\"", taskDetails);
-        
+
         String[] param = tokenize(taskDetails);
 
         for (int i = 0; i < param.length; i++) {
@@ -118,7 +118,7 @@ public class Parser {
      */
     private Task parseDateTime(String[] param, int num, Task parsedTask) {
         logger.log(Level.FINE, "Parsing date and time from \"{0}\"", taskDetails);
-        
+
         DateTime d;
         boolean isStartSet = false;
 
@@ -190,7 +190,7 @@ public class Parser {
      */
     private void setTaskDetails(String[] param, int num, Task parsedTask) {
         logger.log(Level.FINE, "Setting task details extracted from input: \"{0}\"", taskDetails);
-        
+
         if (num != 0) {
             String str = "";
 

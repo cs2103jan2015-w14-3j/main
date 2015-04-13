@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 public class TaskTest {
 
     Task task;
-    
+
     @Before
     public void setUp() throws Exception {
         task = new Task();
@@ -53,7 +53,7 @@ public class TaskTest {
         String s = t.getFormattedEndDateTime();
         assertEquals("today, 1:00AM", s);
     }
-    
+
     @Test
     public void testGetFormattedStartDateTime() {
         Task t = new Task();
@@ -62,7 +62,7 @@ public class TaskTest {
         String s = t.getFormattedStartDateTime();
         assertEquals("6 May, 2016, 10:30PM", s);
     }
-    
+
     @Test
     public void testEditString() {
         Task t = new Task("buy snacks");
@@ -80,7 +80,7 @@ public class TaskTest {
         t.setEndDateTime(dt);
         assertEquals(TaskType.DEADLINE, t.getType());
     }
-    
+
     @Test
     public void testGetStateUpcoming() {
         Task t = new Task();
