@@ -69,6 +69,7 @@ public class TaskTest {
 		t.setStartDateTime(new DateTime(2015, 5, 6, 11, 0));
 		t.setEndDateTime(new DateTime(2016, 11, 30, 23, 59));
 		String s = t.editString();
+		assertNotEquals("", s);
 	}
 
 	@Test

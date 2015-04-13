@@ -3,9 +3,7 @@ package com.tasma.config.observers;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tasma.config.ChangeObserverInterface;
 import com.tasma.config.DefaultProviderInterface;
-import com.tasma.ui.HotKeyHandler;
 
 public class HotKeyObserver implements DefaultProviderInterface {
 	
