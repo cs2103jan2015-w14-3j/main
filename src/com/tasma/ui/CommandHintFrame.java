@@ -38,7 +38,8 @@ public class CommandHintFrame extends JFrame {
     /**
      * A mapping of a command to its hint message
      */
-    private HashMap<CommandType, String> hintMapping = new HashMap<CommandType, String>();
+    private HashMap<CommandType, String> hintMapping =
+    		new HashMap<CommandType, String>();
     {
         hintMapping.put(CommandType.ADD, HelpMessage.HINT_ADD);
         hintMapping.put(CommandType.SEARCH, HelpMessage.HINT_SEARCH);
@@ -89,7 +90,8 @@ public class CommandHintFrame extends JFrame {
      * @param component The text box to attach the frame next to
      * @throws InvalidInputException
      */
-    public void checkHasHint(String input, JComponent component) throws InvalidInputException {
+    public void checkHasHint(String input, JComponent component)
+    		throws InvalidInputException {
         InputSplitter splitter = new InputSplitter(input);
         String command = splitter.next();
         CommandType type = AliasHandler.normalize(command);

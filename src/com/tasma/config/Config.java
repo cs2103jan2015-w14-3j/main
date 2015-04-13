@@ -20,7 +20,8 @@ public class Config extends ObservableConfig {
     private static final String DESCRIPTION = "";
     private static final String CONFIG_DEFAULT_FILENAME = "app";
     private static final String CONFIG_FILE_EXTENSION = ".config";
-    private static final HashMap<String, Config> instances = new HashMap<String, Config>();
+    private static final HashMap<String, Config> instances = 
+    		new HashMap<String, Config>();
     
     private String name;
     private boolean isFirstRun = false;

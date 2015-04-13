@@ -6,23 +6,23 @@ package com.tasma.ui;
 
 @SuppressWarnings("rawtypes")
 public class ZebraJList extends javax.swing.JList{
-    
-    private static final long serialVersionUID = 1L;
-    private java.awt.Color rowColors[] = new java.awt.Color[2];
+	
+	private static final long serialVersionUID = 1L;
+	private java.awt.Color rowColors[] = new java.awt.Color[2];
     private boolean drawStripes = false;
     
     public ZebraJList() {};
     
     @SuppressWarnings("unchecked")
-    public ZebraJList(javax.swing.ListModel dataModel) {
+	public ZebraJList(javax.swing.ListModel dataModel) {
         super(dataModel);
     }
     @SuppressWarnings("unchecked")
-    public ZebraJList(Object[] listData) {
+	public ZebraJList(Object[] listData) {
         super(listData);
     }
     @SuppressWarnings("unchecked")
-    public ZebraJList(java.util.Vector<?> listData) {
+	public ZebraJList(java.util.Vector<?> listData) {
         super(listData);
     }
     
@@ -82,7 +82,7 @@ public class ZebraJList extends javax.swing.JList{
         public javax.swing.ListCellRenderer ren = null;
  
         @SuppressWarnings("unchecked")
-        public java.awt.Component getListCellRendererComponent(
+		public java.awt.Component getListCellRendererComponent(
             javax.swing.JList list, Object value, int index,
             boolean isSelected, boolean cellHasFocus)
         {
