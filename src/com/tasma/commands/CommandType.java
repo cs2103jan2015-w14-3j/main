@@ -8,19 +8,19 @@ package com.tasma.commands;
  * The type of command
  */
 public enum CommandType {
-	ADD,
-	SEARCH,
-	LIST,
-	EDIT,
-	MARK,
-	UNMARK,
-	DELETE,
-	SET,
-	EXIT,
-	UNDO,
-	REDO,
-	TUTORIAL,
-	HELP,
-	ALIAS,
-	INVALID
+    ADD,
+    SEARCH,
+    LIST,
+    EDIT,
+    MARK,
+    UNMARK,
+    DELETE,
+    SET,
+    EXIT,
+    UNDO,
+    REDO,
+    TUTORIAL,
+    HELP,
+    ALIAS,
+    INVALID
 }

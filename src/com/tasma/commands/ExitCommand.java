@@ -9,14 +9,14 @@ import com.tasma.ui.TasmaUserInterface;
 
 class ExitCommand extends AbstractCommand {
 
-	public ExitCommand(TasmaUserInterface userInterface,
-			TaskCollection collection) {
-		super(userInterface, collection);
-	}
+    public ExitCommand(TasmaUserInterface userInterface,
+            TaskCollection collection) {
+        super(userInterface, collection);
+    }
 
-	@Override
-	public void execute() throws Exception {
-		System.exit(0);
-	}
+    @Override
+    public void execute() throws Exception {
+        System.exit(0);
+    }
 
 }

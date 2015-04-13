@@ -4,6 +4,9 @@
 //@author A0132763H
 package com.tasma.commands;
 
+/**
+ * The generic command interface
+ */
 public interface CommandInterface {
-	public void execute() throws Exception;
+    public void execute() throws Exception;
 }

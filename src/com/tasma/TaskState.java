@@ -9,10 +9,10 @@ package com.tasma;
  * the order of the state matters as how it shows on screen
  */
 public enum TaskState {
-	OVERDUE,
-	TODAY,
-	TOMORROW,
-	FLOATING,
-	UPCOMING,
-	DONE
+    OVERDUE,
+    TODAY,
+    TOMORROW,
+    FLOATING,
+    UPCOMING,
+    DONE
 }

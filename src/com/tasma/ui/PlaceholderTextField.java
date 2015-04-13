@@ -29,12 +29,12 @@ public class PlaceholderTextField extends JTextField {
         return placeholder;
     }
     
-	/**
-	 * Get the colour of the placeholder text
-	 * @return java.awt.Color
-	 */
+    /**
+     * Get the colour of the placeholder text
+     * @return java.awt.Color
+     */
     public Color getPlaceholderColor() {
-    	return placeholderColor;
+        return placeholderColor;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PlaceholderTextField extends JTextField {
             RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(placeholderColor);
         g.drawString(placeholder, getInsets().left,
-        		pG.getFontMetrics().getMaxAscent() + getInsets().top);
+                pG.getFontMetrics().getMaxAscent() + getInsets().top);
     }
 
     /**
@@ -66,7 +66,7 @@ public class PlaceholderTextField extends JTextField {
      * @param java.awt.Color
      */
     public void setPlaceholderColor(Color color) {
-    	this.placeholderColor = color;
+        this.placeholderColor = color;
     }
 
 }

@@ -8,7 +8,7 @@ package com.tasma.config;
  * Provides interfacing for a configuration change observer
  */
 public interface ChangeObserverInterface {
-	
-	public void notify(String key, String oldValue, String newValue);
-	
+    
+    public void notify(String key, String oldValue, String newValue);
+    
 }

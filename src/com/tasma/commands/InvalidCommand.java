@@ -10,19 +10,19 @@ import com.tasma.ui.Palette;
 import com.tasma.ui.TasmaUserInterface;
 
 public class InvalidCommand extends AbstractCommand {
-	
-	private String input = "";
+    
+    private String input = "";
 
-	public InvalidCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, String input) {
-		super(userInterface, collection);
-		this.input = input;
-	}
+    public InvalidCommand(TasmaUserInterface userInterface,
+            TaskCollection collection, String input) {
+        super(userInterface, collection);
+        this.input = input;
+    }
 
-	@Override
-	public void execute() throws Exception {
-		userInterface.editCmdDisplay(input);
-		userInterface.displayMessage(UIMessage.COMMAND_INVALID, Palette.MESSAGE_DANGER);
-	}
+    @Override
+    public void execute() throws Exception {
+        userInterface.editCmdDisplay(input);
+        userInterface.displayMessage(UIMessage.COMMAND_INVALID, Palette.MESSAGE_DANGER);
+    }
 
 }
