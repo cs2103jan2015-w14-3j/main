@@ -8,7 +8,7 @@ package com.tasma;
  * The task type enumeration
  */
 public enum TaskType {
-	FLOATING,
-	TIMED,
-	DEADLINE
+    FLOATING,
+    TIMED,
+    DEADLINE
 }

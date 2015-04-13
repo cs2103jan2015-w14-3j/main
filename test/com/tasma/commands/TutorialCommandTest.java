@@ -16,31 +16,31 @@ import com.tasma.ui.MockUserInterface;
 
 public class TutorialCommandTest {
 
-	private TutorialCommand command;
-	
-	private MockStorage storage;
-	
-	private TaskCollection collection;
-	
-	private MockUserInterface userInterface;
-	
-	@Before
-	public void setUp() throws Exception {
-		userInterface = new MockUserInterface();
-		storage = new MockStorage();
-		collection = new TaskCollection(storage);
-		collection.loadFromFile();
-	}
+    private TutorialCommand command;
+    
+    private MockStorage storage;
+    
+    private TaskCollection collection;
+    
+    private MockUserInterface userInterface;
+    
+    @Before
+    public void setUp() throws Exception {
+        userInterface = new MockUserInterface();
+        storage = new MockStorage();
+        collection = new TaskCollection(storage);
+        collection.loadFromFile();
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    @After
+    public void tearDown() throws Exception {
+    }
 
-	@Test
-	public void testExecute() throws Exception {
-		command = new TutorialCommand(userInterface, collection);
-		command.execute();
-		assertNotEquals("", userInterface.getLastDisplayedMessage());
-	}
+    @Test
+    public void testExecute() throws Exception {
+        command = new TutorialCommand(userInterface, collection);
+        command.execute();
+        assertNotEquals("", userInterface.getLastDisplayedMessage());
+    }
 
 }

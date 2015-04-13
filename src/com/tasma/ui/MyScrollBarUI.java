@@ -13,41 +13,41 @@ import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 //@author A0116390L
 public class MyScrollBarUI extends BasicScrollBarUI{
-	
-	private static final int SCROLL_BAR_ALPHA_ROLLOVER = 150;
+    
+    private static final int SCROLL_BAR_ALPHA_ROLLOVER = 150;
     private static final int SCROLL_BAR_ALPHA = 100;
     private static final int THUMB_BORDER_SIZE = 2;
     private static final int THUMB_SIZE = 8;
     private static final Color THUMB_COLOR = Color.BLACK;
-	
-	protected JButton createZeroButton() {
-	    JButton button = new JButton("zero button");
-	    Dimension zeroDim = new Dimension(0,0);
-	    button.setPreferredSize(zeroDim);
-	    button.setMinimumSize(zeroDim);
-	    button.setMaximumSize(zeroDim);
-	    return button;
-	}
+    
+    protected JButton createZeroButton() {
+        JButton button = new JButton("zero button");
+        Dimension zeroDim = new Dimension(0,0);
+        button.setPreferredSize(zeroDim);
+        button.setMinimumSize(zeroDim);
+        button.setMaximumSize(zeroDim);
+        return button;
+    }
 
-	@Override
-	protected JButton createDecreaseButton(int orientation) {
-	    return createZeroButton();
-	}
+    @Override
+    protected JButton createDecreaseButton(int orientation) {
+        return createZeroButton();
+    }
 
-	@Override
-	protected JButton createIncreaseButton(int orientation) {
-	    return createZeroButton();
-	}
+    @Override
+    protected JButton createIncreaseButton(int orientation) {
+        return createZeroButton();
+    }
 
 
-	@Override
-	protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-	    //own painting if needed
-	}
+    @Override
+    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+        //own painting if needed
+    }
 
-	@Override
-	protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-		int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVER : SCROLL_BAR_ALPHA;
+    @Override
+    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+        int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVER : SCROLL_BAR_ALPHA;
         int orientation = scrollbar.getOrientation();
         int arc = THUMB_SIZE;
         int x = thumbBounds.x + THUMB_BORDER_SIZE;
@@ -68,5 +68,5 @@ public class MyScrollBarUI extends BasicScrollBarUI{
                 THUMB_COLOR.getGreen(), THUMB_COLOR.getBlue(), alpha));
         graphics2D.fillRoundRect(x, y, width, height, arc, arc);
         graphics2D.dispose();
-	}
+    }
 }

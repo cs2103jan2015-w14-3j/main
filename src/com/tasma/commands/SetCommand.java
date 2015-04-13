@@ -12,46 +12,51 @@ import com.tasma.ui.Palette;
 import com.tasma.ui.TasmaUserInterface;
 
 public class SetCommand extends AbstractUndoableCommand {
-	
-	private String key;
-	private String previousValue;
-	private String newValue;
+    
+    private String key;
+    private String previousValue;
+    private String newValue;
 
-	public SetCommand(TasmaUserInterface userInterface,
-			TaskCollection collection, String key, String value) {
-		super(userInterface, collection);
-		this.key = key.toLowerCase();
-		this.newValue = value;
-	}
+    public SetCommand(TasmaUserInterface userInterface,
+            TaskCollection collection, String key, String value) {
+        super(userInterface, collection);
+        this.key = key.toLowerCase();
+        this.newValue = value;
+    }
 
-	@Override
-	public void execute() throws Exception {
-		if (key.equals("")) {
-			throw new NotExecutedException();
-		} else {
-			Config config = Config.getInstance();
-			previousValue = config.getProperty(key);
-			if (newValue.equals("")) {
-				userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
-			} else {
-				config.setProperty(key, newValue);
+    @Override
+    public void execute() throws Exception {
+        if (key.equals("")) {
+            throw new NotExecutedException();
+        } else {
+            Config config = Config.getInstance();
+            previousValue = config.getProperty(key);
+            if (newValue.equals("")) {
+                userInterface.editCmdDisplay(
+                		String.format("set %s %s", key, previousValue));
+            } else {
+                config.setProperty(key, newValue);
 
-				HotKeyHandler handler = new HotKeyHandler(userInterface);
-				handler.setHotKey();
-				userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
-			}
-		}
-	}
+                HotKeyHandler handler = new HotKeyHandler(userInterface);
+                handler.setHotKey();
+                userInterface.displayMessage(
+                		String.format(UIMessage.COMMAND_SET_SUCCESS, key),
+                		Palette.MESSAGE_SUCCESS);
+            }
+        }
+    }
 
-	@Override
-	public void undo() throws Exception {
-		if (key.equals("")) {
-			throw new NotExecutedException();
-		} else {
-			Config config = Config.getInstance();
-			config.setProperty(key, previousValue);
-			userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key), Palette.MESSAGE_SUCCESS);
-		}
-	}
+    @Override
+    public void undo() throws Exception {
+        if (key.equals("")) {
+            throw new NotExecutedException();
+        } else {
+            Config config = Config.getInstance();
+            config.setProperty(key, previousValue);
+            userInterface.displayMessage(
+            		String.format(UIMessage.COMMAND_SET_UNDO, key),
+            		Palette.MESSAGE_SUCCESS);
+        }
+    }
 
 }

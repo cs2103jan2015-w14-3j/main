@@ -16,30 +16,30 @@ import com.tasma.UIMessage;
 import com.tasma.ui.MockUserInterface;
 
 public class InvalidCommandTest {
-	
-	private MockStorage storage;
-	
-	private TaskCollection collection;
-	
-	private MockUserInterface userInterface;
+    
+    private MockStorage storage;
+    
+    private TaskCollection collection;
+    
+    private MockUserInterface userInterface;
 
-	@Before
-	public void setUp() throws Exception {
-		userInterface = new MockUserInterface();
-		storage = new MockStorage();
-		collection = new TaskCollection(storage);
-		collection.loadFromFile();
-	}
+    @Before
+    public void setUp() throws Exception {
+        userInterface = new MockUserInterface();
+        storage = new MockStorage();
+        collection = new TaskCollection(storage);
+        collection.loadFromFile();
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    @After
+    public void tearDown() throws Exception {
+    }
 
-	@Test
-	public void testExecute() throws Exception {
-		InvalidCommand command = new InvalidCommand(userInterface, collection, "some command");
-		command.execute();
-		assertEquals(UIMessage.COMMAND_INVALID, userInterface.getLastDisplayedMessage());
-	}
+    @Test
+    public void testExecute() throws Exception {
+        InvalidCommand command = new InvalidCommand(userInterface, collection, "some command");
+        command.execute();
+        assertEquals(UIMessage.COMMAND_INVALID, userInterface.getLastDisplayedMessage());
+    }
 
 }
