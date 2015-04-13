@@ -26,10 +26,13 @@ public class TaskListSorter {
 		    @Override
 		    public int compare(Task t1, Task t2) {
 		    	if (t1.getState() == t2.getState()) {
-		    		if (t1.getStartDateTime() != null) {
+		    		if (t1.getStartDateTime() == null && t2.getStartDateTime() != null) {
+		    			return -1;
+		    		} else if (t2.getStartDateTime() == null){
+		    			return 1;
+		    		} else {
 		    			return t1.getStartDateTime().compareTo(t2.getStartDateTime());
 		    		}
-		    		return 0;
 		    	}
 		    	return t1.getState().compareTo(t2.getState());
 		    }
