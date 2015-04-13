@@ -59,15 +59,31 @@ public class Task implements Cloneable {
 	}
 
 	//@author A0118888J
+	/**
+	 * Returns startDateTime formatted as "dd-mm-yy, hh:mmAM/PM" or "today, hh:mmAM/PM" 
+	 * if the date is today's date
+	 * @returns startDateTime formatted as string
+	 */
 	public String getStringStartDateTime() {
 		return getStringDateTime(startDateTime);
 	}
 
+	/**
+	 * Returns endDateTime formatted as "dd-mm-yy, hh:mmAM/PM" or "today, hh:mmAM/PM" 
+	 * if the date is today's date
+	 * @returns endDateTime formatted as string
+	 */
 	public String getStringEndDateTime() {
 		return getStringDateTime(endDateTime);
 	}
 
-	public String getStringDateTime(DateTime d) {
+	/**
+	 * Formats the passed DateTime formatted as "dd-mm-yy, hh:mmAM/PM" or 
+	 * "today, hh:mmAM/PM" if the date is today's date
+	 * @param d DateTime object to be formatted
+	 * @returns d formatted as string
+	 */
+	private String getStringDateTime(DateTime d) {
 		if (d == null) {
 			return ""; 
 		} else {
@@ -80,6 +96,12 @@ public class Task implements Cloneable {
 		}
 	}
 
+	/**
+	 * Formats the date of the passed DateTime formatted as "dd-mm-yy" or 
+	 * "today" if the date is today's date
+	 * @param d DateTime object to be formatted
+	 * @returns date section of d formatted as string
+	 */
 	private String getStringDate(DateTime d) {
 		String date;
 		DateTimeFormatter fmt;
@@ -93,6 +115,12 @@ public class Task implements Cloneable {
 		return date;
 	}
 
+	/**
+	 * Formats time of the passed DateTime formatted as "hh:mmAM/PM" or 
+	 * empty string if the time is 2359hrs
+	 * @param d DateTime object to be formatted
+	 * @returns time section of d formatted as string
+	 */
 	private String getStringTime(DateTime d) {
 		String time = "";
 		DateTimeFormatter fmt;
@@ -106,14 +134,30 @@ public class Task implements Cloneable {
 		return time;
 	}
 
+	/**
+	 * Returns startDateTime formatted as "dd-Month-yy, hh:mmAM/PM" or "today, hh:mmAM/PM" 
+	 * if the date is today's date
+	 * @returns startDateTime formatted as string
+	 */
 	public String getFormattedStartDateTime() {
 		return getFormattedDateTime(startDateTime);
 	}
 
+	/**
+	 * Returns endDateTime formatted as "dd-Month-yy, hh:mmAM/PM" or "today, hh:mmAM/PM" 
+	 * if the date is today's date
+	 * @returns endDateTime formatted as string
+	 */
 	public String getFormattedEndDateTime() {
 		return getFormattedDateTime(endDateTime);
 	}
 
+	/**
+	 * Formats the passed DateTime formatted as "dd-Month-yy, hh:mmAM/PM" or 
+	 * "today, hh:mmAM/PM" if the date is today's date
+	 * @param d DateTime object to be formatted
+	 * @returns d formatted as string
+	 */
 	private String getFormattedDateTime(DateTime d) {
 		if (d == null) {
 			return ""; 
@@ -127,6 +171,12 @@ public class Task implements Cloneable {
 		}
 	}
 
+	/**
+	 * Formats the date of the passed DateTime formatted as "dd-Month-yy" or 
+	 * "today" if the date is today's date
+	 * @param d DateTime object to be formatted
+	 * @returns date section of d formatted as string
+	 */
 	private String getFormattedDate(DateTime d) {
 		String date;
 		DateTimeFormatter fmt;
@@ -144,6 +194,11 @@ public class Task implements Cloneable {
 		return date;
 	}
 
+	/**
+	 * Formats time of the passed DateTime formatted as "hh:mmAM/PM" 
+	 * @param d DateTime object to be formatted
+	 * @returns time section of d formatted as string or empty string if time is 2359hrs
+	 */
 	private String getFormattedTime(DateTime d) {
 		String time = "";
 		DateTimeFormatter fmt;
