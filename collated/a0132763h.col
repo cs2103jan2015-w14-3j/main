@@ -1,0 +1,3765 @@
+//@author: a0132763h
+
+
+
+	/**
+	 * origin: src\com\tasma\AppInstanceManager.java
+	 */
+
+package com.tasma;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Provides instance management to prevent multiple applications from running
+ */
+public class AppInstanceManager {
+
+	private static final Logger logger = Log.getLogger( AppInstanceManager.class.getName() );
+	
+	/**
+	 * A randomly picked and agreed port number
+	 */
+	private static final int PORT_NUMBER = 54765;
+	
+    public static final String SINGLE_INSTANCE_SHARED_KEY = "$$NewInstance$$51aBNQcYOEcjUzkAmF5ksDGfbdQvCkCkJ04vbXL6\n";
+    
+    /**
+     * The listener to activate the app if a notification is received
+     */
+    private AppActivateListener listener;
+	
+    /**
+     * Register an application to run if there are no other instances
+     * @param application The application to run
+     */
+	@SuppressWarnings("resource")
+	public void register(Runnable application) {
+		logger.log(Level.FINE, "Registering application presence with AppInstanceManager");
+		try {
+			final ServerSocket socket = new ServerSocket(PORT_NUMBER, 5, InetAddress.getLocalHost());
+
+            Thread instanceListenerThread = new Thread(new Runnable() {
+                public void run() {
+                    boolean socketClosed = false;
+                    while (!socketClosed) {
+                        if (socket.isClosed()) {
+                            socketClosed = true;
+                        } else {
+                            try {
+                                Socket client = socket.accept();
+                                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                                String message = in.readLine();
+                                if (SINGLE_INSTANCE_SHARED_KEY.trim().equals(message.trim())) {
+                            		logger.log(Level.FINE, "Notification received. showing screen.");
+                                	fireAppActivateListener();
+                                }
+                                in.close();
+                                client.close();
+                            } catch (IOException e) {
+                                socketClosed = true;
+                            }
+                        }
+                    }
+                }
+            });
+            instanceListenerThread.start();
+    		logger.log(Level.FINE, "Running First-Instance of application");
+            application.run();
+        } catch (UnknownHostException e) {
+        } catch (IOException e) {
+        	// port taken, app probably running. let's give a fistbump
+
+    		logger.log(Level.FINE, "Port taken, notifying first-instance app");
+			try {
+				Socket clientSocket = new Socket(InetAddress.getLocalHost(), PORT_NUMBER);
+	            OutputStream out = clientSocket.getOutputStream();
+	            out.write(SINGLE_INSTANCE_SHARED_KEY.getBytes());
+	            out.close();
+	            clientSocket.close();
+			} catch (Exception ex) {
+			}
+			System.exit(0);
+        }
+	}
+	
+	public void setAppActivateListener(AppActivateListener listener) {
+		this.listener = listener;
+	}
+	
+	private void fireAppActivateListener() {
+		if (listener != null) {
+			listener.activate();
+		}
+	}
+    
+    public interface AppActivateListener {
+    	public void activate();
+    }
+}
+
+	// End of segment: src\com\tasma\AppInstanceManager.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\AbstractCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.ui.TasmaUserInterface;
+
+/**
+ * This is the abstract command where the constructor takes in the
+ * userInterface and task collection for usage
+ */
+public abstract class AbstractCommand implements CommandInterface {
+
+	protected TasmaUserInterface userInterface;
+	protected TaskCollection collection;
+	
+	public AbstractCommand(TasmaUserInterface userInterface, TaskCollection collection) {
+		this.userInterface = userInterface;
+		this.collection = collection;
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\AbstractCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\AbstractUndoableCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.ui.TasmaUserInterface;
+
+/**
+ * Provides abstraction of an undoable command
+ */
+public abstract class AbstractUndoableCommand
+	extends AbstractCommand
+	implements UndoableCommandInterface {
+
+	public AbstractUndoableCommand(TasmaUserInterface userInterface,
+			TaskCollection collection) {
+		super(userInterface, collection);
+	}
+}
+
+	// End of segment: src\com\tasma\commands\AbstractUndoableCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\AddCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.List;
+
+import com.tasma.Parser;
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class AddCommand extends AbstractUndoableCommand {
+	
+	protected String details;
+	protected Task resultTask;
+	protected List<Task> state;
+	
+	public AddCommand(TasmaUserInterface userInterface, TaskCollection tasks, List<Task> state, String details) {
+		super(userInterface, tasks);
+		this.details = details;
+		this.state = state;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (details.equals("")) {
+			userInterface.displayMessage(UIMessage.COMMAND_ADD_ARG_EMPTY, Palette.MESSAGE_WARNING);
+		} else {
+			assert !details.equals("");
+			
+			Parser parser = new Parser();
+			Task task = parser.parse(details);
+			if (task == null) {
+				
+			} else {
+				collection.create(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+				resultTask = task;
+			}
+		}
+		
+		ListCommand listCommand = new ListCommand(userInterface, collection, state);
+		listCommand.execute();
+	}
+
+	@Override
+	public void undo() throws Exception {
+		assert resultTask != null;
+		
+		collection.delete(resultTask);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_ADD_UNDO, resultTask.getDetails()), Palette.MESSAGE_SUCCESS);
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\AddCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\AliasCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class AliasCommand extends AbstractUndoableCommand {
+	
+	private String key;
+	private String previousValue;
+	private String newValue;
+	private boolean isRemoveOperation = false;
+
+	public AliasCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, String key, String value) {
+		super(userInterface, collection);
+		this.key = key.toLowerCase();
+		this.newValue = value;
+		if (this.key.equals("remove")) {
+			this.key = value;
+			isRemoveOperation = true;
+		}
+	}
+
+	@Override
+	public void execute() throws Exception {
+		previousValue = AliasHandler.getCustomAlias(key);
+		if (isRemoveOperation) {
+			AliasHandler.removeCustomAlias(key);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_REMOVE, key), Palette.MESSAGE_SUCCESS);
+		} else {
+			AliasHandler.setCustomAlias(key, newValue);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_UPDATED, key), Palette.MESSAGE_SUCCESS);
+		}
+	}
+
+	@Override
+	public void undo() throws Exception {
+		if (previousValue == null) {
+			AliasHandler.removeCustomAlias(key);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_REMOVE, key), Palette.MESSAGE_SUCCESS);
+		} else {
+			AliasHandler.setCustomAlias(key, previousValue);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_RESTORE, key), Palette.MESSAGE_SUCCESS);
+		}
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\AliasCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\AliasHandler.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import com.tasma.InvalidInputException;
+import com.tasma.config.Config;
+
+public class AliasHandler {
+	
+	private static final String ALIAS_CONFIG_NAME = "aliases";
+	private static final Map<String, CommandType> builtInMapping;
+    static
+    {
+    	builtInMapping = new HashMap<String, CommandType>();
+    	builtInMapping.put("a", CommandType.ADD);
+    	builtInMapping.put("add", CommandType.ADD);
+    	builtInMapping.put("insert", CommandType.ADD);
+    	builtInMapping.put("create", CommandType.ADD);
+    	builtInMapping.put("c", CommandType.ADD);
+    	
+    	builtInMapping.put("set", CommandType.SET);
+    	builtInMapping.put("alias", CommandType.ALIAS);
+    	
+    	builtInMapping.put("s", CommandType.SEARCH);
+    	builtInMapping.put("search", CommandType.SEARCH);
+    	builtInMapping.put("f", CommandType.SEARCH);
+    	builtInMapping.put("find", CommandType.SEARCH);
+    	builtInMapping.put("q", CommandType.SEARCH);
+    	builtInMapping.put("query", CommandType.SEARCH);
+
+    	builtInMapping.put("e", CommandType.EDIT);
+    	builtInMapping.put("edit", CommandType.EDIT);
+    	builtInMapping.put("update", CommandType.EDIT);
+    	builtInMapping.put("change", CommandType.EDIT);
+    	
+    	builtInMapping.put("l", CommandType.LIST);
+    	builtInMapping.put("list", CommandType.LIST);
+    	builtInMapping.put("up", CommandType.LIST);
+    	builtInMapping.put("upcoming", CommandType.LIST);
+   
+    	builtInMapping.put("undo", CommandType.UNDO);
+    	builtInMapping.put("redo", CommandType.REDO);
+    	
+    	builtInMapping.put("m", CommandType.MARK);
+    	builtInMapping.put("mark", CommandType.MARK);
+    	builtInMapping.put("do", CommandType.MARK);
+    	builtInMapping.put("done", CommandType.MARK);
+    	
+    	builtInMapping.put("unmark", CommandType.UNMARK);
+
+    	builtInMapping.put("del", CommandType.DELETE);
+    	builtInMapping.put("delete", CommandType.DELETE);
+    	builtInMapping.put("r", CommandType.DELETE);
+    	builtInMapping.put("remove", CommandType.DELETE);
+    	
+    	builtInMapping.put("h", CommandType.HELP);
+    	builtInMapping.put("help", CommandType.HELP);
+    	
+    	builtInMapping.put("t", CommandType.TUTORIAL);
+    	builtInMapping.put("tutorial", CommandType.TUTORIAL);
+    	
+    	builtInMapping.put("exit", CommandType.EXIT);
+    	builtInMapping.put("quit", CommandType.EXIT);
+    }
+	
+	/**
+	 * Normalizes variation of a command into a specific CommandType for processing later
+	 * @param command The command to be interpreted.
+	 * @return Returns the command type if the command is valid, otherwise returns the CommandType.INVALID value.
+	 * @throws InvalidInputException 
+	 */
+	public static CommandType normalize(String command) throws InvalidInputException {
+		CommandType result = CommandType.INVALID;
+
+		String commandLower = command.toLowerCase();
+		String alias;
+		try {
+			alias = getCustomAlias(command);
+			if (alias != null) {
+				commandLower = alias.toLowerCase();
+			}
+		} catch (Exception e) {
+			throw new InvalidInputException();
+		}
+		
+		if (builtInMapping.containsKey(commandLower)) {
+			result = builtInMapping.get(commandLower);
+		}
+		return result;
+	}
+	
+	public static List<String> aliases(CommandType commandType) {
+		List<String> keys = new LinkedList<String>(); 
+		for (Map.Entry<String, CommandType> entry : builtInMapping.entrySet()) {
+			if (entry.getValue().equals(commandType)) {
+			    keys.add(entry.getKey());
+			}
+		}
+		return keys;
+	}
+	
+	public static String getCustomAlias(String customAlias) throws Exception {
+		if (customAlias == null || customAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		return settings.getProperty(customAlias);
+	}
+	
+	public static void setCustomAlias(String newCustomAlias, String command) throws Exception {
+		if (newCustomAlias == null || newCustomAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		CommandType type = normalize(command);
+		settings.setProperty(newCustomAlias, type.toString());
+	}
+	
+	public static void removeCustomAlias(String customAlias) throws Exception {
+		if (customAlias == null || customAlias.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		Config settings = Config.getInstance(ALIAS_CONFIG_NAME);
+		settings.removeProperty(customAlias);
+	}
+}
+
+	// End of segment: src\com\tasma\commands\AliasHandler.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\CommandFactory.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.LinkedList;
+
+import com.tasma.InvalidInputException;
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.ui.TasmaUserInterface;
+
+public class CommandFactory {
+
+	protected TasmaUserInterface userInterface;
+	protected TaskCollection collection;
+	protected LinkedList<Task> currentState = new LinkedList<Task>();
+	
+	public CommandFactory(TasmaUserInterface userInterface, TaskCollection collection) {
+		this.userInterface = userInterface;
+		this.collection = collection;
+	}
+
+	public CommandInterface getCommand(String input) throws InvalidInputException {
+		CommandInterface result = null;
+		InputSplitter splitter = new InputSplitter(input);
+		String command = splitter.next();
+
+		CommandType commandType = AliasHandler.normalize(command);
+		switch (commandType) {
+			case ADD:
+				result = new AddCommand(userInterface, collection, currentState, splitter.remainder());
+				break;
+			case SEARCH:
+				result = new SearchCommand(userInterface, collection, currentState, splitter.remainder());
+				break;
+			case LIST:
+				result = new ListCommand(userInterface, collection, currentState, splitter.remainder());
+				break;
+			case MARK:
+				result = new MarkCommand(userInterface, collection, currentState, normalizeInputRange(splitter.remainder()));
+				break;
+			case UNMARK:
+				result = new UnmarkCommand(userInterface, collection, currentState, normalizeInputRange(splitter.remainder()));
+				break;
+			case EDIT:
+				result = new EditCommand(userInterface, collection, currentState, normalizeIndexInput(splitter.next()), splitter.remainder());
+				break;
+			case DELETE:
+				result = new DeleteCommand(userInterface, collection, currentState, normalizeInputRange(splitter.remainder()));
+				break;
+			case SET:
+				result = new SetCommand(userInterface, collection, splitter.next(), splitter.remainder());
+				break;
+			case ALIAS:
+				result = new AliasCommand(userInterface, collection, splitter.next(), splitter.remainder());
+				break;
+			case HELP:
+				result = new HelpCommand(userInterface, collection, splitter.remainder());
+				break;
+			case TUTORIAL:
+				result = new TutorialCommand(userInterface, collection);
+				break;
+			case EXIT:
+				result = new ExitCommand(userInterface, collection);
+				break;
+			default:
+				// probably an invalid command
+				result = new InvalidCommand(userInterface, collection, input);
+				break;
+		}
+		return result;
+	}
+	
+	protected LinkedList<Integer> normalizeInputRange(String condition) throws InvalidInputException {
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		String[] parts = condition.split("\\s*(,|\\s)\\s*");
+		for (String s : parts) {
+			try {
+				if (s.indexOf("-") == -1) {
+					int index = Integer.parseInt(s) - 1;
+					result.add(index);
+				} else {
+					// has a range in it
+					String[] range = s.split("-");
+					if (range.length != 2) {
+						throw new InvalidInputException();
+					}
+					int lowerBound = Integer.parseInt(range[0]);
+					int upperBound = Integer.parseInt(range[1]);
+					for (int j = lowerBound - 1; j < upperBound; ++j) {
+						result.add(j);
+					}
+				}
+			} catch (NumberFormatException ex) {
+			}
+		}
+		return result;
+	}
+	
+	protected int normalizeIndexInput(String strIndex) throws InvalidInputException {
+		int result = -1;
+		try {
+			result = Integer.parseInt(strIndex) - 1;
+		} catch (NumberFormatException ex) {
+		}
+
+		return result;
+	}
+}
+
+	// End of segment: src\com\tasma\commands\CommandFactory.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\CommandInterface.java
+	 */
+
+package com.tasma.commands;
+
+public interface CommandInterface {
+	public void execute() throws Exception;
+}
+
+	// End of segment: src\com\tasma\commands\CommandInterface.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\CommandType.java
+	 */
+
+package com.tasma.commands;
+
+/**
+ * The type of command
+ */
+public enum CommandType {
+	ADD,
+	SEARCH,
+	LIST,
+	EDIT,
+	MARK,
+	UNMARK,
+	DELETE,
+	SET,
+	EXIT,
+	UNDO,
+	REDO,
+	TUTORIAL,
+	HELP,
+	ALIAS,
+	INVALID
+}
+
+	// End of segment: src\com\tasma\commands\CommandType.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\DeleteCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.List;
+import java.util.LinkedList;
+
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class DeleteCommand extends AbstractUndoableCommand  {
+
+	private List<Task> state;
+	private List<Task> tasks;
+	
+	public DeleteCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, List<Integer> indices) {
+		super(userInterface, collection);
+		this.state = state;
+		tasks = new LinkedList<Task>();
+		try {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
+			}
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (tasks.size() == 0) {
+			userInterface.displayMessage(UIMessage.COMMAND_DELETE_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				collection.delete(task);
+
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					collection.delete(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+			
+			ListCommand listCommand = new ListCommand(userInterface, collection, state);
+			listCommand.execute();
+		}
+	}
+	
+	@Override
+	public void undo() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				collection.create(task);
+		
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					collection.create(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_DELETE_MULTIPLE_UNDO, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+		}
+	}
+}
+
+	// End of segment: src\com\tasma\commands\DeleteCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\EditCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.List;
+
+import com.tasma.Parser;
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class EditCommand extends AbstractUndoableCommand {
+
+	protected String details;
+	protected int index;
+	protected List<Task> state;
+	protected Task task;
+	protected Task oldTaskDetails;
+	
+	public EditCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, int index, String details) {
+		super(userInterface, collection);
+		this.state = state;
+		this.details = details;
+		this.index = index;
+		try {
+			this.task = state.get(index);
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (this.task == null) {
+			userInterface.displayMessage(UIMessage.COMMAND_EDIT_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (this.task == null) {
+			throw new NotExecutedException();
+		} else {
+			if (details.equals("")) {
+				userInterface.editCmdDisplay(String.format("edit %d %s", index + 1, task.editString()));
+			} else {
+				oldTaskDetails = task.clone();
+				
+				Parser parser = new Parser();
+				parser.parse(task, details);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+				collection.update(task);
+				
+				ListCommand listCommand = new ListCommand(userInterface, collection, state);
+				listCommand.execute();
+			}
+		}
+	}
+
+	@Override
+	public void undo() throws Exception {
+		if (task == null) {
+			throw new NotExecutedException();
+		} else {
+			task.setDetails(oldTaskDetails.getDetails());
+			task.setStartDateTime(oldTaskDetails.getStartDateTime());
+			task.setEndDateTime(oldTaskDetails.getEndDateTime());
+			collection.update(task);
+			
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_EDIT_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+		}
+	}
+}
+
+	// End of segment: src\com\tasma\commands\EditCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\ExitCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.ui.TasmaUserInterface;
+
+class ExitCommand extends AbstractCommand {
+
+	public ExitCommand(TasmaUserInterface userInterface,
+			TaskCollection collection) {
+		super(userInterface, collection);
+	}
+
+	@Override
+	public void execute() throws Exception {
+		System.exit(0);
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\ExitCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\HelpCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.List;
+
+import com.tasma.HelpMessage;
+import com.tasma.TaskCollection;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class HelpCommand extends AbstractCommand {
+
+	protected String command;
+	
+	public HelpCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, String command) {
+		super(userInterface, collection);
+		this.command = command;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		CommandType commandType = CommandType.HELP;
+
+		if (!command.equals("")) {
+			commandType = AliasHandler.normalize(command);
+		}
+		
+		String message = "";
+		switch (commandType) {
+			case ADD:
+				message = HelpMessage.HELP_ADD;
+				break;
+			case SEARCH:
+				message = HelpMessage.HELP_SEARCH;
+				break;
+			case LIST:
+				message = HelpMessage.HELP_LIST;
+				break;
+			case MARK:
+				message = HelpMessage.HELP_MARK;
+				break;
+			case UNMARK:
+				message = HelpMessage.HELP_UNMARK;
+				break;
+			case EDIT:
+				message = HelpMessage.HELP_EDIT;
+				break;
+			case DELETE:
+				message = HelpMessage.HELP_DELETE;
+				break;
+			case SET:
+				message = HelpMessage.HELP_SET;
+				break;
+			case ALIAS:
+				message = HelpMessage.HELP_ALIAS;
+				break;
+			case HELP:
+				message = HelpMessage.HELP_HELP;
+				break;
+			case TUTORIAL:
+				message = HelpMessage.HELP_TUTORIAL;
+				break;
+			case EXIT:
+				message = HelpMessage.HELP_EXIT;
+				break;
+			default:
+				// probably an invalid command
+				// since it is invalid, we show help directly
+				commandType = CommandType.HELP;
+				message = HelpMessage.HELP_HELP;
+				break;
+		}
+		String displayMessage = String.format(
+				HelpMessage.HELP_TEMPLATE,
+				commandType.toString(),
+				message,
+				listImplode(AliasHandler.aliases(commandType))
+			);
+		userInterface.displayMessage(displayMessage, Palette.MESSAGE_INFO);
+	}
+	
+	protected static String listImplode(List<String> list) {
+		StringBuilder builder = new StringBuilder();
+		
+		if (list.isEmpty()) {
+			builder.append("none");
+		} else {
+			builder.append(list.remove(0));
+			for (String s: list) {
+				builder.append(", ");
+				builder.append(s);
+			}
+		}
+		return builder.toString();
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\HelpCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\InputSplitter.java
+	 */
+
+package com.tasma.commands;
+
+public class InputSplitter {
+	/**
+	 * The magical space that splits between two arguments
+	 */
+	private static final String ARGUMENT_SPACE = " ";
+	
+	/**
+	 * The value returned by indexOf when there is no more space
+	 */
+	private static final int ARGUMENT_SPACE_NOT_FOUND = -1;
+	
+	/**
+	 * The input given
+	 */
+	private String input;
+
+	public InputSplitter(String input) {
+		this.input = input;
+	}
+	
+	/**
+	 * Fetch the next argument
+	 * @return Returns the next argument in the input given
+	 */
+	public String next() {
+		String result = "";
+		int intSpacePos = input.indexOf(ARGUMENT_SPACE);
+		if (intSpacePos == ARGUMENT_SPACE_NOT_FOUND) {
+			result = input;
+			input = "";
+		} else {
+			result = input.substring(0, intSpacePos);
+			input = input.substring(intSpacePos + 1);
+		}
+		return result;
+	}
+	
+	/**
+	 * Check if there are more to split out
+	 * @return Returns true if there are more content, false otherwise.
+	 */
+	public boolean hasNext() {
+		return !input.equals("");
+	}
+	
+	/**
+	 * Get all remaining text in the splitter
+	 * @return Returns the remaining string in the splitter
+	 */
+	public String remainder() {
+		return input;
+	}
+}
+
+	// End of segment: src\com\tasma\commands\InputSplitter.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\InvalidCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class InvalidCommand extends AbstractCommand {
+	
+	private String input = "";
+
+	public InvalidCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, String input) {
+		super(userInterface, collection);
+		this.input = input;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		userInterface.editCmdDisplay(input);
+		userInterface.displayMessage(UIMessage.COMMAND_INVALID, Palette.MESSAGE_DANGER);
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\InvalidCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\ListCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.List;
+
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.TaskState;
+import com.tasma.UIMessage;
+import com.tasma.ui.TasmaUserInterface;
+
+public class ListCommand extends AbstractCommand {
+
+	private static final String FILTER_FLOATING = "floating";
+	private static final String FILTER_DONE = "done";
+	private static final String FILTER_UNDONE = "undone";
+	private static final String FILTER_TODAY = "today";
+	private static final String FILTER_TMR = "tmr";
+	private static final String FILTER_TOMORROW = "tomorrow";
+	private static final String FILTER_PAST = "past";
+	private static final String FILTER_OVERDUE = "overdue";
+	private static final String FILTER_UPCOMING = "upcoming";
+	
+	private String filter;
+	private List<Task> state;
+
+	public ListCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state) {
+		this(userInterface, collection, state, "");
+	}
+
+	public ListCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, String filter) {
+		super(userInterface, collection);
+		this.filter = filter;
+		this.state = state;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		List<Task> list = null;
+		switch (filter.toLowerCase()) {
+			case FILTER_TMR:
+			case FILTER_TOMORROW:
+				userInterface.setHeader(UIMessage.HEADER_TASK_TOMORROW);
+				list = collection.filter(task -> task.getState() == TaskState.TOMORROW);
+				break;
+			case FILTER_TODAY:
+				userInterface.setHeader(UIMessage.HEADER_TASK_TODAY);
+				list = collection.filter(task -> task.getState() == TaskState.TODAY);
+				break;
+			case FILTER_FLOATING:
+				userInterface.setHeader(UIMessage.HEADER_TASK_FLOATING);
+				list = collection.floating();
+				break;
+			case FILTER_UPCOMING:
+				userInterface.setHeader(UIMessage.HEADER_TASK_UPCOMING);
+				list = collection.upcoming();
+				break;
+			case FILTER_OVERDUE:
+			case FILTER_PAST:
+				userInterface.setHeader(UIMessage.HEADER_TASK_OVERDUE);
+				list = collection.past();
+				break;
+			case FILTER_DONE:
+				userInterface.setHeader(UIMessage.HEADER_TASK_DONE);
+				list = collection.done();
+				break;
+			case FILTER_UNDONE:
+			default:
+				userInterface.setHeader(UIMessage.HEADER_TASK_UNDONE);
+				list = collection.notDone();
+				break;
+		}
+		TaskListSorter.sort(list);
+		state.clear();
+		state.addAll(list);
+		if (list == null) {
+			// TODO handle list null
+		} else {
+			userInterface.displayTasks(list);
+		}
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\ListCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\MarkCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class MarkCommand extends AbstractUndoableCommand {
+	
+	private List<Task> state;
+	private List<Task> tasks;
+	
+	public MarkCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, List<Integer> indices) {
+		super(userInterface, collection);
+		this.state = state;
+		tasks = new LinkedList<Task>();
+		try {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
+			}
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (tasks.size() == 0) {
+			userInterface.displayMessage(UIMessage.COMMAND_MARK_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(true);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(true);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+			ListCommand listCommand = new ListCommand(userInterface, collection, state);
+			listCommand.execute();
+		}
+	}
+
+	@Override
+	public void undo() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(false);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(false);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_MARK_MULTIPLE_UNDO, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+		}
+	}
+}
+
+	// End of segment: src\com\tasma\commands\MarkCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\NotExecutedException.java
+	 */
+
+package com.tasma.commands;
+
+public class NotExecutedException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3575618790920136968L;
+
+}
+
+	// End of segment: src\com\tasma\commands\NotExecutedException.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\SearchCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.TaskState;
+import com.tasma.TaskType;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class SearchCommand extends AbstractCommand {
+
+	protected List<Task> state;
+	protected String query;
+	
+	public SearchCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, String query) {
+		super(userInterface, collection);
+		this.query = query;
+		this.state = state;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (query.equals("")) {
+			userInterface.displayMessage(UIMessage.COMMAND_SEARCH_EMPTY_QUERY, Palette.MESSAGE_WARNING);
+		} else {
+			SearchProcessor processor = new SearchProcessor(query);
+			List<Task> resultList = processor.filter(collection);
+			TaskListSorter.sort(resultList);
+
+			state.clear();
+			state.addAll(resultList);
+			userInterface.setHeader(String.format(UIMessage.HEADER_TASK_SEARCH, query));
+			userInterface.displayTasks(resultList);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SEARCH_RESULT, resultList.size(), query), Palette.MESSAGE_INFO);
+		}
+	}
+
+	protected class SearchProcessor {
+		Predicate<Task> predicate;
+		public SearchProcessor(String query) {
+			predicate = buildConditions(query);
+		}
+		
+		public List<Task> filter(TaskCollection collection) {
+			return collection.filter(predicate);
+		}
+		
+		private Predicate<Task> buildConditions(String query) {
+			Predicate<Task> conditions;
+			LinkedList<Predicate<Task>> subConditions = new LinkedList<Predicate<Task>>();
+			
+			InputSplitter splitter = new InputSplitter(query);
+			String wordMatch = "";
+			boolean inQuote = false;
+			while (splitter.hasNext()) {
+				String word = splitter.next();
+				if (word.startsWith("\"")) {
+					inQuote = true;
+				}
+				if (inQuote) {
+					wordMatch += ".+" + word;
+				} else {
+					switch (word) {
+						case "today":
+							subConditions.add(task -> task.getState() == TaskState.TODAY);
+							break;
+						case "tomorrow":
+							subConditions.add(task -> task.getState() == TaskState.TOMORROW);
+							break;
+						case "done":
+							subConditions.add(task -> task.isDone());
+							break;
+						case "undone":
+							subConditions.add(task -> !task.isDone());
+							break;
+						case "overdue":
+							subConditions.add(task -> task.getState() == TaskState.OVERDUE);
+							break;
+						case "upcoming":
+							subConditions.add(task -> task.getState() == TaskState.UPCOMING);
+							break;
+						case "floating":
+							subConditions.add(task -> task.getType() == TaskType.FLOATING);
+							break;
+						case "timed":
+							subConditions.add(task -> task.getType() == TaskType.TIMED);
+							break;
+						case "deadline":
+							subConditions.add(task -> task.getType() == TaskType.DEADLINE);
+							break;
+						default:
+							wordMatch += ".*" + word;
+							break;
+					}
+				}
+				if (inQuote && word.endsWith("\"")){
+					inQuote = false;
+				}
+			}
+			conditions = subConditions.poll();
+			if (subConditions.size() > 0) {
+				for (Predicate<Task> condition: subConditions) {
+					conditions = conditions.or(condition);
+				}
+			}
+			
+			wordMatch += ".*";
+			final String regex = wordMatch;
+			Predicate<Task> detailsMatcher = task -> task.getDetails().matches(regex);
+			if (conditions == null) {
+				conditions = detailsMatcher;
+			} else {
+				conditions = conditions.and(detailsMatcher);
+			}
+			return conditions;
+		}
+	}
+}
+
+	// End of segment: src\com\tasma\commands\SearchCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\SetCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.config.Config;
+import com.tasma.ui.HotKeyHandler;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class SetCommand extends AbstractUndoableCommand {
+	
+	private String key;
+	private String previousValue;
+	private String newValue;
+
+	public SetCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, String key, String value) {
+		super(userInterface, collection);
+		this.key = key.toLowerCase();
+		this.newValue = value;
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (key.equals("")) {
+			throw new NotExecutedException();
+		} else {
+			Config config = Config.getInstance();
+			previousValue = config.getProperty(key);
+			if (newValue.equals("")) {
+				userInterface.editCmdDisplay(String.format("set %s %s", key, previousValue));
+			} else {
+				config.setProperty(key, newValue);
+
+				HotKeyHandler handler = new HotKeyHandler(userInterface);
+				handler.setHotKey();
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_SUCCESS, key), Palette.MESSAGE_SUCCESS);
+			}
+		}
+	}
+
+	@Override
+	public void undo() throws Exception {
+		if (key.equals("")) {
+			throw new NotExecutedException();
+		} else {
+			Config config = Config.getInstance();
+			config.setProperty(key, previousValue);
+			userInterface.displayMessage(String.format(UIMessage.COMMAND_SET_UNDO, key), Palette.MESSAGE_SUCCESS);
+		}
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\SetCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\TaskListSorter.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import com.tasma.Task;
+
+/**
+ * Provides chronological sorting of tasks according to their start date.
+ * Floating tasks can be handled too.
+	// End of segment: src\com\tasma\commands\TaskListSorter.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\TutorialCommand.java
+	 */
+
+package com.tasma.commands;
+
+import com.tasma.TaskCollection;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class TutorialCommand extends AbstractCommand {
+
+	private static final String TUTORIAL_MESSAGE = "Hello there! Welcome to TASMA, your personal assistant managing your to-do and schedule.\n\n"
+			+ "You can start creating new tasks by entering the 'add' command followed by details of your task. More information on the 'add' command can be found using the 'help add' command.\n\n"
+			+ "The 'help' command will show you a list of commands and features available in Tasma.";
+	
+	public TutorialCommand(TasmaUserInterface userInterface,
+			TaskCollection collection) {
+		super(userInterface, collection);
+	}
+
+	@Override
+	public void execute() throws Exception {
+		userInterface.displayMessage(TUTORIAL_MESSAGE, Palette.MESSAGE_INFO);
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\TutorialCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\UndoableCommandInterface.java
+	 */
+
+package com.tasma.commands;
+
+public interface UndoableCommandInterface extends CommandInterface {
+	public void undo() throws Exception;
+}
+
+	// End of segment: src\com\tasma\commands\UndoableCommandInterface.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\commands\UnmarkCommand.java
+	 */
+
+package com.tasma.commands;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.tasma.Task;
+import com.tasma.TaskCollection;
+import com.tasma.UIMessage;
+import com.tasma.ui.Palette;
+import com.tasma.ui.TasmaUserInterface;
+
+public class UnmarkCommand extends AbstractUndoableCommand {
+
+	private List<Task> state;
+	private List<Task> tasks;
+
+	public UnmarkCommand(TasmaUserInterface userInterface,
+			TaskCollection collection, List<Task> state, List<Integer> indices) {
+		super(userInterface, collection);
+		this.state = state;
+		tasks = new LinkedList<Task>();
+		try {
+			for (int index: indices) {
+				if (state.get(index) != null) {
+					tasks.add(state.get(index));
+				}
+			}
+		} catch (IndexOutOfBoundsException ex) {
+			
+		}
+		if (tasks.size() == 0) {
+			userInterface.displayMessage(UIMessage.COMMAND_UNMARK_NOTFOUND, Palette.MESSAGE_WARNING);
+		}
+	}
+
+	@Override
+	public void execute() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(false);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_UNMARK_SUCCESS, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(false);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_UNMARK_MULTIPLE_SUCCESS, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+			ListCommand listCommand = new ListCommand(userInterface, collection, state);
+			listCommand.execute();
+		}
+	}
+
+	@Override
+	public void undo() throws Exception {
+		if (tasks.size() == 0) {
+			throw new NotExecutedException();
+		} else {
+			if (tasks.size() == 1) {
+				Task task = tasks.get(0);
+				task.setDone(true);
+				collection.update(task);
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_UNMARK_UNDO, task.getDetails()), Palette.MESSAGE_SUCCESS);
+			} else {
+				for (Task task : tasks) {
+					task.setDone(true);
+					collection.update(task);
+				}
+				userInterface.displayMessage(String.format(UIMessage.COMMAND_UNMARK_MULTIPLE_UNDO, tasks.size()), Palette.MESSAGE_SUCCESS);
+			}
+		}
+	}
+
+}
+
+	// End of segment: src\com\tasma\commands\UnmarkCommand.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\ChangeObserverInterface.java
+	 */
+
+package com.tasma.config;
+
+/**
+ * Provides interfacing for a configuration change observer
+ */
+public interface ChangeObserverInterface {
+	
+	public void notify(String key, String oldValue, String newValue);
+	
+}
+
+	// End of segment: src\com\tasma\config\ChangeObserverInterface.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\Config.java
+	 */
+
+package com.tasma.config;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import com.tasma.config.observers.HotKeyObserver;
+import com.tasma.config.observers.StorageObserver;
+
+public class Config extends ObservableConfig {
+	
+	private static final String DESCRIPTION = "";
+	private static final String CONFIG_DEFAULT_FILENAME = "app";
+	private static final String CONFIG_FILE_EXTENSION = ".config";
+	private static final HashMap<String, Config> instances = new HashMap<String, Config>();
+	
+	private String name;
+	private boolean isFirstRun = false;
+	private Properties properties;
+	private File configFile;
+	
+	private Config(String name) throws Exception {
+		this.name = name;
+		configFile = new File(name + CONFIG_FILE_EXTENSION);
+		properties = new Properties();
+	    if(configFile.exists()) {
+		    FileInputStream in = new FileInputStream(configFile);
+		    properties.load(in);
+		    in.close();
+	    } else {
+			loadDefaultsAndObservers();
+	    	isFirstRun = true;
+	    }
+	}
+
+	public static Config getInstance() throws Exception {
+		return getInstance(CONFIG_DEFAULT_FILENAME);
+	}
+	
+	public static Config getInstance(String name) throws Exception {
+		if (!instances.containsKey(name)) {
+			instances.put(name, new Config(name));
+		}
+		return instances.get(name);
+	}
+	
+	private void loadDefaultsAndObservers() throws Exception {
+		if (name.equals(CONFIG_DEFAULT_FILENAME)) {
+			properties.setProperty("showhint", "yes");
+			
+			HotKeyObserver hotkey = new HotKeyObserver();
+			loadMap(hotkey.defaults());
+			
+			StorageObserver storage = new StorageObserver();
+			loadMap(storage.defaults());
+			
+			this.addObserver(storage);
+		}
+		saveToFile();
+	}
+	
+	private void loadMap(Map<String, String> map) {
+		for (Map.Entry<String, String> entry : map.entrySet())
+		{
+			properties.setProperty(entry.getKey(), entry.getValue());
+		}
+	}
+	
+	/**
+	 * Removes the property in the file associated with the key
+	 * @param key
+	 */
+	public void removeProperty(String key) {
+		properties.remove(key);
+	}
+	
+	/**
+	 * Searches for the property with the specified key in this property list.
+	 * Returns null if the property is not found.
+	 */
+	public String getProperty(String key) {
+		return properties.getProperty(key);
+	}
+	
+	/**
+	 * Sets the property based on specified key and value.
+	 * @return the previous value of the specified key in this property list, 
+	 *         or null if it did not have one
+	 */
+	public String setProperty(String key, String value) throws IOException {
+		String prevValue = properties.getProperty(key);
+		if (prevValue != null && prevValue.equals(value)) {
+			
+		} else {
+			properties.setProperty(key, value);
+			notifyObservers(key, prevValue, value);
+			saveToFile();
+		}
+		return prevValue;
+	}
+	
+	public boolean isFirstRun()
+	{
+		return isFirstRun;
+	}
+
+	private void saveToFile() throws IOException {
+		// TODO Is it inefficient to use a new outputStream every time we save?
+		FileOutputStream out = new FileOutputStream(configFile);
+		properties.store(out, DESCRIPTION);
+		out.close();
+	}
+}
+
+	// End of segment: src\com\tasma\config\Config.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\DefaultProviderInterface.java
+	 */
+
+package com.tasma.config;
+
+import java.util.Map;
+
+/**
+ * Provides an interface for a default value provider
+ */
+public interface DefaultProviderInterface {
+	public Map<String, String> defaults(); 
+}
+
+	// End of segment: src\com\tasma\config\DefaultProviderInterface.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\ObservableConfig.java
+	 */
+
+package com.tasma.config;
+
+import java.util.LinkedList;
+
+/**
+ * Provides abstraction for a config that can be observed using
+ * the Observer Pattern
+ */
+public abstract class ObservableConfig {
+	
+	/**
+	 * The list of observers to notify later
+	 */
+	private LinkedList<ChangeObserverInterface> observers = new LinkedList<ChangeObserverInterface>();
+
+	/**
+	 * Add an observer to the list of observers to keep updated
+	 * @param observer The observer to watch the config
+	 */
+	public void addObserver(ChangeObserverInterface observer) {
+		observers.add(observer);
+	}
+	
+	/**
+	 * Notify all observers of a change in the configuration values
+	 * @param key The key of the configuration that was changed
+	 * @param oldValue The old value of the configuration key
+	 * @param newValue The new value of the configuration key
+	 */
+	protected void notifyObservers(String key, String oldValue, String newValue) {
+		for(ChangeObserverInterface observer: observers) {
+			observer.notify(key, oldValue, newValue);
+		}
+	}
+
+}
+
+	// End of segment: src\com\tasma\config\ObservableConfig.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\observers\HotKeyObserver.java
+	 */
+
+package com.tasma.config.observers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.tasma.config.DefaultProviderInterface;
+
+public class HotKeyObserver implements DefaultProviderInterface {
+	
+	public static final String DEFAULT_HOTKEY = "alt shift A";
+
+	@Override
+	public Map<String, String> defaults() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("hotkey", DEFAULT_HOTKEY);
+		return map;
+	}
+	
+}
+
+	// End of segment: src\com\tasma\config\observers\HotKeyObserver.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\config\observers\StorageObserver.java
+	 */
+
+package com.tasma.config.observers;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.tasma.Storage;
+import com.tasma.config.ChangeObserverInterface;
+import com.tasma.config.DefaultProviderInterface;
+
+/**
+ * Watches a change in the storage file path
+ * and moves the file when needed.
+ */
+public class StorageObserver implements ChangeObserverInterface, DefaultProviderInterface {
+
+	@Override
+	public void notify(String key, String oldValue, String newValue) {
+		if (key.equals("storage")) {
+			File oldFile = new File(oldValue, Storage.FILENAME);
+			oldFile.renameTo(new File(newValue, Storage.FILENAME));
+		}
+	}
+	
+	public Map<String, String> defaults() {
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("storage", System.getProperty("user.dir"));
+		return result;
+	}
+
+}
+
+	// End of segment: src\com\tasma\config\observers\StorageObserver.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Controller.java
+	 */
+
+package com.tasma;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.tasma.commands.CommandFactory;
+import com.tasma.commands.CommandInterface;
+import com.tasma.commands.NotExecutedException;
+import com.tasma.ui.TasmaUserInterface;
+
+/**
+ * The main controller logic
+ * Tip: Good, cheap, fast - choose any two. (:
+ */
+public class Controller {
+	private static final Logger logger = Log.getLogger( Controller.class.getName() );
+
+	private static final String COMMAND_UNDO = "undo";
+	private static final String COMMAND_REDO = "redo";
+	private static final String COMMAND_LIST = "list";
+	
+	/**
+	 * The user interface to call the output methods from
+	 */
+	protected TasmaUserInterface userInterface;
+	
+	/**
+	 * The task collection to work with
+	 */
+	protected TaskCollection collection;
+	
+	/**
+	 * The command factory
+	 */
+	protected CommandFactory commandFactory;
+	
+	/**
+	 * The history handling for undo/redo
+	 */
+	protected History history = new History();
+	
+	public Controller() throws Exception {
+		this(new TaskCollection());
+	}
+	
+	public Controller(TaskCollection collection) {
+		this.collection = collection;
+	}
+	
+	/**
+	 * Performs initialization of the controller.
+	 * The user interface (i.e. TasmaUserInterface implementation) must have been set via the setUserInterface method prior to calling this method.
+	 * @throws Exception Thrown when the user interface for the controller is not set before initializing.
+	 */
+	public void initialize() throws Exception {
+		if (userInterface == null) {
+			Exception exception = new Exception("The user interface for the controller has not been set.");
+			logger.log(Level.FINER, exception.toString(), exception);
+			throw exception;
+		}
+		assert userInterface != null;
+		collection.loadFromFile();
+		commandFactory = new CommandFactory(userInterface, collection);
+	}
+	
+	/**
+	 * Set the user interface to be used by the controller.
+	 * @param ui The interface to be called by the controller.
+	 */
+	public void setUserInterface(TasmaUserInterface ui) {
+		assert ui != null;
+		userInterface = ui;
+		logger.log(Level.FINE, "Using {0} as the user interface now.", ui.getClass().getName());
+	}
+	
+	/**
+	 * Execute operations based on the user's input
+	 * @param input The input string of the user
+	 */
+	public void executeInput(String input) {
+		logger.log(Level.FINE, "Received input \"{0}\"", input);
+		try {
+			if (input.trim().equals(COMMAND_UNDO)) {
+				history.undo();
+				
+				CommandInterface command = commandFactory.getCommand(COMMAND_LIST);
+				command.execute();
+			} else if (input.trim().equals(COMMAND_REDO)) {
+				history.redo();
+			} else {
+				CommandInterface command = commandFactory.getCommand(input);
+				command.execute();
+				history.offer(input, command);
+			}
+		} catch (NotExecutedException nee) {
+			
+		} catch (Exception ex) {
+			displayException(ex);
+			userInterface.editCmdDisplay(input);
+		}
+	}
+
+	/**
+	 * Displays an exception message to the user
+	 * @param exception The exception to show
+	 */
+	protected void displayException(Exception exception) {
+		assert exception != null;
+		
+		logger.log(Level.FINE, exception.toString(), exception);
+		userInterface.displayMessage(String.format(UIMessage.COMMAND_EXCEPTION, exception.getMessage()));
+	}
+	
+	public String getLastInput() {
+		return history.popLastInput();
+	}
+}
+
+	// End of segment: src\com\tasma\Controller.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\HelpMessage.java
+	 */
+
+package com.tasma;
+
+/**
+ * Provides storage of help messages used by the help command
+ */
+public final class HelpMessage {
+	public static final String HELP_TEMPLATE = "Help information about '%s' command\n\n"
+			+ "%s\n\n"
+			+ "Aliases:\n%s\n\n"
+			+ "Angular <> and square brackets [] denote required and optional parameters respectively.";
+	
+	public static final String HELP_ADD = "\tadd <task details>\n\n"
+			+ "The 'add' command creates a new task for you based on the details you have entered. After entering the command, the list will be refreshed to show the new task in the list.";
+
+	public static final String HELP_SEARCH = "\tsearch <query>\n\n"
+			+ "The 'search' command finds tasks in your to-do list that matches the query string you have entered. After entering the command, the result of the search operation will be shown in the list.";
+
+	public static final String HELP_LIST = "\tlist [filters]\n\n"
+			+ "The 'list' command lists all the tasks that are upcoming in your to-do list. The [filter] parameter is optional and can be:\n"
+			+ "\ttmr:\t\t\tShows all tasks due / starting tomorrow\n"
+			+ "\ttoday:\t\tShows all tasks due / starting today\n"
+			+ "\tfloating:\t\tShows all floating tasks\n"
+			+ "\tdone:\t\t\tShows all tasks that were done\n"
+			+ "\tundone:\t\tShows all tasks that were not done yet\n"
+			+ "\tpast:\t\t\tShows all tasks that were not done and overdue\n"
+			+ "\toverdue:\t\tShows all tasks that were not done and overdue, same as past\n";
+
+	public static final String HELP_MARK = "\tmark <task number>\n\n"
+			+ "The 'mark' command marks a specified task as done. The <task number> parameter is the number corresponding to the task that you want to select.";
+
+	public static final String HELP_UNMARK = "\tunmark <task number>\n\n"
+			+ "The 'unmark' command marks a specified task as not done. The <task number> parameter is the number corresponding to the task that you want to select.";
+	
+	public static final String HELP_DELETE = "\tdelete <task number>\n\n"
+			+ "The 'delete' command deletes a specified task from the list of tasks. The <task number> parameter is the number corresponding to the task that you want to select.";
+
+	public static final String HELP_EDIT = "\tedit <task number> [task details]\n\n"
+			+ "The 'edit' command allows you to modify details of a specific task. The <task number> parameter is the number corresponding to the task that you want to select. In the event that the new details of the task is not entered, the old details will be displayed in the command box for your convenience to edit.";
+
+	public static final String HELP_SET = "\tset <config key> <value>\n\n"
+			+ "The 'set' command sets configuration values that allows you to change the behaviour of TASMA. The <config key> is the configuration that you want to change and <value> is the new value.\n\n"
+			+ "\tstorage:\tThe path to the folder where the tasks.json storage file will be stored.\n"
+			+ "\tshowhint:\tWhether you want to get hints for commands (yes/no).\n"
+			+ "\thotkey:\tSet the hotkey to use for activating TASMA.";
+
+	public static final String HELP_HELP = "\thelp [command]\n\n"
+			+ "The 'help' command provides you information on how to use the various commands in TASMA. The [command] is the command to show help for and can be any of the following:\n\n"
+			+ "\tadd\t\tedit\t\tdelete\n"
+			+ "\tlist\t\tsearch\tmark\n"
+			+ "\tunmark\tset\t\talias\n"
+			+ "\thelp\t\ttutorial\texit";
+
+	public static final String HELP_ALIAS = "\talias <new alias> <built in command>\n\n"
+			+ "The 'alias' command allows you to set new commands that function the same as other built in commands. The <new alias> can be the new custom alias that you want to add and the <built in command> will be the existing command to that the new alias will function as.\n\nIf you enter in the format of 'alias remove <new alias>', it will remove the custom shortcut.";
+
+	public static final String HELP_TUTORIAL = "\ttutorial\n\n"
+			+ "The 'tutorial' command will launch the welcome tutorial that was shown when you first start TASMA.";
+
+	public static final String HELP_EXIT = "\texit\n\n"
+			+ "The 'exit' command will make TASMA quit its job and move to another city.";
+	
+	public static final String HINT_ADD = "add <task details>\n<task details> the details of your task to be added";
+	public static final String HINT_SEARCH = "search <query>\n<query> the keywords to match your tasks";
+	public static final String HINT_LIST= "list [filters]\n[filters] an optional keyword to shorten the list of tasks for your convenience";
+	public static final String HINT_MARK = "mark <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_UNMARK = "unmark <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_DELETE = "delete <task number>\n<task number> the number shown next to the task in the list";
+	public static final String HINT_EDIT = "edit <task number> [task details]\n<task number> the number shown next to the task in the list\n[task details] the new details of the task";
+	public static final String HINT_SET = "set <config key> <value>\n<config key> the configuration key to set new value to\n<value> the new value to set";
+	public static final String HINT_ALIAS = "alias <new alias> <built in command>\n<new alias> the new shortcut to add in\n<built in command> the existing command to use";
+	public static final String HINT_HELP = "help [command]\n[command] the command to get help for";
+	public static final String HINT_TUTORIAL = "tutorial\nYou can start a new tutorial again";
+	public static final String HINT_EXIT = "exit\nPress enter and we say goodbye";
+	public static final String HINT_UNDO = "undo\nUndo the previous change made";
+	public static final String HINT_REDO = "redo\nRedo the previous undo call";
+	
+}
+
+	// End of segment: src\com\tasma\HelpMessage.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\History.java
+	 */
+
+package com.tasma;
+
+import java.util.Stack;
+
+import com.tasma.commands.CommandInterface;
+import com.tasma.commands.UndoableCommandInterface;
+
+/**
+ * Provides history management (undo/redo) for Controller
+ */
+public class History {
+	
+	/**
+	 * The undo stack that contains all undoable commands that were executed
+	 */
+	protected Stack<UndoableCommandInterface> undoStack = new Stack<UndoableCommandInterface>();
+	
+	/**
+	 * The redo stack that contains all commands that were undone.
+	 * The stack is reset whenever there is a new command added to the undo stack
+	 */
+	protected Stack<UndoableCommandInterface> redoStack = new Stack<UndoableCommandInterface>();
+	
+	/**
+	 * The input command stack
+	 */
+	protected Stack<String> inputStack = new Stack<String>();
+	
+	/**
+	 * Offers a command to the history stack. If the command is an instance of UndoableCommandInterface,
+	 * it will be stored into the history stack.
+	 * 
+	 * When offered with a new Undoable Command, the redo stack commands will be cleared
+	 * @param input The input string entered by the user
+	 * @param command The command to be placed in the history stack
+	 */
+	public void offer(String input, CommandInterface command) {
+		inputStack.push(input);
+		if (command instanceof UndoableCommandInterface) {
+			undoStack.push((UndoableCommandInterface) command);
+			redoStack.clear();
+		}
+	}
+	
+	/**
+	 * Performs an undo operation on the history.
+	 * @throws Exception Forwards the exception thrown from the command.
+	 */
+	public void undo() throws Exception {
+		if (undoStack.size() > 0) {
+			UndoableCommandInterface command = undoStack.pop();
+			command.undo();
+			redoStack.push(command);
+		}
+	}
+	
+	/**
+	 * Performs a redo operation on the history.
+	 * @throws Exception Forwards the exception thrown from the command.
+	 */
+	public void redo() throws Exception {
+		if (redoStack.size() > 0) {
+			UndoableCommandInterface command = redoStack.pop();
+			command.execute();
+			undoStack.push(command);
+		}
+	}
+
+	/**
+	 * Get the last input entered by the user
+	 * @return Returns the last input
+	 */
+	public String popLastInput() {
+		String result = "";
+		if (inputStack.size() > 0) {
+			result = inputStack.pop();
+		}
+		return result;
+	}
+}
+
+	// End of segment: src\com\tasma\History.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Log.java
+	 */
+
+package com.tasma;
+
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+/**
+ * This is a singleton service for all the classes to write to a common log file.
+ */
+public class Log {
+	
+	private static final String LOG_FILE = "tasma.log";
+	
+	private Level level;
+	private FileHandler logFile;
+	
+	private static Log instance = null;
+	
+	private Log() throws Exception {
+		level = Level.ALL;
+		
+		logFile = new FileHandler(LOG_FILE);
+		logFile.setFormatter(new SimpleFormatter());
+	}
+	
+	/**
+	 * Get the singleton instance of Log
+	 * @return Log
+	 */
+	protected static Log getInstance() {
+		if (instance == null) {
+			try {
+				instance = new Log();
+			} catch (Exception e) {
+				
+			}
+		}
+		return instance;
+	}
+	
+	/**
+	 * Get the logger for the class name
+	 * @param name The class name
+	 * @return Logger
+	 */
+	public static Logger getLogger(String name) {
+		Log log = Log.getInstance();
+		Logger logger = Logger.getLogger(name);
+		
+		logger.setLevel(log.level);
+		logger.addHandler(log.logFile);
+		return logger;
+	}
+}
+
+	// End of segment: src\com\tasma\Log.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Storage.java
+	 */
+
+package com.tasma;
+
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import com.fatboyindustrial.gsonjodatime.Converters;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.tasma.config.Config;
+
+/**
+ * Provides near-filesystem level abstraction of the task storage file
+ * plus serialisation and unserialisation
+ */
+public class Storage {
+	private static final Logger logger = Log.getLogger( Storage.class.getName() );
+	
+	/**
+	 * The file name of the task storage file
+	 */
+	public static final String FILENAME = "tasks.json";
+	
+	private String path;
+	
+	public Storage() throws Exception {
+		this(Config.getInstance().getProperty("storage"));
+	}
+	
+	public Storage(String path) throws Exception {
+		this.path = path;
+	}
+	
+	/**
+	 * Saves the list of tasks into the default storage file.
+	 * @param tasks The list of tasks to be saved
+	 * @throws IOException Thrown when there is a problem trying to save data into the file.
+	 */
+	public void save(LinkedList<Task> tasks) throws IOException {
+		logger.log(Level.FINE, "Performing a save on {0} tasks to file", tasks.size());
+		final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
+		final String json = gson.toJson(tasks);
+		byte[] utf8JsonString = json.getBytes("UTF8");
+    
+	    try {
+	    	File file = new File(path, FILENAME);
+	    	FileOutputStream stream = new FileOutputStream(file);
+		    stream.write(utf8JsonString);  
+		    stream.close();
+	    } catch (IOException e) {  
+			throw e;
+	    }
+	}
+
+	/**
+	 * Loads the list of tasks from the default storage file.
+	 * @return Returns the list of tasks that was loaded from the file
+	 * @throws IOException Thrown when there is a problem trying to save data into the file.
+	 */
+	public LinkedList<Task> load() throws IOException {
+		logger.log(Level.FINE, "Performing load from file");
+		LinkedList<Task> tasks = new LinkedList<Task>();
+		
+		File file = new File(path, FILENAME);
+		if (file.exists()) {
+			try {
+				byte[] utf8JsonString = java.nio.file.Files.readAllBytes(file.toPath());
+				final Gson gson = Converters.registerDateTime(new GsonBuilder()).create();
+				String json = new String(utf8JsonString);
+				tasks = gson.fromJson(json, new TypeToken<LinkedList<Task>>() {}.getType());
+			}catch(IOException e) {
+				throw e;
+			} 
+		}
+		return tasks;
+	}
+}
+
+	// End of segment: src\com\tasma\Storage.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Task.java
+	 */
+
+package com.tasma;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+/**
+ * The Task Model
+ * holds the details of a task that can be serialised.
+ */
+public class Task implements Cloneable {
+	private String details = "";
+	private DateTime startDateTime;
+	private DateTime endDateTime;
+	private boolean isDone;
+
+	private static final int DEFAULT_HOURS = 23;
+	private static final int DEFAULT_MINUTES = 59;
+
+	public Task(String details) {
+		this.details = details;
+	}
+
+	public Task() {
+		this("");
+	}
+
+	/**
+	 * Get the details of the task
+	 * @return A string containing the details of the task
+	 */
+	public String getDetails() {
+		return details;
+	}
+
+	/**
+	 * Set the details of the task
+	 * @param details The new details of the task
+	 */
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public DateTime getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(DateTime startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public DateTime getEndDateTime() {
+		return endDateTime;
+	}
+
+	// End of segment: src\com\tasma\Task.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Task.java
+	 */
+
+	public void setEndDateTime(DateTime endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
+	/**
+	 * Check if this task is done
+	 * @return
+	 */
+	public boolean isDone() {
+		return isDone;
+	}
+
+	/**
+	 * Set the task to be done or undone
+	 * @param isDone True if the task is done, and false if it is not.
+	 */
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
+	}
+
+	/**
+	 * Performs a clone operation to get a copy of the task with the same values.
+	 */
+	@Override
+	public Task clone() throws CloneNotSupportedException {
+		return (Task) super.clone();
+	}
+	
+	/**
+	 * Needed by edit command to show task details for editing
+	 */
+	// End of segment: src\com\tasma\Task.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\Task.java
+	 */
+
+	/**
+	 * Get the type of the task
+	 * @return Returns a value from the enum TaskType
+	 */
+	public TaskType getType() {
+		if (startDateTime == null) {
+			return TaskType.FLOATING;
+		} else if (startDateTime.equals(endDateTime)) {
+			return TaskType.DEADLINE;
+		}
+		return TaskType.TIMED;
+	}
+
+	/**
+	 * Get the state of the task
+	 * @return Returns a value from the enum TaskState
+	 */
+	public TaskState getState() {
+		if (isDone) {
+			return TaskState.DONE;
+		}
+		if (startDateTime == null) {
+			return TaskState.FLOATING;
+		}
+		DateTime dateTimeNow = new DateTime();
+		DateTime dateTimeTmrStart = dateTimeNow.plusDays(1).withTime(0, 0, 0, 0);
+		DateTime dateTimeTmrEnd = dateTimeNow.plusDays(2).withTime(0, 0, 0, 0);
+		if (endDateTime.isBefore(dateTimeNow)) {
+			return TaskState.OVERDUE;
+		} else if (endDateTime.isBefore(dateTimeTmrStart)) {
+			return TaskState.TODAY;
+		} else if (endDateTime.isBefore(dateTimeTmrEnd)) {
+			return TaskState.TOMORROW;
+		}
+		return TaskState.UPCOMING;
+	}
+}
+
+	// End of segment: src\com\tasma\Task.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\TaskCollection.java
+	 */
+
+package com.tasma;
+
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.List;
+
+import org.joda.time.LocalDate;
+
+/**
+ * Provides operations on the collection of the user's tasks.
+ */
+public class TaskCollection extends Observable {
+	
+	/**
+	 * The storage component to save / load tasks to / from
+	 */
+	protected Storage storage;
+	
+	/**
+	 * The amazing list of user's tasks, every single one stored here
+	 */
+	protected LinkedList<Task> tasks;
+	
+	public TaskCollection() throws Exception {
+		this.storage = new Storage();
+	}
+	
+	public TaskCollection(Storage storage) throws Exception {
+		this.storage = storage;
+	}
+	
+	/**
+	 * Performs loading of tasks from storage file
+	 * @throws Exception
+	 */
+	public void loadFromFile() throws Exception {
+		tasks = storage.load();
+	}
+	
+	/**
+	 * Create a new task and register it into the storage
+	 * @param task The Task object to was created
+	 * @throws Exception
+	 */
+	public void create(Task task) throws Exception {
+		tasks.add(task);
+		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
+	}
+	
+	/**
+	 * Perform an update of the task.
+	 * 
+	 * Note: Since the modifications made to the task object is reflected in the list by reference,
+	 * we can just directly save the list to save the changes
+	 * @param task The Task object that was updated
+	 * @throws Exception
+	 */
+	public void update(Task task) throws Exception {
+		// make sure we don't put in a new task
+
+		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
+	}
+	
+	/**
+	 * Fetch a specific task based on its index in the task list
+	 * @param index The index of the task in the list
+	 * @return Returns a Task object fetched if the index is valid.
+	 */
+	public Task get(int index) {
+		return tasks.get(index);
+	}
+	
+	/**
+	 * Fetch a list of all undone tasks from the past. blast from the past!
+	 * @return A list of tasks
+	 */
+	public List<Task> past() {
+		LocalDate today = new LocalDate();
+		List<Task> pastList = tasks.stream()
+		    .filter(task -> !task.isDone() && task.getEndDateTime() != null
+		    	&& task.getEndDateTime().toLocalDate().isBefore(today))
+		    .collect(Collectors.toList());
+
+		return pastList;
+	}
+
+	/**
+	 * Filters the list of task using a predicate
+	 * @param predicate The predicate / condition to filter the tasks
+	 * @return A list of tasks
+	 */
+	public List<Task> filter(Predicate<? super Task> predicate) {
+		List<Task> result = tasks.stream()
+		    .filter(predicate)
+		    .collect(Collectors.toList());
+
+		return result;
+	}
+	
+	/**
+	 * Fetch a list of all upcoming tasks that are not done yet
+	 * @return A list of tasks
+	 */
+	public List<Task> upcoming() {
+		LocalDate yesterday = (new LocalDate()).minusDays(1);
+		List<Task> upcomingList = tasks.stream()
+		    .filter(task -> !task.isDone() && task.getStartDateTime() != null &&
+		    	task.getStartDateTime().toLocalDate().isAfter(yesterday))
+		    .collect(Collectors.toList());
+		
+		return upcomingList;
+	}
+	
+	/**
+	 * Deletes a task from the list. Point of no return, period.
+	 * @param task The task to be deleted.
+	 * @throws Exception
+	 */
+	public void delete(Task task) throws Exception {
+		tasks.remove(task);
+		storage.save(tasks);
+		setChanged();
+	    notifyObservers();
+	}
+	
+	/**
+	 * Performs a search on all tasks
+	 * @param query The search query
+	 * @return A list of tasks
+	 */
+	public List<Task> search(String query) {
+		List<Task> resultList = tasks.stream()
+		    .filter(task -> task.getDetails().indexOf(query) != -1)
+		    .collect(Collectors.toList());
+		
+		return resultList;
+	}
+
+	/**
+	 * Fetch a list of tasks that are not done yet 
+	 * @return A list of tasks
+	 */
+	public List<Task> notDone() {
+		List<Task> nodoneList = tasks.stream()
+		    .filter(task -> !task.isDone())
+		    .collect(Collectors.toList());
+		return nodoneList;
+	}
+
+	/**
+	 * Fetch a list of tasks that are done already
+	 * @return A list of tasks
+	 */
+	public List<Task> done() {
+		List<Task> doneList = tasks.stream()
+		    .filter(task -> task.isDone())
+		    .collect(Collectors.toList());
+		return doneList;
+	}
+
+	public List<Task> floating() {
+		List<Task> doneList = tasks.stream()
+			    .filter(task -> !task.isDone() && task.getStartDateTime() == null && task.getEndDateTime() == null)
+			    .collect(Collectors.toList());
+			return doneList;
+	}
+}
+
+	// End of segment: src\com\tasma\TaskCollection.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\TaskState.java
+	 */
+
+package com.tasma;
+
+/**
+ * The state of the task
+ * the order of the state matters as how it shows on screen
+ */
+public enum TaskState {
+	OVERDUE,
+	TODAY,
+	TOMORROW,
+	FLOATING,
+	UPCOMING,
+	DONE
+}
+
+	// End of segment: src\com\tasma\TaskState.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\TaskType.java
+	 */
+
+package com.tasma;
+
+/**
+ * The task type enumeration
+ */
+public enum TaskType {
+	FLOATING,
+	TIMED,
+	DEADLINE
+}
+
+	// End of segment: src\com\tasma\TaskType.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\TasmaApp.java
+	 */
+
+package com.tasma;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.tasma.AppInstanceManager.AppActivateListener;
+import com.tasma.config.Config;
+import com.tasma.ui.HotKeyHandler;
+import com.tasma.ui.TasmaConsoleUI;
+import com.tasma.ui.TasmaGUI;
+import com.tasma.ui.TasmaUserInterface;
+import com.tasma.ui.TrayIcon;
+
+/**
+ * The main application class
+ */
+public class TasmaApp implements Runnable {
+	private static final Logger logger = Log.getLogger( TasmaApp.class.getName() );
+	
+	private static final String APP_CLI_ARGUMENT = "cli";
+	
+	private static final String START_UP_DEFAULT_COMMAND = "list";
+	private static final String START_UP_TUTORIAL_COMMAND = "tutorial"; 
+	
+	private Controller controller;
+	private Config config;
+	private TasmaUserInterface userInterface; 
+	private TaskCollection collection;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		TasmaUserInterface userInterface;
+		if (args.length == 1 && args[0].toLowerCase().equals(APP_CLI_ARGUMENT)) {
+			userInterface = new TasmaConsoleUI();
+		} else {
+			userInterface = new TasmaGUI();
+		}
+		
+		AppInstanceManager manager = new AppInstanceManager();
+		manager.register(new TasmaApp(userInterface));
+		manager.setAppActivateListener(new AppActivateListener() {
+
+			@Override
+			public void activate() {
+				userInterface.show();
+			}
+			
+		});
+	}
+	
+	public TasmaApp() {
+		this(new TasmaGUI());
+	}
+	
+	public TasmaApp(TasmaUserInterface userInterface) {
+		try {
+			this.userInterface = userInterface;
+			this.collection = new TaskCollection();
+			this.controller = new Controller(collection);
+			this.config = Config.getInstance();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Start running the app!
+	 */
+	// End of segment: src\com\tasma\TasmaApp.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\TasmaApp.java
+	 */
+
+	@Override
+	public void run() {
+		try {
+			logger.log(Level.FINE, "Initializing window & application");
+			initialize();
+			userInterface.show();
+
+			registerHotKey();
+			
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.toString(), e);
+			e.printStackTrace();
+		}
+		
+		// set up tray icon and balloon notification
+		try {
+			TrayIcon trayIcon = new TrayIcon(userInterface, controller);
+			trayIcon.setup();
+			BalloonNotification notification = new BalloonNotification(collection, trayIcon);
+			notification.setup();
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	protected void initialize() throws Exception {
+		userInterface.initialize(controller);
+		controller.initialize();
+		controller.executeInput(START_UP_DEFAULT_COMMAND);
+		if (config.isFirstRun()) { // run the tutorial if this is the first time!
+			controller.executeInput(START_UP_TUTORIAL_COMMAND);
+		}
+	}
+	
+	protected void registerHotKey() throws Exception {
+		HotKeyHandler handler = new HotKeyHandler(userInterface);
+		handler.setHotKey();
+	}
+}
+
+	// End of segment: src\com\tasma\TasmaApp.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\CommandHintFrame.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Point;
+import java.util.HashMap;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+
+import com.tasma.HelpMessage;
+import com.tasma.InvalidInputException;
+import com.tasma.commands.AliasHandler;
+import com.tasma.commands.InputSplitter;
+import com.tasma.commands.CommandType;
+
+/**
+ * The yellow hint frame that shows up for the user as they type.
+ * Used in TasmaGUI
+ */
+@SuppressWarnings("serial")
+public class CommandHintFrame extends JFrame {
+	
+	/**
+	 * The frame's opacity
+	 */
+	//private static final float FRAME_OPACITY = 0.75f;
+
+	/**
+	 * The output text area
+	 */
+	private JTextArea labelOutput = new JTextArea();
+	
+	/**
+	 * A mapping of a command to its hint message
+	 */
+	private HashMap<CommandType, String> hintMapping = new HashMap<CommandType, String>();
+	{
+		hintMapping.put(CommandType.ADD, HelpMessage.HINT_ADD);
+		hintMapping.put(CommandType.SEARCH, HelpMessage.HINT_SEARCH);
+		hintMapping.put(CommandType.LIST, HelpMessage.HINT_LIST);
+		hintMapping.put(CommandType.EDIT, HelpMessage.HINT_EDIT);
+		hintMapping.put(CommandType.MARK, HelpMessage.HINT_MARK);
+		hintMapping.put(CommandType.DELETE, HelpMessage.HINT_DELETE);
+		hintMapping.put(CommandType.SET, HelpMessage.HINT_SET);
+		hintMapping.put(CommandType.ALIAS, HelpMessage.HINT_ALIAS);
+		hintMapping.put(CommandType.HELP, HelpMessage.HINT_HELP);
+		hintMapping.put(CommandType.TUTORIAL, HelpMessage.HINT_TUTORIAL);
+		hintMapping.put(CommandType.EXIT, HelpMessage.HINT_EXIT);
+	}
+	
+	public CommandHintFrame() {
+		decorateFrame();
+		buildLabel();
+	}
+	
+	/**
+	 * Decorate everything!
+	 */
+	protected void decorateFrame() {
+		this.setTitle("");
+		this.setAlwaysOnTop(true);
+		this.setAutoRequestFocus(false);
+		this.setUndecorated(true);
+		//this.setOpacity(FRAME_OPACITY);
+		this.setSize(400, 22);
+        setFocusable(false);
+        setFocusableWindowState(false);
+	}
+	
+	/**
+	 * Decorate and build the label
+	 */
+	protected void buildLabel() {
+		labelOutput.setEditable(false);
+		labelOutput.setOpaque(true);
+		labelOutput.setBackground(Palette.HINT_FRAME_BACKGROUND);
+		labelOutput.setBorder(new EmptyBorder(10, 10, 10, 10));
+		this.add(labelOutput);
+	}
+	
+	/**
+	 * Show the window if the input has a command
+	 * @param input The input string to parse
+	 * @param component The text box to attach the frame next to
+	 * @throws InvalidInputException
+	 */
+	public void checkHasHint(String input, JComponent component) throws InvalidInputException {
+		InputSplitter splitter = new InputSplitter(input);
+		String command = splitter.next();
+		CommandType type = AliasHandler.normalize(command);
+		String hint = hintMapping.get(type);
+		if (hint != null) {
+			labelOutput.setText(hint);
+			// resize the frame according to the label's preferred size so that
+			// it fits
+			this.setSize(labelOutput.getPreferredSize());
+			Point location = component.getLocationOnScreen();
+			location.move(location.x + 20, location.y + component.getHeight());
+			this.setLocation(location);
+			this.setVisible(true);
+		} else {
+			this.setVisible(false);
+		}
+	}
+
+	/**
+	 * Close the window
+	 */
+	public void close() {
+		this.setVisible(false);
+	}
+}
+
+	// End of segment: src\com\tasma\ui\CommandHintFrame.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\HotKeyHandler.java
+	 */
+
+package com.tasma.ui;
+
+import javax.swing.KeyStroke;
+import com.tasma.config.Config;
+import com.tasma.config.observers.HotKeyObserver;
+import com.tulskiy.keymaster.common.HotKey;
+import com.tulskiy.keymaster.common.HotKeyListener;
+import com.tulskiy.keymaster.common.Provider;
+
+public class HotKeyHandler {
+	private TasmaUserInterface userInterface;
+	private static Provider provider = Provider.getCurrentProvider(true);
+	
+	public HotKeyHandler(TasmaUserInterface userInterface) {
+		this.userInterface = userInterface;
+	}
+	
+	public void setHotKey() throws Exception {
+		provider.reset();
+		Config config = Config.getInstance();
+		KeyStroke key = KeyStroke.getKeyStroke(config.getProperty("hotkey"));
+		if (key == null) {
+			key = KeyStroke.getKeyStroke(HotKeyObserver.DEFAULT_HOTKEY);
+		}
+		provider.register(key, new HotKeyListener() {
+
+			@Override
+			public void onHotKey(HotKey hotKey) {
+				userInterface.show();
+			}
+        });
+	}
+}
+
+	// End of segment: src\com\tasma\ui\HotKeyHandler.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\Palette.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Color;
+import java.awt.Font;
+
+/**
+ * Provides the colours used by the user interface and commands to tell users (:
+ */
+public class Palette {
+	/**
+	 * The default theme blue colour of TASMA
+	 * #29ABE2
+	 */
+	public static final Color THEME_BLUE = new Color(41, 171, 226);
+	
+	/**
+	 * The placeholder text's colour of blue. 
+	 * The background of the command box is THEME_BLUE, so we have to use a very light shade of blue
+	 */
+	public static final Color PLACEHOLDER_TEXT = new Color(162, 216, 232);
+	
+	/**
+	 * The default message colour
+	 */
+	public static final Color MESSAGE_DEFAULT = new Color(20, 20, 20);
+	
+	/**
+	 * The message colour that shows success
+	 */
+	public static final Color MESSAGE_SUCCESS = new Color(86, 179, 114);
+	
+	/**
+	 * The message colour that shows a warning
+	 */
+	public static final Color MESSAGE_WARNING = new Color(255, 145, 0);
+	
+	/**
+	 * The message colour that shows danger
+	 */
+	public static final Color MESSAGE_DANGER = new Color(217, 71, 61);
+	
+	/**
+	 * The message colour that shows information
+	 */
+	public static final Color MESSAGE_INFO = new Color(21, 118, 179);
+	
+	/**
+	 * Default task colour
+	 */
+	public static final Color TASK_LIST_DEFAULT = new Color(80, 80, 80);
+	
+	/**
+	 * Colour of task that is overdue
+	 * Color: Red
+	 */
+	public static final Color TASK_LIST_OVERDUE = new Color(255, 0, 0);
+	
+	/**
+	 * Color of task that is due today
+	 * Color: Orange
+	 */
+	public static final Color TASK_LIST_TODAY = new Color(255, 145, 0);
+	
+	/**
+	 * Color of floating tasks
+	 * Color: default color
+	 */
+	public static final Color TASK_LIST_FLOATING = TASK_LIST_DEFAULT;
+	
+	/**
+	 * Color of done tasks
+	 * Color: Green
+	 */
+	public static final Color TASK_LIST_DONE = new Color(42, 212, 0);
+	
+	/**
+	 * Foreground colour of task list header
+	 */
+	public static final Color TASK_LIST_HEADER_FOREGROUND = new Color (255, 255, 255);
+	
+	/**
+	 * Background colour of task list header
+	 */
+	public static final Color TASK_LIST_HEADER_BACKGROUND = new Color (8, 155, 218);
+	
+	/**
+	 * The default UI tasks
+	 */
+	public static final Font UI_FONT_DEFAULT = new Font("Arial", Font.PLAIN, 12);
+	
+	/**
+	 * Tasks list header font
+	 */
+	public static final Font UI_LIST_HEADER = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 14.0f);
+	
+	/**
+	 * Tasks title font
+	 */
+	public static final Font UI_TASK_TITLE = UI_FONT_DEFAULT.deriveFont(Font.PLAIN, 16.0f);
+	
+	/**
+	 * Section header fonts
+	 */
+	public static final Font UI_TASK_SECTION_HEADER = UI_FONT_DEFAULT.deriveFont(Font.BOLD, 20.0f);
+	
+	/**
+	 * Hint frame background color
+	 */
+	public static final Color HINT_FRAME_BACKGROUND = new Color(252, 232, 104);
+	
+	/**
+	 * Zebra list background 1
+	 */
+	public static final Color ZEBRA_LIST_BACKGROUND_ONE = Color.WHITE;
+	
+	/**
+	 * Zebra list background 2
+	 */
+	public static final Color ZEBRA_LIST_BACKGROUND_TWO = new Color(245, 245, 245);
+}
+
+	// End of segment: src\com\tasma\ui\Palette.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\PlaceholderTextField.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.JTextField;
+
+/**
+ * Provides placeholder text functionality - usability importance
+ * Otherwise the command box will be a sad empty lonely blue box.
+	// End of segment: src\com\tasma\ui\PlaceholderTextField.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\TasmaConsoleUI.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Color;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import com.tasma.Controller;
+import com.tasma.Task;
+
+/**
+ * This is an alternative UI for testing non-GUI stuff.
+ */
+public class TasmaConsoleUI implements TasmaUserInterface {
+
+	/**
+	 * The controller of the console UI
+	 */
+	private Controller controller;
+	
+	/**
+	 * The task list header
+	 */
+	protected String headerText;
+	
+	public void initialize(Controller controller) throws Exception {
+		this.controller = controller;
+		this.controller.setUserInterface(this);
+	}
+	
+	protected void outputRow(Object value) {
+		if (value instanceof String) {
+			String sectionHeader = value.toString();
+			System.out.println("\n-- " + sectionHeader + " " + padding(sectionHeader, 80, '-'));
+		} else if (value instanceof Map.Entry) {
+			@SuppressWarnings("unchecked")
+			Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
+			int taskIndex = entry.getKey();
+		    Task task = entry.getValue();
+			
+		    String lineOutput = "";
+		    lineOutput += (taskIndex + 1) + ".\t";
+		    lineOutput += task.getDetails() + "\n";
+		    if (task.isDone() || task.getStartDateTime() != null) {
+			    lineOutput += "\t";
+			    if (task.isDone()) {
+			    	lineOutput += "[DONE] ";
+			    }
+			    if (task.getStartDateTime() != null) {
+			    	lineOutput += task.getStringStartDateTime();
+			    }
+			    lineOutput += "\n";
+		    }
+		    System.out.print(lineOutput);
+		}
+	}
+	
+	@Override
+	public void displayTasks(List<Task> tasks) {
+		if (headerText != null) {
+			System.out.println("== " + headerText + " ==");
+		}
+		List<Object> finalList = UITaskListSorter.sort(tasks);
+		for(Object value: finalList) {
+			outputRow(value);
+		}
+	}
+	
+	@Override
+	public void displayMessage(String message) {
+		displayMessage(message, null);
+	}
+
+	@Override
+	public void displayMessage(String message, Color color) {
+		System.out.println("INFO: " + message);
+	}
+	
+	public void editCmdDisplay (String task) {
+	}
+
+	@SuppressWarnings("resource")
+	@Override
+	public void show() {
+		Scanner sc = new Scanner(System.in);
+		while(true) {
+			System.out.print("Command: ");
+			String input = sc.nextLine();
+			controller.executeInput(input);
+		}
+	}
+
+	@Override
+	public void hide() {
+		
+	}
+
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+	
+	private static String padding( String text, int n, char ch ) {
+		return new String(new char[n - text.length()]).replace('\0', ch);
+	}
+
+	@Override
+	public void setHeader(String header) {
+		this.headerText = header;
+	}
+}
+
+	// End of segment: src\com\tasma\ui\TasmaConsoleUI.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\TasmaGUI.java
+	 */
+
+	public void initTextHeader() {
+		headerPanel = new JPanel();
+		headerPanel.setLayout(new BorderLayout());
+		textHeader.setText("Hello there!");
+		textHeader.setFont(Palette.UI_LIST_HEADER);
+		textHeader.setOpaque(true);
+		textHeader.setBorder(new EmptyBorder(5, 10, 5, 10));
+		textHeader.setForeground(Palette.TASK_LIST_HEADER_FOREGROUND);
+		textHeader.setBackground(Palette.TASK_LIST_HEADER_BACKGROUND);
+		headerPanel.add(textHeader, BorderLayout.PAGE_END);
+		contentPane.add(headerPanel, BorderLayout.NORTH);
+	}
+
+	@Override
+	public void setHeader(String header) {
+		textHeader.setText(header);
+	}
+
+	@Override
+	public void initialize(Controller controller) throws Exception {
+		this.controller = controller;
+		this.controller.setUserInterface(this);
+	}
+	// End of segment: src\com\tasma\ui\TasmaGUI.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\TasmaGUI.java
+	 */
+
+	public class CustomListRenderer implements ListCellRenderer<Object> {
+		
+		private final Color[] ZEBRA_COLORS = {
+			Palette.ZEBRA_LIST_BACKGROUND_ONE,
+			Palette.ZEBRA_LIST_BACKGROUND_TWO
+		};
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+			boolean isSelected, boolean cellHasFocus) {
+		    JPanel panel = new JPanel();
+		    panel.setBackground(ZEBRA_COLORS[index & 1]);
+		    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+			if (value instanceof String) {
+				panel.setLayout(new BorderLayout());
+				JTextArea textSectionHeader = new JTextArea();
+				textSectionHeader.setText(value.toString());
+				textSectionHeader.setFont(Palette.UI_TASK_SECTION_HEADER);
+				textSectionHeader.setBackground(null);
+				panel.add(textSectionHeader, BorderLayout.LINE_START);
+			} else if (value instanceof Map.Entry) {
+				@SuppressWarnings("unchecked")
+				Map.Entry<Integer, Task> entry = (Map.Entry<Integer, Task>)value;
+				int taskIndex = entry.getKey();
+			    Task task = entry.getValue();
+
+			    GridBagLayout layout = new GridBagLayout();
+			    panel.setLayout(layout);
+
+			    GridBagConstraints c = new GridBagConstraints();
+
+			    Color taskIndicativeColor;
+			    switch (task.getState()) {
+				    case OVERDUE:
+				    	taskIndicativeColor = Palette.TASK_LIST_OVERDUE;
+				    	break;
+				    case TODAY:
+				    	taskIndicativeColor = Palette.TASK_LIST_TODAY;
+				    	break;
+				    case FLOATING:
+				    	taskIndicativeColor = Palette.TASK_LIST_FLOATING;
+				    	break;
+				    case DONE:
+				    	taskIndicativeColor = Palette.TASK_LIST_DONE;
+				    	break;
+				    default:
+				    	taskIndicativeColor = Palette.TASK_LIST_DEFAULT;
+				    	break;
+			    }
+
+			    JTextArea textIndex = new JTextArea();
+			    textIndex.setBorder(new EmptyBorder(0, 0, 5, 5));
+			    textIndex.setFont(Palette.UI_TASK_TITLE);
+			    textIndex.setText(Integer.toString(taskIndex + 1));
+			    textIndex.setForeground(taskIndicativeColor);
+			    textIndex.setBackground(null);
+			    c.fill = GridBagConstraints.HORIZONTAL;
+			    c.gridx = 0;
+			    c.gridy = 0;
+			    panel.add(textIndex, c);
+
+			    JTextArea textDetails = new JTextArea();
+			    textDetails.setBorder(new EmptyBorder(0, 5, 5, 0));
+			    textDetails.setForeground(taskIndicativeColor);
+			    textDetails.setText(task.getDetails());
+			    textDetails.setLineWrap(true);
+			    textDetails.setBackground(null);
+			    textDetails.setFont(Palette.UI_TASK_TITLE);
+			    c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 1;
+		        c.gridy = 0;
+		        c.weightx = 1;
+		        panel.add(textDetails, c);
+
+		        JTextArea textDateTime = new JTextArea();
+		        textDateTime.setBorder(new EmptyBorder(0, 5, 0, 0));
+		        textDateTime.setForeground(taskIndicativeColor);
+		        if (task.getType() == TaskType.TIMED) {
+		        	textDateTime.setText(task.getFormattedStartDateTime() + " - " + task.getFormattedEndDateTime());
+		        }	else if	(task.getType() == TaskType.DEADLINE)	{
+		        	textDateTime.setText(task.getFormattedEndDateTime());
+		        } else {
+		        	textDateTime.setVisible(false);
+		        }
+		        textDateTime.setLineWrap(true);
+		        textDateTime.setBackground(null);
+		        c = new GridBagConstraints();
+		        c.fill = GridBagConstraints.HORIZONTAL;
+		        c.gridx = 1;
+		        c.gridy = 1;
+		        panel.add(textDateTime, c);
+	// End of segment: src\com\tasma\ui\TasmaGUI.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\TasmaUserInterface.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Color;
+import java.util.List;
+
+import com.tasma.Controller;
+import com.tasma.Task;
+
+/**
+ * An interface of the User Interface API
+ */
+public interface TasmaUserInterface {
+	public void initialize(Controller controller) throws Exception;
+	
+	public void displayTasks(List<Task> tasks);
+	
+	public void displayMessage(String message);
+	
+	public void displayMessage(String message, Color color);
+	
+	public void editCmdDisplay(String task);
+	
+	public void setHeader(String header);
+	
+	public void show();
+	
+	public void hide();
+	
+	public boolean isVisible();
+}
+
+	// End of segment: src\com\tasma\ui\TasmaUserInterface.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\TrayIcon.java
+	 */
+
+package com.tasma.ui;
+
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.SystemTray;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+
+import com.tasma.Controller;
+
+/**
+ * Provides support for system tray icon
+ */
+public class TrayIcon {
+	
+	private static final String LOGO_PATH = "/com/tasma/res/logo16.png";
+	
+	private PopupMenu popupMenu;
+	private java.awt.TrayIcon trayIcon;
+	private SystemTray tray;
+	
+	private TasmaUserInterface userInterface;
+	
+	public TrayIcon(TasmaUserInterface userInterface, Controller controller) throws Exception {
+		if (userInterface == null) {
+			throw new Exception();
+		}
+		this.userInterface = userInterface;
+	}
+	
+	/**
+	 * Set up the tray icon
+	 * @throws Exception Thrown when system tray is not supported.
+	 */
+	public void setup() throws Exception {
+        if (!SystemTray.isSupported()) {
+            throw new UnsupportedOperationException();
+        }
+        
+        popupMenu = new PopupMenu();
+        trayIcon = new java.awt.TrayIcon(createImage(LOGO_PATH, "tray icon"));
+        tray = SystemTray.getSystemTray();
+        buildMenu();
+        trayIcon.setPopupMenu(popupMenu);
+        trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                	userInterface.show();
+                }
+            }
+
+        });
+
+        tray.add(trayIcon);
+	}
+	
+
+	/**
+	 * Build the context menu of the tray icon
+	 */
+	protected void buildMenu() {
+        MenuItem showItem = new MenuItem("Show Tasma");
+        MenuItem exitItem = new MenuItem("Exit");
+         
+        //Add components to popup menu
+        popupMenu.add(showItem);
+        popupMenu.addSeparator();
+        popupMenu.add(exitItem);
+        
+        showItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                userInterface.show();
+            }
+        });
+        
+        exitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tray.remove(trayIcon);
+                System.exit(0);
+            }
+        });
+	}
+	
+    /**
+     * Obtain the image URL
+     * @param path Path to the image
+     * @param description a description
+     * @return Returns an Image resource
+     */
+    protected static Image createImage(String path, String description) {
+        URL imageURL = TrayIcon.class.getResource(path);
+         
+        if (imageURL == null) {
+            System.err.println("Resource not found: " + path);
+            return null;
+        } else {
+            return (new ImageIcon(imageURL, description)).getImage();
+        }
+    }
+    
+	// End of segment: src\com\tasma\ui\TrayIcon.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\ui\UITaskListSorter.java
+	 */
+
+package com.tasma.ui;
+
+import java.util.AbstractMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import com.tasma.Task;
+import com.tasma.UIMessage;
+
+/**
+ * Provides support for sorting the task list state into various headings for UI presentation
+ */
+public class UITaskListSorter {
+
+	/**
+	 * Sort the list of tasks into their respective headings
+	 * @param tasks The list of tasks to be sorted
+	 * @return Returns a list that is ready to be presented
+	 */
+	public static List<Object> sort(List<Task> tasks) {
+		LinkedList<Object> listFloating = new LinkedList<Object>();
+		LinkedList<Object> listOverdue = new LinkedList<Object>();
+		LinkedList<Object> listToday = new LinkedList<Object>();
+		LinkedList<Object> listTomorrow = new LinkedList<Object>();
+		LinkedList<Object> listRemaining = new LinkedList<Object>();
+		LinkedList<Object> listDone = new LinkedList<Object>();
+
+
+		int taskIndex = 0;
+		for (Task task: tasks) {
+			Map.Entry<Integer, Task> entry = new AbstractMap.SimpleEntry<Integer, Task>(taskIndex, task);
+			switch (task.getState()) {
+				case OVERDUE:
+					listOverdue.add(entry);
+					break;
+				case TODAY:
+					listToday.add(entry);
+					break;
+				case TOMORROW:
+					listTomorrow.add(entry);
+					break;
+				case UPCOMING:
+					listRemaining.add(entry);
+					break;
+				case DONE:
+					listDone.add(entry);
+					break;
+				default:
+					listFloating.add(entry);
+					break;
+			}
+			++taskIndex;
+		}
+
+		// construct the final list for our beloved JList
+		// the order in which all the various baskets of tasks get added
+		// to the final list affects the order in which they are
+		// shown on the screen.
+		LinkedList<Object> finalList = new LinkedList<Object>();
+		
+		if (listOverdue.size() > 0) {
+			listOverdue.add(0, String.format(UIMessage.SECTION_HEADER_OVERDUE, listOverdue.size()));
+			finalList.addAll(listOverdue);
+		}
+		
+		if (listToday.size() > 0) {
+			listToday.add(0, String.format(UIMessage.SECTION_HEADER_TODAY, listToday.size()));
+			finalList.addAll(listToday);
+		}
+
+		if (listTomorrow.size() > 0) {
+			listTomorrow.add(0, String.format(UIMessage.SECTION_HEADER_TOMORROW, listTomorrow.size()));
+			finalList.addAll(listTomorrow);
+		}
+		
+		if (listFloating.size() > 0) {
+			listFloating.add(0, String.format(UIMessage.SECTION_HEADER_FLOATING, listFloating.size()));
+			finalList.addAll(listFloating);
+		}
+
+		if (listRemaining.size() > 0) {
+			listRemaining.add(0, String.format(UIMessage.SECTION_HEADER_REMAINING, listRemaining.size()));
+			finalList.addAll(listRemaining);
+		}
+
+		if (listDone.size() > 0) {
+			listDone.add(0, String.format(UIMessage.SECTION_HEADER_DONE, listDone.size()));
+			finalList.addAll(listDone);
+		}
+		
+		// since the list is empty, we should show some message to indicate
+		if (finalList.size() == 0) {
+			finalList.add(UIMessage.TASK_LIST_EMPTY);
+		}
+		return finalList;
+	}
+}
+
+	// End of segment: src\com\tasma\ui\UITaskListSorter.java
+
+
+
+
+
+	/**
+	 * origin: src\com\tasma\UIMessage.java
+	 */
+
+package com.tasma;
+
+/**
+ * Provides UI messages
+ */
+public final class UIMessage {
+	public static final String COMMAND_ADD_SUCCESS = "Your task \"%s\" has been successfully created.";
+	public static final String COMMAND_ADD_ARG_EMPTY = "The 'add' command requires the details of the task you wish to add. Try:\n\tadd <details>\nIf you need help, you can type 'help add' to get help on the command.";
+	public static final String COMMAND_ADD_UNDO = "Your task \"%s\" has been undone.";
+	
+	public static final String COMMAND_MARK_SUCCESS = "Your task \"%s\" has been marked as done.";
+	public static final String COMMAND_MARK_MULTIPLE_SUCCESS = "%d of your tasks have been marked as done.";
+	public static final String COMMAND_MARK_NOTFOUND = "The task(s) you were looking to mark done was not found.";
+	public static final String COMMAND_MARK_UNDO = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_MARK_MULTIPLE_UNDO = "%d of your tasks been marked as undone.";
+	
+	public static final String COMMAND_UNMARK_SUCCESS = "Your task \"%s\" has been marked as undone.";
+	public static final String COMMAND_UNMARK_MULTIPLE_SUCCESS = "%d of your tasks have been marked as undone.";
+	public static final String COMMAND_UNMARK_NOTFOUND = "The task(s) you were looking to mark undone was not found.";
+	public static final String COMMAND_UNMARK_UNDO = "Your task \"%s\" has been marked as done.";
+	public static final String COMMAND_UNMARK_MULTIPLE_UNDO = "%d of your tasks have been marked as done.";
+
+	public static final String COMMAND_DELETE_SUCCESS = "Your task \"%s\" has been deleted.";
+	public static final String COMMAND_DELETE_MULTIPLE_SUCCESS = "%d of your tasks have been deleted.";
+	public static final String COMMAND_DELETE_NOTFOUND = "The task(s) you were looking to delete was not found.";
+	public static final String COMMAND_DELETE_UNDO = "Your task \"%s\" has been undeleted.";
+	public static final String COMMAND_DELETE_MULTIPLE_UNDO = "%d of your tasks have been undeleted.";
+
+	public static final String COMMAND_EDIT_SUCCESS = "Your task \"%s\" has been successfully updated.";
+	public static final String COMMAND_EDIT_NOTFOUND = "The task you were looking to edit was not found.";
+	public static final String COMMAND_EDIT_ARG_EMPTY = "The 'edit' command requires the task ID and details of the task you wish to update with. Try:\n\tedit <number> <details>\nIf you need help, you can type `help edit` to get help on the command.";
+	public static final String COMMAND_EDIT_UNDO = "Changes to your task \"%s\" has been undone.";
+
+	public static final String COMMAND_SEARCH_EMPTY_QUERY = "The 'search' command needs a query to find tasks for you. Enter the `help search` command for more information on 'search'.\nIf you need help, you can type `help search` to get help on the command.";
+	public static final String COMMAND_SEARCH_RESULT = "%d result(s) found for \"%s\".";
+
+	public static final String COMMAND_LIST_RESULT = "%d task(s) upcoming.";
+
+	public static final String COMMAND_SET_SUCCESS = "Configuration value for %s has been updated.";
+	public static final String COMMAND_SET_UNDO = "Configuration value for %s has been restored.";
+
+	public static final String COMMAND_ALIAS_UPDATED = "Alias command %s has been updated.";
+	public static final String COMMAND_ALIAS_RESTORE = "Alias command %s has been restored.";
+	public static final String COMMAND_ALIAS_REMOVE = "Alias command %s has been removed.";
+
+	public static final String COMMAND_INVALID = "TASMA could not understand what you said. If you need help, enter the 'help' command and I will be glad to assist you.";
+	public static final String COMMAND_EXCEPTION = "An unexpected error has occurred: %s";
+
+	public static final String TASK_LIST_EMPTY = "No tasks!";
+	
+	public static final String COMMAND_BOX_PLACEHOLDER = "What would you like to do?";
+
+	public static final String SECTION_HEADER_FLOATING = "%d Floating";
+	public static final String SECTION_HEADER_OVERDUE = "%d Overdue";
+	public static final String SECTION_HEADER_TODAY = "%d Today";
+	public static final String SECTION_HEADER_TOMORROW = "%d Tomorrow";
+	public static final String SECTION_HEADER_REMAINING = "%d Upcoming";
+	public static final String SECTION_HEADER_DONE = "%d Done";
+	
+	public static final String HEADER_TASK_TOMORROW = "Tasks due Tomorrow";
+	public static final String HEADER_TASK_TODAY = "Tasks due Today";
+	public static final String HEADER_TASK_OVERDUE = "Overdue Tasks";
+	public static final String HEADER_TASK_DONE = "Completed Tasks";
+	public static final String HEADER_TASK_UNDONE = "Task List";
+	public static final String HEADER_TASK_UPCOMING = "Upcoming Tasks";
+	public static final String HEADER_TASK_FLOATING = "Floating Tasks";
+	public static final String HEADER_TASK_SEARCH = "Tasks matching \"%s\"";
+}
+
+	// End of segment: src\com\tasma\UIMessage.java
+
+
+
+
+
