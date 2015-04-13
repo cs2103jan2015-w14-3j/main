@@ -363,6 +363,9 @@ public class TasmaGUI extends JFrame implements TasmaUserInterface {
 				    case FLOATING:
 				    	taskIndicativeColor = Palette.TASK_LIST_FLOATING;
 				    	break;
+				    case DONE:
+				    	taskIndicativeColor = Palette.TASK_LIST_DONE;
+				    	break;
 				    default:
 				    	taskIndicativeColor = Palette.TASK_LIST_DEFAULT;
 				    	break;

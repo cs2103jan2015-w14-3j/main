@@ -49,6 +49,11 @@ public class Palette {
 	public static final Color MESSAGE_INFO = new Color(21, 118, 179);
 	
 	/**
+	 * Default task colour
+	 */
+	public static final Color TASK_LIST_DEFAULT = new Color(80, 80, 80);
+	
+	/**
 	 * Colour of task that is overdue
 	 * Color: Red
 	 */
@@ -62,20 +67,15 @@ public class Palette {
 	
 	/**
 	 * Color of floating tasks
-	 * Color: Green
+	 * Color: default color
 	 */
-	public static final Color TASK_LIST_FLOATING = new Color(42, 212, 0);
+	public static final Color TASK_LIST_FLOATING = TASK_LIST_DEFAULT;
 	
 	/**
 	 * Color of done tasks
 	 * Color: Green
 	 */
 	public static final Color TASK_LIST_DONE = new Color(42, 212, 0);
-	
-	/**
-	 * Default task colour
-	 */
-	public static final Color TASK_LIST_DEFAULT = new Color(80, 80, 80);
 	
 	/**
 	 * Foreground colour of task list header
