@@ -32,10 +32,14 @@ public class AliasCommand extends AbstractUndoableCommand {
         previousValue = AliasHandler.getCustomAlias(key);
         if (isRemoveOperation) {
             AliasHandler.removeCustomAlias(key);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_REMOVE, key), Palette.MESSAGE_SUCCESS);
+            userInterface.displayMessage(
+                    String.format(UIMessage.COMMAND_ALIAS_REMOVE, key),
+                    Palette.MESSAGE_SUCCESS);
         } else {
             AliasHandler.setCustomAlias(key, newValue);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_UPDATED, key), Palette.MESSAGE_SUCCESS);
+            userInterface.displayMessage(
+                    String.format(UIMessage.COMMAND_ALIAS_UPDATED, key),
+                    Palette.MESSAGE_SUCCESS);
         }
     }
 
@@ -43,10 +47,14 @@ public class AliasCommand extends AbstractUndoableCommand {
     public void undo() throws Exception {
         if (previousValue == null) {
             AliasHandler.removeCustomAlias(key);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_REMOVE, key), Palette.MESSAGE_SUCCESS);
+            userInterface.displayMessage(
+                    String.format(UIMessage.COMMAND_ALIAS_REMOVE, key),
+                    Palette.MESSAGE_SUCCESS);
         } else {
             AliasHandler.setCustomAlias(key, previousValue);
-            userInterface.displayMessage(String.format(UIMessage.COMMAND_ALIAS_RESTORE, key), Palette.MESSAGE_SUCCESS);
+            userInterface.displayMessage(
+                    String.format(UIMessage.COMMAND_ALIAS_RESTORE, key),
+                    Palette.MESSAGE_SUCCESS);
         }
     }
 

@@ -43,9 +43,12 @@ public class Parser {
     private static final String DAY_SUNDAY = "sun";
 
     /** Regular expressions */
-    private static final String REGEX_SPLIT = "([^\"]\\S*|\".+?\")\\s*";
-    private static final String REGEX_DATE = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d";
-    private static final String REGEX_TIME = "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
+    private static final String REGEX_SPLIT = 
+            "([^\"]\\S*|\".+?\")\\s*";
+    private static final String REGEX_DATE = 
+            "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\\d\\d";
+    private static final String REGEX_TIME = 
+            "^(([1-9]|[1][0-2]|[1-9][:.][0-5][\\d]|[1][0-2][:.][0-5][\\d])[aApP][mM])";
 
     /**
      * Calls the relevant functions to parse the passed string.
@@ -337,7 +340,8 @@ public class Parser {
             return false;
         }
 
-        final int day = Integer.parseInt(word.substring(0, 2)), month = Integer.parseInt(word.substring(3, 5)),
+        final int day = Integer.parseInt(word.substring(0, 2)),
+                month = Integer.parseInt(word.substring(3, 5)),
                 year = Integer.parseInt(word.substring(6, 8));
         if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
             return false; // 31st of a month with 30 days

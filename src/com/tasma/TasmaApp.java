@@ -92,7 +92,8 @@ public class TasmaApp implements Runnable {
         try {
             TrayIcon trayIcon = new TrayIcon(userInterface, controller);
             trayIcon.setup();
-            BalloonNotification notification = new BalloonNotification(collection, trayIcon);
+            BalloonNotification notification = 
+                    new BalloonNotification(collection, trayIcon);
             notification.setup();
         } catch (Exception e) {
             

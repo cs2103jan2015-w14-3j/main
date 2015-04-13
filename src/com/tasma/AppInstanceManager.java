@@ -27,7 +27,8 @@ public class AppInstanceManager {
      */
     private static final int PORT_NUMBER = 54765;
     
-    public static final String SINGLE_INSTANCE_SHARED_KEY = "$$NewInstance$$51aBNQcYOEcjUzkAmF5ksDGfbdQvCkCkJ04vbXL6\n";
+    public static final String SINGLE_INSTANCE_SHARED_KEY =
+            "$$NewInstance$$51aBNQcYOEcjUzkAmF5ksDGfbdQvCkCkJ04vbXL6\n";
     
     /**
      * The listener to activate the app if a notification is received
@@ -42,7 +43,8 @@ public class AppInstanceManager {
     public void register(Runnable application) {
         logger.log(Level.FINE, "Registering application presence with AppInstanceManager");
         try {
-            final ServerSocket socket = new ServerSocket(PORT_NUMBER, 5, InetAddress.getLocalHost());
+            final ServerSocket socket = new ServerSocket(PORT_NUMBER, 5,
+                    InetAddress.getLocalHost());
 
             Thread instanceListenerThread = new Thread(new Runnable() {
                 public void run() {
